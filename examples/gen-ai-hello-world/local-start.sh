@@ -2,6 +2,7 @@
 
 PYTHON_VERSION="3.11"
 POETRY_VERSION="1.8.1"
+GCLOUD_VERSION="493.0.0"
 
 log() {
     # Logs a message with a timestamp to both the console and a log file.
@@ -41,7 +42,7 @@ check_command_version() {
     if ! command -v "$cmd" >/dev/null 2>&1; then
         handle_error "$cmd is not installed. Please install $cmd version $required_version or above."
     else
-        current_version=$("$cmd" "$version_flag" 2>&1 | grep -Eo '[0-9]+(\.[0-9]+)+')
+        current_version=$("$cmd" "$version_flag" 2>&1 | grep -m 1 -Eo '[0-9]+(\.[0-9]+)+')
         if [[ -z "$current_version" ]]; then
             handle_error "Could not determine $cmd version. Please ensure it is installed correctly."
         fi
@@ -58,6 +59,7 @@ check_requirements() {
     log "Checking system requirements..."
     check_command_version "python" "$PYTHON_VERSION" "--version"
     check_command_version "poetry" "$POETRY_VERSION" "--version"
+    check_command_version "gcloud" "$GCLOUD_VERSION" "--version"
 
     # check if .env file exists
     if [[ ! -f ".env" ]]; then
