@@ -2,6 +2,9 @@
 
 This repository contains a collection of examples demonstrating the usage of the GDP Labs GenAI SDK. These examples are intended to help developers understand the SDK’s capabilities and learn how to integrate them into their own projects.
 
+> [!WARNING]
+> This SDK is currently in binary version and is only available for Linux.
+
 ## Getting Started
 
 1. **Clone the Repository**:
