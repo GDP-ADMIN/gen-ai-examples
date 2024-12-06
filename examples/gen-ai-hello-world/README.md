@@ -26,7 +26,7 @@ This is an example of how to use the gllm-pipeline library to build a RAG pipeli
 1. Configure Environment: Copy `.env.example` to `.env` and set up the environment variables.
 2. Execute the script:
 
-```
+```bash
 local-start.sh
 ```
 
