@@ -10,7 +10,7 @@ This repository contains a collection of examples demonstrating the usage of the
    ```
 
 2. **Setting Up**:  
-   To set up the project applications, please refer to the respective README files in the examples directory.
+   To set up the project applications, please refer to the respective README files in the [examples](./examples) directory.
 
 3. **Explore and Modify**:  
    Examine the code, try different queries, and modify the examples as needed.
