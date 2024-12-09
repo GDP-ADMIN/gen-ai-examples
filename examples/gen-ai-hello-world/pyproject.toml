@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "gen-ai-hello-world"
+version = "0.1.0"
+description = ""
+authors = ["Muhammad Hakim Asy'ari <muhammad.h.asyari@gdplabs.id>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+load-dotenv = "^0.1.0"
+gllm-misc = {version = "^0.2.3", source = "gen-ai-internal"}
+gllm-generation = {version = "^0.2.5", source = "gen-ai-internal"}
+gllm-retrieval = {version = "^0.1.10", source = "gen-ai-internal"}
+gllm-pipeline = {version = "^0.2.1", source = "gen-ai-internal"}
+asyncio = "^3.4.3"
+elasticsearch = "^8.16.0"
+langchain-elasticsearch = "^0.3.0"
+
+[[tool.poetry.source]]
+name = "gen-ai-internal"
+url = "https://asia-southeast2-python.pkg.dev/glair01/gen-ai-internal/simple/"
+priority = "supplemental"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
