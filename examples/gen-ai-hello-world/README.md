@@ -14,7 +14,7 @@ This is an example of how to use the gllm-pipeline library to build a RAG pipeli
    Use the following command to verify access:
 
    ```bash
-   gcloud artifacts packages list --repository=gen-ai-internal --location=asia-southeast2 --project=glair01
+   gcloud artifacts packages list --repository=gen-ai --location=asia-southeast2 --project=gdp-labs
    ```
 
 5. Environment requirements:
