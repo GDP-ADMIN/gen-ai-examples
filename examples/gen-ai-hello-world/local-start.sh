@@ -101,8 +101,8 @@ main() {
     deactivate_conda
 
     log "Running gen-ai-hello-world example..."
-    export POETRY_HTTP_BASIC_GEN_AI_INTERNAL_USERNAME=oauth2accesstoken
-    export POETRY_HTTP_BASIC_GEN_AI_INTERNAL_PASSWORD=$(gcloud auth print-access-token)
+    export POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken
+    export POETRY_HTTP_BASIC_GEN_AI_PASSWORD=$(gcloud auth print-access-token)
     poetry install
     poetry run python gen_ai_hello_world/main.py
 }
