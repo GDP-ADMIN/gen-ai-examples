@@ -8,13 +8,15 @@ This is an example of how to use the gllm-pipeline library to build a RAG pipeli
    You can use [Miniconda](http://conda.pydata.org/miniconda.html) to install and manage Python versions.
 2. [Poetry](https://python-poetry.org/docs/) v1.8.1 or above.
 3. Install [Google Cloud CLI](https://cloud.google.com/sdk/docs/install#linux).
-4. You need to have access to the GDP Labs Google Artifact Registry. 
+4. You need to have access to the GDP Labs Google Artifact Registry.
    If you don’t have access, please contact the GDP Labs DSO team at infra(at)gdplabs.id.
-   
+
    Use the following command to verify access:
+
    ```bash
    gcloud artifacts packages list --repository=gen-ai-internal --location=asia-southeast2 --project=glair01
    ```
+
 5. Environment requirements:
    - **Operating System**: Linux
    - **Architecture**: x86_64
@@ -26,10 +28,11 @@ This is an example of how to use the gllm-pipeline library to build a RAG pipeli
 ## Running the code
 
 1. Configure Environment: Copy `.env.example` to `.env` and set up the environment variables.
-    
-    ```bash
-    cp .env.example .env
-    ```
+
+   ```bash
+   cp .env.example .env
+   ```
+
 2. Execute the script:
 
    ```bash
@@ -76,3 +79,26 @@ To fix this, there are two alternatives:
    ```
 
 Then [run the code again](#running-the-code).
+
+## Known Problem
+
+The following error is currently expected. If you can see the response, it means the pipeline is working as expected.
+
+```
+Question: who are you?
+/home/resti/glair/gen-ai/testing/gen-ai-examples/examples/gen-ai-hello-world/.venv/lib/python3.11/site-packages/gllm_core/schema/component.py:150: RuntimeWarning: Failed to analyze the _run method: could not get source code.
+Traceback (most recent call last):
+  File "/home/resti/glair/gen-ai/testing/gen-ai-examples/examples/gen-ai-hello-world/.venv/lib/python3.11/site-packages/gllm_core/schema/component.py", line 168, in _analyze_run_method
+  File "/home/resti/anaconda3/envs/gen-ai-internal-test/lib/python3.11/inspect.py", line 1270, in getsource
+    lines, lnum = getsourcelines(object)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/resti/anaconda3/envs/gen-ai-internal-test/lib/python3.11/inspect.py", line 1252, in getsourcelines
+    lines, lnum = findsource(object)
+                  ^^^^^^^^^^^^^^^^^^
+  File "/home/resti/anaconda3/envs/gen-ai-internal-test/lib/python3.11/inspect.py", line 1081, in findsource
+    raise OSError('could not get source code')
+OSError: could not get source code
+
+Response:
+I am an AI assistant here to help you with your questions and provide information. How can I assist you today?
+```
