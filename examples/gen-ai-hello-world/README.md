@@ -2,6 +2,9 @@
 
 This is an example of how to use the gllm-pipeline library to build a RAG pipeline.
 
+> [!WARNING]
+> The GenAI SDK is in binary version and is currently only available for Linux.
+
 ## Prerequisites
 
 1. Python v3.11 or above.
