@@ -10,7 +10,7 @@ This repository contains a collection of examples demonstrating the usage of the
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/GDP-ADMIN/gen-ai-template.git
+   git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
    ```
 
 2. **Setting Up**:  
