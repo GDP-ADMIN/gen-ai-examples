@@ -48,7 +48,7 @@ get_conda_python_path() {
         handle_error "Failed to retrieve Conda base path."
     fi
 
-    if ! conda list | grep -q "python "; then
+    if ! conda list | grep -q "$PYTHON_CMD "; then
         handle_error "Python is not installed in the Conda environment. Please install it inside the Conda environment."
     fi
 
