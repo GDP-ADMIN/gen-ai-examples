@@ -120,11 +120,20 @@ check_gcloud_login() {
     log "User is logged into gcloud."
 }
 
+check_artifact_access() {
+    if ! gcloud artifacts packages list --repository=gen-ai --location=asia-southeast2 --project=gdp-labs; then
+        handle_error "User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id."
+    fi
+    
+    log "User has access to the GDP Labs Google Artifact Registry."
+}
+
 main() {
     # Main function to orchestrate the deployment script.
     log "Checking gen-ai-hello-world example requirements..."
     check_requirements
     check_gcloud_login
+    check_artifact_access
     deactivate_conda
 
     log "Running gen-ai-hello-world example..."
