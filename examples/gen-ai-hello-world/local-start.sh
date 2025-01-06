@@ -66,7 +66,16 @@ export_python_path() {
 
 update_shell_path() {
     local shell_rc=$1
-    local poetry_path="$HOME/.local/bin"
+    local poetry_path
+
+    # Determine the Poetry path based on the operating system
+    if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]]; then
+        # Windows
+        poetry_path="$APPDATA/Python/Scripts"
+    else
+        # MacOS and Unix-like systems
+        poetry_path="$HOME/.local/bin"
+    fi
 
     if ! grep -q "$poetry_path" "$shell_rc" 2>/dev/null; then
         echo "export PATH=\"$poetry_path:\$PATH\"" >> "$shell_rc"
@@ -307,8 +316,12 @@ copy_env_file() {
 main() {
     # Main function to orchestrate the deployment script.
     log "Checking gen-ai-hello-world example requirements..."
-    check_requirements
+
+    get_conda_python_path
     deactivate_conda
+    export_python_path
+    check_requirements
+    poetry_use_miniconda_python
     check_gcloud_login
     check_artifact_access
     copy_env_file
