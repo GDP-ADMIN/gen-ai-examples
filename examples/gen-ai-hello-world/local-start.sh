@@ -4,6 +4,7 @@ PYTHON_VERSION="3.11"
 POETRY_VERSION="1.8.1"
 GCLOUD_VERSION="493.0.0"
 
+PYTHON_CMD="python"
 LOG_FILE="./deploy.log"
 
 # Write console output to both console and a file, so users can review the output in case the console is accidentally closed.
@@ -152,13 +153,13 @@ install_command() {
         # If the installed poetry is detected, remove it before reinstalling
         if [ -d ~/.local/share/pypoetry ] || [ -f ~/.local/bin/poetry ]; then
             log "Removing existing Poetry installation..."
-            if ! curl -sSL https://install.python-poetry.org | python3 - --uninstall; then
+            if ! curl -sSL https://install.python-poetry.org | $PYTHON_CMD - --uninstall; then
                 handle_error "Failed to remove existing Poetry installation. Please remove it manually."
             fi
         fi
 
         # Install the latest version of Poetry
-        if ! curl -sSL https://install.python-poetry.org | python3 -; then
+        if ! curl -sSL https://install.python-poetry.org | $PYTHON_CMD -; then
             handle_error "Failed to install $cmd version $required_version."
         fi
 
@@ -240,7 +241,13 @@ check_command_version() {
 check_requirements() {
     # Checks system requirements, ensuring Python and Poetry are installed and meet version requirements.
     log "Checking system requirements..."
-    check_command_version "python" "$PYTHON_VERSION" "--version"
+
+    # Check for Python command
+    if command -v python >/dev/null 2>&1; then
+        PYTHON_CMD="python"
+    fi
+
+    check_command_version "$PYTHON_CMD" "$PYTHON_VERSION" "--version"
     check_command_version "poetry" "$POETRY_VERSION" "--version"
     check_command_version "gcloud" "$GCLOUD_VERSION" "--version"
 
@@ -290,7 +297,6 @@ check_artifact_access() {
     log "User has access to the GDP Labs Google Artifact Registry."
 }
 
-
 copy_env_file() {
     # Copies the .env.example file to .env.
     if [[ ! -f ".env" ]]; then
@@ -311,7 +317,7 @@ main() {
     export POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken
     export POETRY_HTTP_BASIC_GEN_AI_PASSWORD=$(gcloud auth print-access-token)
     poetry install
-    poetry run python gen_ai_hello_world/main.py
+    poetry run $PYTHON_CMD gen_ai_hello_world/main.py
 }
 
 main
