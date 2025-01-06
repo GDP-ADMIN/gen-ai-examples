@@ -171,6 +171,38 @@ install_command() {
     fi
 }
 
+compare_versions() {
+    # Compare two version strings $1 and $2
+    # Returns 0 if $1 == $2, 1 if $1 > $2, and 2 if $1 < $2
+    if [[ "$1" == "$2" ]]; then
+        return 0
+    fi
+
+    local IFS=.
+    local i ver1=($1) ver2=($2)
+
+    # Fill empty fields in ver1 with zeros
+    for ((i=${#ver1[@]}; i<${#ver2[@]}; i++)); do
+        ver1[i]=0
+    done
+
+    # Fill empty fields in ver2 with zeros
+    for ((i=${#ver2[@]}; i<${#ver1[@]}; i++)); do
+        ver2[i]=0
+    done
+
+    for ((i=0; i<${#ver1[@]}; i++)); do
+        if ((10#${ver1[i]} > 10#${ver2[i]})); then
+            return 1
+        fi
+        if ((10#${ver1[i]} < 10#${ver2[i]})); then
+            return 2
+        fi
+    done
+
+    return 0
+}
+
 check_command_version() {
     # Checks if a command is installed and meets the required version.
     # Arguments:
@@ -181,7 +213,6 @@ check_command_version() {
     local required_version=$2
     local version_flag=$3
 
-
     if ! command -v "$cmd" >/dev/null 2>&1; then
         log "$cmd is not installed. Required version: $required_version."
         install_command "$cmd" "$required_version"
@@ -189,17 +220,21 @@ check_command_version() {
 
     local current_version
     current_version=$("$cmd" "$version_flag" 2>&1 | grep -Eo '[0-9]+(\.[0-9]+)+')
+
     if [[ -z "$current_version" ]]; then
         handle_error "Could not determine $cmd version. Please ensure it is installed correctly."
     fi
 
-    # Compare versions (lexicographically sorted)
-    if [[ "$(printf '%s\n' "$required_version" "$current_version" | sort -V | head -n1)" != "$required_version" ]]; then
-        log "$cmd version $required_version or above is required. You have version $current_version."
-        install_command "$cmd" "$required_version"
-    fi
-
-    log "$cmd is installed and meets the required version ($required_version). Current version: $current_version."
+    # Use the compare_versions function
+    compare_versions "$current_version" "$required_version"
+    case $? in
+        0) log "$cmd is installed and meets the required version ($required_version). Current version: $current_version." ;;
+        1) log "$cmd is installed and exceeds the required version ($required_version). Current version: $current_version." ;;
+        2) 
+            log "$cmd version $required_version or above is required. You have version $current_version."
+            install_command "$cmd" "$required_version"
+            ;;
+    esac
 }
 
 check_requirements() {
