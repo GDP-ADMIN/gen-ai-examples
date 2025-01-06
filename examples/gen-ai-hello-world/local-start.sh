@@ -68,9 +68,6 @@ check_command_version() {
     log "$cmd is installed and meets the required version ($required_version). Current version: $current_version."
 }
 
-
-
-
 check_requirements() {
     # Checks system requirements, ensuring Python and Poetry are installed and meet version requirements.
     log "Checking system requirements..."
@@ -128,13 +125,26 @@ check_artifact_access() {
     log "User has access to the GDP Labs Google Artifact Registry."
 }
 
+
+copy_env_file() {
+    # Copies the .env.example file to .env.
+    if [[ ! -f ".env" ]]; then
+        cp .env.example .env
+        
+        # Prompt user to edit the .env file
+        log "Please edit the .env file with your own values."
+        nano .env
+    fi
+}
+
 main() {
     # Main function to orchestrate the deployment script.
     log "Checking gen-ai-hello-world example requirements..."
     check_requirements
+    deactivate_conda
     check_gcloud_login
     check_artifact_access
-    deactivate_conda
+    copy_env_file
 
     log "Running gen-ai-hello-world example..."
     export POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken
