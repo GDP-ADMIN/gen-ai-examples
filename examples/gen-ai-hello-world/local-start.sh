@@ -244,11 +244,6 @@ check_requirements() {
     check_command_version "poetry" "$POETRY_VERSION" "--version"
     check_command_version "gcloud" "$GCLOUD_VERSION" "--version"
 
-    # check if .env file exists
-    if [[ ! -f ".env" ]]; then
-        handle_error ".env file not found. Please create a .env file and supply the required environment variables."
-    fi
-
     log "System requirements are satisfied."
 }
 
