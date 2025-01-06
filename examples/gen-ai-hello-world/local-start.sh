@@ -68,6 +68,9 @@ check_command_version() {
     log "$cmd is installed and meets the required version ($required_version). Current version: $current_version."
 }
 
+
+
+
 check_requirements() {
     # Checks system requirements, ensuring Python and Poetry are installed and meet version requirements.
     log "Checking system requirements..."
@@ -108,10 +111,20 @@ deactivate_conda() {
     fi
 }
 
+check_gcloud_login() {
+    # Checks if the user is logged into gcloud.
+    if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" | grep -q .; then
+        handle_error "No active gcloud account found. Please log in using 'gcloud auth login'."
+    fi
+    
+    log "User is logged into gcloud."
+}
+
 main() {
     # Main function to orchestrate the deployment script.
     log "Checking gen-ai-hello-world example requirements..."
     check_requirements
+    check_gcloud_login
     deactivate_conda
 
     log "Running gen-ai-hello-world example..."
