@@ -16,7 +16,7 @@ cleanup() {
   rm -f "$PIPE" # Remove the temporary file $PIPE to clean up resources
   exit_application # Call a function to exit the application gracefully
 }
-trap cleanup INT TERM EXIT # Ensure cleanup is called on script exit or when receiving INT, TERM, or EXIT signals
+trap cleanup INT # Ensure cleanup is called on script exit or when receiving INT signal
 
 log() {
     # Logs a message with a timestamp to the console.
@@ -287,6 +287,7 @@ check_gcloud_login() {
 }
 
 check_artifact_access() {
+    # Checks if the user has access to the GDP Labs Google Artifact Registry.
     if ! gcloud artifacts packages list --repository=gen-ai --location=asia-southeast2 --project=gdp-labs; then
         handle_error "User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id."
     fi
