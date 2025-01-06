@@ -20,7 +20,7 @@ trap cleanup INT TERM EXIT # Ensure cleanup is called on script exit or when rec
 
 log() {
     # Logs a message with a timestamp to the console.
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
+    echo "[LOG][$(date '+%Y-%m-%d %H:%M:%S')] $1"
 }
 
 exit_application() {
