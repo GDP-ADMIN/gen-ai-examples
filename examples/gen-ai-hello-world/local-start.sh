@@ -66,7 +66,20 @@ export_python_path() {
 
 update_shell_path() {
     local shell_rc=$1
-    local poetry_path="$HOME/.local/bin"
+    local poetry_path
+
+    # Determine the poetry path based on the operating system
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        poetry_path="$HOME/Library/Application Support/pypoetry/venv/bin/poetry" # macOS
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        poetry_path="$HOME/.local/share/pypoetry/venv/bin/poetry" # Linux/Unix
+    elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" ]]; then
+        poetry_path="%APPDATA%\\pypoetry\\venv\\Scripts\\poetry" # Windows
+    elif [[ -n "$POETRY_HOME" ]]; then
+        poetry_path="$POETRY_HOME/venv/bin/poetry" # If $POETRY_HOME is set
+    else
+        handle_error "Unsupported operating system or POETRY_HOME not set."
+    fi
 
     if ! grep -q "$poetry_path" "$shell_rc" 2>/dev/null; then
         echo "export PATH=\"$poetry_path:\$PATH\"" >> "$shell_rc"
