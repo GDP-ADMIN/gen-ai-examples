@@ -300,10 +300,6 @@ copy_env_file() {
     # Copies the .env.example file to .env.
     if [[ ! -f ".env" ]]; then
         cp .env.example .env
-        
-        # Prompt user to edit the .env file
-        log "Please edit the .env file with your own values."
-        nano .env
     fi
 }
 
