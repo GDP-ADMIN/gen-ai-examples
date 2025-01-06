@@ -8,10 +8,10 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
 load-dotenv = "^0.1.0"
-gllm-misc = {version = "^0.2.5", source = "gen-ai"}
+gllm-misc = {version = "^0.2.8", source = "gen-ai"}
 gllm-generation = {version = "^0.2.7", source = "gen-ai"}
-gllm-retrieval = {version = "^0.1.12", source = "gen-ai"}
-gllm-pipeline = {version = "^0.2.4", source = "gen-ai"}
+gllm-retrieval = {version = "^0.1.14", source = "gen-ai"}
+gllm-pipeline = {version = "^0.2.8", source = "gen-ai"}
 asyncio = "^3.4.3"
 elasticsearch = "^8.16.0"
 langchain-elasticsearch = "^0.3.0"
