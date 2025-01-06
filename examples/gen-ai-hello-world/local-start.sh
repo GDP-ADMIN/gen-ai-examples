@@ -4,8 +4,22 @@ PYTHON_VERSION="3.11"
 POETRY_VERSION="1.8.1"
 GCLOUD_VERSION="493.0.0"
 
+LOG_FILE="./deploy.log"
+
+# Write console output to both console and a file, so users can review the output in case the console is accidentally closed.
+PIPE=$(mktemp -u) # Create a unique temporary filename and store it in $PIPE
+mkfifo "$PIPE"    # Create a named pipe (FIFO) using the filename in $PIPE
+tee -a "$LOG_FILE" < "$PIPE" & # Append output from $PIPE to $LOG_FILE in the background
+exec >"$PIPE" 2>&1 # Redirect both stdout and stderr to $PIPE
+
+cleanup() {
+  rm -f "$PIPE" # Remove the temporary file $PIPE to clean up resources
+  exit_application # Call a function to exit the application gracefully
+}
+trap cleanup INT TERM EXIT # Ensure cleanup is called on script exit or when receiving INT, TERM, or EXIT signals
+
 log() {
-    # Logs a message with a timestamp to both the console and a log file.
+    # Logs a message with a timestamp to the console.
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
 }
 
