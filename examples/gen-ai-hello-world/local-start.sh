@@ -92,34 +92,6 @@ update_shell_path() {
     fi
 }
 
-update_fish_path() {
-    local fish_config="$HOME/.config/fish/config.fish"
-    local poetry_path="$HOME/.local/bin"
-
-    if ! grep -q "$poetry_path" "$fish_config" 2>/dev/null; then
-        echo "set -U fish_user_paths $poetry_path \$fish_user_paths" >> "$fish_config"
-        log "Added Poetry to PATH in $fish_config"
-    fi
-
-    # Source the fish configuration file to update the current session
-    fish -c "source $fish_config"
-    log "Sourced $fish_config to update PATH for the current session."
-}
-
-update_tcsh_path() {
-    local tcsh_rc="$HOME/.tcshrc"
-    local poetry_path="$HOME/.local/bin"
-
-    if ! grep -q "$poetry_path" "$tcsh_rc" 2>/dev/null; then
-        echo "setenv PATH \"$poetry_path:\$PATH\"" >> "$tcsh_rc"
-        log "Added Poetry to PATH in $tcsh_rc"
-    fi
-
-    # Source the tcsh configuration file to update the current session
-    source "$tcsh_rc"
-    log "Sourced $tcsh_rc to update PATH for the current session."
-}
-
 detect_and_update_shell_path() {
     case "$SHELL" in
         */bash)
@@ -127,12 +99,6 @@ detect_and_update_shell_path() {
             ;;
         */zsh)
             update_shell_path ~/.zshrc
-            ;;
-        */fish)
-            update_fish_path
-            ;;
-        */tcsh)
-            update_tcsh_path
             ;;
         *)
             log "Unsupported shell. Please update your PATH manually."
@@ -307,7 +273,7 @@ copy_env_file() {
 main() {
     # Main function to orchestrate the deployment script.
     log "Checking gen-ai-hello-world example requirements..."
-    
+
     get_conda_python_path
     deactivate_conda
     export_python_path
