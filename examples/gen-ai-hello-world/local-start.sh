@@ -21,7 +21,7 @@ trap cleanup INT # Ensure cleanup is called on script exit or when receiving INT
 
 log() {
     # Logs a message with a timestamp to the console.
-    echo "[LOG][$(date '+%Y-%m-%d %H:%M:%S')] $1"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
 }
 
 exit_application() {
