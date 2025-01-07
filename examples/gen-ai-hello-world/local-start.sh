@@ -149,7 +149,11 @@ install_command() {
         # Wait for a moment to ensure the system recognizes the new installation
         sleep 2
     else
-        handle_error "Please install $cmd version $required_version or above manually."
+        if [[ "$cmd" == "$PYTHON_CMD" ]]; then
+            handle_error "Please use Python version ${PYTHON_VERSIONS[*]}."
+        else
+            handle_error "Please install $cmd version $required_version or above manually."
+        fi
     fi
 }
 
@@ -174,12 +178,15 @@ compare_versions() {
     done
 
     for ((i=0; i<${#ver1[@]}; i++)); do
+        if ((10#${ver1[i]} > 10#${ver2[i]})); then
+            return 0 # The current version is greater than the required version
+        fi
         if ((10#${ver1[i]} < 10#${ver2[i]})); then
-            return 0 # The current version is less than the required version
+            return 2 # The current version is less than the required version
         fi
     done
 
-    return 1 # The current version is equal to the required version
+    return 0 # The current version is equal to the required version
 }
 
 check_version_array() {
@@ -216,20 +223,21 @@ check_command_version() {
     fi
 
     local current_version
-    current_version=$("$cmd" "$version_flag" 2>&1 | grep -Eo '[0-9]+(\.[0-9]+)+')
+    current_version=$("$cmd" "$version_flag" 2>&1 | grep -Eo '[0-9]+(\.[0-9]+)+' | head -n 1)
 
     if [[ -z "$current_version" ]]; then
         handle_error "Could not determine $cmd version. Please ensure it is installed correctly."
     fi
 
     # Modify the check_command_version function to handle exact version check for Python
-    if [[ "$cmd" == "python" ]]; then
-        if ! check_version_array "$current_version" "Python" "${PYTHON_VERSIONS[@]}"; then
-            handle_error "Python version must be either (${PYTHON_VERSIONS[*]}). Current version: $current_version."
+    if [[ "$cmd" == "$PYTHON_CMD" ]]; then
+        if ! check_version_array "$current_version" "$PYTHON_CMD" "${PYTHON_VERSIONS[@]}"; then
+            handle_error "$PYTHON_CMD version must be one of (${PYTHON_VERSIONS[*]}). Current version: $current_version."
         fi
     else
         # Use the compare_versions function
-        if ! compare_versions "$current_version" "$required_version"; then
+        compare_versions "$current_version" "$required_version"
+        if [[ $? == 2 ]]; then
             log "$cmd version $required_version or above is required. You have version $current_version."
             install_command "$cmd" "$required_version"
         fi
