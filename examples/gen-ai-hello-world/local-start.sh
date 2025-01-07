@@ -62,8 +62,33 @@ get_python_path() {
     log "PYTHON_PATH is set to: $PYTHON_PATH"
 }
 
-update_shell_path() {
-    local shell_rc=$1
+get_shell_rc() {
+    case "$SHELL" in
+        */bash)
+            echo "$HOME/.bashrc"
+            ;;
+        */zsh)
+            echo "$HOME/.zshrc"
+            ;;
+        *)
+            handle_error "Unsupported shell. Please update your PATH manually and rerun the local-start.sh script again."
+            ;;
+    esac
+}
+
+update_shell_config() {
+    local shell_rc=$(get_shell_rc)
+
+    # Source the shell configuration file to update the current session
+    if [ -f "$shell_rc" ]; then
+        # shellcheck disable=SC1090
+        source "$shell_rc" || log "Failed to source $shell_rc in ${SHELL##*/}."
+        log "Sourced $shell_rc to update PATH for the current session."
+    fi
+}
+
+update_poetry_path() {
+    local shell_rc=$(get_shell_rc)
     local poetry_path
 
     # Determine the poetry path based on the operating system
@@ -79,45 +104,16 @@ update_shell_path() {
         handle_error "Unsupported operating system or POETRY_HOME not set."
     fi
 
-    if ! grep -q "$poetry_path" "$shell_rc" 2>/dev/null; then
-        echo "export PATH=\"$poetry_path:\$PATH\"" >> "$shell_rc"
-        log "Added Poetry to PATH in $shell_rc"
+    if [[ -f "$shell_rc" && -w "$shell_rc" ]]; then
+        if ! grep -q "$poetry_path" "$shell_rc" 2>/dev/null; then
+            echo "export PATH=\"$poetry_path:\$PATH\"" >> "$shell_rc"
+            log "Added Poetry to PATH in $shell_rc"
+        else
+            log "Poetry path already exists in $shell_rc"
+        fi
+    else
+        log "Shell configuration file $shell_rc does not exist or is not writable."
     fi
-
-    # Source the shell configuration file to update the current session
-    if [ -f "$shell_rc" ]; then
-        case "$SHELL" in
-            */zsh)
-                # shellcheck disable=SC1090
-                source "$shell_rc" || log "Failed to source $shell_rc in Zsh."
-                ;;
-            */bash)
-                # shellcheck disable=SC1090
-                source "$shell_rc" || log "Failed to source $shell_rc in Bash."
-                ;;
-            *)
-                log "Unsupported shell for sourcing $shell_rc."
-                ;;
-        esac
-        log "Sourced $shell_rc to update PATH for the current session."
-    fi
-}
-
-detect_and_update_shell_path() {
-    case "$SHELL" in
-        */bash)
-            update_shell_path ~/.bashrc
-            ;;
-        */zsh)
-            update_shell_path ~/.zshrc
-            ;;
-        *)
-            log "Unsupported shell. Please update your PATH manually."
-            ;;
-    esac
-
-    # Clear the command hash table to ensure the shell recognizes the updated PATH
-    hash -r
 }
 
 install_command() {
@@ -136,15 +132,16 @@ install_command() {
         fi
 
         # Install the latest version of Poetry
-        log "Installing Poetry..."
+        log "Installing Poetry via curl..."
         if ! curl -sSL https://install.python-poetry.org | $PYTHON_CMD -; then
             handle_error "Failed to install $cmd version $required_version."
         fi
 
         # Update PATH in both .bashrc and .zshrc for future interactive sessions
-        detect_and_update_shell_path
+        update_poetry_path
+        update_shell_config
 
-        log "$cmd version $required_version installed successfully."
+        log "$cmd is installed successfully."
     else
         handle_error "Please install $cmd version $required_version or above manually."
     fi
@@ -263,13 +260,6 @@ deactivate_conda() {
     fi
 }
 
-poetry_use_miniconda_python() {
-    log "Setting up Poetry to use Python on $PYTHON_PATH..."
-    poetry env use "$PYTHON_PATH/python"
-    detect_and_update_shell_path
-    log "Successfully set up Poetry to use Python on $PYTHON_PATH."
-}
-
 check_gcloud_login() {
     # Checks if the user is logged into gcloud.
     if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" | grep -q .; then
@@ -304,7 +294,6 @@ main() {
     get_python_path
     deactivate_conda
     check_requirements
-    poetry_use_miniconda_python
     check_gcloud_login
     check_artifact_access
     copy_env_file
