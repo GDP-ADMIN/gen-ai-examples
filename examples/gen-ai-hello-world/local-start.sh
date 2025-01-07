@@ -51,7 +51,7 @@ get_python_path() {
     # Get the full path to the Python executable
     if command -v python3 >/dev/null 2>&1; then
         PYTHON_PATH=$(command -v python3)
-        PYTHON_CMD="python3"
+        PYTHON_CMD="python3"    
     elif command -v python >/dev/null 2>&1; then
         PYTHON_PATH=$(command -v python)
         PYTHON_CMD="python"
@@ -140,6 +140,9 @@ install_command() {
         # Update PATH in both .bashrc and .zshrc for future interactive sessions
         update_poetry_path
         update_shell_config
+
+        # Wait for a moment to ensure the system recognizes the new installation
+        sleep 2
     else
         handle_error "Please install $cmd version $required_version or above manually."
     fi
@@ -298,7 +301,7 @@ main() {
     poetry install
 
     log "Running gen-ai-hello-world example..."
-    poetry run python gen_ai_hello_world/main.py
+    poetry run $PYTHON_CMD gen_ai_hello_world/main.py
 }
 
 main
