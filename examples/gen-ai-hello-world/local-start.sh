@@ -140,8 +140,6 @@ install_command() {
         # Update PATH in both .bashrc and .zshrc for future interactive sessions
         update_poetry_path
         update_shell_config
-
-        log "$cmd is installed successfully."
     else
         handle_error "Please install $cmd version $required_version or above manually."
     fi
@@ -284,7 +282,7 @@ copy_env_file() {
         cp .env.example .env
     fi
 
-    log "Successfully copied .env.example to .env."
+    log "Successfully copied .env.example to .env. Don't forget to fill in the .env file with your own values."
 }
 
 main() {
