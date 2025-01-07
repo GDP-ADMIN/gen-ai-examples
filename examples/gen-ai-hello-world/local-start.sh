@@ -51,8 +51,10 @@ get_python_path() {
     # Get the full path to the Python executable
     if command -v python3 >/dev/null 2>&1; then
         PYTHON_PATH=$(command -v python3)
+        PYTHON_CMD="python3"
     elif command -v python >/dev/null 2>&1; then
         PYTHON_PATH=$(command -v python)
+        PYTHON_CMD="python"
     else
         handle_error "Python not found. Please install Python $PYTHON_VERSION"
     fi
@@ -218,11 +220,6 @@ check_command_version() {
 check_requirements() {
     # Checks system requirements, ensuring Python and Poetry are installed and meet version requirements.
     log "Checking system requirements..."
-
-    # Check for Python command
-    if command -v python >/dev/null 2>&1; then
-        PYTHON_CMD="python"
-    fi
 
     check_command_version "$PYTHON_CMD" "$PYTHON_VERSION" "--version"
     check_command_version "poetry" "$POETRY_VERSION" "--version"
