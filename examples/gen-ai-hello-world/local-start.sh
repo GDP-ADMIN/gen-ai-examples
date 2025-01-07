@@ -174,15 +174,12 @@ compare_versions() {
     done
 
     for ((i=0; i<${#ver1[@]}; i++)); do
-        if ((10#${ver1[i]} > 10#${ver2[i]})); then
-            return 0 # The current version is greater than the required version
-        fi
         if ((10#${ver1[i]} < 10#${ver2[i]})); then
-            return 2 # The current version is less than the required version
+            return 0 # The current version is less than the required version
         fi
     done
 
-    return 0 # The current version is equal to the required version
+    return 1 # The current version is equal to the required version
 }
 
 check_version_array() {
@@ -227,18 +224,17 @@ check_command_version() {
 
     # Modify the check_command_version function to handle exact version check for Python
     if [[ "$cmd" == "python" ]]; then
-        check_version_array "$current_version" "Python" "${PYTHON_VERSIONS[@]}"
-    fi
-
-    # Use the compare_versions function
-    compare_versions "$current_version" "$required_version"
-    case $? in
-        0) log "$cmd is installed and meets the required version ($required_version). Current version: $current_version." ;;
-        2) 
+        if ! check_version_array "$current_version" "Python" "${PYTHON_VERSIONS[@]}"; then
+            handle_error "Python version must be either (${PYTHON_VERSIONS[*]}). Current version: $current_version."
+        fi
+    else
+        # Use the compare_versions function
+        if ! compare_versions "$current_version" "$required_version"; then
             log "$cmd version $required_version or above is required. You have version $current_version."
             install_command "$cmd" "$required_version"
-            ;;
-    esac
+        fi
+    fi
+    log "$cmd is installed and meets the required version. Current version: $current_version."
 }
 
 check_requirements() {
