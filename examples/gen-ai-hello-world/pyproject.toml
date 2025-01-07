@@ -15,6 +15,7 @@ gllm-pipeline = {version = "^0.2.8", source = "gen-ai"}
 asyncio = "^3.4.3"
 elasticsearch = "^8.16.0"
 langchain-elasticsearch = "^0.3.0"
+python-magic-bin = "^0.4.14"
 
 [[tool.poetry.source]]
 name = "gen-ai"
