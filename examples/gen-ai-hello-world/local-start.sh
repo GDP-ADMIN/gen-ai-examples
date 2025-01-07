@@ -177,14 +177,14 @@ compare_versions() {
 
     for ((i=0; i<${#ver1[@]}; i++)); do
         if ((10#${ver1[i]} > 10#${ver2[i]})); then
-            return 0
+            return 0 # The current version is greater than the required version
         fi
         if ((10#${ver1[i]} < 10#${ver2[i]})); then
-            return 2
+            return 2 # The current version is less than the required version
         fi
     done
 
-    return 0
+    return 0 # The current version is equal to the required version
 }
 
 check_command_version() {
