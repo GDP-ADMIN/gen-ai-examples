@@ -7,6 +7,9 @@ GCLOUD_VERSION="493.0.0"
 PYTHON_CMD="python"
 LOG_FILE="./deploy.log"
 
+
+> "$LOG_FILE" # Clear the log file
+
 # Write console output to both console and a file, so users can review the output in case the console is accidentally closed.
 PIPE=$(mktemp -u) # Create a unique temporary filename and store it in $PIPE
 mkfifo "$PIPE"    # Create a named pipe (FIFO) using the filename in $PIPE
