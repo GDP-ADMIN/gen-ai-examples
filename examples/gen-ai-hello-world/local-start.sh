@@ -48,8 +48,14 @@ handle_error() {
 trap handle_error ERR
 
 get_python_path() {
-    # Set the python on the global to point to this python inside the active conda environment
-    PYTHON_PATH="$(conda info --envs | grep '*' | awk '{print $1}')/bin/python"
+    # Get the full path to the Python executable
+    if command -v python3 >/dev/null 2>&1; then
+        PYTHON_PATH=$(command -v python3)
+    elif command -v python >/dev/null 2>&1; then
+        PYTHON_PATH=$(command -v python)
+    else
+        handle_error "Python not found. Please install Python $PYTHON_VERSION"
+    fi
 
     log "PYTHON_PATH is set to: $PYTHON_PATH"
 }
@@ -295,7 +301,7 @@ main() {
     poetry install
 
     log "Running gen-ai-hello-world example..."
-    poetry run $PYTHON_CMD gen_ai_hello_world/main.py
+    poetry run python gen_ai_hello_world/main.py
 }
 
 main
