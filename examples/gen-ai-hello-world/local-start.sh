@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PYTHON_VERSION="3.11" # exact 
+PYTHON_VERSIONS=("3.11" "3.12") # acceptable versions
 POETRY_VERSION="1.8.1"
 GCLOUD_VERSION="493.0.0"
 
@@ -59,7 +59,7 @@ get_python_path() {
         handle_error "Python not found. Please install Python $PYTHON_VERSION"
     fi
 
-    log "PYTHON_PATH is set to: $PYTHON_PATH"
+    log "PYTHON_PATH will be set to: $PYTHON_PATH"
 }
 
 get_shell_rc() {
@@ -185,6 +185,24 @@ compare_versions() {
     return 0 # The current version is equal to the required version
 }
 
+check_version_array() {
+    local current_version=$1
+    local command_name=$2
+    local version_array=("${@:3}")
+    local version_matched=false
+
+    for version in "${version_array[@]}"; do
+        if [[ "$current_version" =~ ^$version\.[0-9]+$ ]]; then
+            version_matched=true
+            break
+        fi
+    done
+
+    if [[ "$version_matched" == false ]]; then
+        handle_error "$command_name version must be either (${version_array[*]}). Current version: $current_version."
+    fi
+}
+
 check_command_version() {
     # Checks if a command is installed and meets the required version.
     # Arguments:
@@ -209,9 +227,7 @@ check_command_version() {
 
     # Modify the check_command_version function to handle exact version check for Python
     if [[ "$cmd" == "python" ]]; then
-        if [[ ! "$current_version" =~ ^$PYTHON_VERSION\.[0-9]+$ ]]; then
-            handle_error "Python version must be exactly ($PYTHON_VERSION).x. Current version: $current_version."
-        fi
+        check_version_array "$current_version" "Python" "${PYTHON_VERSIONS[@]}"
     fi
 
     # Use the compare_versions function
