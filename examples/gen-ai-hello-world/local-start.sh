@@ -55,16 +55,16 @@ get_conda_python_path() {
         handle_error "Python is not installed in the Conda environment. Please install it inside the Conda environment."
     fi
 
-    # Set the python on the global to point to this python inside the miniconda
-    PYTHON_PATH="$CONDA_BASE/bin"
+    # Set the python on the global to point to this python inside the active conda environment
+    PYTHON_PATH="$(conda info --envs | grep '*' | awk '{print $1}')/bin"
 
-    log "Successfully retrieved the Conda environment with Python version '$PYTHON_VERSION'."
+    log "Successfully retrieved the Conda environment."
 }
 
 export_python_path() {
-    log "Using Python on $PYTHON_PATH"
+    log "Setting up Python to use Python on $PYTHON_PATH..."
     export PATH="$PYTHON_PATH:$PATH"
-    hash -r
+    detect_and_update_shell_path
 }
 
 update_shell_path() {
@@ -269,11 +269,10 @@ deactivate_conda() {
 }
 
 poetry_use_miniconda_python() {
-    log "Using Python on $PYTHON_PATH"
+    log "Setting up Poetry to use Python on $PYTHON_PATH..."
     poetry env use "$PYTHON_PATH/python"
-    hash -r
+    detect_and_update_shell_path
 }
-
 
 check_gcloud_login() {
     # Checks if the user is logged into gcloud.
