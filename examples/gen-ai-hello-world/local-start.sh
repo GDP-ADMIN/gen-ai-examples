@@ -281,7 +281,7 @@ check_gcloud_login() {
         handle_error "No active gcloud account found. Please log in using 'gcloud auth login'."
     fi
     
-    log "User is logged into gcloud."
+    log "User is successfully logged into gcloud with the active account: $(gcloud auth list --filter=status:ACTIVE --format="value(account)")."
 }
 
 check_artifact_access() {
