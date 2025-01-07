@@ -48,14 +48,6 @@ handle_error() {
 trap handle_error ERR
 
 get_python_path() {
-    if ! CONDA_BASE=$(conda info --base); then
-        handle_error "Failed to retrieve Conda base path."
-    fi
-
-    if ! conda list | grep -q "$PYTHON_CMD "; then
-        handle_error "Python is not installed in the Conda environment. Please install it inside the Conda environment."
-    fi
-
     # Set the python on the global to point to this python inside the active conda environment
     PYTHON_PATH="$(conda info --envs | grep '*' | awk '{print $1}')/bin/python"
 
