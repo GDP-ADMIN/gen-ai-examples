@@ -78,6 +78,7 @@ get_shell_rc() {
 
 update_shell_config() {
     local shell_rc=$(get_shell_rc)
+    
 
     # Source the shell configuration file to update the current session
     if [ -f "$shell_rc" ]; then
@@ -95,7 +96,11 @@ update_poetry_path() {
     if [[ "$OSTYPE" == "darwin"* ]]; then
         poetry_path="$HOME/Library/Application Support/pypoetry/venv/bin/poetry" # macOS
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        poetry_path="$HOME/.local/share/pypoetry/venv/bin/poetry" # Linux/Unix
+        if grep -q "microsoft" /proc/version 2>/dev/null; then
+            poetry_path="$HOME/.local/bin/poetry" # WSL
+        else
+            poetry_path="$HOME/.local/share/pypoetry/venv/bin/poetry" # Linux/Unix
+        fi
     elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" ]]; then
         poetry_path="%APPDATA%\\pypoetry\\venv\\Scripts\\poetry" # Windows
     elif [[ -n "$POETRY_HOME" ]]; then
