@@ -15,6 +15,7 @@ call :log "Installing dependencies"
 set "POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken"
 for /f "tokens=* usebackq" %%i in (`gcloud auth print-access-token`) do (
     set "POETRY_HTTP_BASIC_GEN_AI_PASSWORD=%%i"
+)
 poetry install
 
 call :log "Running gen-ai-hello-world example..."
