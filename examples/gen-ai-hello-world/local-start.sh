@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PYTHON_VERSION="3.11"
+PYTHON_VERSION="3.11" # exact 
 POETRY_VERSION="1.8.1"
 GCLOUD_VERSION="493.0.0"
 
@@ -203,6 +203,13 @@ check_command_version() {
 
     if [[ -z "$current_version" ]]; then
         handle_error "Could not determine $cmd version. Please ensure it is installed correctly."
+    fi
+
+    # Modify the check_command_version function to handle exact version check for Python
+    if [[ "$cmd" == "python" ]]; then
+        if [[ ! "$current_version" =~ ^$PYTHON_VERSION\.[0-9]+$ ]]; then
+            handle_error "Python version must be exactly ($PYTHON_VERSION).x. Current version: $current_version."
+        fi
     fi
 
     # Use the compare_versions function
