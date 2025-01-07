@@ -7,7 +7,7 @@ This is an example of how to use the gllm-pipeline library to build a RAG pipeli
 
 ## Prerequisites
 
-1. Python v3.11 or above.
+1. Python v3.11.
    You can use [Miniconda](http://conda.pydata.org/miniconda.html) to install and manage Python versions.
 2. [Poetry](https://python-poetry.org/docs/) v1.8.1 or above.
 3. Install [Google Cloud CLI](https://cloud.google.com/sdk/docs/install#linux).
