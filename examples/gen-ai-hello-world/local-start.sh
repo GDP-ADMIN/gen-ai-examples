@@ -7,6 +7,7 @@ GCLOUD_VERSION="493.0.0"
 PYTHON_CMD="python"
 LOG_FILE="./deploy.log"
 
+PYTHON_PATH=""
 
 > "$LOG_FILE" # Clear the log file
 
@@ -46,7 +47,7 @@ handle_error() {
 
 trap handle_error ERR
 
-get_conda_python_path() {
+get_python_path() {
     if ! CONDA_BASE=$(conda info --base); then
         handle_error "Failed to retrieve Conda base path."
     fi
@@ -56,9 +57,9 @@ get_conda_python_path() {
     fi
 
     # Set the python on the global to point to this python inside the active conda environment
-    PYTHON_PATH="$(conda info --envs | grep '*' | awk '{print $1}')/bin"
+    PYTHON_PATH="$(conda info --envs | grep '*' | awk '{print $1}')/bin/python"
 
-    log "Successfully retrieved the Conda environment."
+    log "PYTHON_PATH is set to: $PYTHON_PATH"
 }
 
 update_shell_path() {
@@ -266,6 +267,7 @@ poetry_use_miniconda_python() {
     log "Setting up Poetry to use Python on $PYTHON_PATH..."
     poetry env use "$PYTHON_PATH/python"
     detect_and_update_shell_path
+    log "Successfully set up Poetry to use Python on $PYTHON_PATH."
 }
 
 check_gcloud_login() {
@@ -291,13 +293,15 @@ copy_env_file() {
     if [[ ! -f ".env" ]]; then
         cp .env.example .env
     fi
+
+    log "Successfully copied .env.example to .env."
 }
 
 main() {
     # Main function to orchestrate the deployment script.
     log "Checking gen-ai-hello-world example requirements..."
 
-    get_conda_python_path
+    get_python_path
     deactivate_conda
     check_requirements
     poetry_use_miniconda_python
