@@ -61,12 +61,6 @@ get_conda_python_path() {
     log "Successfully retrieved the Conda environment."
 }
 
-export_python_path() {
-    log "Setting up Python to use Python on $PYTHON_PATH..."
-    export PATH="$PYTHON_PATH:$PATH"
-    detect_and_update_shell_path
-}
-
 update_shell_path() {
     local shell_rc=$1
     local poetry_path
@@ -305,7 +299,6 @@ main() {
 
     get_conda_python_path
     deactivate_conda
-    export_python_path
     check_requirements
     poetry_use_miniconda_python
     check_gcloud_login
