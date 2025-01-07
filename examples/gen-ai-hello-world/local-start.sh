@@ -309,8 +309,8 @@ main() {
     log "Checking gen-ai-hello-world example requirements..."
 
     get_python_path
-    deactivate_conda
     check_requirements
+    deactivate_conda
     check_gcloud_login
     check_artifact_access
 
