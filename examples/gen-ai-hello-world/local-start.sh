@@ -265,6 +265,13 @@ deactivate_conda() {
     fi
 }
 
+poetry_use_miniconda_python() {
+    log "Using Python on $PYTHON_PATH"
+    poetry env use "$PYTHON_PATH/python"
+    hash -r
+}
+
+
 check_gcloud_login() {
     # Checks if the user is logged into gcloud.
     if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" | grep -q .; then
