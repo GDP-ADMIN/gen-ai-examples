@@ -282,7 +282,7 @@ copy_env_file() {
         cp .env.example .env
     fi
 
-    log "Successfully copied .env.example to .env. Don't forget to fill in the .env file with your own values."
+    log "Successfully copied .env.example to .env. Don't forget to change the values in the .env file with your own values later."
 }
 
 main() {
@@ -294,12 +294,15 @@ main() {
     check_requirements
     check_gcloud_login
     check_artifact_access
+
+    log "Setting up gen-ai-hello-world example..."
     copy_env_file
 
-    log "Running gen-ai-hello-world example..."
     export POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken
     export POETRY_HTTP_BASIC_GEN_AI_PASSWORD=$(gcloud auth print-access-token)
     poetry install
+
+    log "Running gen-ai-hello-world example..."
     poetry run $PYTHON_CMD gen_ai_hello_world/main.py
 }
 
