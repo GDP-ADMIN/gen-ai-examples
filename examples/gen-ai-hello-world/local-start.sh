@@ -174,7 +174,7 @@ compare_versions() {
 
     for ((i=0; i<${#ver1[@]}; i++)); do
         if ((10#${ver1[i]} > 10#${ver2[i]})); then
-            return 1
+            return 0
         fi
         if ((10#${ver1[i]} < 10#${ver2[i]})); then
             return 2
@@ -217,7 +217,6 @@ check_command_version() {
     compare_versions "$current_version" "$required_version"
     case $? in
         0) log "$cmd is installed and meets the required version ($required_version). Current version: $current_version." ;;
-        1) log "$cmd is installed and exceeds the required version ($required_version). Current version: $current_version." ;;
         2) 
             log "$cmd version $required_version or above is required. You have version $current_version."
             install_command "$cmd" "$required_version"
