@@ -131,13 +131,14 @@ install_command() {
 
         # If the installed poetry is detected, remove it before reinstalling
         if [ -d ~/.local/share/pypoetry ] || [ -f ~/.local/bin/poetry ]; then
-            log "Removing existing Poetry installation..."
+            log "Poetry is installed but is not detected. Removing existing Poetry installation..."
             if ! curl -sSL https://install.python-poetry.org | $PYTHON_CMD - --uninstall; then
                 handle_error "Failed to remove existing Poetry installation. Please remove it manually."
             fi
         fi
 
         # Install the latest version of Poetry
+        log "Installing Poetry..."
         if ! curl -sSL https://install.python-poetry.org | $PYTHON_CMD -; then
             handle_error "Failed to install $cmd version $required_version."
         fi
