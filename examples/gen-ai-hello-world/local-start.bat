@@ -122,7 +122,7 @@ exit /b
 
 :install_dependencies
 call :log "Installing dependencies..."
-poetry install
+poetry install || call :handle_error "Failed to install dependencies."
 exit /b
 
 :: Logging function
