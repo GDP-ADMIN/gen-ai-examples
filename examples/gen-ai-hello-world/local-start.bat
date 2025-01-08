@@ -6,8 +6,12 @@ set "PYTHON_VERSION=3.11"
 set "POETRY_VERSION=1.8.1"
 set "GCLOUD_VERSION=493.0.0"
 
+set "PYTHON_CMD=python"
+set PYTHON_PATH=""
+
 :: Main Section
 call :log "Checking gen-ai-hello-world example requirements..."
+call :get_python_path
 call :check_requirements
 call :deactivate_conda
 call :check_gcloud_login
@@ -21,6 +25,25 @@ poetry run python gen_ai_hello_world/main.py || (
     call :handle_error "Failed to run the application"
     exit /b 1
 )
+exit /b
+
+:get_python_path
+where python3 >nul 2>&1
+if %errorlevel% equ 0 ( 
+    set "PYTHON_CMD=python3"
+) else (
+    call :log "python3 command not found, using python instead..."
+    where python >nul 2>&1
+    if %errorlevel% equ 0 (
+        set "PYTHON_CMD=python"
+    ) else (
+        call :handle_error "Python not found. Please install Python %PYTHON_VERSION%"
+    )
+)
+for /f "delims=" %%i in ('where %PYTHON_CMD%') do (
+    set "PYTHON_PATH=%%i"
+)
+call :log "PYTHON_PATH will be set to: !PYTHON_PATH!"
 exit /b
 
 :: Check command version function
