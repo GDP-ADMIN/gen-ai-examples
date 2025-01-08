@@ -166,11 +166,6 @@ install_command() {
 
 compare_versions() {
     # Compare two version strings $1 and $2
-    # Returns 0 if $1 == $2, 1 if $1 > $2, and 2 if $1 < $2
-    if [[ "$1" == "$2" ]]; then
-        return 0
-    fi
-
     local IFS=.
     local i ver1=($1) ver2=($2)
 
