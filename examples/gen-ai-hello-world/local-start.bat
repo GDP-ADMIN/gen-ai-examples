@@ -9,6 +9,7 @@ set "GCLOUD_VERSION=493.0.0"
 set "PYTHON_CMD=python"
 set PYTHON_PATH=""
 
+(
 :: Main Section
 call :log "Checking gen-ai-hello-world example requirements..."
 call :get_python_path
@@ -16,16 +17,20 @@ call :check_requirements
 call :deactivate_conda
 call :check_gcloud_login
 call :check_artifact_access
+call :log "All requirements are satisfied."
 call :log "Setting up gen-ai-hello-world example..."
 call :copy_env_file
 call :setup_poetry_http_basic
 call :install_dependencies
+call :log "gen-ai-hello-world example ready to run."
 call :log "Running gen-ai-hello-world example..."
 poetry run python gen_ai_hello_world/main.py || (
     call :handle_error "Failed to run the application"
     exit /b 1
 )
+call :log "gen-ai-hello-world example finished running."
 exit /b
+)
 
 :get_python_path
 where python >nul 2>&1
