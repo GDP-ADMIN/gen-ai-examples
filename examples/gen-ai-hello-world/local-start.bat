@@ -46,6 +46,15 @@ for /f "delims=" %%i in ('where %PYTHON_CMD%') do (
 call :log "PYTHON_PATH will be set to: !PYTHON_PATH!"
 exit /b
 
+:check_requirements
+call :log "Checking system requirements..."
+:: Check command version
+call :check_command_version "%PYTHON_CMD%" "%PYTHON_VERSION%" "--version"
+call :check_command_version "poetry" "%POETRY_VERSION%" "--version"
+call :check_command_version "gcloud" "%GCLOUD_VERSION%" "--version"
+call :log "System requirements are satisfied."
+exit /b
+
 :: Check command version function
 :check_command_version
 set "cmd=%~1"
@@ -53,7 +62,8 @@ set "required_version=%~2"
 set "version_flag=%~3"
 where !cmd! >nul 2>&1
 if %errorlevel% neq 0 (
-    call :handle_error "!cmd! is not installed. Please install !cmd! version !required_version! or above."
+    call :log "!cmd! is not installed. Required version: !required_version!."
+    call :install_command !cmd! !required_version!
     exit /b 1
 )
 :: Execute the command and capture the output
@@ -71,13 +81,14 @@ if "!current_version!"=="" (
     exit /b 1
 )
 :: Check for exact Python version
-if "!cmd!"=="python" (
+if "!cmd!"=="%PYTHON_CMD%" (
     call :check_version_array !current_version! !cmd! "%PYTHON_VERSION%"
     if !errorlevel! neq 0 exit /b 1
 ) else (
     call :compare_versions "!current_version!" "!required_version!"
     if !errorlevel! equ 0 (
         call :log "!cmd! version !required_version! or above is required. You have version !current_version!."
+        call :install_command !cmd! !required_version!
         exit /b 1
     )
 )
@@ -98,7 +109,7 @@ for %%v in (!version_array!) do (
 )
 :version_match_end
 if "!version_matched!"=="false" (
-    call :handle_error "Python version must be one of (!version_array!). Current version: %current_version%."
+    call :handle_error "!command_name! version must be one of (!version_array!). Current version: %current_version%."
     exit /b 1
 )
 exit /b 0
@@ -110,14 +121,35 @@ exit /b 0
 powershell -Command "function Compare-Version { param($ver1, $ver2); $v1 = [version]::new($ver1); $v2 = [version]::new($ver2); if ($v1 -lt $v2) { exit 0 } else { exit 1 } }; Compare-Version '%~1' '%~2'" >nul 2>&1
 exit /b %errorlevel%
 
-:check_requirements
-call :log "Checking system requirements..."
-:: Check command version
-call :check_command_version "python" "%PYTHON_VERSION%" "--version"
-call :check_command_version "poetry" "%POETRY_VERSION%" "--version"
-call :check_command_version "gcloud" "%GCLOUD_VERSION%" "--version"
-call :log "System requirements are satisfied."
-exit /b
+:install_command
+set cmd=%1
+set required_version=%2
+if "%cmd%"=="poetry" (
+    echo Attempting to install the latest version of %cmd%...
+    :: If the installed poetry is detected, remove it before reinstalling
+    if exist "%USERPROFILE%\.local\share\pypoetry" (
+        echo Poetry is installed but is not detected. Removing existing Poetry installation...
+        curl -sSL https://install.python-poetry.org | %PYTHON_CMD% --uninstall || (
+            call :handle_error "Failed to remove existing Poetry installation. Please remove it manually."
+        )
+    )
+    :: Install the latest version of Poetry
+    echo Installing Poetry via curl...
+    curl -sSL https://install.python-poetry.org | %PYTHON_CMD% || (
+        call :handle_error "Failed to install %cmd% version %required_version%."
+    )
+    :: Update PATH in both .bashrc and .zshrc for future interactive sessions
+    call :update_poetry_path
+    call :update_shell_config
+    :: Wait for a moment to ensure the system recognizes the new installation
+    timeout /t 2 >nul
+) else (
+    if "%cmd%"=="%PYTHON_CMD%" (
+        call :handle_error "Please use Python version %PYTHON_VERSIONS%."
+    ) else (
+        call :handle_error "Please install %cmd% version %required_version% or above manually."
+    )
+)
 
 :: Deactivate conda function
 :deactivate_conda
