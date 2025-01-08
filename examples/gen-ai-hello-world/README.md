@@ -29,6 +29,9 @@ This is an example of how to use the gllm-pipeline library to build a RAG pipeli
    ./local-start.sh
    ```
 
+> [!WARNING]
+> This script can only be run on Linux and macOS. On Windows, you need WSL (Windows Subsystem for Linux)
+
 The program will then wait for your question:
 
 > Question:
