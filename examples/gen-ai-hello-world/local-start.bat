@@ -10,6 +10,7 @@ set "GCLOUD_VERSION=493.0.0"
 call :log "Checking gen-ai-hello-world example requirements..."
 call :check_requirements
 call :deactivate_conda
+call :check_gcloud_login
 call :log "Setting up gen-ai-hello-world example..."
 call :copy_env_file
 call :setup_poetry_http_basic
@@ -78,6 +79,17 @@ if %errorlevel% equ 0 (
     call :log "All Conda environments have been deactivated."
 ) else (
     call :log "Conda is not installed. Skipping conda deactivation."
+)
+exit /b
+
+:check_gcloud_login
+for /f "tokens=*" %%i in ('gcloud auth list --filter=status:ACTIVE --format="value(account)" 2^>nul') do (
+    set "active_account=%%i"
+)
+if not defined active_account (
+    call :handle_error "No active gcloud account found. Please log in using 'gcloud auth login'."
+) else (
+    call :log "User is successfully logged into gcloud with the active account: !ACTIVE_ACCOUNT!"
 )
 exit /b
 
