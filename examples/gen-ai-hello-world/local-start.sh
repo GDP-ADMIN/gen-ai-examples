@@ -326,7 +326,10 @@ setup_poetry_http_basic() {
 
 install_dependencies() {
     log "Installing dependencies..."
-    poetry install
+
+    if ! poetry install; then
+        handle_error "Failed to install dependencies. Please try again."
+    fi
 }
 
 main() {
