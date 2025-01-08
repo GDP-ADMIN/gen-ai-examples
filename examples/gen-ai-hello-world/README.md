@@ -110,7 +110,7 @@ sudo ln -s /opt/miniconda3/pkgs/libmagic-5.39-h6ba3021_1/lib/libmagic.dylib libm
 brew install libmagic
 ```
 
-#### Install `python-magic-bin` in macOS
+#### Install `python-magic-bin` in Windows
 
 For Windows:
 
