@@ -320,10 +320,20 @@ copy_env_file() {
     log ".env file exists. Continuing..."
 }
 
+setup_poetry_http_basic() {
+    log "Setting up POETRY_HTTP_BASIC_GEN_AI_USERNAME and POETRY_HTTP_BASIC_GEN_AI_PASSWORD..."
+    export POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken
+    export POETRY_HTTP_BASIC_GEN_AI_PASSWORD=$(gcloud auth print-access-token)
+}
+
+install_dependencies() {
+    log "Installing dependencies..."
+    poetry install
+}
+
 main() {
     # Main function to orchestrate the deployment script.
     log "$COLOR_GREEN Checking gen-ai-hello-world example requirements...$COLOR_RESET"
-
     get_python_path
     check_requirements
     deactivate_conda
@@ -332,10 +342,8 @@ main() {
 
     log "$COLOR_GREEN Setting up gen-ai-hello-world example...$COLOR_RESET"
     copy_env_file
-
-    export POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken
-    export POETRY_HTTP_BASIC_GEN_AI_PASSWORD=$(gcloud auth print-access-token)
-    poetry install
+    setup_poetry_http_basic
+    install_dependencies
 
     log "$COLOR_GREEN Running gen-ai-hello-world example...$COLOR_RESET"
     poetry run $PYTHON_CMD gen_ai_hello_world/main.py
