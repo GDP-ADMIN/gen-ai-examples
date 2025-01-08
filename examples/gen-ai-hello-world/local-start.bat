@@ -128,19 +128,18 @@ if "%cmd%"=="poetry" (
     echo Attempting to install the latest version of %cmd%...
     :: If the installed poetry is detected, remove it before reinstalling
     if exist "%USERPROFILE%\.local\share\pypoetry" (
-        echo Poetry is installed but is not detected. Removing existing Poetry installation...
-        curl -sSL https://install.python-poetry.org | %PYTHON_CMD% --uninstall || (
+        echo "Poetry is installed but is not detected. Removing existing Poetry installation..."
+        powershell -Command "(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | & $env:PYTHON_CMD - --uninstall" || (
             call :handle_error "Failed to remove existing Poetry installation. Please remove it manually."
         )
     )
     :: Install the latest version of Poetry
-    echo Installing Poetry via curl...
-    curl -sSL https://install.python-poetry.org | %PYTHON_CMD% || (
+    echo "Installing Poetry via curl..."
+        powershell -Command "(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | & $env:PYTHON_CMD -" || (
         call :handle_error "Failed to install %cmd% version %required_version%."
     )
-    :: Update PATH in both .bashrc and .zshrc for future interactive sessions
+    :: Update PATH in
     call :update_poetry_path
-    call :update_shell_config
     :: Wait for a moment to ensure the system recognizes the new installation
     timeout /t 2 >nul
 ) else (
@@ -150,6 +149,19 @@ if "%cmd%"=="poetry" (
         call :handle_error "Please install %cmd% version %required_version% or above manually."
     )
 )
+exit /b
+
+:update_poetry_path
+set "poetry_path=%APPDATA%\Python\Scripts\poetry.exe"
+echo %PATH% | findstr /i /c:"%poetry_path%" >nul
+if errorlevel 1 (
+    set "PATH=%poetry_path%;%PATH%"
+    setx PATH "%poetry_path%;%PATH%"
+    call :log "Added Poetry to PATH"
+) else (
+    call :log "Poetry path already exists in PATH"
+)
+exit /b
 
 :: Deactivate conda function
 :deactivate_conda
