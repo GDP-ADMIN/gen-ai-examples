@@ -2,7 +2,7 @@
 setlocal EnableDelayedExpansion
 
 :: Set Variables
-set "PYTHON_VERSION=3.11"
+set "PYTHON_VERSION=3.11 3.12"
 set "POETRY_VERSION=1.8.1"
 set "GCLOUD_VERSION=493.0.0"
 
@@ -70,14 +70,45 @@ if "!current_version!"=="" (
     call :handle_error "Could not determine !cmd! version. Please ensure it is installed correctly."
     exit /b 1
 )
-:: Compare versions using powershell
-powershell -Command "$current='!current_version!'; $required='!required_version!'; if([version]$current -lt [version]$required) { exit 1 } else { exit 0 }" >nul 2>&1
-if %errorlevel% neq 0 (
-    call :handle_error "!cmd! version !required_version! or above is required. You have version !current_version!."
-    exit /b 1
+:: Check for exact Python version
+if "!cmd!"=="python" (
+    call :check_version_array !current_version! !cmd! "%PYTHON_VERSION%"
+    if !errorlevel! neq 0 exit /b 1
+) else (
+    call :compare_versions "!current_version!" "!required_version!"
+    if !errorlevel! equ 0 (
+        call :log "!cmd! version !required_version! or above is required. You have version !current_version!."
+        exit /b 1
+    )
 )
 call :log "!cmd! is installed and meets the required version (!required_version!). Current version: !current_version!"
 exit /b
+
+:check_version_array
+set "current_version=%~1"
+set "command_name=%~2"
+set "version_array=%~3"
+set "version_matched=false"
+for %%v in (!version_array!) do (
+    powershell -Command "$current='%current_version%'; if($current -match '^%%v\.[0-9]+$') { exit 0 } else { exit 1 }" >nul 2>&1
+    if !errorlevel! equ 0 (
+        set "version_matched=true"
+        goto :version_match_end
+    )
+)
+:version_match_end
+if "!version_matched!"=="false" (
+    call :handle_error "Python version must be one of (!version_array!). Current version: %current_version%."
+    exit /b 1
+)
+exit /b 0
+
+:compare_versions
+:: Parameters: %~1 = current version, %~2 = required version
+:: Returns: errorlevel 0 if current version is less than required version
+::         errorlevel 1 if current version is greater than or equal to required version
+powershell -Command "function Compare-Version { param($ver1, $ver2); $v1 = [version]::new($ver1); $v2 = [version]::new($ver2); if ($v1 -lt $v2) { exit 0 } else { exit 1 } }; Compare-Version '%~1' '%~2'" >nul 2>&1
+exit /b %errorlevel%
 
 :check_requirements
 call :log "Checking system requirements..."
