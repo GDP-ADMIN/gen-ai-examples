@@ -303,9 +303,11 @@ copy_env_file() {
     # Copies the .env.example file to .env.
     if [[ ! -f ".env" ]]; then
         cp .env.example .env
+        log "Successfully copied '.env.example' to '.env'. Please change the values in the .env file with your own values and then run './local-start.sh' again."
+        exit_application
     fi
 
-    log "Successfully copied .env.example to .env. Don't forget to change the values in the .env file with your own values later."
+    log ".env file exists. Continuing..."
 }
 
 main() {
