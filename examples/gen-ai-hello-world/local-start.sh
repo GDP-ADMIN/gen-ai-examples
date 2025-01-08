@@ -9,6 +9,12 @@ LOG_FILE="./deploy.log"
 
 PYTHON_PATH=""
 
+# colors for logging
+COLOR_ERROR="\033[31m"
+COLOR_WARNING="\033[33m"
+COLOR_INFO="\033[34m"
+COLOR_RESET="\033[0m"
+
 > "$LOG_FILE" # Clear the log file
 
 # Write console output to both console and a file, so users can review the output in case the console is accidentally closed.
@@ -23,25 +29,28 @@ cleanup() {
 }
 trap cleanup INT # Ensure cleanup is called on script exit or when receiving INT signal
 
+get_timestamp() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')]"
+}
+
 log() {
     # Logs a message with a timestamp to the console.
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+    echo -e "$COLOR_INFO$(get_timestamp)$COLOR_RESET $1"
 }
 
 exit_application() {
     # Handles script termination, logging a shutdown message and exiting with code 1.
-    echo -e "\033[31m"
+    echo -e "$COLOR_WARNING"
     log "Exiting..."
-    echo -e "\033[0m"
+    echo -e "$COLOR_RESET"
 
     exit 1
 }
 
 handle_error() {
     # Logs an error message and shuts down the application.
-    echo -e "\033[31m"
-    log "An error occurred: $1"
-    echo -e "\033[0m"
+    echo -e "$COLOR_ERROR$(get_timestamp) An error occurred: $1$COLOR_RESET"
+
     exit_application
 }
 
@@ -303,7 +312,8 @@ copy_env_file() {
     # Copies the .env.example file to .env.
     if [[ ! -f ".env" ]]; then
         cp .env.example .env
-        log "Successfully copied '.env.example' to '.env'. Please change the values in the .env file with your own values and then run './local-start.sh' again."
+        log "Successfully copied '.env.example' to '.env'."
+        log "$COLOR_WARNING Please change the values in the .env file with your own values and then run './local-start.sh' again.$COLOR_RESET"
         exit_application
     fi
 
@@ -312,7 +322,7 @@ copy_env_file() {
 
 main() {
     # Main function to orchestrate the deployment script.
-    log "Checking gen-ai-hello-world example requirements..."
+    log "$COLOR_GREEN Checking gen-ai-hello-world example requirements...$COLOR_RESET"
 
     get_python_path
     check_requirements
@@ -320,14 +330,14 @@ main() {
     check_gcloud_login
     check_artifact_access
 
-    log "Setting up gen-ai-hello-world example..."
+    log "$COLOR_GREEN Setting up gen-ai-hello-world example...$COLOR_RESET"
     copy_env_file
 
     export POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken
     export POETRY_HTTP_BASIC_GEN_AI_PASSWORD=$(gcloud auth print-access-token)
     poetry install
 
-    log "Running gen-ai-hello-world example..."
+    log "$COLOR_GREEN Running gen-ai-hello-world example...$COLOR_RESET"
     poetry run $PYTHON_CMD gen_ai_hello_world/main.py
 }
 
