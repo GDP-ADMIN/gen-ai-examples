@@ -13,12 +13,8 @@ call :deactivate_conda
 
 call :log "Setting up gen-ai-hello-world example..."
 call :copy_env_file
-
-set "POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken"
-for /f "tokens=* usebackq" %%i in (`gcloud auth print-access-token`) do (
-    set "POETRY_HTTP_BASIC_GEN_AI_PASSWORD=%%i"
-)
-poetry install
+call :setup_poetry_http_basic
+call :install_dependencies
 
 call :log "Running gen-ai-hello-world example..."
 poetry run python gen_ai_hello_world/main.py || (
@@ -137,6 +133,19 @@ if not exist ".env" (
     call :exit_application
 )
 call :log ".env file exists. Continuing..."
+exit /b
+
+:setup_poetry_http_basic
+call :log "Setting up POETRY_HTTP_BASIC_GEN_AI_USERNAME and POETRY_HTTP_BASIC_GEN_AI_PASSWORD..."
+set "POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken"
+for /f "tokens=* usebackq" %%i in (`gcloud auth print-access-token`) do (
+    set "POETRY_HTTP_BASIC_GEN_AI_PASSWORD=%%i"
+)
+exit /b
+
+:install_dependencies
+call :log "Installing dependencies..."
+poetry install
 exit /b
 
 :: Logging function
