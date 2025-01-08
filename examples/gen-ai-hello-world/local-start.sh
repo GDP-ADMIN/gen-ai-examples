@@ -13,6 +13,7 @@ PYTHON_PATH=""
 COLOR_ERROR="\033[31m"
 COLOR_WARNING="\033[33m"
 COLOR_INFO="\033[34m"
+COLOR_SUCCESS="\033[32m"
 COLOR_RESET="\033[0m"
 
 > "$LOG_FILE" # Clear the log file
@@ -35,26 +36,23 @@ get_timestamp() {
 
 log() {
     # Logs a message with a timestamp to the console.
-    echo -e "$COLOR_INFO$(get_timestamp)$COLOR_RESET $1"
+    echo -e "${COLOR_INFO}$(get_timestamp)$COLOR_RESET" "$1"
 }
 
 exit_application() {
     # Handles script termination, logging a shutdown message and exiting with code 1.
-    echo -e "$COLOR_WARNING"
-    log "Exiting..."
-    echo -e "$COLOR_RESET"
-
+    log "${COLOR_WARNING}Exiting...$COLOR_RESET"
     exit 1
 }
 
 handle_error() {
     # Logs an error message and shuts down the application.
-    echo -e "$COLOR_ERROR$(get_timestamp) An error occurred: $1$COLOR_RESET"
+    echo -e "${COLOR_ERROR}$(get_timestamp) An error occurred\n $1$COLOR_RESET"
 
     exit_application
 }
 
-trap handle_error ERR
+trap handle_error ERR INT TERM
 
 get_python_path() {
     # Get the full path to the Python executable
@@ -313,7 +311,7 @@ copy_env_file() {
     if [[ ! -f ".env" ]]; then
         cp .env.example .env
         log "Successfully copied '.env.example' to '.env'."
-        log "$COLOR_WARNING Please change the values in the .env file with your own values and then run './local-start.sh' again.$COLOR_RESET"
+        log "${COLOR_WARNING}Please change the values in the .env file with your own values and then run './local-start.sh' again.$COLOR_RESET"
         exit_application
     fi
 
@@ -333,20 +331,23 @@ install_dependencies() {
 
 main() {
     # Main function to orchestrate the deployment script.
-    log "$COLOR_GREEN Checking gen-ai-hello-world example requirements...$COLOR_RESET"
+    log "${COLOR_INFO}Checking gen-ai-hello-world example requirements...$COLOR_RESET"
     get_python_path
     check_requirements
     deactivate_conda
     check_gcloud_login
     check_artifact_access
+    log "${COLOR_SUCCESS}All requirements are satisfied.$COLOR_RESET"
 
-    log "$COLOR_GREEN Setting up gen-ai-hello-world example...$COLOR_RESET"
+    log "${COLOR_INFO}Setting up gen-ai-hello-world example...$COLOR_RESET"
     copy_env_file
     setup_poetry_http_basic
     install_dependencies
-
-    log "$COLOR_GREEN Running gen-ai-hello-world example...$COLOR_RESET"
+    log "${COLOR_SUCCESS}gen-ai-hello-world example ready to run.$COLOR_RESET"
+    
+    log "${COLOR_INFO}Running gen-ai-hello-world example...$COLOR_RESET"
     poetry run $PYTHON_CMD gen_ai_hello_world/main.py
+    log "${COLOR_SUCCESS}gen-ai-hello-world example finished running.$COLOR_RESET"
 }
 
 main
