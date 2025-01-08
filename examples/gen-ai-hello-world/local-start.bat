@@ -11,7 +11,9 @@ call :log "Checking gen-ai-hello-world example requirements..."
 call :check_requirements
 call :deactivate_conda
 
-call :log "Installing dependencies"
+call :log "Setting up gen-ai-hello-world example..."
+call :copy_env_file
+
 set "POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken"
 for /f "tokens=* usebackq" %%i in (`gcloud auth print-access-token`) do (
     set "POETRY_HTTP_BASIC_GEN_AI_PASSWORD=%%i"
@@ -106,12 +108,6 @@ call :check_command_version "python" "%PYTHON_VERSION%" "--version"
 call :check_command_version "poetry" "%POETRY_VERSION%" "--version"
 call :check_command_version "gcloud" "%GCLOUD_VERSION%" "--version"
 
-:: Check env file
-if not exist ".env" (
-    call :handle_error ".env file not found. Please create a .env file and supply the required environment variables."
-    exit /b 1
-)
-
 call :log "System requirements are satisfied."
 exit /b
 
@@ -131,6 +127,16 @@ if %errorlevel% equ 0 (
 ) else (
     call :log "Conda is not installed. Skipping conda deactivation."
 )
+exit /b
+
+:copy_env_file
+if not exist ".env" (
+    copy .env.example .env >nul 2>&1
+    call :log "Successfully copied '.env.example' to '.env'."
+    call :log "Please change the values in the .env file with your own values and then run './local-start.sh' again."
+    call :exit_application
+)
+call :log ".env file exists. Continuing..."
 exit /b
 
 :: Logging function
