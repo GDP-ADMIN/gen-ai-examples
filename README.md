@@ -3,14 +3,15 @@
 This repository contains a collection of examples demonstrating the usage of the GDP Labs GenAI SDK. These examples are intended to help developers understand the SDK’s capabilities and learn how to integrate them into their own projects.
 
 > [!WARNING]
-> The GenAI SDK is in binary version and is currently only available for Linux.
+> The GenAI SDK is in binary version and is currently only available for Linux, macOS, and Windows.
 
 ## Getting Started
 
-1. **Clone the Repository**:
+1. **Clone the Repository and go to one of the example**:
 
    ```bash
    git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
+   cd examples/gen-ai-hello-world
    ```
 
 2. **Setting Up**:  

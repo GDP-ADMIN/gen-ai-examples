@@ -3,40 +3,27 @@
 This is an example of how to use the gllm-pipeline library to build a RAG pipeline.
 
 > [!WARNING]
-> The GenAI SDK is in binary version and is currently only available for Linux.
+> The GenAI SDK is in binary version and is currently only available for Linux, macOS, and Windows.
 
 ## Prerequisites
-
-1. Python v3.11 or v3.12.
-   You can use [Miniconda](http://conda.pydata.org/miniconda.html) to install and manage Python versions.
-2. [Poetry](https://python-poetry.org/docs/) v1.8.1 or above.
-3. Install [Google Cloud CLI](https://cloud.google.com/sdk/docs/install#linux).
-4. You need to have access to the GDP Labs Google Artifact Registry.
-   If you don’t have access, please contact the GDP Labs DSO team at infra(at)gdplabs.id.
-
-   Use the following command to verify access:
-
-   ```bash
-   gcloud artifacts packages list --repository=gen-ai --location=asia-southeast2 --project=gdp-labs
-   ```
-
-5. Environment requirements:
-   - **Operating System**: Linux
-   - **Architecture**: x86_64
-   - **Python Version**: 3.11
 
 > [!NOTE]
 > The prerequisites are checked automatically when you run the script.
 
+1. **Python v3.11 or v3.12**.
+
+   - You can use [Miniconda](http://conda.pydata.org/miniconda.html) to install and manage Python versions.
+
+2. **Google Cloud CLI v493.0.0 or above**.
+
+   - You can install it by following [this instruction](https://cloud.google.com/sdk/docs/install).
+
+3. **Access to the GDP Labs Google Artifact Registry**.
+   - If you don’t have access, please make a request to ticket(at)gdplabs.id.
+
 ## Running the code
 
-1. Configure Environment: Copy `.env.example` to `.env` and set up the environment variables.
-
-   ```bash
-   cp .env.example .env
-   ```
-
-2. Execute the script:
+1. Execute the script:
 
    ```bash
    ./local-start.sh
@@ -56,9 +43,25 @@ The RAG pipeline will return the following response (more or less):
 
 > _The documents mentioned are referred to as Mock document 1, Mock document 2, and Mock document 3. However, without additional context or content from these documents, I cannot provide specific details about their contents or purposes._
 
-## Known Problem
+## FAQs
 
-The following error is currently expected. If you can see the response, it means the pipeline is working as expected.
+### 1. I got `Error executing component StuffResponseSynthesizer__user_query_response_synthesis_bundle`, how do I fix it?
+
+Check `.env` file (if you already run `local-start.sh`, it is auto generated). You might have provided invalid `OPENAI_API_KEY` and/or `LANGUAGE_MODEL`.
+
+```txt
+# GDP Labs Gen AI Hello World Example
+# Please edit the following variables with your own values.
+
+OPENAI_API_KEY =<YOUR_OPENAI_API_KEY> # Get your OpenAI API key from https://platform.openai.com/api-keys
+LANGUAGE_MODEL =<VALID_OPENAI_LANGUAGE_MODEL_NAME> # e.g. "gpt-3.5-turbo", "gpt-4o-mini", "gpt-4o"
+```
+
+### 2. I got error `OSError: could not get source code`, how do I fix it?
+
+This error is currently expected. If you can see the response, it means the pipeline is working as expected.
+
+Below are example of the error.
 
 ```
 Question: who are you?
@@ -77,4 +80,35 @@ OSError: could not get source code
 
 Response:
 I am an AI assistant here to help you with your questions and provide information. How can I assist you today?
+```
+
+---
+
+### 3. I got error `ImportError: failed to find libmagic`, how do I fix it?
+
+This typically happens if you use macOS or Windows.
+
+For macOS, there two alternatives:
+
+1. If you have [conda](https://docs.anaconda.com/miniconda/install/) installed:
+
+```
+conda install libmagic
+cd /usr/local/lib
+sudo ln -s /opt/miniconda3/pkgs/libmagic-5.39-h6ba3021_1/lib/libmagic.dylib libmagic.dylib
+```
+
+> [!WARNING]
+> Please adjust the path of your conda installation if it is different. In the above example, the path is `/opt/miniconda3/`.
+
+2. If you have [brew](https://brew.sh/) installed:
+
+```
+brew install libmagic
+```
+
+For Windows:
+
+```
+poetry add python-magic-bin
 ```
