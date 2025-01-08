@@ -11,6 +11,7 @@ call :log "Checking gen-ai-hello-world example requirements..."
 call :check_requirements
 call :deactivate_conda
 call :check_gcloud_login
+call :check_artifact_access
 call :log "Setting up gen-ai-hello-world example..."
 call :copy_env_file
 call :setup_poetry_http_basic
@@ -91,6 +92,14 @@ if not defined active_account (
 ) else (
     call :log "User is successfully logged into gcloud with the active account: !ACTIVE_ACCOUNT!"
 )
+exit /b
+
+:check_artifact_access
+cmd /c gcloud artifacts packages list --repository=gen-ai --location=asia-southeast2 --project=gdp-labs >nul 2>&1
+if %errorlevel% neq 0 (
+    call :handle_error "User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id."
+)
+call :log "User has access to the GDP Labs Google Artifact Registry."
 exit /b
 
 :copy_env_file
