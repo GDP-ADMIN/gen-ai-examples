@@ -8,7 +8,7 @@ This is an example of how to use the gllm-pipeline library to build a RAG pipeli
 ## Prerequisites
 
 > [!NOTE]
-> The prerequisites are checked automatically when you run the script.
+> You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
 
 1. **Python v3.11 or v3.12**.
 
@@ -64,7 +64,7 @@ LANGUAGE_MODEL =<VALID_OPENAI_LANGUAGE_MODEL_NAME> # e.g. "gpt-3.5-turbo", "gpt-
 
 This error is currently expected. If you can see the response, it means the pipeline is working as expected.
 
-Below are example of the error.
+Here is an example of the error.
 
 ```
 Question: who are you?
@@ -102,7 +102,7 @@ sudo ln -s /opt/miniconda3/pkgs/libmagic-5.39-h6ba3021_1/lib/libmagic.dylib libm
 ```
 
 > [!WARNING]
-> Please adjust the path of your conda installation if it is different. In the above example, the path is `/opt/miniconda3/`.
+> Please adjust the path of your Conda installation if it differs. In the example above, the path is `/opt/miniconda3/`.
 
 2. If you have [brew](https://brew.sh/) installed:
 

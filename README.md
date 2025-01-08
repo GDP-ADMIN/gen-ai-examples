@@ -7,15 +7,15 @@ This repository contains a collection of examples demonstrating the usage of the
 
 ## Getting Started
 
-1. **Clone the Repository and go to one of the example**:
+1. **Clone the repository and navigate to one of the examples**:
 
    ```bash
    git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
    cd examples/gen-ai-hello-world
    ```
 
-2. **Setting Up**:  
+2. **Setting up**:  
    To set up the project applications, please refer to the respective README files in the [examples](./examples) directory.
 
-3. **Explore and Modify**:  
+3. **Explore and modify**:  
    Examine the code, try different queries, and modify the examples as needed.
