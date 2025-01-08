@@ -28,14 +28,14 @@ poetry run python gen_ai_hello_world/main.py || (
 exit /b
 
 :get_python_path
-where python3 >nul 2>&1
+where python >nul 2>&1
 if %errorlevel% equ 0 ( 
-    set "PYTHON_CMD=python3"
+    set "PYTHON_CMD=python"
 ) else (
-    call :log "python3 command not found, using python instead..."
-    where python >nul 2>&1
+    call :log "python command not found, using python3 instead..."
+    where python3 >nul 2>&1
     if %errorlevel% equ 0 (
-        set "PYTHON_CMD=python"
+        set "PYTHON_CMD=python3"
     ) else (
         call :handle_error "Python not found. Please install Python %PYTHON_VERSION%"
     )
@@ -134,7 +134,7 @@ if "%cmd%"=="poetry" (
         )
     )
     :: Install the latest version of Poetry
-    echo "Installing Poetry via curl..."
+    echo "Installing Poetry via powershell..."
         powershell -Command "(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | & $env:PYTHON_CMD -" || (
         call :handle_error "Failed to install %cmd% version %required_version%."
     )
