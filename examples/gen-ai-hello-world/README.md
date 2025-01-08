@@ -30,7 +30,7 @@ This is an example of how to use the gllm-pipeline library to build a RAG pipeli
    ```
 
 > [!WARNING]
-> This script can only be run on Linux and macOS. On Windows, you need WSL (Windows Subsystem for Linux)
+> This script can only be run on Linux and macOS. On Windows, you need [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install)
 
 The program will then wait for your question:
 
@@ -48,7 +48,7 @@ The RAG pipeline will return the following response (more or less):
 
 ## FAQs
 
-### 1. I got `Error executing component StuffResponseSynthesizer__user_query_response_synthesis_bundle`, how do I fix it?
+### 1. I got error `Error executing component StuffResponseSynthesizer__user_query_response_synthesis_bundle`. How do I fix it?
 
 Check `.env` file (if you already run `local-start.sh`, it is auto generated). You might have provided invalid `OPENAI_API_KEY` and/or `LANGUAGE_MODEL`.
 
@@ -60,7 +60,7 @@ OPENAI_API_KEY =<YOUR_OPENAI_API_KEY> # Get your OpenAI API key from https://pla
 LANGUAGE_MODEL =<VALID_OPENAI_LANGUAGE_MODEL_NAME> # e.g. "gpt-3.5-turbo", "gpt-4o-mini", "gpt-4o"
 ```
 
-### 2. I got error `OSError: could not get source code`, how do I fix it?
+### 2. I got error `OSError: could not get source code`. How do I fix it?
 
 This error is currently expected. If you can see the response, it means the pipeline is working as expected.
 
@@ -85,11 +85,11 @@ Response:
 I am an AI assistant here to help you with your questions and provide information. How can I assist you today?
 ```
 
----
-
-### 3. I got error `ImportError: failed to find libmagic`, how do I fix it?
+### 3. I got error `ImportError: failed to find libmagic`. How do I fix it?
 
 This typically happens if you use macOS or Windows.
+
+#### Install `libmagic` in macOS
 
 For macOS, there two alternatives:
 
@@ -110,8 +110,23 @@ sudo ln -s /opt/miniconda3/pkgs/libmagic-5.39-h6ba3021_1/lib/libmagic.dylib libm
 brew install libmagic
 ```
 
+#### Install `python-magic-bin` in macOS
+
 For Windows:
 
 ```
 poetry add python-magic-bin
 ```
+
+### 4. I got error `Unable to find installation candidates`. How do I fix it?
+
+Our binary SDK can only be run on specific OSes:
+
+1. **Linux / WSL**: x86_64 architecture.
+
+2. **macOS**: x86_64 (Intel) or arm64 (Apple Silicon) architecture.
+
+   1. macOS version 13 or newer for x86_64 (Intel).
+   2. macOS version 14 or newer for arm64 (Apple Silicon).
+
+3. **Windows**: 64bit architecture.
