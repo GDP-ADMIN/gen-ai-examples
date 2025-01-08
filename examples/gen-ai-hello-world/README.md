@@ -112,8 +112,6 @@ brew install libmagic
 
 #### Install `python-magic-bin` in Windows
 
-For Windows:
-
 ```
 poetry add python-magic-bin
 ```
