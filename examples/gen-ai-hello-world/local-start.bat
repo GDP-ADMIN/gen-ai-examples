@@ -222,7 +222,7 @@ exit /b
 
 :: Logging function
 :log
-echo [%date:~10,4%-%date:~4,2%-%date:~7,2% %time:~0,8%] - %~1
+powershell -Command "Write-Output ('[{0}] - %1' -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'))"
 exit /b
 
 :: Error handling function
