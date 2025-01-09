@@ -8,6 +8,7 @@ PYTHON_CMD="python"
 LOG_FILE="./deploy.log"
 
 PYTHON_PATH=""
+POETRY_PATH=""
 
 # colors for logging
 COLOR_ERROR="\033[31m"
@@ -85,7 +86,6 @@ get_shell_rc() {
 
 update_shell_config() {
     local shell_rc=$(get_shell_rc)
-    
 
     # Source the shell configuration file to update the current session
     if [ -f "$shell_rc" ]; then
@@ -97,28 +97,35 @@ update_shell_config() {
 
 update_poetry_path() {
     local shell_rc=$(get_shell_rc)
-    local poetry_path
+    local poetry_export_path
 
     # Determine the poetry path based on the operating system
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        poetry_path="$HOME/Library/Application Support/pypoetry/venv/bin/poetry" # macOS
+        POETRY_PATH="$HOME/Library/Application Support/pypoetry/venv/bin/poetry" # macOS
+        poetry_export_path="$HOME/Library/Application Support/pypoetry/venv/bin"
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
         if grep -q "microsoft" /proc/version 2>/dev/null; then
-            poetry_path="$HOME/.local/bin/poetry" # WSL
+            POETRY_PATH="$HOME/.local/bin/poetry" # WSL
+            poetry_export_path="$HOME/.local/bin"
         else
-            poetry_path="$HOME/.local/share/pypoetry/venv/bin/poetry" # Linux/Unix
+            POETRY_PATH="$HOME/.local/share/pypoetry/venv/bin/poetry" # Linux/Unix
+            poetry_export_path="$HOME/.local/share/pypoetry/venv/bin"
         fi
     elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" ]]; then
-        poetry_path="%APPDATA%\\pypoetry\\venv\\Scripts\\poetry" # Windows
+        POETRY_PATH="%APPDATA%\\pypoetry\\venv\\Scripts\\poetry" # Windows
+        poetry_export_path="%APPDATA%\\pypoetry\\venv\\Scripts"
     elif [[ -n "$POETRY_HOME" ]]; then
-        poetry_path="$POETRY_HOME/venv/bin/poetry" # If $POETRY_HOME is set
+        POETRY_PATH="$POETRY_HOME/venv/bin/poetry" # If $POETRY_HOME is set
+        poetry_export_path="$POETRY_HOME/venv/bin"
     else
         handle_error "Unsupported operating system or POETRY_HOME not set."
     fi
 
+    log "POETRY_PATH will be set to: $POETRY_PATH"
+
     if [[ -f "$shell_rc" && -w "$shell_rc" ]]; then
-        if ! grep -q "$poetry_path" "$shell_rc" 2>/dev/null; then
-            echo "export PATH=\"$poetry_path:\$PATH\"" >> "$shell_rc"
+        if ! grep -q "$poetry_export_path" "$shell_rc" 2>/dev/null; then
+            echo "export PATH=\"$poetry_export_path:\$PATH\"" >> "$shell_rc"
             log "Added Poetry to PATH in $shell_rc"
         else
             log "Poetry path already exists in $shell_rc"
@@ -134,14 +141,6 @@ install_command() {
 
     if [[ "$cmd" == "poetry" ]]; then
         log "Attempting to install the latest version of $cmd..."
-
-        # If the installed poetry is detected, remove it before reinstalling
-        if [ -d ~/.local/share/pypoetry ] || [ -f ~/.local/bin/poetry ]; then
-            log "Poetry is installed but is not detected. Removing existing Poetry installation..."
-            if ! curl -sSL https://install.python-poetry.org | $PYTHON_CMD - --uninstall; then
-                handle_error "Failed to remove existing Poetry installation. Please remove it manually."
-            fi
-        fi
 
         # Install the latest version of Poetry
         log "Installing Poetry via curl..."
@@ -252,7 +251,6 @@ check_requirements() {
     log "Checking system requirements..."
 
     check_command_version "$PYTHON_CMD" "$PYTHON_VERSION" "--version"
-    check_command_version "poetry" "$POETRY_VERSION" "--version"
     check_command_version "gcloud" "$GCLOUD_VERSION" "--version"
 
     log "System requirements are satisfied."
@@ -322,7 +320,7 @@ setup_poetry_http_basic() {
 install_dependencies() {
     log "Installing dependencies..."
 
-    if ! poetry install; then
+    if ! "$POETRY_PATH" install; then
         handle_error "Failed to install dependencies. Please try again."
     fi
 }
@@ -332,6 +330,8 @@ main() {
     log "${COLOR_INFO}Checking gen-ai-hello-world example requirements...$COLOR_RESET"
     get_python_path
     check_requirements
+    install_command "poetry" "$POETRY_VERSION"
+
     deactivate_conda
     check_gcloud_login
     check_artifact_access
@@ -344,7 +344,7 @@ main() {
     log "${COLOR_SUCCESS}gen-ai-hello-world example ready to run.$COLOR_RESET"
     
     log "${COLOR_INFO}Running gen-ai-hello-world example...$COLOR_RESET"
-    poetry run $PYTHON_CMD gen_ai_hello_world/main.py
+    "$POETRY_PATH" run $PYTHON_CMD gen_ai_hello_world/main.py
     log "${COLOR_SUCCESS}gen-ai-hello-world example finished running.$COLOR_RESET"
 }
 
