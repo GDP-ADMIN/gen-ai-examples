@@ -31,22 +31,28 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 ## Running the code
 
 1. Configure environment variables: copy `.env.example` to `.env` and set up the environment variables.
-   - For Linux, macOS, or Windows WSL
+   - For Linux, macOS, or Windows WSL:
+
       ```bash
       cp .env.example .env
       ```
-   - For Windows Powershell or Command Prompt
+   
+   - For Windows Powershell or Command Prompt:
+   
       ```powershell
       copy .env.example .env
       ```
 
 2. Execute the script: 
    - For Linux, macOS, or Windows WSL:
+
       ```bash
       ./local-start.sh
       ```
       > On Windows, you can either install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) or execute the batch file in Windows Powershell or Command Prompt as described in the next section.
+
    - For Windows Powershell or Command Prompt:
+      
       ```powershell
       .\local-start.bat
       ```
@@ -54,6 +60,7 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
       > ```powershell
       > .\local-start.bat | tee -FilePath deploy.log
       > ```
+
 The program will then wait for your question:
 
 > Question:
@@ -130,12 +137,6 @@ sudo ln -s /opt/miniconda3/pkgs/libmagic-5.39-h6ba3021_1/lib/libmagic.dylib libm
 
 ```
 brew install libmagic
-```
-
-#### Install `python-magic-bin` in Windows
-
-```
-poetry add python-magic-bin
 ```
 
 ### 4. I got error `Unable to find installation candidates`. How do I fix it?

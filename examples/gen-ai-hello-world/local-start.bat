@@ -208,6 +208,7 @@ exit /b
 
 :install_dependencies
 call :log "Installing dependencies..."
+!POETRY_PATH! add python-magic-bin  || call :handle_error "Failed to add python-magic-bin."
 !POETRY_PATH! install || call :handle_error "Failed to install dependencies."
 exit /b
 
