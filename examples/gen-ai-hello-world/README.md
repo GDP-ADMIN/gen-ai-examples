@@ -10,9 +10,16 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 > [!NOTE]
 > You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
 
-1. **Python v3.11 or v3.12**.
-
-   - You can use [Miniconda](http://conda.pydata.org/miniconda.html) to install and manage Python versions.
+1. **Python v3.11 or v3.12**.      
+   - Using the Installer: 
+   
+      You can download the Python installer from the link [Python 3.11.9](https://www.python.org/downloads/release/python-3119/), select the version appropriate for your operating system, and run the installer. 
+      > [!NOTE]
+      > For Windows, please make sure to check the `Add python.exe to PATH` option during the installation process.
+      
+   - Using Conda:
+   
+      You can use [Miniconda](http://conda.pydata.org/miniconda.html) to install and manage Python versions.
 
 2. **Google Cloud CLI v493.0.0 or above**.
 
@@ -24,19 +31,37 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 ## Running the code
 
 1. Configure environment variables: copy `.env.example` to `.env` and set up the environment variables.
+   - For Linux, macOS, or Windows WSL:
 
-   ```bash
-   cp .env.example .env
-   ```
+      ```bash
+      cp .env.example .env
+      ```
+   
+   - For Windows Powershell or Command Prompt:
+   
+      ```powershell
+      copy .env.example .env
+      ```
 
-1. Execute the script:
+2. Execute the script: 
+   - For Linux, macOS, or Windows WSL:
 
-   ```bash
-   ./local-start.sh
-   ```
+      ```bash
+      ./local-start.sh
+      ```
+      > On Windows, you can either install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) or execute the batch file in Windows Powershell or Command Prompt as described in the next section.
 
-> [!WARNING]
-> This script can only be run on Linux and macOS. On Windows, you need [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install)
+   - For Windows Command Prompt:
+      
+      ```cmd
+      local-start.bat
+      ```
+
+   - For Windows Powershell:
+      
+      ```powershell
+      .\local-start.bat
+      ```
 
 The program will then wait for your question:
 
@@ -114,12 +139,6 @@ sudo ln -s /opt/miniconda3/pkgs/libmagic-5.39-h6ba3021_1/lib/libmagic.dylib libm
 
 ```
 brew install libmagic
-```
-
-#### Install `python-magic-bin` in Windows
-
-```
-poetry add python-magic-bin
 ```
 
 ### 4. I got error `Unable to find installation candidates`. How do I fix it?
