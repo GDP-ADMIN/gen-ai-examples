@@ -10,9 +10,16 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 > [!NOTE]
 > You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
 
-1. **Python v3.11 or v3.12**.
-
-   - You can use [Miniconda](http://conda.pydata.org/miniconda.html) to install and manage Python versions.
+1. **Python v3.11 or v3.12**.      
+   - Using the Installer: 
+   
+      You can download the Python installer from the link [Python 3.11.9](https://www.python.org/downloads/release/python-3119/), select the version appropriate for your operating system, and run the installer. 
+      > [!NOTE]
+      > For Windows, please make sure to check the `Add python.exe to PATH` option during the installation process.
+      
+   - Using Conda:
+   
+      You can use [Miniconda](http://conda.pydata.org/miniconda.html) to install and manage Python versions.
 
 2. **Google Cloud CLI v493.0.0 or above**.
 
