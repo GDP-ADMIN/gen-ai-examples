@@ -222,7 +222,7 @@ exit /b
 
 :: Logging function
 :log
-powershell -Command "Write-Output ('[{0}] - %1' -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'))"
+powershell -Command "Write-Output ('[{0}] %1' -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'))"
 exit /b
 
 :: Error handling function
