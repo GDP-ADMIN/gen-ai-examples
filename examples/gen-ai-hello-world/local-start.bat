@@ -145,19 +145,8 @@ if "%cmd%"=="poetry" (
 exit /b
 
 :update_poetry_path
-for /f "delims=" %%i in ('where poetry') do (
-    set "POETRY_PATH=%%i"
-)
+set "POETRY_PATH=%APPDATA%\pypoetry\venv\Scripts\poetry"
 call :log "POETRY_PATH will be set to: !POETRY_PATH!"
-set "poetry_export_path=%POETRY_PATH:~0,-11%"
-echo %PATH% | findstr /i /c:"%poetry_export_path%" >nul
-if errorlevel 1 (
-    set "PATH=%poetry_export_path%;%PATH%"
-    setx PATH "%poetry_export_path%;%PATH%"
-    call :log "Added Poetry to PATH"
-) else (
-    call :log "Poetry path already exists in PATH"
-)
 exit /b
 
 :: Deactivate conda function
