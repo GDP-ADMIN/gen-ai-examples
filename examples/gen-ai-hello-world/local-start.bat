@@ -139,14 +139,8 @@ if "%cmd%"=="poetry" (
         call :handle_error "Failed to install %cmd% version %required_version%."
     )
     call :update_poetry_path
-    :: Wait for a moment to ensure the system recognizes the new installation
-    timeout /t 2 >nul
 ) else (
-    if "%cmd%"=="%PYTHON_CMD%" (
-        call :handle_error "Please use Python version %PYTHON_VERSION%."
-    ) else (
-        call :handle_error "Please install %cmd% version %required_version% or above."
-    )
+    call :handle_error "Please install %cmd% version %required_version% or above."
 )
 exit /b
 
