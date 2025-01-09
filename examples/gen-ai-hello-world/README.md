@@ -24,20 +24,27 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 ## Running the code
 
 1. Configure environment variables: copy `.env.example` to `.env` and set up the environment variables.
-
    ```bash
-   cp .env.example .env
+   cp .env.example .env # Linux, macOS, or Windows WSL
+   ```
+   ```powershell
+   copy .env.example .env # Windows Powershell or Command Prompt
    ```
 
-1. Execute the script:
-
+2. Execute the script: 
+   1. **For Linux, macOS, or Windows WSL**:
    ```bash
    ./local-start.sh
    ```
-
-> [!WARNING]
-> This script can only be run on Linux and macOS. On Windows, you need [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install)
-
+   > On Windows, you can either install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) or execute the batch file in Windows Powershell or Command Prompt as described in the next section.
+   2. **For Windows Powershell or Command Prompt**:
+   ```powershell
+   .\local-start.bat
+   ```
+   > To capture the console output to a file while running the script in Windows Powershell, use the following command:
+   > ```powershell
+   > .\local-start.bat | tee -FilePath deploy.log
+   > ```
 The program will then wait for your question:
 
 > Question:
