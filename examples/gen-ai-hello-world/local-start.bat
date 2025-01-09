@@ -8,12 +8,14 @@ set "GCLOUD_VERSION=493.0.0"
 
 set "PYTHON_CMD=python"
 set PYTHON_PATH=""
+set POETRY_PATH=""
 
 (
 :: Main Section
 call :log "Checking gen-ai-hello-world example requirements..."
 call :get_python_path
 call :check_requirements
+call :install_command "poetry" "%POETRY_VERSION%"
 call :deactivate_conda
 call :check_gcloud_login
 call :check_artifact_access
@@ -24,7 +26,7 @@ call :setup_poetry_http_basic
 call :install_dependencies
 call :log "gen-ai-hello-world example ready to run."
 call :log "Running gen-ai-hello-world example..."
-poetry run python gen_ai_hello_world/main.py || (
+!POETRY_PATH! run python gen_ai_hello_world/main.py || (
     call :handle_error "Failed to run the application"
     exit /b 1
 )
@@ -37,17 +39,18 @@ where python >nul 2>&1
 if %errorlevel% equ 0 ( 
     set "PYTHON_CMD=python"
 ) else (
-    call :log "python command not found, using python3 instead..."
+    call :log "python command not found, trying to use python3 instead..."
     where python3 >nul 2>&1
     if %errorlevel% equ 0 (
         set "PYTHON_CMD=python3"
     ) else (
-        call :handle_error "Python not found. Please install Python %PYTHON_VERSION%"
+        call :handle_error "Python not found. Please install Python with one of these versions %PYTHON_VERSION%"
     )
 )
 for /f "delims=" %%i in ('where %PYTHON_CMD%') do (
     set "PYTHON_PATH=%%i"
 )
+call :log "use python command: !PYTHON_CMD!"
 call :log "PYTHON_PATH will be set to: !PYTHON_PATH!"
 exit /b
 
@@ -55,7 +58,6 @@ exit /b
 call :log "Checking system requirements..."
 :: Check command version
 call :check_command_version "%PYTHON_CMD%" "%PYTHON_VERSION%" "--version"
-call :check_command_version "poetry" "%POETRY_VERSION%" "--version"
 call :check_command_version "gcloud" "%GCLOUD_VERSION%" "--version"
 call :log "System requirements are satisfied."
 exit /b
@@ -127,19 +129,12 @@ powershell -Command "function Compare-Version { param($ver1, $ver2); $v1 = [vers
 exit /b %errorlevel%
 
 :install_command
-set cmd=%1
-set required_version=%2
+set cmd=%~1
+set required_version=%~2
 if "%cmd%"=="poetry" (
-    echo Attempting to install the latest version of %cmd%...
-    :: If the installed poetry is detected, remove it before reinstalling
-    if exist "%USERPROFILE%\.local\share\pypoetry" (
-        echo "Poetry is installed but is not detected. Removing existing Poetry installation..."
-        powershell -Command "(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | & $env:PYTHON_CMD - --uninstall" || (
-            call :handle_error "Failed to remove existing Poetry installation. Please remove it manually."
-        )
-    )
+    call :log "Attempting to install the latest version of %cmd%..."
     :: Install the latest version of Poetry
-    echo "Installing Poetry via powershell..."
+    call :log "Installing Poetry via powershell..."
         powershell -Command "(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | & $env:PYTHON_CMD -" || (
         call :handle_error "Failed to install %cmd% version %required_version%."
     )
@@ -157,11 +152,15 @@ if "%cmd%"=="poetry" (
 exit /b
 
 :update_poetry_path
-set "poetry_path=%APPDATA%\Python\Scripts\poetry.exe"
-echo %PATH% | findstr /i /c:"%poetry_path%" >nul
+for /f "delims=" %%i in ('where poetry') do (
+    set "POETRY_PATH=%%i"
+)
+call :log "POETRY_PATH will be set to: !POETRY_PATH!"
+set "poetry_export_path=%POETRY_PATH:~0,-12%"
+echo %PATH% | findstr /i /c:"%poetry_export_path%" >nul
 if errorlevel 1 (
-    set "PATH=%poetry_path%;%PATH%"
-    setx PATH "%poetry_path%;%PATH%"
+    set "PATH=%poetry_export_path%;%PATH%"
+    setx PATH "%poetry_export_path%;%PATH%"
     call :log "Added Poetry to PATH"
 ) else (
     call :log "Poetry path already exists in PATH"
@@ -225,7 +224,7 @@ exit /b
 
 :install_dependencies
 call :log "Installing dependencies..."
-poetry install || call :handle_error "Failed to install dependencies."
+!POETRY_PATH! install || call :handle_error "Failed to install dependencies."
 exit /b
 
 :: Logging function
