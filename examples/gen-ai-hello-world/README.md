@@ -51,7 +51,13 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
       ```
       > On Windows, you can either install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) or execute the batch file in Windows Powershell or Command Prompt as described in the next section.
 
-   - For Windows Powershell or Command Prompt:
+   - For Windows Command Prompt:
+      
+      ```cmd
+      local-start.bat
+      ```
+
+   - For Windows Powershell:
       
       ```powershell
       .\local-start.bat
