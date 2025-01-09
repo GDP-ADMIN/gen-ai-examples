@@ -2,9 +2,9 @@
 setlocal EnableDelayedExpansion
 
 :: Set Variables
-set "PYTHON_VERSION=3.11 3.12"
-set "POETRY_VERSION=1.8.1"
-set "GCLOUD_VERSION=493.0.0"
+set "MIN_PYTHON_VERSION=3.11 3.12"
+set "MIN_POETRY_VERSION=1.8.1"
+set "MIN_GCLOUD_VERSION=493.0.0"
 
 set "PYTHON_CMD=python"
 set PYTHON_PATH=""
@@ -15,7 +15,7 @@ set POETRY_PATH=""
 call :log "Checking gen-ai-hello-world example requirements..."
 call :get_python_path
 call :check_requirements
-call :install_command "poetry" "%POETRY_VERSION%"
+call :install_command "poetry" "%MIN_POETRY_VERSION%"
 call :deactivate_conda
 call :check_gcloud_login
 call :check_artifact_access
@@ -44,7 +44,7 @@ if %errorlevel% equ 0 (
     if %errorlevel% equ 0 (
         set "PYTHON_CMD=python3"
     ) else (
-        call :handle_error "Python not found. Please install Python with one of these versions %PYTHON_VERSION%"
+        call :handle_error "Python not found. Please install Python with one of these versions %MIN_PYTHON_VERSION%"
     )
 )
 for /f "delims=" %%i in ('where %PYTHON_CMD%') do (
@@ -57,8 +57,8 @@ exit /b
 :check_requirements
 call :log "Checking system requirements..."
 :: Check command version
-call :check_command_version "%PYTHON_CMD%" "%PYTHON_VERSION%" "--version"
-call :check_command_version "gcloud" "%GCLOUD_VERSION%" "--version"
+call :check_command_version "%PYTHON_CMD%" "%MIN_PYTHON_VERSION%" "--version"
+call :check_command_version "gcloud" "%MIN_GCLOUD_VERSION%" "--version"
 call :log "System requirements are satisfied."
 exit /b
 
@@ -89,7 +89,7 @@ if "!current_version!"=="" (
 )
 :: Check for exact Python version
 if "!cmd!"=="%PYTHON_CMD%" (
-    call :check_version_array !current_version! !cmd! "%PYTHON_VERSION%"
+    call :check_version_array !current_version! !cmd! "%MIN_PYTHON_VERSION%"
     if !errorlevel! neq 0 exit /b 1
 ) else (
     call :compare_versions "!current_version!" "!required_version!"
@@ -149,7 +149,7 @@ for /f "delims=" %%i in ('where poetry') do (
     set "POETRY_PATH=%%i"
 )
 call :log "POETRY_PATH will be set to: !POETRY_PATH!"
-set "poetry_export_path=%POETRY_PATH:~0,-12%"
+set "poetry_export_path=%POETRY_PATH:~0,-11%"
 echo %PATH% | findstr /i /c:"%poetry_export_path%" >nul
 if errorlevel 1 (
     set "PATH=%poetry_export_path%;%PATH%"
@@ -222,7 +222,8 @@ exit /b
 
 :: Logging function
 :log
-powershell -Command "Write-Output ('[{0}] %1' -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'))"
+for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set datetime=%%I
+echo [%datetime:~0,4%-%datetime:~4,2%-%datetime:~6,2% %datetime:~8,2%:%datetime:~10,2%:%datetime:~12,2%] - %~1
 exit /b
 
 :: Error handling function
