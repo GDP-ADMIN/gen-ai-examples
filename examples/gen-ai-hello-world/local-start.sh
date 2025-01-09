@@ -86,9 +86,7 @@ get_shell_rc() {
 
 update_shell_config() {
     local shell_rc=$(get_shell_rc)
-    
 
-    echo "$shell_rc"
     # Source the shell configuration file to update the current session
     if [ -f "$shell_rc" ]; then
         # shellcheck disable=SC1090
