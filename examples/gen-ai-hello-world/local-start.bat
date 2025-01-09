@@ -49,7 +49,9 @@ if %errorlevel% equ 0 (
 )
 for /f "delims=" %%i in ('where %PYTHON_CMD%') do (
     set "PYTHON_PATH=%%i"
+    goto :python_break
 )
+:python_break
 call :log "use python command: !PYTHON_CMD!"
 call :log "PYTHON_PATH will be set to: !PYTHON_PATH!"
 exit /b
