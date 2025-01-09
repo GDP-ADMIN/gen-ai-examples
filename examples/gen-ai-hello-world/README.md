@@ -62,10 +62,6 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
       ```powershell
       .\local-start.bat
       ```
-      > To capture the console output to a file while running the script in Windows Powershell, use the following command:
-      > ```powershell
-      > .\local-start.bat | tee -FilePath deploy.log
-      > ```
 
 The program will then wait for your question:
 
