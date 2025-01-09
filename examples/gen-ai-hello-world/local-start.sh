@@ -158,7 +158,7 @@ install_command() {
         if [[ "$cmd" == "$PYTHON_CMD" ]]; then
             handle_error "Please use Python version ${PYTHON_VERSIONS[*]}."
         else
-            handle_error "Please install $cmd version $required_version or above manually."
+            handle_error "Please install $cmd version $required_version or above."
         fi
     fi
 }
