@@ -11,11 +11,11 @@ This repository contains a collection of examples demonstrating the usage of the
 
    ```bash
    git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
-   cd examples/gen-ai-hello-world
+   cd gen-ai-examples/examples/gen-ai-hello-world
    ```
 
 2. **Setting up**:  
-   To set up the project applications, please refer to the respective README files in the [examples](./examples) directory.
+   To set up the project applications, please refer to the respective README files in the [examples](./examples/gen-ai-hello-world) directory.
 
 3. **Explore and modify**:  
    Examine the code, try different queries, and modify the examples as needed.

@@ -1,6 +1,6 @@
 # GenAI RAGO Example
 
-This is an example of how to use the gllm-pipeline library to build a RAG pipeline.
+This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline.
 
 > [!WARNING]
 > The GenAI SDK is in binary version and is currently only available for Linux, macOS, and Windows.
@@ -22,6 +22,12 @@ This is an example of how to use the gllm-pipeline library to build a RAG pipeli
    - If you don’t have access, please make a request to ticket(at)gdplabs.id.
 
 ## Running the code
+
+1. Configure environment variables: copy `.env.example` to `.env` and set up the environment variables.
+
+   ```bash
+   cp .env.example .env
+   ```
 
 1. Execute the script:
 
