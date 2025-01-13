@@ -18,7 +18,7 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
    
       You can download the Python installer from the link [Python 3.11.9](https://www.python.org/downloads/release/python-3119/), select the version appropriate for your operating system, and run the installer. 
       > [!NOTE]
-      > For Windows, please make sure to check the `Add python.exe to PATH` option during the installation process and if you've installed python via Microsoft Store
+      > For Windows, please make sure to check the `Add python.exe to PATH` option during the installation process.
       
    - Using Conda:
    
