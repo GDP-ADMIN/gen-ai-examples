@@ -12,7 +12,7 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 
 1. **Python v3.11 or v3.12**.
 > [!CAUTION]
-> For Windows, we do not recommend to use Python installed via Microsoft Store. If you have any Python installed from Microsoft Store, please uninstall them and use either Installer or Conda
+> For Windows, we do not recommend to use Python installed via Microsoft Store. If you have any Python installed from Microsoft Store, please uninstall them and use either Installer or Conda.
 
    - Using Installer: 
    
