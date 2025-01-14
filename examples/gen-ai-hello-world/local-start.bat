@@ -9,6 +9,7 @@ set "MIN_GCLOUD_VERSION=493.0.0"
 set "PYTHON_CMD=python"
 set PYTHON_PATH=""
 set POETRY_PATH=""
+set COMMAND_VERSION=
 
 (
 :: Main Section
@@ -75,33 +76,20 @@ if %errorlevel% neq 0 (
     call :install_command !cmd! !required_version!
     exit /b 1
 )
-:: Execute the command and capture the output
-for /f "tokens=* usebackq" %%i in (`!cmd! !%version_flag! 2^>^&1`) do (
-    set "version_output=%%i"   
-    :: Extract version number using a regular expression
-    for /f "tokens=* usebackq" %%v in (`powershell -Command "$version='!version_output!'; if($version -match '\d+\.\d+\.\d+') { $matches[0] }"`) do (
-        set "current_version=%%v"
-    )
-    goto :break
-)
-:break
-if "!current_version!"=="" (
-    call :handle_error "Could not determine !cmd! version. Please ensure it is installed correctly."
-    exit /b 1
-)
+call :get_command_version !cmd! !version_flag!
 :: Check for exact Python version
 if "!cmd!"=="%PYTHON_CMD%" (
-    call :check_version_array !current_version! !cmd! "%MIN_PYTHON_VERSION%"
+    call :check_version_array !COMMAND_VERSION! !cmd! "%MIN_PYTHON_VERSION%"
     if !errorlevel! neq 0 exit /b 1
 ) else (
-    call :compare_versions "!current_version!" "!required_version!"
+    call :compare_versions "!COMMAND_VERSION!" "!required_version!"
     if !errorlevel! equ 0 (
-        call :log "!cmd! version !required_version! or above is required. You have version !current_version!."
+        call :log "!cmd! version !required_version! or above is required. You have version !COMMAND_VERSION!."
         call :install_command !cmd! !required_version!
         exit /b 1
     )
 )
-call :log "!cmd! is installed and meets the required version (!required_version!). Current version: !current_version!"
+call :log "!cmd! is installed and meets the required version (!required_version!). Current version: !COMMAND_VERSION!"
 exit /b
 
 :check_version_array
@@ -147,7 +135,22 @@ if "%cmd%"=="poetry" (
 exit /b
 
 :update_poetry_path
-set "POETRY_PATH=%APPDATA%\pypoetry\venv\Scripts\poetry"
+set "POETRY_PATH=%APPDATA%\pypoetry\venv\Scripts\poetry.exe"
+
+if not exist "!POETRY_PATH!" (
+    call :get_command_version "%PYTHON_CMD%" "--version"
+    :: Search for the folder matching the command version, ignoring the random part
+    set "COMMAND_VERSION=!COMMAND_VERSION:~0,4!"
+    for /d %%F in (%LOCALAPPDATA%\Packages\PythonSoftwareFoundation.Python.!COMMAND_VERSION!_*) do (
+        set "POETRY_PATH=%%F\LocalCache\Roaming\pypoetry\venv\Scripts\poetry.exe"
+        goto :path_break
+    )
+    :path_break
+    if not exist "!POETRY_PATH!" (
+        call :handle_error "POETRY_PATH is not found. Please ensure Poetry is installed correctly."
+        exit /b 1
+    )
+)
 call :log "POETRY_PATH will be set to: !POETRY_PATH!"
 exit /b
 
@@ -168,6 +171,28 @@ if %errorlevel% equ 0 (
     call :log "Conda is not installed. Skipping conda deactivation."
 )
 exit /b
+
+:get_command_version
+:: Parameters: %~1 = command, %~2 = version flag
+set cmd=%~1
+set version_flag=%~2
+set version_output=
+
+:: Execute the command and capture the output
+for /f "tokens=* usebackq" %%i in (`!cmd! !%version_flag! 2^>^&1`) do (
+    set "version_output=%%i"   
+    :: Extract version number using a regular expression
+    for /f "tokens=* usebackq" %%v in (`powershell -Command "$version='!version_output!'; if($version -match '\d+\.\d+\.\d+') { $matches[0] }"`) do (
+        set "COMMAND_VERSION=%%v"
+    )
+    goto :break
+)
+:break
+if "!COMMAND_VERSION!"=="" (
+    call :handle_error "Could not determine !cmd! version. Please ensure it is installed correctly."
+    exit /b 1
+) 
+exit /b 0
 
 :check_gcloud_login
 for /f "tokens=*" %%i in ('gcloud auth list --filter=status:ACTIVE --format="value(account)" 2^>nul') do (
