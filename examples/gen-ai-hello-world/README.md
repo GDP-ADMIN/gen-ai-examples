@@ -11,8 +11,8 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 > You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
 
 1. **Python v3.11 or v3.12**.
-> [!CAUTION]
-> For Windows, we do not recommend to use Python installed via Microsoft Store. If you have any Python installed from Microsoft Store, please uninstall them and use either Python installer or Conda.
+    > [!CAUTION]
+    > For Windows, we do not recommend to use Python installed via Microsoft Store. If you have any Python installed from Microsoft Store, please uninstall them and use either Python installer or Conda.
 
    - Using Python installer: 
    
@@ -24,11 +24,11 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
    
       You can use [Miniconda](http://conda.pydata.org/miniconda.html) to install and manage Python versions.
 
-3. **Google Cloud CLI v493.0.0 or above**.
+2. **Google Cloud CLI v493.0.0 or above**.
 
    - You can install it by following [this instruction](https://cloud.google.com/sdk/docs/install).
 
-4. **Access to the GDP Labs Google Artifact Registry**.
+3. **Access to the GDP Labs Google Artifact Registry**.
    - If you don’t have access, please make a request to ticket(at)gdplabs.id.
 
 ## Running the code
@@ -52,6 +52,7 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
       ```bash
       ./local-start.sh
       ```
+      > [!NOTE]
       > On Windows, you can either install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) or execute the batch file in Windows Powershell or Command Prompt as described in the next section.
 
    - For Windows Command Prompt:
