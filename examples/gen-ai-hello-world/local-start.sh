@@ -96,9 +96,6 @@ install_command() {
         if ! curl -sSL https://install.python-poetry.org | $PYTHON_CMD -; then
             handle_error "Failed to install $cmd version $required_version."
         fi
-
-        # Wait for a moment to ensure the system recognizes the new installation
-        sleep 2
     else
         if [[ "$cmd" == "$PYTHON_CMD" ]]; then
             handle_error "Please use Python version ${PYTHON_VERSIONS[*]}."
