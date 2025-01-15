@@ -84,17 +84,6 @@ get_shell_rc() {
     esac
 }
 
-update_shell_config() {
-    local shell_rc=$(get_shell_rc)
-
-    # Source the shell configuration file to update the current session
-    if [ -f "$shell_rc" ]; then
-        # shellcheck disable=SC1090
-        source "$shell_rc" || log "Failed to source $shell_rc in ${SHELL##*/}."
-        log "Sourced $shell_rc to update PATH for the current session."
-    fi
-}
-
 install_command() {
     local cmd=$1
     local required_version=$2
@@ -107,10 +96,6 @@ install_command() {
         if ! curl -sSL https://install.python-poetry.org | $PYTHON_CMD -; then
             handle_error "Failed to install $cmd version $required_version."
         fi
-
-        # Update PATH in both .bashrc and .zshrc for future interactive sessions
-        
-        update_shell_config
 
         # Wait for a moment to ensure the system recognizes the new installation
         sleep 2
