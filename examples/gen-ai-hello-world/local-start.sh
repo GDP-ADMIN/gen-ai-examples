@@ -8,7 +8,7 @@ PYTHON_CMD="python"
 LOG_FILE="./deploy.log"
 
 PYTHON_PATH=""
-
+POETRY_PATH=""
 # colors for logging
 COLOR_ERROR="\033[31m"
 COLOR_WARNING="\033[33m"
@@ -69,6 +69,27 @@ get_python_path() {
     log "PYTHON_PATH will be set to: $PYTHON_PATH"
 }
 
+update_poetry_path() {
+    # Determine the poetry path based on the operating system
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        POETRY_PATH="$HOME/Library/Application Support/pypoetry/venv/bin/poetry" # macOS
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        if grep -q "microsoft" /proc/version 2>/dev/null; then
+            POETRY_PATH="$HOME/.local/bin/poetry" # WSL
+        else
+            POETRY_PATH="$HOME/.local/share/pypoetry/venv/bin/poetry" # Linux/Unix
+        fi
+    elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" ]]; then
+        POETRY_PATH="%APPDATA%\\pypoetry\\venv\\Scripts\\poetry" # Windows
+    elif [[ -n "$POETRY_HOME" ]]; then
+        POETRY_PATH="$POETRY_HOME/venv/bin/poetry" # If $POETRY_HOME is set
+    else
+        handle_error "Unsupported operating system or POETRY_HOME not set."
+    fi
+
+    log "POETRY_PATH: $POETRY_PATH"
+}
+
 install_command() {
     local cmd=$1
     local required_version=$2
@@ -81,6 +102,8 @@ install_command() {
         if ! curl -sSL https://install.python-poetry.org | $PYTHON_CMD -; then
             handle_error "Failed to install $cmd version $required_version."
         fi
+
+        update_poetry_path
     else
         if [[ "$cmd" == "$PYTHON_CMD" ]]; then
             handle_error "Please use Python version ${PYTHON_VERSIONS[*]}."
