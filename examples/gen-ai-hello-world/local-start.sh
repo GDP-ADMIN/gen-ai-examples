@@ -69,20 +69,6 @@ get_python_path() {
     log "PYTHON_PATH will be set to: $PYTHON_PATH"
 }
 
-get_shell_rc() {
-    case "$SHELL" in
-        */bash)
-            echo "$HOME/.bashrc"
-            ;;
-        */zsh)
-            echo "$HOME/.zshrc"
-            ;;
-        *)
-            handle_error "Unsupported shell. Please update your PATH manually and rerun the local-start.sh script again."
-            ;;
-    esac
-}
-
 install_command() {
     local cmd=$1
     local required_version=$2
