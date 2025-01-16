@@ -11,8 +11,6 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 > You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
 
 1. **Python v3.11 or v3.12**.
-    > [!CAUTION]
-    > For Windows, we do not recommend to use Python installed via Microsoft Store. If you have any Python installed from Microsoft Store, please uninstall them and use either Python installer or Conda.
 
    - Using Python installer: 
    
