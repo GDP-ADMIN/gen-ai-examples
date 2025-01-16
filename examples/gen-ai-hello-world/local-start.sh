@@ -9,6 +9,7 @@ LOG_FILE="./deploy.log"
 
 PYTHON_PATH=""
 POETRY_PATH=""
+
 # colors for logging
 COLOR_ERROR="\033[31m"
 COLOR_WARNING="\033[33m"
@@ -270,7 +271,7 @@ setup_poetry_http_basic() {
 install_dependencies() {
     log "Installing dependencies..."
 
-    if ! poetry install; then
+    if ! "$POETRY_PATH" install; then
         handle_error "Failed to install dependencies. Please try again."
     fi
 }
@@ -294,7 +295,7 @@ main() {
     log "${COLOR_SUCCESS}gen-ai-hello-world example ready to run.$COLOR_RESET"
     
     log "${COLOR_INFO}Running gen-ai-hello-world example...$COLOR_RESET"
-    poetry run $PYTHON_CMD gen_ai_hello_world/main.py
+    "$POETRY_PATH" run $PYTHON_CMD gen_ai_hello_world/main.py
     log "${COLOR_SUCCESS}gen-ai-hello-world example finished running.$COLOR_RESET"
 }
 
