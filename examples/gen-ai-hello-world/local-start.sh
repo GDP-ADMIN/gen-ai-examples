@@ -70,69 +70,25 @@ get_python_path() {
     log "PYTHON_PATH will be set to: $PYTHON_PATH"
 }
 
-get_shell_rc() {
-    case "$SHELL" in
-        */bash)
-            echo "$HOME/.bashrc"
-            ;;
-        */zsh)
-            echo "$HOME/.zshrc"
-            ;;
-        *)
-            handle_error "Unsupported shell. Please update your PATH manually and rerun the local-start.sh script again."
-            ;;
-    esac
-}
-
-update_shell_config() {
-    local shell_rc=$(get_shell_rc)
-
-    # Source the shell configuration file to update the current session
-    if [ -f "$shell_rc" ]; then
-        # shellcheck disable=SC1090
-        source "$shell_rc" || log "Failed to source $shell_rc in ${SHELL##*/}."
-        log "Sourced $shell_rc to update PATH for the current session."
-    fi
-}
-
-update_poetry_path() {
-    local shell_rc=$(get_shell_rc)
-    local poetry_export_path
-
+get_poetry_path() {
     # Determine the poetry path based on the operating system
     if [[ "$OSTYPE" == "darwin"* ]]; then
         POETRY_PATH="$HOME/Library/Application Support/pypoetry/venv/bin/poetry" # macOS
-        poetry_export_path="$HOME/Library/Application Support/pypoetry/venv/bin"
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
         if grep -q "microsoft" /proc/version 2>/dev/null; then
             POETRY_PATH="$HOME/.local/bin/poetry" # WSL
-            poetry_export_path="$HOME/.local/bin"
         else
             POETRY_PATH="$HOME/.local/share/pypoetry/venv/bin/poetry" # Linux/Unix
-            poetry_export_path="$HOME/.local/share/pypoetry/venv/bin"
         fi
     elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" ]]; then
         POETRY_PATH="%APPDATA%\\pypoetry\\venv\\Scripts\\poetry" # Windows
-        poetry_export_path="%APPDATA%\\pypoetry\\venv\\Scripts"
     elif [[ -n "$POETRY_HOME" ]]; then
         POETRY_PATH="$POETRY_HOME/venv/bin/poetry" # If $POETRY_HOME is set
-        poetry_export_path="$POETRY_HOME/venv/bin"
     else
         handle_error "Unsupported operating system or POETRY_HOME not set."
     fi
 
-    log "POETRY_PATH will be set to: $POETRY_PATH"
-
-    if [[ -f "$shell_rc" && -w "$shell_rc" ]]; then
-        if ! grep -q "$poetry_export_path" "$shell_rc" 2>/dev/null; then
-            echo "export PATH=\"$poetry_export_path:\$PATH\"" >> "$shell_rc"
-            log "Added Poetry to PATH in $shell_rc"
-        else
-            log "Poetry path already exists in $shell_rc"
-        fi
-    else
-        log "Shell configuration file $shell_rc does not exist or is not writable."
-    fi
+    log "Detected Poetry path: $POETRY_PATH"
 }
 
 install_command() {
@@ -148,12 +104,7 @@ install_command() {
             handle_error "Failed to install $cmd version $required_version."
         fi
 
-        # Update PATH in both .bashrc and .zshrc for future interactive sessions
-        update_poetry_path
-        update_shell_config
-
-        # Wait for a moment to ensure the system recognizes the new installation
-        sleep 2
+        get_poetry_path
     else
         if [[ "$cmd" == "$PYTHON_CMD" ]]; then
             handle_error "Please use Python version ${PYTHON_VERSIONS[*]}."
