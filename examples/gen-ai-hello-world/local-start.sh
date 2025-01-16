@@ -70,7 +70,7 @@ get_python_path() {
     log "PYTHON_PATH will be set to: $PYTHON_PATH"
 }
 
-update_poetry_path() {
+get_poetry_path() {
     # Determine the poetry path based on the operating system
     if [[ "$OSTYPE" == "darwin"* ]]; then
         POETRY_PATH="$HOME/Library/Application Support/pypoetry/venv/bin/poetry" # macOS
@@ -88,7 +88,7 @@ update_poetry_path() {
         handle_error "Unsupported operating system or POETRY_HOME not set."
     fi
 
-    log "POETRY_PATH: $POETRY_PATH"
+    log "Detected Poetry path: $POETRY_PATH"
 }
 
 install_command() {
@@ -104,7 +104,7 @@ install_command() {
             handle_error "Failed to install $cmd version $required_version."
         fi
 
-        update_poetry_path
+        get_poetry_path
     else
         if [[ "$cmd" == "$PYTHON_CMD" ]]; then
             handle_error "Please use Python version ${PYTHON_VERSIONS[*]}."
