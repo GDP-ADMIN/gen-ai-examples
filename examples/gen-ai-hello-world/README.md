@@ -10,7 +10,7 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 > [!NOTE]
 > You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
 
-1. **Python v3.11 or v3.12**.
+1. **Python v3.11 or v3.12** (to run `python`).
 
    - Using Python installer: 
    
@@ -22,16 +22,17 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
    
       You can use [Miniconda](http://conda.pydata.org/miniconda.html) to install and manage Python versions.
 
-2. **Google Cloud CLI v493.0.0 or above**.
+2. **Google Cloud CLI v493.0.0 or above** (to run `gcloud`).
 
    - You can install it by following [this instruction](https://cloud.google.com/sdk/docs/install).
+   - After installing it, sign in to your account using `gcloud auth login` command.
 
 3. **Access to the GDP Labs Google Artifact Registry**.
    - If you don’t have access, please make a request to ticket(at)gdplabs.id.
 
 ## Running the code
 
-1. Configure environment variables: copy `.env.example` to `.env` and set up the environment variables.
+1. Configure environment variables: copy `.env.example` to `.env` and set up your `OPENAI_API_KEY` and `LANGUAGE_MODEL`.
    - For Linux, macOS, or Windows WSL:
 
       ```bash
