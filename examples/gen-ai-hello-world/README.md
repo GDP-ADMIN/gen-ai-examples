@@ -20,7 +20,7 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
       
    - Using Conda:
    
-      You can use [Miniconda](http://conda.pydata.org/miniconda.html) to install and manage Python versions.
+      You can use [Miniconda](https://docs.anaconda.com/miniconda/install) to install and manage Python versions.
 
 2. **Google Cloud CLI v493.0.0 or above** (to run `gcloud`).
 
