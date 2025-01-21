@@ -234,7 +234,7 @@ exit /b
 
 :configure_poetry_python_path
 call :log "Configuring Poetry to use Python !PYTHON_PATH!..."
-!POETRY_PATH! env use !PYTHON_PATH!
+!POETRY_PATH! env use !PYTHON_PATH! || call :handle_error "Failed to configure Poetry to use Python !PYTHON_PATH!."
 exit /b
 
 :install_dependencies
