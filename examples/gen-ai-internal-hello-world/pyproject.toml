@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "gen-ai-internal-hello-world"
+version = "0.1.0"
+description = ""
+authors = ["Muhammad Hakim Asy'ari <muhammad.h.asyari@gdplabs.id>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+load-dotenv = "^0.1.0"
+gllm-generation = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-generation"}
+gllm-misc = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-misc"}
+gllm-retrieval = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-retrieval"}
+gllm-pipeline = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-pipeline"}
+asyncio = "^3.4.3"
+elasticsearch = "^8.16.0"
+langchain-elasticsearch = "^0.3.0"
+langchain-openai = "^0.3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
