@@ -77,12 +77,7 @@ The RAG pipeline will return the following response (more or less):
 
 ## FAQs
 
-### 1. I got error `Unable to access repository GDP-ADMIN/gen-ai-internal. Please check your GitHub credentials and repository permissions.`. How do I fix it?
-
-You need to add your SSH key to the Github account. Please follow this [link to add SSH keys to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
-
-
-### 2. I got error `Error executing component StuffResponseSynthesizer__user_query_response_synthesis_bundle`. How do I fix it?
+### 1. I got error `Error executing component StuffResponseSynthesizer__user_query_response_synthesis_bundle`. How do I fix it?
 
 Check `.env` file (if you already run `local-start.sh`, it is auto generated). You might have provided invalid `OPENAI_API_KEY` and/or `LANGUAGE_MODEL`.
 
@@ -94,7 +89,7 @@ OPENAI_API_KEY =<YOUR_OPENAI_API_KEY> # Get your OpenAI API key from https://pla
 LANGUAGE_MODEL =<VALID_OPENAI_LANGUAGE_MODEL_NAME> # e.g. "gpt-3.5-turbo", "gpt-4o-mini", "gpt-4o"
 ```
 
-### 3. I got error `OSError: could not get source code`. How do I fix it?
+### 2. I got error `OSError: could not get source code`. How do I fix it?
 
 This error is currently expected. If you can see the response, it means the pipeline is working as expected.
 
@@ -119,7 +114,7 @@ Response:
 I am an AI assistant here to help you with your questions and provide information. How can I assist you today?
 ```
 
-### 4. I got error `ImportError: failed to find libmagic`. How do I fix it?
+### 3. I got error `ImportError: failed to find libmagic`. How do I fix it?
 
 This typically happens if you use macOS or Windows.
 
@@ -144,7 +139,7 @@ sudo ln -s /opt/miniconda3/pkgs/libmagic-5.39-h6ba3021_1/lib/libmagic.dylib libm
 brew install libmagic
 ```
 
-### 5. I got error `Unable to find installation candidates`. How do I fix it?
+### 4. I got error `Unable to find installation candidates`. How do I fix it?
 
 Our binary SDK can only be run on specific OSes:
 
