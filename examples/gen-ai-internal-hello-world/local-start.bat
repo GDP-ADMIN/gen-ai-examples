@@ -17,7 +17,6 @@ call :log "Checking gen-ai-hello-world example requirements..."
 call :get_python_path
 call :check_requirements
 call :install_command "poetry" "%MIN_POETRY_VERSION%"
-call :check_github_access "GDP-ADMIN/gen-ai-internal"
 call :deactivate_conda
 call :log "All requirements are satisfied."
 call :log "Setting up gen-ai-hello-world example..."
@@ -157,28 +156,6 @@ if not exist "!POETRY_PATH!" (
     )
 )
 call :log "POETRY_PATH will be set to: !POETRY_PATH!"
-exit /b
-
-
-:: Check GitHub access function
-:check_github_access
-setlocal
-set "repo=%~1"
-echo Checking access to GitHub repository: %repo%...
-:: Check if git is installed
-where git >nul 2>nul
-if errorlevel 1 (
-    call :handle_error "Git is not installed. Please install git first."
-    exit /b 1
-)
-:: Try to do a test clone to check access
-git ls-remote "https://github.com/%repo%" HEAD >nul 2>nul
-if errorlevel 1 (
-    call :handle_error "Unable to access repository %repo%. Please check your GitHub credentials and repository permissions."
-    exit /b 1
-)
-call :log "Successfully verified access to %repo%."
-endlocal
 exit /b
 
 
