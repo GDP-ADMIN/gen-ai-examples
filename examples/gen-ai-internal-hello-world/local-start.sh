@@ -258,23 +258,6 @@ install_dependencies() {
     fi
 }
 
-check_github_access() {
-    local repo="$1"
-    log "Checking access to GitHub repository: $repo..."
-
-    # Check if git is installed
-    if ! command -v git &> /dev/null; then
-        handle_error "Git is not installed. Please install git first."
-    fi
-
-    # Try to do a test clone to check access
-    if ! git ls-remote "https://github.com/$repo" HEAD &> /dev/null; then
-        handle_error "Unable to access repository $repo. Please check your GitHub credentials and repository permissions."
-    fi
-
-    log "Successfully verified access to $repo."
-}
-
 main() {
     # Main function to orchestrate the deployment script.
     log "${COLOR_INFO}Checking gen-ai-internal-hello-world example requirements...$COLOR_RESET"
@@ -282,7 +265,6 @@ main() {
     check_requirements
     install_command "poetry" "$POETRY_VERSION"
 
-    check_github_access "GDP-ADMIN/gen-ai-internal"
     deactivate_conda
     log "${COLOR_SUCCESS}All requirements are satisfied.$COLOR_RESET"
 
