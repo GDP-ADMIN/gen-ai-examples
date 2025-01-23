@@ -21,7 +21,7 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 
 2. **Access to GDP-ADMIN/gen-ai-internal repository**
    
-   You can access the [GDP-ADMIN/gen-ai-internal repository](https://github.com/GDP-ADMIN/gen-ai-internal) in your browser. If you encounter any access issues, please contact the admin.
+   You can try to access the [GDP-ADMIN/gen-ai-internal repository](https://github.com/GDP-ADMIN/gen-ai-internal) in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
 
    You also need to add your SSH key to the Github account. Please follow this [link to add SSH keys to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
