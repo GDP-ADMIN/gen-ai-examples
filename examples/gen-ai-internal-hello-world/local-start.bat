@@ -25,7 +25,7 @@ call :configure_poetry_python_path
 call :install_dependencies
 call :log "gen-ai-hello-world example ready to run."
 call :log "Running gen-ai-hello-world example..."
-!POETRY_PATH! run python gen_ai_hello_world/main.py || (
+!POETRY_PATH! run python gen_ai_internal_hello_world/main.py || (
     call :handle_error "Failed to run the application"
     exit /b 1
 )
