@@ -268,6 +268,14 @@ setup_poetry_http_basic() {
     export POETRY_HTTP_BASIC_GEN_AI_PASSWORD=$(gcloud auth print-access-token)
 }
 
+configure_poetry_python_path() {
+    log "Configuring Poetry to use Python $PYTHON_PATH..."
+    
+    if ! "$POETRY_PATH" env use "$PYTHON_PATH"; then
+        handle_error "Failed to configure Poetry to use Python $PYTHON_PATH. Please try again."
+    fi
+}
+
 install_dependencies() {
     log "Installing dependencies..."
 
@@ -291,6 +299,7 @@ main() {
     log "${COLOR_INFO}Setting up gen-ai-hello-world example...$COLOR_RESET"
     copy_env_file
     setup_poetry_http_basic
+    configure_poetry_python_path
     install_dependencies
     log "${COLOR_SUCCESS}gen-ai-hello-world example ready to run.$COLOR_RESET"
     
