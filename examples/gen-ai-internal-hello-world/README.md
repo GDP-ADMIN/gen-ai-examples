@@ -1,9 +1,6 @@
-# GenAI RAGO Example
+# GenAI RAGO Example using gen-ai-internal
 
-This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline.
-
-> [!WARNING]
-> The GenAI SDK is currently only available for Linux, macOS, and Windows.
+This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) source code.  If you are looking for an example using the binary SDK, please check [gen-ai-hello-world](examples/gen-ai-hello-world).
 
 ## Prerequisites
 
