@@ -23,6 +23,8 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
    
    You can access the [GDP-ADMIN/gen-ai-internal repository](https://github.com/GDP-ADMIN/gen-ai-internal) in your browser. If you encounter any access issues, please contact the admin.
 
+   You also need to add your SSH key to the Github account. Please follow this [link to add SSH keys to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+
 ## Running the code
 
 1. Configure environment variables: copy `.env.example` to `.env` and set up your `OPENAI_API_KEY` and `LANGUAGE_MODEL`.
