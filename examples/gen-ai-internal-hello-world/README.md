@@ -1,6 +1,6 @@
 # GenAI RAGO Example using gen-ai-internal
 
-This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) source code.  If you are looking for an example using the binary SDK, please check [gen-ai-hello-world](examples/gen-ai-hello-world).
+This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) source code. If you are looking for an example using the binary SDK, please check [gen-ai-hello-world](../gen-ai-hello-world).
 
 ## Prerequisites
 
@@ -18,6 +18,10 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
    - Using Conda:
    
       You can use [Miniconda](https://docs.anaconda.com/miniconda/install) to install and manage Python versions.
+
+2. **Access to GDP-ADMIN/gen-ai-internal repository**
+   
+   You can access the [GDP-ADMIN/gen-ai-internal repository](https://github.com/GDP-ADMIN/gen-ai-internal) in your browser. If you encounter any access issues, please contact the admin.
 
 ## Running the code
 
