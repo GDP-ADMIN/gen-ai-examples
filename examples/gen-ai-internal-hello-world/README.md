@@ -85,7 +85,7 @@ The RAG pipeline will return the following response (more or less):
 
 You need to have access to the repository. If you don’t have access, please make a request to ticket(at)gdplabs.id.
 
-If you already have access, you need to add your SSH key to the Github account. Please follow this [link to add SSH keys to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+If you haven't setup your SSH key, you might get error `HangupException. The remote server unexpectedly closed the connection.`. To fix this, you need to add your SSH key to the Github account. Please follow this [link to add SSH keys to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
 ### 2. I got error `Error executing component StuffResponseSynthesizer__user_query_response_synthesis_bundle`. How do I fix it?
 
