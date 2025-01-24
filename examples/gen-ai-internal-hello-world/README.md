@@ -1,9 +1,6 @@
-# GenAI RAGO Example
+# GenAI RAGO Example using gen-ai-internal
 
-This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline.
-
-> [!WARNING]
-> The GenAI SDK is in binary version and is currently only available for Linux, macOS, and Windows.
+This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) source code. If you are looking for an example using the binary SDK, please check [gen-ai-hello-world](../gen-ai-hello-world).
 
 ## Prerequisites
 
@@ -23,14 +20,11 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
      > [!NOTE]
      > For Windows, please make sure to check the `Add python.exe to PATH` option during the installation process.
 
-2. **Google Cloud CLI v493.0.0 or above** (to run `gcloud`).
+2. **Access to GDP-ADMIN/gen-ai-internal repository**
 
-   - You can install it by following [this instruction](https://cloud.google.com/sdk/docs/install).
-   - After installing it, sign in to your account using `gcloud auth login` command.
-   - If the `gcloud` CLI asks you to enter project ID, enter `gdp-labs`.
+   You can try to access the [GDP-ADMIN/gen-ai-internal repository](https://github.com/GDP-ADMIN/gen-ai-internal) in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
 
-3. **Access to the GDP Labs Google Artifact Registry**.
-   - If you don’t have access, please make a request to ticket(at)gdplabs.id.
+   You also need to add your SSH key to the Github account. Please follow this [link to add SSH keys to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
 ## Running the code
 
@@ -87,7 +81,13 @@ The RAG pipeline will return the following response (more or less):
 
 ## FAQs
 
-### 1. I got error `Error executing component StuffResponseSynthesizer__user_query_response_synthesis_bundle`. How do I fix it?
+### 1. I got error `Unable to access repository GDP-ADMIN/gen-ai-internal. Please check your GitHub credentials and repository permissions.`. How do I fix it?
+
+You need to have access to the repository. If you don’t have access, please make a request to ticket(at)gdplabs.id.
+
+If you haven't setup your SSH key, you might get error `HangupException. The remote server unexpectedly closed the connection.`. To fix this, you need to add your SSH key to the Github account. Please follow this [link to add SSH keys to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+
+### 2. I got error `Error executing component StuffResponseSynthesizer__user_query_response_synthesis_bundle`. How do I fix it?
 
 Check `.env` file (if you already run `local-start.sh`, it is auto generated). You might have provided invalid `OPENAI_API_KEY` and/or `LANGUAGE_MODEL`.
 
@@ -97,31 +97,6 @@ Check `.env` file (if you already run `local-start.sh`, it is auto generated). Y
 
 OPENAI_API_KEY =<YOUR_OPENAI_API_KEY> # Get your OpenAI API key from https://platform.openai.com/api-keys
 LANGUAGE_MODEL =<VALID_OPENAI_LANGUAGE_MODEL_NAME> # e.g. "gpt-3.5-turbo", "gpt-4o-mini", "gpt-4o"
-```
-
-### 2. I got error `OSError: could not get source code`. How do I fix it?
-
-This error is currently expected. If you can see the response, it means the pipeline is working as expected.
-
-Here is an example of the error.
-
-```
-Question: who are you?
-/home/resti/glair/gen-ai/testing/gen-ai-examples/examples/gen-ai-hello-world/.venv/lib/python3.11/site-packages/gllm_core/schema/component.py:150: RuntimeWarning: Failed to analyze the _run method: could not get source code.
-Traceback (most recent call last):
-  File "/home/resti/glair/gen-ai/testing/gen-ai-examples/examples/gen-ai-hello-world/.venv/lib/python3.11/site-packages/gllm_core/schema/component.py", line 168, in _analyze_run_method
-  File "/home/resti/anaconda3/envs/gen-ai-internal-test/lib/python3.11/inspect.py", line 1270, in getsource
-    lines, lnum = getsourcelines(object)
-                  ^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/resti/anaconda3/envs/gen-ai-internal-test/lib/python3.11/inspect.py", line 1252, in getsourcelines
-    lines, lnum = findsource(object)
-                  ^^^^^^^^^^^^^^^^^^
-  File "/home/resti/anaconda3/envs/gen-ai-internal-test/lib/python3.11/inspect.py", line 1081, in findsource
-    raise OSError('could not get source code')
-OSError: could not get source code
-
-Response:
-I am an AI assistant here to help you with your questions and provide information. How can I assist you today?
 ```
 
 ### 3. I got error `ImportError: failed to find libmagic`. How do I fix it?
@@ -149,15 +124,12 @@ sudo ln -s /opt/miniconda3/pkgs/libmagic-5.39-h6ba3021_1/lib/libmagic.dylib libm
 brew install libmagic
 ```
 
-### 4. I got error `Unable to find installation candidates`. How do I fix it?
+### 4. I got `Unable to import 'gllm_generation.response_synthesizer'` error in VSCode/Cursor. How do I fix it?
 
-Our binary SDK can only be run on specific OSes:
+You need to change the Python interpreter path:
 
-1. **Linux / WSL**: x86_64 architecture.
-
-2. **macOS**: x86_64 (Intel) or arm64 (Apple Silicon) architecture.
-
-   1. macOS version 13 or newer for x86_64 (Intel).
-   2. macOS version 14 or newer for arm64 (Apple Silicon).
-
-3. **Windows**: 64bit architecture.
+1.  Open command palette (⇧⌘P for Mac or Ctrl+Shift+P for Linux/Windows)
+2.  Type `Python: Select Interpreter` and enter.
+3.  Select `Enter interpreter path...`
+4.  Copy-paste the path shown in your console after it's done responding to your questions
+    1. It's something along `.../pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python`
