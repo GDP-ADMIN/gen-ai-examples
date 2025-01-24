@@ -29,6 +29,7 @@ call :log "Running gen-ai-hello-world example..."
     call :handle_error "Failed to run the application"
     exit /b 1
 )
+call :show_poetry_python_executable_path
 call :log "gen-ai-hello-world example finished running."
 exit /b
 )
@@ -221,6 +222,12 @@ exit /b
 call :log "Installing dependencies..."
 !POETRY_PATH! add python-magic-bin  || call :handle_error "Failed to add python-magic-bin."
 !POETRY_PATH! install || call :handle_error "Failed to install dependencies."
+exit /b
+
+
+:show_poetry_python_executable_path
+call :log "Getting python executable path for use in IDE..."
+!POETRY_PATH! env info --executable || call :handle_error "Failed to get python executable path. Please try again."
 exit /b
 
 
