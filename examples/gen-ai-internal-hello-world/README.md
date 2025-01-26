@@ -98,10 +98,12 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 
    Copy paste the above line to your IDE python interpreter path:
 
-   1. Open command palette (⌘⇧P for Mac or Ctrl+Shift+P for Linux/Windows)
-   2. Type `Python: Select Interpreter` and enter.
-   3. Select `Enter interpreter path...`
-   4. Copy-paste the path shown in your console.
+   1. Open command palette (⌘⇧P for Mac or Ctrl+Shift+P for Linux/Windows) and type `>Python: Select Interpreter` and press enter.
+      ![alt text](img/image-select-interpreter.png)
+   2. Select `Enter interpreter path...`
+      ![alt text](img/image-enter-interpreter.png)
+   3. Copy-paste the path shown in your console and press enter.
+      ![alt text](img/image-enter-path.png)
 
 ## FAQs
 
