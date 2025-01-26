@@ -1,6 +1,8 @@
 # GenAI RAGO Example using gen-ai-internal
 
-This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) source code. If you are looking for an example using the binary SDK, please check [gen-ai-hello-world](../gen-ai-hello-world).
+This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) source code.
+
+See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 
 ## Prerequisites
 
@@ -22,9 +24,14 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 
 2. **Access to GDP-ADMIN/gen-ai-internal repository**
 
-   You can try to access the [GDP-ADMIN/gen-ai-internal repository](https://github.com/GDP-ADMIN/gen-ai-internal) in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
+   You can try to access the [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) repository in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
 
    You also need to add your SSH key to the Github account. Please follow this [link to add SSH keys to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+
+3. **VSCode or Cursor IDE**
+
+   - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
+   - Go to [Cursor](https://www.cursor.com/) to download Cursor IDE.
 
 ## Running the code
 
@@ -65,19 +72,36 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
      local-start.bat
      ```
 
-The program will then wait for your question:
+   The program will then wait for your question:
 
-> Question:
+   > Question:
 
-Type your question and press enter. For example, you can try asking:
+   Type your question and press enter. For example, you can try asking:
 
-```
-What are the documents?
-```
+   ```
+   What are the documents?
+   ```
 
-The RAG pipeline will return the following response (more or less):
+   The RAG pipeline will return the following response (more or less):
 
-> _The documents mentioned are referred to as Mock document 1, Mock document 2, and Mock document 3. However, without additional context or content from these documents, I cannot provide specific details about their contents or purposes._
+   > _The documents mentioned are referred to as Mock document 1, Mock document 2, and Mock document 3. However, without additional context or content from these documents, I cannot provide specific details about their contents or purposes._
+
+3. Setup VSCode or Cursor IDE python interpreter path
+
+   If you have successfully gotten the response above, you need to set the python interpreter path for the IDE. Phython interpreter path is required so the IDE can recognize the import statement.
+
+   In the console, below the response, there will be this log: `Getting python executable path for use in IDE...` copy paste the next line, it's usually something like:
+
+   ```
+   /home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
+   ```
+
+   Copy paste the above line to your IDE python interpreter path:
+
+   1. Open command palette (⌘⇧P for Mac or Ctrl+Shift+P for Linux/Windows)
+   2. Type `Python: Select Interpreter` and enter.
+   3. Select `Enter interpreter path...`
+   4. Copy-paste the path shown in your console.
 
 ## FAQs
 
