@@ -93,11 +93,11 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 > [!NOTE]
 > You need to successfully run the [Running the Code](#running-the-code) part and got the response before continuing with steps in this part
 
-If you have successfully gotten the response, open the code in VSCode / Cursor IDE. Afterwards you need to set the Python interpreter path. If you haven't set the Python interpreter path, you will get error about import like below.
+If you have successfully gotten the response, open the code in VSCode / Cursor IDE. Afterwards you need to set the Python interpreter path. If you haven't set the Python interpreter path, you will get error about import like below (the screenshot below is code in [main.py](/examples/gen-ai-internal-hello-world/gen_ai_internal_hello_world/main.py#L13-L20)).
 
 ![alt text](img/image-import-error.png)
 
-Phython interpreter path is required so the IDE can recognize the import statement. In the console, below the response, there will be this log: `Getting python interpreter path for use in IDE...` copy paste the next line, it's usually something like:
+Phython interpreter path is required so the IDE can recognize the import statements. In the console, below the response, there will be this log: `Getting python interpreter path for use in IDE...` copy paste the next line, it's usually something like:
 
 ```
 /home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
@@ -117,7 +117,7 @@ Copy paste the line shown in your console to your IDE python interpreter path:
 
     ![alt text](img/image-enter-path.png)
 
-Your IDE will then recognize the path and will no longer show error about the import statement like below.
+Your IDE will then recognize the path and will no longer show error about the import statements like below.
 
 ![alt text](img/image-import-success.png)
 
