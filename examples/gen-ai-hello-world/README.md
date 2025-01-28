@@ -34,7 +34,7 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 3. **Access to the GDP Labs Google Artifact Registry**.
    - If you don’t have access, please make a request to ticket(at)gdplabs.id.
 
-## Running the code
+## Running the Code
 
 1. Configure environment variables: copy `.env.example` to `.env` and set up your `OPENAI_API_KEY` and `LANGUAGE_MODEL`.
 

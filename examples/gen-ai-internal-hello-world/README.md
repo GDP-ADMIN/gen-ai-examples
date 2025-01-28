@@ -35,7 +35,7 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 
    Note: the IDE pre-requisite is not checked automatically.
 
-## Running the code
+## Running the Code
 
 1. Configure environment variables: copy `.env.example` to `.env` and set up your `OPENAI_API_KEY` and `LANGUAGE_MODEL`.
 
@@ -88,35 +88,38 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 
    > _The documents mentioned are referred to as Mock document 1, Mock document 2, and Mock document 3. However, without additional context or content from these documents, I cannot provide specific details about their contents or purposes._
 
-3. Setup VSCode or Cursor IDE Python interpreter path
+## Setting Python Interpreter Path in VSCode or Cursor IDE
 
-   If you have successfully gotten the response above, you need to set the Python interpreter path for the IDE. If you haven't set the Python interpreter path, you will get error about import like below.
+> [!NOTE]
+> You need to successfully run the [Running the Code](#running-the-code) part and got the response before continuing with steps in this part
 
-   ![alt text](img/image-import-error.png)
+If you have successfully gotten the response, open the code in VSCode / Cursor IDE. Afterwards you need to set the Python interpreter path. If you haven't set the Python interpreter path, you will get error about import like below.
 
-   Phython interpreter path is required so the IDE can recognize the import statement. In the console, below the response, there will be this log: `Getting python interpreter path for use in IDE...` copy paste the next line, it's usually something like:
+![alt text](img/image-import-error.png)
 
-   ```bash
-   /home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
-   ```
+Phython interpreter path is required so the IDE can recognize the import statement. In the console, below the response, there will be this log: `Getting python interpreter path for use in IDE...` copy paste the next line, it's usually something like:
 
-   Copy paste the line shown in your console to your IDE python interpreter path:
+```bash
+/home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
+```
 
-   1. Open command palette (`⌘⇧P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
+Copy paste the line shown in your console to your IDE python interpreter path:
 
-      ![alt text](img/image-select-interpreter.png)
+1.  Open command palette (`⌘⇧P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
 
-   2. Select `Enter interpreter path...`
+    ![alt text](img/image-select-interpreter.png)
 
-      ![alt text](img/image-enter-interpreter.png)
+2.  Select `Enter interpreter path...`
 
-   3. Copy-paste the path shown in your console and press enter.
+    ![alt text](img/image-enter-interpreter.png)
 
-      ![alt text](img/image-enter-path.png)
+3.  Copy-paste the path shown in your console and press enter.
 
-   Your IDE will then recognize the path and will no longer show error about the import statement like below.
+    ![alt text](img/image-enter-path.png)
 
-   ![alt text](img/image-import-success.png)
+Your IDE will then recognize the path and will no longer show error about the import statement like below.
+
+![alt text](img/image-import-success.png)
 
 ## FAQs
 
@@ -165,4 +168,4 @@ brew install libmagic
 
 ### 4. I got `Unable to import 'gllm_generation.response_synthesizer'` error in VSCode/Cursor. How do I fix it?
 
-You need to change the Python interpreter path in your IDE. The step-by-step detail to do this is available in section [Running the code](#running-the-code) above.
+You need to change the Python interpreter path in your IDE. The step-by-step detail to do this is available in section [Setting Python Interpreter Path in VSCode or Cursor IDE](#setting-python-interpreter-path-in-vscode-or-cursor-ide) above.
