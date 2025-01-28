@@ -99,7 +99,7 @@ If you have successfully gotten the response, open the code in VSCode / Cursor I
 
 Phython interpreter path is required so the IDE can recognize the import statement. In the console, below the response, there will be this log: `Getting python interpreter path for use in IDE...` copy paste the next line, it's usually something like:
 
-```bash
+```
 /home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
 ```
 
