@@ -14,9 +14,6 @@ This repository contains a collection of examples demonstrating the usage of the
 2. **Setting up**:  
    To set up the project, please refer to the respective README files in the [gen-ai-hello-world](./examples/gen-ai-hello-world) directory.
 
-3. **Explore and modify**:  
-   Examine the code, try different queries, and modify the examples as needed.
-
 ## Getting Started Using Source Code Version
 
 1. **Clone the repository and navigate to `gen-ai-internal-hello-world` folder**:
@@ -28,6 +25,3 @@ This repository contains a collection of examples demonstrating the usage of the
 
 2. **Setting up**:  
    To set up the project, please refer to the respective README files in the [gen-ai-internal-hello-world](./examples/gen-ai-internal-hello-world) directory.
-
-3. **Explore and modify**:  
-   Examine the code, try different queries, and modify the examples as needed.

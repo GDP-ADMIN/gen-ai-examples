@@ -1,6 +1,6 @@
 # GenAI RAGO Example using gen-ai-internal
 
-This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) source code.
+This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using source code version of SDK.
 
 See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 
@@ -32,6 +32,8 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
    - Go to [Cursor](https://www.cursor.com/) to download Cursor IDE.
+
+   Note: the IDE pre-requisite is not checked automatically.
 
 ## Running the code
 
@@ -88,22 +90,33 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 
 3. Setup VSCode or Cursor IDE python interpreter path
 
-   If you have successfully gotten the response above, you need to set the python interpreter path for the IDE. Phython interpreter path is required so the IDE can recognize the import statement.
+   If you have successfully gotten the response above, you need to set the Python interpreter path for the IDE. If you haven't set the Python interpreter path, you will get error about import like below.
 
-   In the console, below the response, there will be this log: `Getting python executable path for use in IDE...` copy paste the next line, it's usually something like:
+   ![alt text](img/image-import-error.png)
 
-   ```
+   Phython interpreter path is required so the IDE can recognize the import statement. In the console, below the response, there will be this log: `Getting python interpreter path for use in IDE...` copy paste the next line, it's usually something like:
+
+   ```bash
    /home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
    ```
 
-   Copy paste the above line to your IDE python interpreter path:
+   Copy paste the line shown in your console to your IDE python interpreter path:
 
-   1. Open command palette (⌘⇧P for Mac or Ctrl+Shift+P for Linux/Windows) and type `>Python: Select Interpreter` and press enter.
+   1. Open command palette (`⌘⇧P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
+
       ![alt text](img/image-select-interpreter.png)
+
    2. Select `Enter interpreter path...`
+
       ![alt text](img/image-enter-interpreter.png)
+
    3. Copy-paste the path shown in your console and press enter.
+
       ![alt text](img/image-enter-path.png)
+
+   Your IDE will then recognize the path and will no longer show error about the import statement like below.
+
+   ![alt text](img/image-import-success.png)
 
 ## FAQs
 
@@ -152,10 +165,4 @@ brew install libmagic
 
 ### 4. I got `Unable to import 'gllm_generation.response_synthesizer'` error in VSCode/Cursor. How do I fix it?
 
-You need to change the Python interpreter path:
-
-1.  Open command palette (⇧⌘P for Mac or Ctrl+Shift+P for Linux/Windows)
-2.  Type `Python: Select Interpreter` and enter.
-3.  Select `Enter interpreter path...`
-4.  Copy-paste the path shown in your console after it's done responding to your questions
-    1. It's something along `.../pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python`
+You need to change the Python interpreter path in your IDE. The step-by-step detail to do this is available in section [Running the code](#running-the-code) above.
