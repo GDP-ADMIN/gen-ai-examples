@@ -28,12 +28,11 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 
    You also need to add your SSH key to the Github account. Please follow this [link to add SSH keys to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
-3. **VSCode or Cursor IDE**
+3. **VSCode IDE**
 
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
-   - Go to [Cursor](https://www.cursor.com/) to download Cursor IDE.
 
-   Note: the IDE pre-requisite is not checked automatically.
+   Note: the IDE pre-requisite is not checked automatically as you might have your own preferred IDE.
 
 ## Running the Code
 
@@ -88,12 +87,12 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 
    > _The documents mentioned are referred to as Mock document 1, Mock document 2, and Mock document 3. However, without additional context or content from these documents, I cannot provide specific details about their contents or purposes._
 
-## Setting Python Interpreter Path in VSCode or Cursor IDE
+## Setting Python Interpreter Path in VSCode IDE
 
-> [!NOTE]
-> You need to successfully run the [Running the Code](#running-the-code) part and got the response before continuing with steps in this part
+> [!WARNING]
+> You need to have successfully run the [Running the Code](#running-the-code) part and got the response before continuing with steps in this part
 
-If you have successfully gotten the response, open the code in VSCode / Cursor IDE. Afterwards you need to set the Python interpreter path. If you haven't set the Python interpreter path, you will get error about import like below (the screenshot below is code in [main.py](/examples/gen-ai-internal-hello-world/gen_ai_internal_hello_world/main.py#L13-L20)).
+If you have successfully gotten the response, open the code in VSCode IDE. Afterwards you need to set the Python interpreter path. If you haven't set the Python interpreter path, you will get error about import like below (the screenshot below is code in [main.py](/examples/gen-ai-internal-hello-world/gen_ai_internal_hello_world/main.py#L13-L20)).
 
 ![alt text](img/image-import-error.png)
 
@@ -166,6 +165,6 @@ sudo ln -s /opt/miniconda3/pkgs/libmagic-5.39-h6ba3021_1/lib/libmagic.dylib libm
 brew install libmagic
 ```
 
-### 4. I got `Unable to import 'gllm_generation.response_synthesizer'` error in VSCode/Cursor. How do I fix it?
+### 4. I got `Unable to import 'gllm_generation.response_synthesizer'` error in VSCode IDE. How do I fix it?
 
-You need to change the Python interpreter path in your IDE. The step-by-step detail to do this is available in section [Setting Python Interpreter Path in VSCode or Cursor IDE](#setting-python-interpreter-path-in-vscode-or-cursor-ide) above.
+You need to change the Python interpreter path in your IDE. The step-by-step detail to do this is available in section [Setting Python Interpreter Path in VSCode IDE](#setting-python-interpreter-path-in-vscode-ide) above.
