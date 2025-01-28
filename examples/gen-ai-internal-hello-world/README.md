@@ -88,7 +88,7 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 
    > _The documents mentioned are referred to as Mock document 1, Mock document 2, and Mock document 3. However, without additional context or content from these documents, I cannot provide specific details about their contents or purposes._
 
-3. Setup VSCode or Cursor IDE python interpreter path
+3. Setup VSCode or Cursor IDE Python interpreter path
 
    If you have successfully gotten the response above, you need to set the Python interpreter path for the IDE. If you haven't set the Python interpreter path, you will get error about import like below.
 
