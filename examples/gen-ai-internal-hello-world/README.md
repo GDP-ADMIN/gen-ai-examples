@@ -94,7 +94,9 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 
 If you have successfully gotten the response, open the code in VSCode IDE. Afterwards you need to set the Python interpreter path. If you haven't set the Python interpreter path, you will get error about import like below (the screenshot below is code in [main.py](/examples/gen-ai-internal-hello-world/gen_ai_internal_hello_world/main.py#L13-L20)).
 
-![alt text](img/image-import-error.png)
+![Import Error](img/image-import-error.png)
+
+The screenshot above is taken from the code in [main.py](/examples/gen-ai-internal-hello-world/gen_ai_internal_hello_world/main.py#L13-L20) as an illustration for the import error.
 
 Setting the Python interpreter path is necessary for the IDE to recognize the import statements. In the console, below the response, you will see the log: `Getting python interpreter path for use in IDE...` Copy the path in the next line, which usually looks something like:
 
