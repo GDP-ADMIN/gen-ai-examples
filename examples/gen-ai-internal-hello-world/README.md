@@ -120,7 +120,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
 Your IDE will then recognize the path and will no longer show error about the import statements like below.
 
-![alt text](img/image-import-success.png)
+![Image import success](img/image-import-success.png)
 
 ## FAQs
 
