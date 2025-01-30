@@ -116,7 +116,7 @@ Copy paste the line shown in your console to your IDE python interpreter path:
 
 3.  Copy-paste the path shown in your console and press enter.
 
-    ![alt text](img/image-enter-path.png)
+    ![Setting up the path](img/image-enter-path.png)
 
 Your IDE will then recognize the path and will no longer show error about the import statements like below.
 
