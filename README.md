@@ -24,4 +24,4 @@ This repository contains a collection of examples demonstrating the usage of the
    ```
 
 2. **Setting up**:  
-   To set up the project, please refer to the respective README files in the [gen-ai-internal-hello-world](./examples/gen-ai-internal-hello-world) directory.
+   To set up the project, please refer to the respective README file in the [gen-ai-internal-hello-world](./examples/gen-ai-internal-hello-world) directory.
