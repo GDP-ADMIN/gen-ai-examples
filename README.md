@@ -16,7 +16,7 @@ This repository contains a collection of examples demonstrating the usage of the
 
 ## Getting Started Using Source Code Version
 
-1. **Clone the repository and navigate to `gen-ai-internal-hello-world` folder**:
+1. **Clone the repository and navigate to the `gen-ai-internal-hello-world` directory**:
 
    ```bash
    git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
