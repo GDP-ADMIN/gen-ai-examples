@@ -108,7 +108,7 @@ Copy paste the line shown in your console to your IDE python interpreter path:
 
 1.  Open command palette (`⌘⇧P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
 
-    ![alt text](img/image-select-interpreter.png)
+    ![Select python interpreter](img/image-select-interpreter.png)
 
 2.  Select `Enter interpreter path...`
 
