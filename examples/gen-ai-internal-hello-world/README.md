@@ -169,4 +169,4 @@ brew install libmagic
 
 ### 4. I got `Unable to import 'gllm_generation.response_synthesizer'` error in VSCode IDE. How do I fix it?
 
-You need to change the Python interpreter path in your IDE. The step-by-step detail to do this is available in section [Setting Python Interpreter Path in VSCode IDE](#setting-python-interpreter-path-in-vscode-ide) above.
+You need to change the Python interpreter path in your IDE. The step-by-step detail to do this is available in the [Setting Python Interpreter Path in VSCode IDE](#setting-python-interpreter-path-in-vscode-ide) section above.
