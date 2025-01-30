@@ -104,7 +104,7 @@ Setting the Python interpreter path is necessary for the IDE to recognize the im
 /home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
 ```
 
-Copy paste the line shown in your console to your IDE python interpreter path:
+Set up the Python interpreter path in your IDE by following these instructions:
 
 1.  Open command palette (`⌘⇧P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
 
