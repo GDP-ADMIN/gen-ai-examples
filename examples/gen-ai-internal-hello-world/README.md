@@ -92,7 +92,7 @@ See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
 > [!WARNING]
 > You need to run the [Running the Code](#running-the-code) until you see the "gen-ai-internal-hello-world example finished running." on the console before continuing with the steps below on this section.
 
-If you have successfully gotten the response, open the code in VSCode IDE. Afterwards you need to set the Python interpreter path. If you haven't set the Python interpreter path, you will get error about import like below (the screenshot below is code in [main.py](/examples/gen-ai-internal-hello-world/gen_ai_internal_hello_world/main.py#L13-L20)).
+To see if you have set up the Python interpreter path or not, you need to open your VSCode IDE. If you encountered this import error like the screenshot below, please follow the instructions below.
 
 ![Import Error](img/image-import-error.png)
 
