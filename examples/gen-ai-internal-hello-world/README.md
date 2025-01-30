@@ -114,7 +114,7 @@ Copy paste the line shown in your console to your IDE python interpreter path:
 
     ![Enter interpreter path](img/image-enter-interpreter.png)
 
-3.  Copy-paste the path shown in your console and press enter.
+3.  Paste the previously copied path from the console and press enter.
 
     ![Setting up the path](img/image-enter-path.png)
 
