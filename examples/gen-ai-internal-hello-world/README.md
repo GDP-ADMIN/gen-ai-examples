@@ -96,7 +96,7 @@ If you have successfully gotten the response, open the code in VSCode IDE. After
 
 ![alt text](img/image-import-error.png)
 
-Phython interpreter path is required so the IDE can recognize the import statements. In the console, below the response, there will be this log: `Getting python interpreter path for use in IDE...` copy paste the next line, it's usually something like:
+Setting the Python interpreter path is necessary for the IDE to recognize the import statements. In the console, below the response, you will see the log: `Getting python interpreter path for use in IDE...` Copy the path in the next line, which usually looks something like:
 
 ```
 /home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
