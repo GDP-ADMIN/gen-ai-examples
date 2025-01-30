@@ -118,7 +118,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
     ![Setting up the path](img/image-enter-path.png)
 
-Your IDE will then recognize the path and will no longer show error about the import statements like below.
+Your IDE will then recognize the path and will no longer show red squiggly lines under the import statements. You can try hovering over them to see the details of the library.
 
 ![Image import success](img/image-import-success.png)
 
