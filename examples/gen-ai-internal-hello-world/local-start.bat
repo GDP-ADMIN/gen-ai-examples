@@ -21,7 +21,7 @@ call :deactivate_conda
 call :log "All requirements are satisfied."
 call :log "Setting up gen-ai-hello-world example..."
 call :copy_env_file
-call :configure_poetry_python_path
+:: call :configure_poetry_python_path
 call :install_dependencies
 call :log "gen-ai-hello-world example ready to run."
 call :log "Running gen-ai-hello-world example..."
