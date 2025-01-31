@@ -1,8 +1,8 @@
-# GenAI RAGO Example
+# GenAI RAGO Example Using Binary Version of SDK
 
 This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using binary version of SDK.
 
-See other examples in [gen-ai-hello-world](https://github.com/GDP-ADMIN/gen-ai-examples).
+See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-examples).
 
 > [!WARNING]
 > The GenAI SDK binary version is currently only available for Linux, macOS, and Windows.

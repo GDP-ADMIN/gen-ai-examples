@@ -1,8 +1,8 @@
-# GenAI RAGO Example using gen-ai-internal
+# GenAI RAGO Example Using Source Code Version of SDK
 
 This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using source code version of SDK.
 
-See other examples in [gen-ai-hello-world](https://github.com/GDP-ADMIN/gen-ai-examples).
+See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-examples).
 
 ## Prerequisites
 

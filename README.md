@@ -1,6 +1,6 @@
 # Gen-AI Examples
 
-This repository contains a collection of examples demonstrating the usage of the GDP Labs GenAI SDK. These examples are intended to help developers understand the SDK’s capabilities and learn how to integrate them into their own projects.
+This repository contains a collection of examples demonstrating the usage of the GDP Labs GenAI SDK. These examples are intended to help developers understand the SDK’s capabilities and learn how to integrate it into their own projects.
 
 ## Getting Started Using Binary Version
 
