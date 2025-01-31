@@ -90,7 +90,7 @@ See other examples in [gen-ai-hello-world](https://github.com/GDP-ADMIN/gen-ai-e
 ## Setting Python Interpreter Path in VSCode IDE
 
 > [!WARNING]
-> You need to run the [Running the Code](#running-the-code) until you see the "gen-ai-internal-hello-world example finished running." on the console before continuing with the steps below on this section.
+> You need to run the [Running the Code](#running-the-code) until you see the `gen-ai-internal-hello-world example finished running.` on the console before continuing with the steps below on this section.
 
 To see if you have set up the Python interpreter path or not, you need to open your VSCode IDE. If you encountered this import error like the screenshot below, please follow the instructions below.
 
@@ -98,23 +98,23 @@ To see if you have set up the Python interpreter path or not, you need to open y
 
 The screenshot above is taken from the code in [main.py](/examples/gen-ai-internal-hello-world/gen_ai_internal_hello_world/main.py#L13-L20) as an illustration for the import error.
 
-Setting the Python interpreter path is necessary for the IDE to recognize the import statements. In the console, below the response, you will see the log: `Getting python interpreter path for use in IDE...` Copy the path in the next line, which usually looks something like:
-
-```
-/home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
-```
-
 Set up the Python interpreter path in your IDE by following these instructions:
 
-1.  Open command palette (`⌘⇧P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
+1.  After you run `./local-start.sh` using steps in [Running the Code](#running-the-code), you will see the log `Getting python interpreter path for use in IDE...`. Copy the path in the next line, which usually looks something like:
+
+    ```
+    /home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
+    ```
+
+2.  Open command palette (`⌘+⇧+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
 
     ![Select python interpreter](img/image-select-interpreter.png)
 
-2.  Select `Enter interpreter path...`
+3.  Select `Enter interpreter path...`
 
     ![Enter interpreter path](img/image-enter-interpreter.png)
 
-3.  Paste the previously copied path from the console and press enter.
+4.  Paste the previously copied path from the console and press enter.
 
     ![Setting up the path](img/image-enter-path.png)
 
