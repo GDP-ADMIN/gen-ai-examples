@@ -7,7 +7,7 @@ This repository contains a collection of examples demonstrating the usage of the
 1. **Clone the repository and navigate to the `gen-ai-hello-world` directory**:
 
    ```bash
-   git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
+   git clone git@github.com:GDP-ADMIN/gen-ai-examples.git
    cd gen-ai-examples/examples/gen-ai-hello-world
    ```
 
@@ -19,7 +19,7 @@ This repository contains a collection of examples demonstrating the usage of the
 1. **Clone the repository and navigate to the `gen-ai-internal-hello-world` directory**:
 
    ```bash
-   git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
+   git clone git@github.com:GDP-ADMIN/gen-ai-examples.git
    cd gen-ai-examples/examples/gen-ai-internal-hello-world
    ```
 
