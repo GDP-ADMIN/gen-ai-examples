@@ -28,6 +28,9 @@ See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-exam
 
    You also need to add your SSH key to the Github account. Please follow this [link to add SSH keys to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
+> [!WARNING]
+  > Make sure you have added SSH key to your GitHub account. Follow steps in [Testing Your SSH Connection](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection) to check.
+
 3. **VSCode IDE**
 
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
