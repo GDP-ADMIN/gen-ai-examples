@@ -1,6 +1,8 @@
-# GenAI RAGO Example using gen-ai-internal
+# GenAI RAGO Example Using Source Code Version of SDK
 
-This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) source code. If you are looking for an example using the binary SDK, please check [gen-ai-hello-world](../gen-ai-hello-world).
+This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using source code version of SDK.
+
+See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-examples).
 
 ## Prerequisites
 
@@ -22,11 +24,17 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 
 2. **Access to GDP-ADMIN/gen-ai-internal repository**
 
-   You can try to access the [GDP-ADMIN/gen-ai-internal repository](https://github.com/GDP-ADMIN/gen-ai-internal) in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
+   You can try to access the [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) repository in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
 
    You also need to add your SSH key to the Github account. Please follow this [link to add SSH keys to your account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
-## Running the code
+3. **VSCode IDE**
+
+   - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
+
+   Note: the IDE pre-requisite is not checked automatically as you might have your own preferred IDE.
+
+## Running the Code
 
 1. Configure environment variables: copy `.env.example` to `.env` and set up your `OPENAI_API_KEY` and `LANGUAGE_MODEL`.
 
@@ -65,19 +73,54 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
      local-start.bat
      ```
 
-The program will then wait for your question:
+   The program will then wait for your question:
 
-> Question:
+   > Question:
 
-Type your question and press enter. For example, you can try asking:
+   Type your question and press enter. For example, you can try asking:
 
-```
-What are the documents?
-```
+   ```
+   What are the documents?
+   ```
 
-The RAG pipeline will return the following response (more or less):
+   The RAG pipeline will return the following response (more or less):
 
-> _The documents mentioned are referred to as Mock document 1, Mock document 2, and Mock document 3. However, without additional context or content from these documents, I cannot provide specific details about their contents or purposes._
+   > _The documents mentioned are referred to as Mock document 1, Mock document 2, and Mock document 3. However, without additional context or content from these documents, I cannot provide specific details about their contents or purposes._
+
+## Setting Python Interpreter Path in VSCode IDE
+
+> [!WARNING]
+> You need to run the [Running the Code](#running-the-code) until you see the `gen-ai-internal-hello-world example finished running.` on the console before continuing with the steps below on this section.
+
+To see if you have set up the Python interpreter path or not, you need to open your VSCode IDE. If you encountered this import error like the screenshot below, please follow the instructions below.
+
+![Import Error](img/image-import-error.png)
+
+The screenshot above is taken from the code in [main.py](/examples/gen-ai-internal-hello-world/gen_ai_internal_hello_world/main.py#L13-L20) as an illustration for the import error.
+
+Set up the Python interpreter path in your IDE by following these instructions:
+
+1.  After you run `./local-start.sh` using steps in [Running the Code](#running-the-code), you will see the log `Getting python interpreter path for use in IDE...`. Copy the path in the next line, which usually looks something like:
+
+    ```
+    /home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
+    ```
+
+2.  Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
+
+    ![Select python interpreter](img/image-select-interpreter.png)
+
+3.  Select `Enter interpreter path...`
+
+    ![Enter interpreter path](img/image-enter-interpreter.png)
+
+4.  Paste the previously copied path from the console and press enter.
+
+    ![Setting up the path](img/image-enter-path.png)
+
+Your IDE will then recognize the path and will no longer show red squiggly lines under the import statements. You can try hovering over them to see the details of the library.
+
+![Image import success](img/image-import-success.png)
 
 ## FAQs
 
@@ -124,12 +167,6 @@ sudo ln -s /opt/miniconda3/pkgs/libmagic-5.39-h6ba3021_1/lib/libmagic.dylib libm
 brew install libmagic
 ```
 
-### 4. I got `Unable to import 'gllm_generation.response_synthesizer'` error in VSCode/Cursor. How do I fix it?
+### 4. I got `Unable to import 'gllm_generation.response_synthesizer'` error in VSCode IDE. How do I fix it?
 
-You need to change the Python interpreter path:
-
-1.  Open command palette (⇧⌘P for Mac or Ctrl+Shift+P for Linux/Windows)
-2.  Type `Python: Select Interpreter` and enter.
-3.  Select `Enter interpreter path...`
-4.  Copy-paste the path shown in your console after it's done responding to your questions
-    1. It's something along `.../pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python`
+You need to change the Python interpreter path in your IDE. The step-by-step detail to do this is available in the [Setting Python Interpreter Path in VSCode IDE](#setting-python-interpreter-path-in-vscode-ide) section above.
