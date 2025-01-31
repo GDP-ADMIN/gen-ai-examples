@@ -2,7 +2,7 @@
 
 This is an example of how to use the gllm-pipeline library to build a simple RAG pipeline using source code version of SDK.
 
-See other examples in [gen-ai-hello-world](../gen-ai-hello-world).
+See other examples in [gen-ai-hello-world](/).
 
 ## Prerequisites
 
