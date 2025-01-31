@@ -106,7 +106,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
     /home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
     ```
 
-2.  Open command palette (`⌘+⇧+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
+2.  Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
 
     ![Select python interpreter](img/image-select-interpreter.png)
 
