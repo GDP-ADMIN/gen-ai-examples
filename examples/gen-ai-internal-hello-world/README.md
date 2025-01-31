@@ -7,7 +7,7 @@ See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-exam
 ## Prerequisites
 
 > [!NOTE]
-> You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
+> You need to fulfill the prerequisites to run the script.
 
 1. **Python v3.12** (to run `python`).
 
@@ -34,8 +34,6 @@ See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-exam
 3. **VSCode IDE**
 
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
-
-   Note: the IDE pre-requisite is not checked automatically as you might have your own preferred IDE.
 
 ## Running the Code
 
