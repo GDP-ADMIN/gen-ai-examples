@@ -18,12 +18,14 @@ See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-exam
 
      You can use [Miniconda](https://docs.anaconda.com/miniconda/install) to install and manage Python versions.
 
-   - Using Python installer (alternative):
-
+   - <details>
+     <summary>Using Python installer (alternative)</summary>
+     
      You can download the Python installer from the link [Python 3.12.8](https://www.python.org/downloads/release/python-3128/), select the version appropriate for your operating system, and run the installer.
 
      > [!NOTE]
      > For Windows, please make sure to check the `Add python.exe to PATH` option during the installation process.
+   </details>
 
 2. **Google Cloud CLI v493.0.0 or above** (to run `gcloud`).
 
