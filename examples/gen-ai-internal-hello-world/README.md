@@ -9,7 +9,7 @@ See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-exam
 > [!NOTE]
 > You need to fulfill the prerequisites to run the script.
 
-1. **Python v3.12** (to run `python`).
+1. **Python v3.12** (to run `python`)
 
    - Using Conda (recommended):
 
