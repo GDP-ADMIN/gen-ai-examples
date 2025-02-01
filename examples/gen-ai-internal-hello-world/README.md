@@ -94,7 +94,7 @@ See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-exam
 Set up the Python interpreter path in your IDE by following these instructions:
 
 > [!WARNING]
-> You need to run the [Running the Code](#running-the-code) until you see the `gen-ai-internal-hello-world example finished running.` on the console before continuing with the steps below on this section.
+> You must complete the steps in [Running the Code](#running-the-code) until you see the `gen-ai-internal-hello-world example finished running.` on the console before continuing with the steps below on this section.
 
 1. Open the code sample in VSCode and open [main.py](/examples/gen-ai-internal-hello-world/gen_ai_internal_hello_world/main.py) file.
 
