@@ -104,7 +104,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
    ![Import Error](img/image-import-error.png)
 
-2.  After you run `./local-start.sh` using steps in [Running the Code](#running-the-code), you will see the log `Getting python interpreter path for use in IDE...`. Copy the path in the next line, which usually looks something like:
+2.  After you run `./local-start.sh` using steps in [Running the Code](#running-the-code), you will see the log `Getting python interpreter path for use in IDE...` in the console. Copy the path in the next line, which looks something like:
 
     ```
     /home/<username>/.cache/pypoetry/virtualenvs/gen-ai-internal-hello-world-ob4i36ef-py3.12/bin/python
