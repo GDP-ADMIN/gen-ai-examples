@@ -89,6 +89,8 @@ See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-exam
 
    > _The documents mentioned are referred to as Mock document 1, Mock document 2, and Mock document 3. However, without additional context or content from these documents, I cannot provide specific details about their contents or purposes._
 
+3. Continue with steps in [Setting Python Interpreter Path in VSCode IDE](#setting-python-interpreter-path-in-vscode-ide)
+
 ## Setting Python Interpreter Path in VSCode IDE
 
 Set up the Python interpreter path in your IDE by following these instructions:
