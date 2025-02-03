@@ -284,6 +284,14 @@ install_dependencies() {
     fi
 }
 
+show_poetry_python_interpreter_path() {
+    log "Getting Python interpreter path for use in IDE..."
+    
+    if ! "$POETRY_PATH" env info --executable; then
+        handle_error "Failed to get Python interpreter path. Please try again."
+    fi
+}
+
 main() {
     # Main function to orchestrate the deployment script.
     log "${COLOR_INFO}Checking gen-ai-hello-world example requirements...$COLOR_RESET"
@@ -305,6 +313,8 @@ main() {
     
     log "${COLOR_INFO}Running gen-ai-hello-world example...$COLOR_RESET"
     "$POETRY_PATH" run $PYTHON_CMD gen_ai_hello_world/main.py
+
+    show_poetry_python_interpreter_path
     log "${COLOR_SUCCESS}gen-ai-hello-world example finished running.$COLOR_RESET"
 }
 

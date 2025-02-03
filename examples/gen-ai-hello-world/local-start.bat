@@ -24,7 +24,7 @@ call :log "All requirements are satisfied."
 call :log "Setting up gen-ai-hello-world example..."
 call :copy_env_file
 call :setup_poetry_http_basic
-call :configure_poetry_python_path
+:: call :configure_poetry_python_path
 call :install_dependencies
 call :log "gen-ai-hello-world example ready to run."
 call :log "Running gen-ai-hello-world example..."
@@ -32,6 +32,7 @@ call :log "Running gen-ai-hello-world example..."
     call :handle_error "Failed to run the application"
     exit /b 1
 )
+call :show_poetry_python_interpreter_path
 call :log "gen-ai-hello-world example finished running."
 exit /b
 )
@@ -242,6 +243,13 @@ call :log "Installing dependencies..."
 !POETRY_PATH! add python-magic-bin  || call :handle_error "Failed to add python-magic-bin."
 !POETRY_PATH! install || call :handle_error "Failed to install dependencies."
 exit /b
+
+
+:show_poetry_python_interpreter_path
+call :log "Getting Python interpreter path for use in IDE..."
+!POETRY_PATH! env info --executable || call :handle_error "Failed to get Python interpreter path. Please try again."
+exit /b
+
 
 :: Logging function
 :log
