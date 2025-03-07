@@ -9,5 +9,6 @@ readme = "README.md"
 python = ">=3.11,<3.13"
 gllm-pipeline = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-pipeline"}
 gllm-core = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-core"}
+# TODO(gllm-plugin): Update dependency to use a release version instead of branch
 gllm-plugin = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-external.git", subdirectory = "libs/gllm-plugin", branch = "f/gllm-plugin"}
 gllm-generation = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-generation"}
