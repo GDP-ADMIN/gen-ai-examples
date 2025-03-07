@@ -9,7 +9,8 @@ import asyncio
 
 async def main():
     pipeline_builder = SimplePipelineBuilder()
-    pipeline = pipeline_builder.build({})
+    pipeline_config = {}
+    pipeline = pipeline_builder.build(pipeline_config)
     state = pipeline_builder.build_initial_state({"message": input("Question: ")}, {})
     result = await pipeline.invoke(state)
     response = result.get("response")
