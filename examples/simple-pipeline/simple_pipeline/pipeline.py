@@ -28,7 +28,7 @@ class SimplePipelineBuilder(PipelineBuilderPlugin[SimpleState, SimplePresetConfi
     Inherits attributes from `PipelineBuilderPlugin`.
     """
 
-    name = "simple"
+    name = "simple-pipeline"
     preset_config_class = SimplePresetConfig
 
     def __init__(self):
