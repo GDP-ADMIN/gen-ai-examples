@@ -9,6 +9,9 @@ LOG_FILE="./deploy.log"
 PYTHON_PATH=""
 POETRY_PATH=""
 
+PROJECT_NAME="simple-pipeline"
+PROJECT_PATH="simple_pipeline"
+
 # colors for logging
 COLOR_ERROR="\033[31m"
 COLOR_WARNING="\033[33m"
@@ -195,13 +198,13 @@ main() {
     configure_poetry_python_path
     install_dependencies
     
-    log "${COLOR_SUCCESS}simple-pipeline example ready to run.$COLOR_RESET"
+    log "${COLOR_SUCCESS}$PROJECT_NAME example ready to run.$COLOR_RESET"
     
-    log "${COLOR_INFO}Running simple-pipeline example...$COLOR_RESET"
-    "$POETRY_PATH" run $PYTHON_CMD simple_pipeline/main.py
+    log "${COLOR_INFO}Running $PROJECT_NAME example...$COLOR_RESET"
+    "$POETRY_PATH" run $PYTHON_CMD ${PROJECT_PATH}/main.py
 
     show_poetry_python_interpreter_path
-    log "${COLOR_SUCCESS}simple-pipeline example finished running.$COLOR_RESET"
+    log "${COLOR_SUCCESS}$PROJECT_NAME example finished running.$COLOR_RESET"
 }
 
 main 
