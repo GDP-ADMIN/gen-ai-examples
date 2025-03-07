@@ -1,0 +1,58 @@
+rago_pipeline: simple
+
+
+presets:
+  - pipeline_preset_id: preset-1
+    supported_models:
+      - anthropic/claude-3-5-sonnet
+      - openai/gpt-4o-mini
+      - openai/gpt-4o
+    support_multimodal: true
+    use_docproc: false
+
+  - pipeline_preset_id: preset-2
+    supported_models:
+      - openai/gpt-4o
+      - openai/gpt-4o-mini
+    support_multimodal: false
+    use_docproc: false
+
+
+chatbots:
+  - id: simple-chatbot-1a
+    display_name: Simple Chatbot 1a
+    description: A chatbot using the preset 1
+    pipeline_preset_id: preset-1
+    inference_catalog:
+      sheet_id: "1X5g3Ruetgg27ybRZ7ie40oxXzbS4YLqRP5_rpQ7MYps"
+      prompt_builder_worksheet_id: "0"
+      lmrp_worksheet_id: "1151817216"
+
+  - id: simple-chatbot-1b
+    display_name: Simple Chatbot 1b
+    description: Another chatbot using the preset 1
+    pipeline_preset_id: preset-1
+    inference_catalog:
+      sheet_id: "1X5g3Ruetgg27ybRZ7ie40oxXzbS4YLqRP5_rpQ7MYps"
+      prompt_builder_worksheet_id: "0"
+      lmrp_worksheet_id: "1151817216"
+
+  - id: simple-chatbot-2
+    display_name: Simple Chatbot 2
+    description: A chatbot using the preset 2
+    pipeline_preset_id: preset-2
+    inference_catalog:
+      sheet_id: "1X5g3Ruetgg27ybRZ7ie40oxXzbS4YLqRP5_rpQ7MYps"
+      prompt_builder_worksheet_id: "0"
+      lmrp_worksheet_id: "1151817216"
+
+
+user_chatbots:
+  - user_id: user-new-1
+    chatbot_ids:
+      - simple-chatbot-1a
+      - simple-chatbot-1b
+
+  - user_id: user-new-2
+    chatbot_ids:
+      - "*"
