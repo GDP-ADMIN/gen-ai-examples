@@ -10,7 +10,6 @@ PYTHON_PATH=""
 POETRY_PATH=""
 
 PROJECT_NAME="simple-pipeline"
-PROJECT_PATH="simple_pipeline"
 
 # colors for logging
 COLOR_ERROR="\033[31m"
@@ -201,7 +200,7 @@ main() {
     log "${COLOR_SUCCESS}$PROJECT_NAME example ready to run.$COLOR_RESET"
     
     log "${COLOR_INFO}Running $PROJECT_NAME example...$COLOR_RESET"
-    "$POETRY_PATH" run $PYTHON_CMD ${PROJECT_PATH}/main.py
+    "$POETRY_PATH" run $PYTHON_CMD main.py
 
     show_poetry_python_interpreter_path
     log "${COLOR_SUCCESS}$PROJECT_NAME example finished running.$COLOR_RESET"
