@@ -12,7 +12,7 @@ from gllm_plugin.pipeline.base_pipeline_preset_config import BasePipelinePresetC
 
 
 class SimplePresetConfig(BasePipelinePresetConfig):
-    """A Pydantic model representing the preset config of a No-op pipeline.
+    """A Pydantic model representing the preset config of a simple pipeline.
 
     Inherits attributes from `BasePipelinePresetConfig`.
 
