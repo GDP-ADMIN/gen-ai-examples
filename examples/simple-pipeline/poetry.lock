@@ -566,27 +566,6 @@ resolved_reference = "ff1ba332a390d4dd9f248e1c924451c5ce993197"
 subdirectory = "libs/gllm-core"
 
 [[package]]
-name = "gllm-generation"
-version = "0.2.11"
-description = "A library containing generation related components in Gen AI applications."
-optional = false
-python-versions = ">=3.11,<4.0"
-groups = ["main"]
-files = []
-develop = false
-
-[package.dependencies]
-gllm-core = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-core"}
-gllm-inference = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-inference"}
-
-[package.source]
-type = "git"
-url = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git"
-reference = "HEAD"
-resolved_reference = "6a3d128fca27ebbb693dbf9dd69150f8193e227f"
-subdirectory = "libs/gllm-generation"
-
-[[package]]
 name = "gllm-inference"
 version = "0.2.29"
 description = "A library containing components related to model inferences in Gen AI applications."
@@ -3048,4 +3027,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.13"
-content-hash = "5d2fa65846122338ed5af1e01dcc9244800b2356ce3f36a51b1bf665d3fecc91"
+content-hash = "6065981f8e8943fb4b019836ef05498ae35885ccbd35c05606c07b91162350f0"
