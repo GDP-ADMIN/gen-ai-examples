@@ -10,5 +10,10 @@ python = ">=3.11,<3.13"
 gllm-pipeline = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-pipeline"}
 gllm-core = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-core"}
 # TODO(gllm-plugin): Update dependency to use a release version instead of branch
-gllm-plugin = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-external.git", subdirectory = "libs/gllm-plugin", branch = "f/gllm-plugin"}
+gllm-plugin = {version = "0.0.1b3", source = "gen-ai-external"}
 gllm-generation = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-generation"}
+
+[[tool.poetry.source]]
+name = "gen-ai-external"
+url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai-external/simple/"
+priority = "explicit"

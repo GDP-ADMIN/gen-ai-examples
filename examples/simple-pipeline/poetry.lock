@@ -583,12 +583,12 @@ gllm-inference = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", su
 type = "git"
 url = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git"
 reference = "HEAD"
-resolved_reference = "ff1ba332a390d4dd9f248e1c924451c5ce993197"
+resolved_reference = "6a3d128fca27ebbb693dbf9dd69150f8193e227f"
 subdirectory = "libs/gllm-generation"
 
 [[package]]
 name = "gllm-inference"
-version = "0.2.26"
+version = "0.2.29"
 description = "A library containing components related to model inferences in Gen AI applications."
 optional = false
 python-versions = ">=3.11,<4.0"
@@ -618,7 +618,7 @@ twelvelabs = ["twelvelabs (==0.4.4)"]
 type = "git"
 url = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git"
 reference = "HEAD"
-resolved_reference = "ff1ba332a390d4dd9f248e1c924451c5ce993197"
+resolved_reference = "6a3d128fca27ebbb693dbf9dd69150f8193e227f"
 subdirectory = "libs/gllm-inference"
 
 [[package]]
@@ -644,30 +644,27 @@ subdirectory = "libs/gllm-pipeline"
 
 [[package]]
 name = "gllm-plugin"
-version = "0.0.1"
+version = "0.0.1b3"
 description = ""
 optional = false
 python-versions = ">=3.11,<3.13"
 groups = ["main"]
-files = []
-develop = false
+files = [
+    {file = "gllm_plugin-0.0.1b3-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:745d32479d660941f79ce34ec30280c2a5a7e94c830219510cdbfab958b9b95c"},
+    {file = "gllm_plugin-0.0.1b3-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:65c393f800e037e11e9dc19f04c78c06713dd3090794583ea4314e4ffae8902a"},
+]
 
 [package.dependencies]
-bosa-core = {git = "ssh://git@github.com/GDP-ADMIN/bosa.git", branch = "bosa-python-core-0.0.2", subdirectory = "python/bosa-core"}
-gllm-core = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-core"}
-gllm-inference = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-inference"}
-gllm-pipeline = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-pipeline"}
-semver = "^3.0.4"
-
-[package.extras]
-flair = []
+bosa-core = {git = "ssh://git@github.com/GDP-ADMIN/bosa.git", rev = "bosa-python-core-0.0.2", subdirectory = "python/bosa-core"}
+gllm-core = ">=0.2.14,<0.3.0"
+gllm-inference = ">=0.2.29,<0.3.0"
+gllm-pipeline = ">=0.2.12,<0.3.0"
+semver = ">=3.0.4,<4.0.0"
 
 [package.source]
-type = "git"
-url = "ssh://git@github.com/GDP-ADMIN/gen-ai-external.git"
-reference = "f/gllm-plugin"
-resolved_reference = "868bf0417a162f74b66c4a9369793413487f7b07"
-subdirectory = "libs/gllm-plugin"
+type = "legacy"
+url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai-external/simple"
+reference = "gen-ai-external"
 
 [[package]]
 name = "google"
@@ -3051,4 +3048,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.13"
-content-hash = "4335acdfc4b484e811818a53a55db9d4b13f97d68df38aafdc17101b7cf75299"
+content-hash = "5d2fa65846122338ed5af1e01dcc9244800b2356ce3f36a51b1bf665d3fecc91"
