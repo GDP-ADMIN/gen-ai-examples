@@ -9,12 +9,14 @@ readme = "README.md"
 python = ">=3.11,<3.13"
 gllm-pipeline = {source = "gen-ai"}
 gllm-core = {source = "gen-ai"}
-gllm-plugin = {version = "0.0.1b4", source = "gen-ai"}
-gllm-inference = {source = "gen-ai"}
+gllm-plugin = {version = "0.0.1b5", source = "gen-ai"}
 gllm-generation = {source = "gen-ai"}
-
 
 [[tool.poetry.source]]
 name = "gen-ai"
 url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/simple/"
-priority = "explicit"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "pypi"
+priority = "supplemental"
