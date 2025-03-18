@@ -175,7 +175,8 @@ configure_poetry_python_path() {
 
 install_dependencies() {
     log "Installing dependencies..."
-
+    
+    "$POETRY_PATH" config http-basic.gen-ai oauth2accesstoken "$(gcloud auth print-access-token)"
     if ! "$POETRY_PATH" install; then
         handle_error "Failed to install dependencies"
     fi
