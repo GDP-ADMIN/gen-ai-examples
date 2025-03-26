@@ -7,8 +7,16 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
-gllm-pipeline = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-pipeline"}
-gllm-core = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-core"}
-# TODO(gllm-plugin): Update dependency to use a release version instead of branch
-gllm-plugin = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-external.git", subdirectory = "libs/gllm-plugin", branch = "f/gllm-plugin"}
-gllm-generation = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-generation"}
+gllm-pipeline = {source = "gen-ai"}
+gllm-core = {source = "gen-ai"}
+gllm-plugin = {version = "0.0.1b5", source = "gen-ai"}
+gllm-generation = {source = "gen-ai"}
+
+[[tool.poetry.source]]
+name = "gen-ai"
+url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/simple/"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "pypi"
+priority = "supplemental"
