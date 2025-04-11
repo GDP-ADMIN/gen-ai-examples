@@ -7,10 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
-gllm-pipeline = {source = "gen-ai"}
-gllm-core = {source = "gen-ai"}
-gllm-plugin = {source = "gen-ai"}
-gllm-generation = {source = "gen-ai"}
+gllm-pipeline = {version="*", source = "gen-ai"}
+gllm-core = {version="*", source = "gen-ai"}
+gllm-plugin = {version="*", source = "gen-ai"}
+gllm-generation = {version="*", source = "gen-ai"}
 
 [[tool.poetry.source]]
 name = "gen-ai"
