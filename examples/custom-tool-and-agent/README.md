@@ -14,8 +14,11 @@ This is an example how to create custom tool and agent.
 
    You must add your SSH key to your GitHub account. Please follow this instruction by GitHub: [Adding a new SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account). This is required as this sample has dependency to a private GitHub repository.
 
-5. **VSCode IDE**
+4. **VSCode IDE**
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
+  
+5. **GDP Labs VPN**
+   - The GDP Labs VPN is required to access Gloria staging environment 
 
 ### Installing dependencies
 
@@ -66,7 +69,7 @@ poetry install
 5. Check the import statements, ensure that there's no import error
 
 ### Upload tool to GL Chat
-1. Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GL Chat
+1. Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in Gloria
 2. Select the "Tools" menu and click the "Upload Tool" button
    
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/90d0b2fa-b481-4f56-a90e-c2f0c0340f41" />
@@ -92,7 +95,7 @@ We will be using sample tools from the [sample_tools](sample_tools) folder:
 - [time_diff_tool.py](sample_tools/time_diff_tool.py) contains a tool to calculate time difference between two date-time values
 
 #### Here's the general workflow for creating an agent in GL Chat:
-1. Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GL Chat
+1. Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in Gloria
 2. Select the "Tools" menu and click the "Upload Tool" button
 3. Upload the `time_tool.py` and the `time_diff_tool.py` files
 4. Upon successful upload, the `custom_time_tool` and the `time_diff_tool` should appear in the "Custom Tools" menu
@@ -102,10 +105,10 @@ We will be using sample tools from the [sample_tools](sample_tools) folder:
 
 6. Fill in all the required fields, for example:
    
-    <img width="960" alt="image" src="https://github.com/user-attachments/assets/24fe19db-d284-4ca0-9dc5-a1c6c82caf26" />
+    <img width="960" alt="image" src="https://github.com/user-attachments/assets/c5eff957-b6ef-4956-8de9-2cff1792f12b" />
 
-   - **Agent Name**: hello_world_agent
-   - **Agent Display Name**: Hello World Agent
+   - **Agent Name**: timer_agent
+   - **Agent Display Name**: Timer Agent
    - **Description**: New Agent
    - **Model**: gpt-4o
    - **Tools**: `custom_time_tool` and `time_diff_tool`
@@ -119,19 +122,40 @@ We will be using sample tools from the [sample_tools](sample_tools) folder:
    - Get current time
    - Calculate time difference between two date-time values
 
-   Always use current_time_tool to get current time before responding to a user's query.
+   Always use custom_time_tool to get current time before responding to a user's query.
    ```
    **Note**: Since we are creating a single agent, leave the Sub-Agents field empty.
 
 7. Click the "Save" button
-8. Open the [Chatbot menu](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/?chatbot_id=general-purpose) page in GL Chat
-9. Click "More Agents" and you should see the newly created "Hello World Agent"
-    
-    <img width="518" alt="image" src="https://github.com/user-attachments/assets/c9f0988a-9ee5-4f68-a75d-5e08c46b7367" />
+8. Upon successful creation, the Timer Agent should appear in the "Custom Agents" menu
 
-10. You can ask some questions to verify if the agent works as expected
-    
-    <img width="677" alt="image" src="https://github.com/user-attachments/assets/57da6c3b-6f19-478b-a15c-1a5c9e959fde" />
+   <img width="960" alt="image" src="https://github.com/user-attachments/assets/c22a0299-6385-48a9-90b9-5e52c85258f5" />
 
+### Testing - Converse with Agent
 
+Since we can't yet deploy the newly created agent directly to Gloria, we provide a template agent that you can edit according to your custom agent, in this case the Timer Agent. The template agent is named Hello World Agent.
+
+1. Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in Gloria
+2. Select "Custom Agent"
+3. Select triple dots icon on the Hello World Agent card and then click "Edit"
+
+   <img width="960" alt="image" src="https://github.com/user-attachments/assets/663c3775-6e39-4747-ba2e-1e841b6c0c99" />
+   
+4. Fill in all fields according to our newly created Timer Agent, except for the **Agent Name** field
+
+   <img width="960" alt="image" src="https://github.com/user-attachments/assets/28dc98c2-83db-4cfc-9311-7dc167e722d8" />
+
+5. Click "Save"
+6. Open the [Chatbot menu](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/?chatbot_id=general-purpose) page in Gloria
+7. In the Chatbot Selection, select "Demo General Purpose"
+
+<img width="443" alt="image" src="https://github.com/user-attachments/assets/053a5ca4-d387-4595-a14e-46c04c440ef6" />
+
+8. Select the "More Agents" and scroll down, you should see the "Timer Agent"
+
+<img width="536" alt="image" src="https://github.com/user-attachments/assets/06b815c8-8131-462b-b126-28800b833ee3" />
+
+9. Ask a question to the Timer Agent
+
+<img width="744" alt="image" src="https://github.com/user-attachments/assets/aa75d5f3-fe97-4f34-8c4a-80397cd765bc" />
 
