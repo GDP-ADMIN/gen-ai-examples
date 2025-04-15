@@ -87,12 +87,13 @@ We will be using sample tools from the [sample_tools](sample_tools) folder:
 
    Always use current_time_tool to get current time before responding to a user's query.
    ```
+   **Note**: Since we are creating a single agent, leave the Sub-Agents field empty.
 
-7. Click the "Save" button
-8. Open the [Chatbot menu](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/?chatbot_id=general-purpose) page in GL Chat
-9. Click "More Agents" and you should see the newly created "Hello World Agent"
+8. Click the "Save" button
+9. Open the [Chatbot menu](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/?chatbot_id=general-purpose) page in GL Chat
+10. Click "More Agents" and you should see the newly created "Hello World Agent"
    <img width="518" alt="image" src="https://github.com/user-attachments/assets/c9f0988a-9ee5-4f68-a75d-5e08c46b7367" />
-10. You can ask some questions to verify if the agent works as expected
+11. You can ask some questions to verify if the agent works as expected
 <img width="677" alt="image" src="https://github.com/user-attachments/assets/57da6c3b-6f19-478b-a15c-1a5c9e959fde" />
 
 
