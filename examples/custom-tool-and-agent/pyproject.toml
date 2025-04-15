@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "custom-tool-and-agent"
+version = "0.1.0"
+description = ""
+authors = ["raymond.christopher <raymond.christopher@gdplabs.id>", "fachriza.adhiatma <fachriza.d.adhiatma@gdplabs.id>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
