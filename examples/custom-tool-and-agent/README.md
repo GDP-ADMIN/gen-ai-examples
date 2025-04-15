@@ -39,13 +39,13 @@ This pattern enables a clean, declarative style for tool creation with minimal b
 1. Create a custom tool using the decorator as defined previously and save it as a Python (.py) file
 2. Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GL Chat
 3. Select the "Tools" menu and click the "Upload Tool" button
-<img width="960" alt="image" src="https://github.com/user-attachments/assets/90d0b2fa-b481-4f56-a90e-c2f0c0340f41" />
+    <img width="960" alt="image" src="https://github.com/user-attachments/assets/90d0b2fa-b481-4f56-a90e-c2f0c0340f41" />
 
 4. Upload your newly created tool
-<img width="960" alt="image" src="https://github.com/user-attachments/assets/154685cf-7415-4b07-ac9d-d4db3588f7c2" />
+    <img width="960" alt="image" src="https://github.com/user-attachments/assets/154685cf-7415-4b07-ac9d-d4db3588f7c2" />
 
 5. Upon successful upload, your tool should appear in the "Custom Tools" menu
-<img width="960" alt="image" src="https://github.com/user-attachments/assets/c71fcf6c-655f-4efb-a57c-4703d7ba4513" />
+    <img width="960" alt="image" src="https://github.com/user-attachments/assets/c71fcf6c-655f-4efb-a57c-4703d7ba4513" />
 
 ## 2. Agent Development Guide
 
@@ -65,10 +65,10 @@ We will be using sample tools from the [sample_tools](sample_tools) folder:
 3. Upload the `time_tool.py` and the `time_diff_tool.py` files
 4. Upon successful upload, the `custom_time_tool` and the `time_diff_tool` should appear in the "Custom Tools" menu
 5. Select the "Agent" menu and click the "Create Agent" button
-   <img width="960" alt="image" src="https://github.com/user-attachments/assets/a40d6af6-9731-4547-8610-2e729df03483" />
+    <img width="960" alt="image" src="https://github.com/user-attachments/assets/a40d6af6-9731-4547-8610-2e729df03483" />
 
 6. Fill in all the required fields, for example:
-   <img width="960" alt="image" src="https://github.com/user-attachments/assets/24fe19db-d284-4ca0-9dc5-a1c6c82caf26" />
+    <img width="960" alt="image" src="https://github.com/user-attachments/assets/24fe19db-d284-4ca0-9dc5-a1c6c82caf26" />
 
    - **Agent Name**: hello_world_agent
    - **Agent Display Name**: Hello World Agent
@@ -92,9 +92,10 @@ We will be using sample tools from the [sample_tools](sample_tools) folder:
 8. Click the "Save" button
 9. Open the [Chatbot menu](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/?chatbot_id=general-purpose) page in GL Chat
 10. Click "More Agents" and you should see the newly created "Hello World Agent"
-   <img width="518" alt="image" src="https://github.com/user-attachments/assets/c9f0988a-9ee5-4f68-a75d-5e08c46b7367" />
+    <img width="518" alt="image" src="https://github.com/user-attachments/assets/c9f0988a-9ee5-4f68-a75d-5e08c46b7367" />
+
 11. You can ask some questions to verify if the agent works as expected
-<img width="677" alt="image" src="https://github.com/user-attachments/assets/57da6c3b-6f19-478b-a15c-1a5c9e959fde" />
+    <img width="677" alt="image" src="https://github.com/user-attachments/assets/57da6c3b-6f19-478b-a15c-1a5c9e959fde" />
 
 
 
