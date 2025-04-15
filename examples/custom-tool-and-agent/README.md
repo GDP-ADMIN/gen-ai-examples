@@ -34,3 +34,16 @@ class GreetingTool(BaseTool):
 ```
 
 This pattern enables a clean, declarative style for tool creation with minimal boilerplate.
+
+### Upload tool to GL Chat
+1. Create a custom tool using the decorator as defined previously and save it as a Python (.py) file
+2. Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GL Chat
+3. Select the "Tools" menu and click the "Upload Tool" button
+<img width="960" alt="image" src="https://github.com/user-attachments/assets/90d0b2fa-b481-4f56-a90e-c2f0c0340f41" />
+
+4. Upload your newly created tool
+<img width="960" alt="image" src="https://github.com/user-attachments/assets/154685cf-7415-4b07-ac9d-d4db3588f7c2" />
+
+5. Upon successful upload, your tool should appear in the "Custom Tools" menu
+<img width="960" alt="image" src="https://github.com/user-attachments/assets/c71fcf6c-655f-4efb-a57c-4703d7ba4513" />
+
