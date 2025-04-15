@@ -10,6 +10,11 @@ python = ">=3.11,<3.13"
 
 gllm-plugin = {git = "ssh://git@github.com:GDP-ADMIN/gen-ai-external.git", subdirectory = "libs/gllm-plugin"}
 
+[[tool.poetry.source]]
+name = "gen-ai"
+url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/simple/"
+priority = "supplemental"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

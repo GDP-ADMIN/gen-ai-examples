@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any, Literal
 from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field
-from gdplabs_gen_ai_starter_gllm_backend.gllm_agents.plugins import tool_plugin
+from gllm_plugin.tools import tool_plugin
 
 # Input schema definition
 class TimeDiffInput(BaseModel):
