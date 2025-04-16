@@ -1,5 +1,4 @@
-from typing import Any, Literal
-from datetime import datetime, timedelta
+from typing import Any
 from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field
 from gllm_plugin.tools import tool_plugin
@@ -8,8 +7,6 @@ from gllm_plugin.tools import tool_plugin
 class WeatherForecastInput(BaseModel):
     """Input schema for the weather forecast tool."""
     day: str = Field(..., description="Day of the week for the weather forecast (e.g., 'Monday')")
-    unit: Literal["celsius", "fahrenheit"] = Field(default="celsius", 
-                                                description="Temperature unit: 'celsius' or 'fahrenheit'")
 
 # Tool implementation with decorator
 @tool_plugin(version="1.0.0")
@@ -51,36 +48,20 @@ class WeatherForecastTool(BaseTool):
         }
     }
 
-    # Default locations with generic forecasts
-    _default_forecast = {
-        "Monday": {"condition": "Partly Cloudy", "temperature": 22, "humidity": 65},
-        "Tuesday": {"condition": "Sunny", "temperature": 24, "humidity": 60},
-        "Wednesday": {"condition": "Sunny", "temperature": 25, "humidity": 55},
-        "Thursday": {"condition": "Partly Cloudy", "temperature": 23, "humidity": 65},
-        "Friday": {"condition": "Cloudy", "temperature": 21, "humidity": 70},
-        "Saturday": {"condition": "Rainy", "temperature": 19, "humidity": 80},
-        "Sunday": {"condition": "Partly Cloudy", "temperature": 20, "humidity": 75}
-    }
-
     # Core method for any tool which implements the tool's functionality
-    def _run(self, day: str, unit: str = "celsius", **kwargs: Any) -> str:
+    def _run(self, day: str, **kwargs: Any) -> str:
         """Run the weather forecast tool for a specific day for all locations."""
         try:
             day = day.capitalize()
             locations = list(self._weather_data.keys())
             forecast = f"Weather forecast for {day}:\n\n"
             for location in locations:
-                day_data = self._weather_data[location].get(day, self._default_forecast.get(day))
+                day_data = self._weather_data[location].get(day)
                 if not day_data:
                     forecast += f"{location}: No data available.\n"
                     continue
                 temp = day_data["temperature"]
-                if unit == "fahrenheit":
-                    temp = temp * 9/5 + 32
-                    temp_unit = "°F"
-                else:
-                    temp_unit = "°C"
-                forecast += f"{location}: {day_data['condition']}, {temp}{temp_unit}, Humidity: {day_data['humidity']}%\n"
+                forecast += f"{location}: {day_data['condition']}, {temp}°C, Humidity: {day_data['humidity']}%\n"
             return forecast
         except Exception as e:
             return f"Error providing weather forecast: {e}"
