@@ -145,6 +145,22 @@ Let's create an agent with the ability to make weather forecast. We will be usin
 
 Since direct deployment/assignment of newly created custom agents to chatbots in GLChat is not yet available (pending the Admin Dashboard feature), we provide a workaround using a pre-existing dummy agent named "Hello World Agent" that is already assigned to the "Demo General Purpose" chatbot. We will edit this existing agent to use our custom tool and instructions.
 
+### Configure the Test Agent
+
+1. Go back to the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GLChat.
+2. Select the "Agent" tab and ensure "Custom Agent" is selected in the filter/dropdown.
+3. Find the "Hello World Agent" card, click the triple dots icon (...), and then click "Edit".
+
+   <img width="960" alt="image" src="https://github.com/user-attachments/assets/76e52736-af51-4c98-8493-ba0a0a21836d" />
+
+4. Fill in all fields according to the Weather Forecast Agent you defined previously (**except** for the **Agent Name** field).
+   *   **Important**: Do **not** change the `Agent Name`. It must remain `Hello World Agent` because this specific name is pre-assigned to the "Demo General Purpose" chatbot for testing purposes.
+   *   Update the `Agent Display Name`, `Description`, `Model`, `Tools` (select `weather_forecast_tool`), `Timeout`, and `Instructions` to match your Weather Forecast Agent.
+
+   <img width="960" alt="image" src="https://github.com/user-attachments/assets/99460f62-c420-4d58-b09f-57ad5c2c20e4" />
+
+5. Click "Save".
+
 ### Converse with Agent
 
 1. Open the [GLChat Chat UI](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/) in your browser (ensure you are connected to the GDP Labs VPN).
@@ -153,25 +169,12 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 
    <img width="443" alt="image" src="https://github.com/user-attachments/assets/053a5ca4-d387-4595-a14e-46c04c440ef6" />
 
-4. Go back to the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GLChat.
-5. Select the "Agent" tab and ensure "Custom Agent" is selected in the filter/dropdown.
-6. Find the "Hello World Agent" card, click the triple dots icon (...), and then click "Edit".
-
-   <img width="960" alt="image" src="https://github.com/user-attachments/assets/76e52736-af51-4c98-8493-ba0a0a21836d" />
-
-7. Fill in all fields according to the Weather Forecast Agent you defined previously (**except** for the **Agent Name** field).
-   *   **Important**: Do **not** change the `Agent Name`. It must remain `Hello World Agent` because this specific name is pre-assigned to the "Demo General Purpose" chatbot for testing purposes.
-   *   Update the `Agent Display Name`, `Description`, `Model`, `Tools` (select `weather_forecast_tool`), `Timeout`, and `Instructions` to match your Weather Forecast Agent.
-
-   <img width="960" alt="image" src="https://github.com/user-attachments/assets/99460f62-c420-4d58-b09f-57ad5c2c20e4" />
-
-8. Click "Save".
-9. Navigate back to the [Chatbot menu/page](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/?chatbot_id=general-purpose) in GLChat (where you selected "Demo General Purpose").
-10. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Weather Forecast Agent" (which is actually the edited "Hello World Agent" with your settings).
+4. Navigate back to the [Chatbot menu/page](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/?chatbot_id=general-purpose) in GLChat (where you selected "Demo General Purpose").
+5. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Weather Forecast Agent" (which is actually the edited "Hello World Agent" with your settings).
 
     <img width="509" alt="image" src="https://github.com/user-attachments/assets/95382787-0def-4a40-bae3-ff0623d0107f" />
 
-11. Select the "Weather Forecast Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
+6. Select the "Weather Forecast Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
 
     <img width="679" alt="image" src="https://github.com/user-attachments/assets/b68a5e41-5390-4670-b480-6be8b4253181" />
 
