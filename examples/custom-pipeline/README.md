@@ -48,3 +48,16 @@ This is an example of how to use the gllm-plugin library to build a custom pipel
      ./local-start.sh
      ```
 
+   The program will then wait for your question:
+
+      > Question:
+
+      Type your question and press enter. For example, you can try asking:
+
+      ```
+      What is artificial intelligence?
+      ```
+
+      The custom pipeline will return the following response (more or less):
+
+      > _Artificial Intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think, learn, and perform tasks that typically require human cognitive functions. This includes activities like problem-solving, understanding natural language, recognizing patterns, making decisions, and adapting to new information..._
