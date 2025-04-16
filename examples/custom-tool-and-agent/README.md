@@ -71,11 +71,13 @@ This is an example how to create custom tool and agent.
          <img width="203" alt="image" src="https://github.com/user-attachments/assets/3dffba0d-8cd7-4577-880b-ea74d0080b7c" />
 
 3. Create a new Python file named `weather_forecast_tool.py` in the current directory (`examples/custom-tool-and-agent`).
-   *   Open a terminal. You can use the integrated terminal in VSCode (Terminal > New Terminal) or an external terminal window. Ensure your terminal's current working directory is `gen-ai-examples/examples/custom-tool-and-agent`.
+   *  Open a terminal. You can use the integrated terminal in VSCode (Terminal > New Terminal) or an external terminal window. Ensure your terminal's current working directory is `gen-ai-examples/examples/custom-tool-and-agent`.
 
          ```bash
-        touch weather_forecast_tool.py
-        ```
+         touch weather_forecast_tool.py
+         ```
+
+   *  Alternatively, you can use your operating system's file explorer/finder to navigate to the project directory and create a new file, or use VSCode's file explorer panel to right-click in the directory and select "New File".
          
 5. Open the newly created `weather_forecast_tool.py` file in VSCode.
 6. Copy the entire content from the sample tool file located at `sample_tools/weather_forecast_tool.py` and paste it into your new `weather_forecast_tool.py`.
