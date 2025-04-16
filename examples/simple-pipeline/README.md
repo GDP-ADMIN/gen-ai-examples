@@ -37,7 +37,7 @@ This is an example of how to use the gllm-plugin library to build a simple pipel
 
 ## Running the Code
 
-1. Configure environment variables: copy `.env.example` to `.env` and set up your `OPENAI_API_KEY` and `MODEL_NAME`.
+1. Configure environment variables: copy `.env.example` to `.env` and set up your `OPENAI_API_KEY` and `LANGUAGE_MODEL`.
 
    - For Linux, macOS, or Windows WSL:
 
