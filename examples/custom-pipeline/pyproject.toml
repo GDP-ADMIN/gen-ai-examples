@@ -11,8 +11,7 @@ gllm-pipeline = {version="*", source = "gen-ai"}
 gllm-core = {version="*", source = "gen-ai"}
 gllm-plugin = {version="*", source = "gen-ai"}
 gllm-generation = {version="*", source = "gen-ai"}
-gllm-rag = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", rev = "gllm_rag-v0.0.2", subdirectory = "libs/gllm-rag"}
-
+gllm-rag = {version="*", source = "gen-ai"}
 
 [[tool.poetry.source]]
 name = "gen-ai"
