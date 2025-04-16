@@ -169,12 +169,11 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 
    <img width="443" alt="image" src="https://github.com/user-attachments/assets/053a5ca4-d387-4595-a14e-46c04c440ef6" />
 
-4. Navigate back to the [Chatbot menu/page](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/?chatbot_id=general-purpose) in GLChat (where you selected "Demo General Purpose").
-5. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Weather Forecast Agent" (which is actually the edited "Hello World Agent" with your settings).
+4. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Weather Forecast Agent" (which is actually the edited "Hello World Agent" with your settings).
 
     <img width="509" alt="image" src="https://github.com/user-attachments/assets/95382787-0def-4a40-bae3-ff0623d0107f" />
 
-6. Select the "Weather Forecast Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
+5. Select the "Weather Forecast Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
 
     <img width="679" alt="image" src="https://github.com/user-attachments/assets/b68a5e41-5390-4670-b480-6be8b4253181" />
 
