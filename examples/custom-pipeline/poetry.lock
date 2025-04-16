@@ -1616,14 +1616,20 @@ description = "A library containing retrieval related components in Gen AI appli
 optional = false
 python-versions = ">=3.11,<3.13"
 files = [
+    {file = "gllm_retrieval-0.3.0-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:e89e3cd66b30ecb17ea74818932df2ea268275cc25f0beaf632be61a8cf57518"},
+    {file = "gllm_retrieval-0.3.0-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:af1cb5bc5c9e34d0032662a15d725b4eb7a957ae1d0304e1dff0d2be3609224d"},
     {file = "gllm_retrieval-0.3.0-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:a319287686ad36bd5b639e97f8dd4afc19daa2e12e969cf3797a0de64f8f979b"},
+    {file = "gllm_retrieval-0.3.0-cp311-cp311-win_amd64.whl", hash = "sha256:c2909c6f58001d009c9e6a4e11c0a0439f6706318c1aa0394c12c65217bbfe51"},
+    {file = "gllm_retrieval-0.3.0-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:a4736c778a866cb85c08d0f7e3f5465837e1eafb1e9c83f0d31875bca10ec522"},
+    {file = "gllm_retrieval-0.3.0-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:250b7fb5733008f156bd3de1bc2dabaa8e7c4a828f6ba91accf150c39914ef55"},
     {file = "gllm_retrieval-0.3.0-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:419049e955514b1f5ef050756880725da31da3a6978b790626422568b6949809"},
+    {file = "gllm_retrieval-0.3.0-cp312-cp312-win_amd64.whl", hash = "sha256:4ee0960ef9244fd61f5871cc17a4d09fef7c811c18fdd0cc27d99258eb04f622"},
 ]
 
 [package.dependencies]
 FlagEmbedding = {version = ">=1.2.5,<2.0.0", optional = true, markers = "extra == \"flag-embedding\""}
 gllm-core = ">=0.2.14,<0.3.0"
-gllm-inference = ">=0.2.35,<0.3.0"
+gllm-inference = ">=0.2.37,<0.3.0"
 jsonschema = ">=4.21.1,<5.0.0"
 langchain = ">=0.3.0,<0.4.0"
 langchain-community = "0.3.0"
@@ -1638,7 +1644,7 @@ torch = {version = ">=2.2.0,<2.3.0", optional = true, markers = "extra == \"flag
 [package.extras]
 elasticsearch = ["langchain-elasticsearch (==0.3.0)"]
 flag-embedding = ["FlagEmbedding (>=1.2.5,<2.0.0)", "numpy (>=1.26.4,<2.0.0)", "peft (>=0.12.0,<0.13.0)", "torch (>=2.2.0,<2.3.0)"]
-kg = ["gllm-datastore[kg] (>=0.0.13,<0.0.14)", "llama-index-embeddings-openai (>=0.3.0,<0.4.0)", "llama-index-llms-openai (>=0.3.0,<0.4.0)"]
+kg = ["gllm-datastore[kg] (>=0.0.15,<0.0.16)", "llama-index-embeddings-openai (>=0.3.0,<0.4.0)", "llama-index-llms-openai (>=0.3.0,<0.4.0)"]
 sql = ["sqlglot (>=26.3.9,<27.0.0)"]
 torch = ["torch (>=2.2.0,<2.3.0)"]
 
@@ -7128,4 +7134,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "1168471902f0f8dd77da3f2e0dfb91ecaeba1926598b22943256947ea2fa61fa"
+content-hash = "2dfe2ae53967c3a727530e28d18f2f3dcf372dc15695d9298652b6a5393c1076"

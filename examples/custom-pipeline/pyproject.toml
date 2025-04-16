@@ -16,8 +16,8 @@ gllm-rag = {version="*", source = "gen-ai"}
 [[tool.poetry.source]]
 name = "gen-ai"
 url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/simple/"
-priority = "primary"
+priority = "supplemental"
 
 [[tool.poetry.source]]
 name = "pypi"
-priority = "supplemental"
+priority = "primary"
