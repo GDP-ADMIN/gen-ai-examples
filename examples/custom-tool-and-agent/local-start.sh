@@ -248,17 +248,6 @@ copy_env_file() {
     fi
 }
 
-check_ssh_key() {
-    # Check if SSH key exists for GitHub access
-    if ! ssh -T git@github.com -o BatchMode=yes &>/dev/null; then
-        log "${COLOR_WARNING}You don't have SSH access to GitHub. Make sure you have added your SSH key to your GitHub account.$COLOR_RESET"
-        log "For more information: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"
-        handle_error "SSH access to GitHub required for installing dependencies."
-    fi
-    
-    log "SSH access to GitHub verified."
-}
-
 check_gcloud_login() {
     # Checks if the user is logged into gcloud.
     if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" | grep -q .; then
@@ -317,7 +306,6 @@ main() {
     deactivate_conda
     check_gcloud_login
     check_artifact_access
-    check_ssh_key
     log "${COLOR_SUCCESS}All requirements are satisfied.$COLOR_RESET"
 
     log "${COLOR_INFO}Setting up custom-tool-and-agent example...$COLOR_RESET"
