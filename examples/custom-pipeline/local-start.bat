@@ -11,9 +11,11 @@ set PYTHON_PATH=""
 set POETRY_PATH=""
 set COMMAND_VERSION=
 
+set "PROJECT_NAME=custom-pipeline"
+
 (
 :: Main Section
-call :log "Checking gen-ai-hello-world example requirements..."
+call :log "Checking !PROJECT_NAME! example requirements..."
 call :get_python_path
 call :check_requirements
 call :install_command "poetry" "%MIN_POETRY_VERSION%"
@@ -21,19 +23,19 @@ call :deactivate_conda
 call :check_gcloud_login
 call :check_artifact_access
 call :log "All requirements are satisfied."
-call :log "Setting up gen-ai-hello-world example..."
+call :log "Setting up !PROJECT_NAME! example..."
 call :copy_env_file
 call :setup_poetry_http_basic
 :: call :configure_poetry_python_path
 call :install_dependencies
-call :log "gen-ai-hello-world example ready to run."
-call :log "Running gen-ai-hello-world example..."
-!POETRY_PATH! run python gen_ai_hello_world/main.py || (
+call :log "!PROJECT_NAME! example ready to run."
+call :log "Running !PROJECT_NAME! example..."
+!POETRY_PATH! run python main.py || (
     call :handle_error "Failed to run the application"
     exit /b 1
 )
 call :show_poetry_python_interpreter_path
-call :log "gen-ai-hello-world example finished running."
+call :log "!PROJECT_NAME! example finished running."
 exit /b
 )
 
