@@ -165,6 +165,18 @@ deactivate_conda() {
     fi
 }
 
+copy_env_file() {
+    # Copies the .env.example file to .env.
+    if [[ ! -f ".env" ]]; then
+        cp .env.example .env
+        log "Successfully copied '.env.example' to '.env'."
+        log "${COLOR_WARNING}Please change the values in the .env file with your own values and then run './local-start.sh' again.$COLOR_RESET"
+        exit_application
+    fi
+
+    log ".env file exists. Continuing..."
+}
+
 configure_poetry_python_path() {
     log "Configuring Poetry to use Python $PYTHON_PATH..."
     
@@ -195,6 +207,7 @@ main() {
     deactivate_conda
     
     log "${COLOR_INFO}Setting up project...$COLOR_RESET"
+    copy_env_file
     configure_poetry_python_path
     install_dependencies
     
