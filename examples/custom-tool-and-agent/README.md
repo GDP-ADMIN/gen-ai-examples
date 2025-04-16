@@ -89,7 +89,7 @@ This is an example how to create custom tool and agent.
    *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and that `poetry install` (Step 4 under Installing Dependencies) completed without errors.
    *   Once you've successfully run through this example, see the [Advanced: Developing Your Own Custom Tool](#advanced-developing-your-own-custom-tool) section at the end of this document for guidance on creating tools beyond this sample.
 
-### Upload tool to GL Chat
+### Upload tool to GLChat
 1. Open your browser and navigate to the GLChat **staging** login page: [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/).
 2. Log in using your credentials (e.g., Sign in with Google).
 
@@ -126,7 +126,7 @@ This is an example how to create custom tool and agent.
 Let's create an agent with the ability to make weather forecast. We will be using the weather forecast tool we created in previous steps. You can also use the [weather_forecast_tool.py](/sample_tools/weather_forecast_tool.py) in the [sample_tools](/sample_tools) folder.
 
 #### Here's the general workflow for creating an agent in GLChat:
-1. Ensure the `weather_forecast_tool.py` tool has been uploaded to GLChat **staging** by following the steps in the "Upload tool to GL Chat" section.
+1. Ensure the `weather_forecast_tool.py` tool has been uploaded to GLChat **staging** by following the steps in the "Upload tool to GLChat" section.
 2. Ensure you are logged into the GLChat **staging** Admin Dashboard.
 3. From the Admin Dashboard, navigate to the "AI Agent" section in the left sidebar and click on "Agent". The **staging** URL should be [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent).
 
@@ -272,4 +272,4 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
             return result # Return a string
     ```
     
-9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat **staging** using the steps in the [Upload tool to GL Chat](#upload-tool-to-gl-chat) section and configure an agent to use it.
+9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat **staging** using the steps in the [Upload tool to GLChat](#upload-tool-to-gl-chat) section and configure an agent to use it.
