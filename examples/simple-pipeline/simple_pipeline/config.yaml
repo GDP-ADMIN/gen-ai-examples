@@ -159,4 +159,3 @@ user_chatbots:
   - user_id: usernew2
     chatbot_ids:
       - "*"
-  
