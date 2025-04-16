@@ -92,19 +92,28 @@ This is an example how to create custom tool and agent.
 ### Upload tool to GL Chat
 1. Open your browser and navigate to the GLChat **staging** login page: [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/).
 2. Log in using your credentials (e.g., Sign in with Google).
-3. After logging in, click on the "Admin Dashboard" button.
-4. In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Tools". The **staging** URL should be [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools).
-5. Click the "Upload Tool" button.
-   
-    <img width="960" alt="image" src="https://github.com/user-attachments/assets/90d0b2fa-b481-4f56-a90e-c2f0c0340f41" />
 
-6. Upload the `weather_forecast_tool.py` file you created/copied.
+   <img width="960" alt="image" src="https://github.com/user-attachments/assets/13f114ac-1f22-4195-8294-37d498d669fe" />
+
+4. After logging in, click on the "Admin Dashboard" button.
+
+    <img width="960" alt="image" src="https://github.com/user-attachments/assets/29217848-33a4-4010-8d21-43cb6c4f7258" />
+
+5. In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Tools". The **staging** URL should be [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools).
+
+    <img width="240" alt="image" src="https://github.com/user-attachments/assets/fd451432-1766-4c19-af51-de78c3b0ef01" />
+
+6. Click the "Upload Tool" button.
+
+    <img width="960" alt="image" src="https://github.com/user-attachments/assets/2221f498-9d6a-40fb-b298-e2f26147a57f" />
+
+7. Upload the `weather_forecast_tool.py` file you created/copied.
 
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/7c39ec3a-7760-476d-a105-133322c1e823" />
 
 4. Upon successful upload, your tool should appear in the "Custom Tools" menu
    
-    <img width="960" alt="image" src="https://github.com/user-attachments/assets/f7c575e2-907b-4138-9b30-549b0dde0a6d" />
+    <img width="960" alt="image" src="https://github.com/user-attachments/assets/2f4ec7e3-0b82-4748-a492-49c8ecbbf5c7" />
 
 ### Testing and Validating the Tool
 
@@ -120,10 +129,12 @@ Let's create an agent with the ability to make weather forecast. We will be usin
 1. Ensure the `weather_forecast_tool.py` tool has been uploaded to GLChat **staging** by following the steps in the "Upload tool to GL Chat" section.
 2. Ensure you are logged into the GLChat **staging** Admin Dashboard.
 3. From the Admin Dashboard, navigate to the "AI Agent" section in the left sidebar and click on "Agent". The **staging** URL should be [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent).
-4. Click the "Create Agent" button.
-5. Fill in all the required fields, for example:
 
-   <img width="960" alt="image" src="https://github.com/user-attachments/assets/06979d3a-e173-4872-8ad4-6c216dae0f7b" />
+   <img width="960" alt="image" src="https://github.com/user-attachments/assets/3db6de93-eca1-4313-8deb-14cc1571a5fd" />
+
+4. Click the "Create Agent" button.
+6. Fill in all the required fields exactly as follows:
+
 
    - **Agent Name**: weather_forecast_agent
    - **Agent Display Name**: Weather Forecast Agent
@@ -143,10 +154,12 @@ Let's create an agent with the ability to make weather forecast. We will be usin
       
    **Note**: Since we are creating a single agent, leave the Sub-Agents field empty.
 
-6. Click the "Save" button
-7. Upon successful creation, the Weather Forecast Agent should appear in the "Custom Agents" menu
+      <img width="960" alt="image" src="https://github.com/user-attachments/assets/c048e5a9-d677-400a-b456-f18488d554e9" />
 
-   <img width="960" alt="image" src="https://github.com/user-attachments/assets/cb908db2-902c-43d9-993c-e5b25c02eba3" />
+8. Click the "Save" button
+9. Upon successful creation, the Weather Forecast Agent should appear in the "Custom Agents" menu
+
+   <img width="960" alt="image" src="https://github.com/user-attachments/assets/17507b12-a25c-4b6e-9758-faceded4184c" />
 
 ## Testing the Agent
 
@@ -159,13 +172,13 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 3. Select the "Agent" tab (it might be selected by default) and ensure "Custom Agent" is selected in the filter/dropdown.
 4. Find the "Hello World Agent" card, click the triple dots icon (...), and then click "Edit".
 
-   <img width="960" alt="image" src="https://github.com/user-attachments/assets/76e52736-af51-4c98-8493-ba0a0a21836d" />
+   <img width="960" alt="image" src="https://github.com/user-attachments/assets/c3d1b895-dd1b-47d2-b135-b1f4d47ff662" />
 
 5. Fill in all fields according to the Weather Forecast Agent you defined previously (**except** for the **Agent Name** field).
    *   **Important**: Do **not** change the `Agent Name`. It must remain `Hello World Agent` because this specific name is pre-assigned to the "Demo General Purpose" chatbot for testing purposes.
    *   Update the `Agent Display Name`, `Description`, `Model`, `Tools` (select `weather_forecast_tool`), `Timeout`, and `Instructions` to match your Weather Forecast Agent.
 
-         <img width="960" alt="image" src="https://github.com/user-attachments/assets/99460f62-c420-4d58-b09f-57ad5c2c20e4" />
+         <img width="960" alt="image" src="https://github.com/user-attachments/assets/4e294958-7024-48d9-8ad2-b4a87afadad1" />
 
 6. Click "Save".
 
@@ -195,7 +208,7 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
 2.   In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Agent".
 3.   Find the "Hello World Agent" (which you previously edited), click the triple dots icon, and then click "Edit".
 
-      <img width="458" alt="image" src="https://github.com/user-attachments/assets/629d8a89-2eee-445d-afa4-17fa60287a53" />
+      <img width="960" alt="image" src="https://github.com/user-attachments/assets/c3d1b895-dd1b-47d2-b135-b1f4d47ff662" />
 
 4.   Update the `Agent Display Name`, `Description`, `Model`, `Tools` (select `time_tool`), `Timeout`, and `Instructions` to  original values.
 5.   Click "Save"
@@ -213,7 +226,7 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
 3.   Select the \"Custom Tools\" section.
 4.   Navigate to the `weather_forecast_tool`, click the triple dots, and then click "Delete".
 
-      <img width="957" alt="image" src="https://github.com/user-attachments/assets/b23b5dc0-369d-46d9-b302-5aae71ae24e8" />
+      <img width="957" alt="image" src="https://github.com/user-attachments/assets/92c8cb42-5192-427f-84bb-bba05a296e96" />
 
 ## Advanced: Developing Your Own Custom Tool
 
