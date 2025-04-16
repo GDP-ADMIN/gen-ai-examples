@@ -314,9 +314,6 @@ main() {
     configure_poetry_python_path
     install_dependencies
     log "${COLOR_SUCCESS}custom-tool-and-agent example ready to run.$COLOR_RESET"
-    
-    log "${COLOR_INFO}Running custom-tool-and-agent example...$COLOR_RESET"
-    "$POETRY_PATH" run $PYTHON_CMD custom_tool_and_agent/__init__.py
 
     show_poetry_python_interpreter_path
     log "${COLOR_SUCCESS}custom-tool-and-agent example finished running.$COLOR_RESET"
