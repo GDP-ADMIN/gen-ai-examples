@@ -22,7 +22,7 @@ This is an example of how to use the gllm-plugin library to build a custom pipel
      > For Windows, please make sure to check the `Add python.exe to PATH` option during the installation process.
    </details>
 
-2. **Access to GDP-ADMIN/gen-ai-internal repository**
+2. **Access to GDP-ADMIN/gen-ai-internal and GDP-ADMIN/gen-ai-external repositories**
 
    You can try to access the [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal)  and [GDP-ADMIN/gen-ai-external](https://github.com/GDP-ADMIN/gen-ai-external) repositories in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
 
