@@ -23,6 +23,10 @@ This is an example how to create custom tool and agent.
 3. **VSCode IDE**
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
 
+4. **Access to the GDP Labs Google Artifact Registry**.
+   - This is required for `poetry` to download necessary dependencies.
+   - If you don't have access, please make a request to ticket(at)gdplabs.id.
+
 ### Installing dependencies
 
 1. Clone the `gen-ai-examples` repository.
@@ -45,20 +49,24 @@ This is an example how to create custom tool and agent.
      ./local-start.sh
      ```
 
+   - <details>
+     <summary>For Windows (alternative)</summary>
+
      > [!NOTE]
-     > On Windows, you can either install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) or execute the batch file in Windows Powershell or Command Prompt as described in the next section.
+     > On Windows, you can either install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) and use the command above, or execute the batch file directly in Windows Powershell or Command Prompt as shown below.
 
-   - For Windows Powershell:
+     - For Windows Powershell:
 
-     ```powershell
-     .\local-start.bat
-     ```
+       ```powershell
+       .\\local-start.bat
+       ```
 
-   - For Windows Command Prompt:
+     - For Windows Command Prompt:
 
-     ```cmd
-     local-start.bat
-     ```
+       ```cmd
+       local-start.bat
+       ```
+     </details>
 
 ## Tool Development Guide
 
@@ -210,7 +218,14 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
 
       <img width="960" alt="image" src="https://github.com/user-attachments/assets/c3d1b895-dd1b-47d2-b135-b1f4d47ff662" />
 
-4.   Update the `Agent Display Name`, `Description`, `Model`, `Tools` (select `time_tool`), `Timeout`, and `Instructions` to  original values.
+4.   Update the fields back to their original values:
+    *   **Agent Display Name**: `Hello World Agent`
+    *   **Description**: `Please fill in the Description`
+    *   **Model**: `gpt-4o`
+    *   **Tools**: Select `time_tool` (remove any other tools)
+    *   **Sub-Agents**: Ensure none are selected
+    *   **Timeout**: `60`
+    *   **Instructions**: `Please fill in the Instruction`
 5.   Click "Save"
 
 #### Delete The Weather Forecast Agent
@@ -218,6 +233,7 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
 1.   Navigate back to the GLChat **staging** Admin Dashboard.
 2.   In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Agent".
 3.   Find the agent named "Weather Forecast Agent", click the triple dots icon, and then click "Delete".
+4.   Make sure the agent is deleted in the UI.
 
 #### Delete the `weather_forecast_tool`
 
@@ -227,6 +243,7 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
 4.   Navigate to the `weather_forecast_tool`, click the triple dots, and then click "Delete".
 
       <img width="957" alt="image" src="https://github.com/user-attachments/assets/92c8cb42-5192-427f-84bb-bba05a296e96" />
+5.   Make sure the tool is deleted in the UI.
 
 ## Advanced: Developing Your Own Custom Tool
 
