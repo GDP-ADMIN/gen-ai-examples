@@ -45,12 +45,6 @@ This is an example of how to use the gllm-plugin library to build a simple pipel
      cp .env.example .env
      ```
 
-   - For Windows Powershell or Command Prompt:
-
-     ```powershell
-     copy .env.example .env
-     ```
-
 2. Execute the script:
 
    - For Linux, macOS, or Windows WSL:
