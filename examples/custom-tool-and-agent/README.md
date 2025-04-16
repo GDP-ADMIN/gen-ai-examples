@@ -178,6 +178,34 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 
     <img width="679" alt="image" src="https://github.com/user-attachments/assets/b68a5e41-5390-4670-b480-6be8b4253181" />
 
+### Cleanup The Agent
+
+After you successfully test the Weather Forecast Agent, it's better to clean up your work so that others can test it with a clean state.
+
+#### Reset Hello World Agent
+
+1.   Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GLChat
+2.   In the previous steps, we edited the Hello World Agent to Weather Forecast Agent, navigate to this agent, click the triple dots icon, and then click "Edit"
+
+      <img width="458" alt="image" src="https://github.com/user-attachments/assets/629d8a89-2eee-445d-afa4-17fa60287a53" />
+
+3.   Update the `Agent Display Name`, `Description`, `Model`, `Tools` (select `time_tool`), `Timeout`, and `Instructions` to  original values.
+4.   Click "Save"
+
+#### Delete The Weather Forecast Agent
+
+1.   Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GLChat
+2.   In the previous steps, we created a new agent named Weather Forecast Agent, navigate to this agent, click the triple dots icon, and then click "Delete"
+
+#### Delete the `weather_forecast_tool`
+
+1.   Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GLChat
+2.   Select the "Tools" menu
+3.   Select the "Custom Tools" section
+4.   Navigate to the `weather_forecast_tool`, click the triple dots, and then click "Delete"
+
+      <img width="957" alt="image" src="https://github.com/user-attachments/assets/b23b5dc0-369d-46d9-b302-5aae71ae24e8" />
+
 ## Advanced: Developing Your Own Custom Tool
 
 The steps above guide you through using the provided `weather_forecast_tool.py` sample. To create your *own* custom tool, follow these general principles (referencing concepts from the [Tool Implementation Document](tool_implementation.md) for more detail):
