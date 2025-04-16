@@ -1,31 +1,46 @@
 # Custom Tool and Agent Hello World
 This is an example how to create custom tool and agent.
 
-## Pre-requisites
+## Prerequisites
 
-1. **Python v3.11 or above**:
-   - Ensure that Python is installed and available in your environment. You can check using `python --version`.
+> [!NOTE]
+> You need to fulfill the prerequisites to run the script.
+
+1. **Python v3.12** (to run `python`)
+
+   - Using Conda (recommended):
+
+     You can use [Miniconda](https://docs.anaconda.com/miniconda/install) to install and manage Python versions.
+
+   - <details>
+     <summary>Using Python installer (alternative)</summary>
      
-      ```bash
-      python --version
-      ```
+     You can download the Python installer from the link [Python 3.12.8](https://www.python.org/downloads/release/python-3128/), select the version appropriate for your operating system, and run the installer.
 
-2. **[Google Cloud CLI](https://cloud.google.com/sdk/docs/install)**:
-   - The `gcloud` CLI is required for authenticating to access private package repositories. Ensure it's installed and configured (`gcloud auth login`, `gcloud config set project <your-project-id>`).
-   - Install the CLI by following the instructions at [cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install).
-   - After installation, configure it by running:
-     
-       ```bash
-       gcloud auth login
-       gcloud config set project <your-project-id>
-       ```
+     > [!NOTE]
+     > For Windows, please make sure to check the `Add python.exe to PATH` option during the installation process.
+   </details>
 
-3. **VSCode IDE**
-   - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
+2. **Google Cloud CLI v493.0.0 or above** (to run `gcloud`).
 
-4. **Access to the GDP Labs Google Artifact Registry**.
+   - You can install it by following [this instruction](https://cloud.google.com/sdk/docs/install).
+   - After installing it, sign in to your account using `gcloud auth login` command.
+   - If the `gcloud` CLI asks you to enter project ID, enter `gdp-labs`.
+
+3. **Access to GDP-ADMIN/gen-ai-internal repository**
+
+   You can try to access the [GDP-ADMIN/gen-ai-external](https://github.com/GDP-ADMIN/gen-ai-external) repository in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
+
+4. **SSH Key in your GitHub Account**
+
+   You must add your SSH key to your GitHub account. Please follow this instruction by GitHub: [Adding a new SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account). This is required as this sample has dependency to a private GitHub repository.
+
+5. **Access to the GDP Labs Google Artifact Registry**.
    - This is required for `poetry` to download necessary dependencies.
    - If you don't have access, please make a request to ticket(at)gdplabs.id.
+
+6. **VSCode IDE**
+   - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
 
 ### Installing dependencies
 
@@ -58,7 +73,7 @@ This is an example how to create custom tool and agent.
      - For Windows Powershell:
 
        ```powershell
-       .\\local-start.bat
+       .\local-start.bat
        ```
 
      - For Windows Command Prompt:
