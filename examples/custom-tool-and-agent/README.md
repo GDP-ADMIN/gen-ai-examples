@@ -128,12 +128,14 @@ Let's create an agent with the ability to make weather forecast. We will be usin
    - **Sub-Agents**: -
    - **Timeout**: 60
    - **Instructions**:
-   ```
-   You are an agent that can make a weather forecast prediction.
-
-   You are provided with tools to help you make a weather forecast.
-   Always use the provided tools when make a weather forecast, do not assume or make up your own answer.
-   ```
+     
+      ```
+      You are an agent that can make a weather forecast prediction.
+   
+      You are provided with tools to help you make a weather forecast.
+      Always use the provided tools when make a weather forecast, do not assume or make up your own answer.
+      ```
+      
    **Note**: Since we are creating a single agent, leave the Sub-Agents field empty.
 
 4. Click the "Save" button
@@ -157,7 +159,7 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
    *   **Important**: Do **not** change the `Agent Name`. It must remain `Hello World Agent` because this specific name is pre-assigned to the "Demo General Purpose" chatbot for testing purposes.
    *   Update the `Agent Display Name`, `Description`, `Model`, `Tools` (select `weather_forecast_tool`), `Timeout`, and `Instructions` to match your Weather Forecast Agent.
 
-   <img width="960" alt="image" src="https://github.com/user-attachments/assets/99460f62-c420-4d58-b09f-57ad5c2c20e4" />
+         <img width="960" alt="image" src="https://github.com/user-attachments/assets/99460f62-c420-4d58-b09f-57ad5c2c20e4" />
 
 5. Click "Save".
 
