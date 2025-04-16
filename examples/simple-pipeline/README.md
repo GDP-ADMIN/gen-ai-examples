@@ -30,10 +30,6 @@ This is an example of how to use the gllm-plugin library to build a simple pipel
 
    You must add your SSH key to your GitHub account. Please follow this instruction by GitHub: [Adding a new SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account). This is required as this sample has dependency to a private GitHub repository.
 
-4. **VSCode IDE**
-
-   - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
-
 
 ## Running the Code
 
