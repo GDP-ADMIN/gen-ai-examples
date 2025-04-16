@@ -1,315 +1,285 @@
 @echo off
-setlocal enabledelayedexpansion
+setlocal EnableDelayedExpansion
 
-REM Define acceptable Python versions
-set "PYTHON_VERSIONS=3.11 3.12"
-set "POETRY_VERSION=1.8.1"
-set "GCLOUD_VERSION=493.0.0"
+:: Set Variables
+set "MIN_PYTHON_VERSION=3.11 3.12"
+set "MIN_POETRY_VERSION=1.8.1"
+set "MIN_GCLOUD_VERSION=493.0.0"
 
 set "PYTHON_CMD=python"
-set "LOG_FILE=.\deploy.log"
+set PYTHON_PATH=""
+set POETRY_PATH=""
+set COMMAND_VERSION=
 
-set "PYTHON_PATH="
-set "POETRY_PATH="
-
-REM Colors for logging
-set "COLOR_ERROR=[91m"
-set "COLOR_WARNING=[93m"
-set "COLOR_INFO=[94m"
-set "COLOR_SUCCESS=[92m"
-set "COLOR_RESET=[0m"
-
-REM Clear the log file
-type nul > "%LOG_FILE%"
-
-REM Create a log file that we'll append to
-echo %DATE% %TIME% - Starting custom-tool-and-agent setup > "%LOG_FILE%"
-
-REM Function to get timestamp
-:get_timestamp
-set "TIMESTAMP=[%DATE% %TIME%]"
+(
+:: Main Section
+call :log "Checking custom-tool-and-agent example requirements..."
+call :get_python_path
+call :check_requirements
+call :install_command "poetry" "%MIN_POETRY_VERSION%"
+call :deactivate_conda
+call :check_gcloud_login
+call :check_artifact_access
+call :log "All requirements are satisfied."
+call :log "Setting up custom-tool-and-agent example..."
+call :copy_env_file
+call :setup_poetry_http_basic
+:: call :configure_poetry_python_path
+call :install_dependencies
+call :log "custom-tool-and-agent example ready to run."
+call :log "Running custom-tool-and-agent example..."
+call :show_poetry_python_interpreter_path
+call :log "custom-tool-and-agent example finished running."
 exit /b
+)
 
-REM Function to log messages
-:log
-call :get_timestamp
-echo %COLOR_INFO%%TIMESTAMP%%COLOR_RESET% %~1
-echo %TIMESTAMP% %~1 >> "%LOG_FILE%"
-exit /b
-
-REM Function to handle errors and exit
-:handle_error
-call :get_timestamp
-echo %COLOR_ERROR%%TIMESTAMP% An error occurred: %~1%COLOR_RESET%
-echo %TIMESTAMP% ERROR: %~1 >> "%LOG_FILE%"
-call :exit_application
-exit /b
-
-REM Function to exit application
-:exit_application
-call :log "%COLOR_WARNING%Exiting...%COLOR_RESET%"
-exit /b 1
-
-REM Function to get Python path
 :get_python_path
 where python >nul 2>&1
-if %ERRORLEVEL% EQU 0 (
-    for /f "tokens=*" %%i in ('where python') do (
-        set "PYTHON_PATH=%%i"
-        set "PYTHON_CMD=python"
-    )
+if %errorlevel% equ 0 ( 
+    set "PYTHON_CMD=python"
 ) else (
-    call :handle_error "Python not found. Please install Python %PYTHON_VERSIONS%"
-)
-
-call :log "PYTHON_PATH will be set to: %PYTHON_PATH%"
-exit /b
-
-REM Function to get Poetry path
-:get_poetry_path
-set "POETRY_PATH=%APPDATA%\pypoetry\venv\Scripts\poetry.exe"
-if not exist "%POETRY_PATH%" (
-    if defined POETRY_HOME (
-        set "POETRY_PATH=%POETRY_HOME%\venv\Scripts\poetry.exe"
+    call :log "python command not found, trying to use python3 instead..."
+    where python3 >nul 2>&1
+    if %errorlevel% equ 0 (
+        set "PYTHON_CMD=python3"
     ) else (
-        call :handle_error "Poetry path not found. Please install Poetry."
+        call :handle_error "Python not found. Please install Python with one of these versions %MIN_PYTHON_VERSION%"
     )
 )
-
-call :log "Detected Poetry path: %POETRY_PATH%"
+for /f "delims=" %%i in ('where %PYTHON_CMD%') do (
+    set "PYTHON_PATH=%%i"
+    goto :python_break
+)
+:python_break
+call :log "use python command: !PYTHON_CMD!"
+call :log "PYTHON_PATH will be set to: !PYTHON_PATH!"
 exit /b
 
-REM Function to install command
-:install_command
-set "cmd=%~1"
-set "required_version=%~2"
-
-if "%cmd%"=="poetry" (
-    call :log "Attempting to install the latest version of %cmd%..."
-    
-    call :log "Installing Poetry via PowerShell..."
-    powershell -NoProfile -ExecutionPolicy Bypass -Command "(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -"
-    if %ERRORLEVEL% NEQ 0 (
-        call :handle_error "Failed to install %cmd% version %required_version%."
-    )
-    
-    call :get_poetry_path
-) else (
-    if "%cmd%"=="%PYTHON_CMD%" (
-        call :handle_error "Please use Python version %PYTHON_VERSIONS%."
-    ) else (
-        call :handle_error "Please install %cmd% version %required_version% or above."
-    )
-)
+:check_requirements
+call :log "Checking system requirements..."
+:: Check command version
+call :check_command_version "%PYTHON_CMD%" "%MIN_PYTHON_VERSION%" "--version"
+call :check_command_version "gcloud" "%MIN_GCLOUD_VERSION%" "--version"
+call :log "System requirements are satisfied."
 exit /b
 
-REM Function to extract version number
-:extract_version
-for /f "tokens=*" %%a in ('%~1 %~2 2^>^&1') do (
-    set "VERSION_OUTPUT=%%a"
-    call :parse_version "!VERSION_OUTPUT!"
-)
-exit /b
-
-REM Function to parse version string
-:parse_version
-set "version_string=%~1"
-for /f "tokens=1,2,3 delims=. " %%a in ('echo %version_string%') do (
-    set "parsed_version=%%a.%%b.%%c"
-)
-exit /b
-
-REM Function to check if a version is in allowed array
-:check_version_array
-set "current_version=%~1"
-set "command_name=%~2"
-set "version_matched=false"
-
-for %%v in (%PYTHON_VERSIONS%) do (
-    echo !current_version! | findstr /r "^%%v\.[0-9]*$" >nul
-    if !ERRORLEVEL! EQU 0 (
-        set "version_matched=true"
-    )
-)
-
-if "!version_matched!"=="false" (
-    call :handle_error "%command_name% version must be either (%PYTHON_VERSIONS%). Current version: %current_version%."
-)
-exit /b
-
-REM Function to check command version
+:: Check command version function
 :check_command_version
 set "cmd=%~1"
 set "required_version=%~2"
 set "version_flag=%~3"
-
-where %cmd% >nul 2>&1
-if %ERRORLEVEL% NEQ 0 (
-    call :log "%cmd% is not installed. Required version: %required_version%."
-    call :install_command "%cmd%" "%required_version%"
-    exit /b
+where !cmd! >nul 2>&1
+if %errorlevel% neq 0 (
+    call :log "!cmd! is not installed. Required version: !required_version!."
+    call :install_command !cmd! !required_version!
+    exit /b 1
 )
-
-REM Get current version
-for /f "tokens=* usebackq" %%a in (`%cmd% %version_flag% 2^>^&1`) do (
-    set "version_output=%%a"
-    echo !version_output! | findstr /r "[0-9]\+\.[0-9]\+\.[0-9]\+" >nul
-    if !ERRORLEVEL! EQU 0 (
-        for /f "tokens=1,2,3 delims=. " %%x in ("!version_output!") do (
-            set "current_version=%%x.%%y.%%z"
-        )
-    )
-)
-
-if not defined current_version (
-    call :handle_error "Could not determine %cmd% version. Please ensure it is installed correctly."
-)
-
-REM Check Python version specifically
-if "%cmd%"=="%PYTHON_CMD%" (
-    call :check_version_array "!current_version!" "%PYTHON_CMD%"
+call :get_command_version !cmd! !version_flag!
+:: Check for exact Python version
+if "!cmd!"=="%PYTHON_CMD%" (
+    call :check_version_array !COMMAND_VERSION! !cmd! "%MIN_PYTHON_VERSION%"
+    if !errorlevel! neq 0 exit /b 1
 ) else (
-    REM Basic version check for other commands (not implementing compare_versions fully)
-    echo %current_version% | findstr /r "^[0-9]" >nul
-    if !ERRORLEVEL! NEQ 0 (
-        call :handle_error "%cmd% version %required_version% or above is required."
+    call :compare_versions "!COMMAND_VERSION!" "!required_version!"
+    if !errorlevel! equ 0 (
+        call :log "!cmd! version !required_version! or above is required. You have version !COMMAND_VERSION!."
+        call :install_command !cmd! !required_version!
+        exit /b 1
     )
 )
-
-call :log "%cmd% is installed and meets the required version. Current version: %current_version%."
+call :log "!cmd! is installed and meets the required version (!required_version!). Current version: !COMMAND_VERSION!"
 exit /b
 
-REM Function to check requirements
-:check_requirements
-call :log "Checking system requirements..."
+:check_version_array
+set "current_version=%~1"
+set "command_name=%~2"
+set "version_array=%~3"
+set "version_matched=false"
+for %%v in (!version_array!) do (
+    powershell -Command "$current='%current_version%'; if($current -match '^%%v\.[0-9]+$') { exit 0 } else { exit 1 }" >nul 2>&1
+    if !errorlevel! equ 0 (
+        set "version_matched=true"
+        goto :version_match_end
+    )
+)
+:version_match_end
+if "!version_matched!"=="false" (
+    call :handle_error "!command_name! version must be one of (!version_array!). Current version: %current_version%."
+    exit /b 1
+)
+exit /b 0
 
-call :check_command_version "%PYTHON_CMD%" "%PYTHON_VERSION%" "--version"
-call :check_command_version "gcloud" "%GCLOUD_VERSION%" "--version"
+:compare_versions
+:: Parameters: %~1 = current version, %~2 = required version
+:: Returns: errorlevel 0 if current version is less than required version
+::         errorlevel 1 if current version is greater than or equal to required version
+powershell -Command "function Compare-Version { param($ver1, $ver2); $v1 = [version]::new($ver1); $v2 = [version]::new($ver2); if ($v1 -lt $v2) { exit 0 } else { exit 1 } }; Compare-Version '%~1' '%~2'" >nul 2>&1
+exit /b %errorlevel%
 
-call :log "System requirements are satisfied."
+:install_command
+set cmd=%~1
+set required_version=%~2
+if "%cmd%"=="poetry" (
+    call :log "Attempting to install the latest version of %cmd%..."
+    :: Install the latest version of Poetry
+    call :log "Installing Poetry via powershell..."
+        powershell -Command "(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | & $env:PYTHON_CMD -" || (
+        call :handle_error "Failed to install %cmd% version %required_version%."
+    )
+    call :update_poetry_path
+) else (
+    call :handle_error "Please install %cmd% version %required_version% or above."
+)
 exit /b
 
-REM Function to deactivate conda
+:update_poetry_path
+set "POETRY_PATH=%APPDATA%\pypoetry\venv\Scripts\poetry.exe"
+
+if not exist "!POETRY_PATH!" (
+    call :get_command_version "%PYTHON_CMD%" "--version"
+    :: Search for the folder matching the command version, ignoring the random part
+    set "COMMAND_VERSION=!COMMAND_VERSION:~0,4!"
+    for /d %%F in (%LOCALAPPDATA%\Packages\PythonSoftwareFoundation.Python.!COMMAND_VERSION!_*) do (
+        set "POETRY_PATH=%%F\LocalCache\Roaming\pypoetry\venv\Scripts\poetry.exe"
+        goto :path_break
+    )
+    :path_break
+    if not exist "!POETRY_PATH!" (
+        call :handle_error "POETRY_PATH is not found. Please ensure Poetry is installed correctly."
+        exit /b 1
+    )
+)
+call :log "POETRY_PATH will be set to: !POETRY_PATH!"
+exit /b
+
+:: Deactivate conda function
 :deactivate_conda
 where conda >nul 2>&1
-if %ERRORLEVEL% EQU 0 (
-    call :log "Checking for active Conda environments..."
+if %errorlevel% equ 0 (
+    for /f "tokens=* usebackq" %%i in (`conda info --base`) do (
+        set "CONDA_BASE=%%i"
+    )
     
     if defined CONDA_DEFAULT_ENV (
         call :log "Conda environment '%CONDA_DEFAULT_ENV%' is active. Deactivating..."
-        call conda deactivate 2>nul
-        call :log "Conda environment has been deactivated."
-    ) else (
-        call :log "No active Conda environment detected."
+        call conda deactivate
     )
+    call :log "All Conda environments have been deactivated."
 ) else (
     call :log "Conda is not installed. Skipping conda deactivation."
 )
 exit /b
 
-REM Function to copy env file
-:copy_env_file
-if not exist ".env" (
-    if exist ".env.example" (
-        copy ".env.example" ".env" >nul
-        call :log "Successfully copied '.env.example' to '.env'."
-        call :log "%COLOR_WARNING%Please change the values in the .env file with your own values and then run 'local-start.bat' again.%COLOR_RESET%"
-        call :exit_application
-    ) else (
-        call :log ".env.example file not found. Continuing without creating .env file."
+:get_command_version
+:: Parameters: %~1 = command, %~2 = version flag
+set cmd=%~1
+set version_flag=%~2
+set version_output=
+
+:: Execute the command and capture the output
+for /f "tokens=* usebackq" %%i in (`!cmd! !%version_flag! 2^>^&1`) do (
+    set "version_output=%%i"   
+    :: Extract version number using a regular expression
+    for /f "tokens=* usebackq" %%v in (`powershell -Command "$version='!version_output!'; if($version -match '\d+\.\d+\.\d+') { $matches[0] }"`) do (
+        set "COMMAND_VERSION=%%v"
     )
-) else (
-    call :log ".env file exists. Continuing..."
+    goto :break
 )
-exit /b
+:break
+if "!COMMAND_VERSION!"=="" (
+    call :handle_error "Could not determine !cmd! version. Please ensure it is installed correctly."
+    exit /b 1
+) 
+exit /b 0
 
-REM Function to check gcloud login
 :check_gcloud_login
-for /f "tokens=*" %%a in ('gcloud auth list --filter^=status:ACTIVE --format^="value(account)" 2^>^&1') do (
-    set "ACTIVE_ACCOUNT=%%a"
+for /f "tokens=*" %%i in ('gcloud auth list --filter=status:ACTIVE --format="value(account)" 2^>nul') do (
+    set "active_account=%%i"
 )
-
-if not defined ACTIVE_ACCOUNT (
+if not defined active_account (
     call :handle_error "No active gcloud account found. Please log in using 'gcloud auth login'."
+) else (
+    call :log "User is successfully logged into gcloud with the active account: !ACTIVE_ACCOUNT!"
 )
-
-call :log "User is successfully logged into gcloud with the active account: %ACTIVE_ACCOUNT%."
 exit /b
 
-REM Function to check artifact access
 :check_artifact_access
-gcloud artifacts packages list --repository=gen-ai --location=asia-southeast2 --project=gdp-labs >nul 2>&1
-if %ERRORLEVEL% NEQ 0 (
+cmd /c gcloud artifacts packages list --repository=gen-ai --location=asia-southeast2 --project=gdp-labs >nul 2>&1
+if %errorlevel% neq 0 (
     call :handle_error "User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id."
 )
-
 call :log "User has access to the GDP Labs Google Artifact Registry."
 exit /b
 
-REM Function to configure poetry python path
-:configure_poetry_python_path
-call :log "Configuring Poetry to use Python %PYTHON_PATH%..."
-
-"%POETRY_PATH%" env use "%PYTHON_PATH%" >nul 2>&1
-if %ERRORLEVEL% NEQ 0 (
-    call :handle_error "Failed to configure Poetry to use Python %PYTHON_PATH%. Please try again."
+:copy_env_file
+if not exist ".env" (
+    copy .env.example .env >nul 2>&1
+    call :log "Successfully copied '.env.example' to '.env'."
+    call :log "Please change the values in the .env file with your own values and then run './local-start.sh' again."
+    call :exit_application
 )
+call :log ".env file exists. Continuing..."
 exit /b
 
-REM Function to setup poetry http basic
 :setup_poetry_http_basic
 call :log "Setting up POETRY_HTTP_BASIC_GEN_AI_USERNAME and POETRY_HTTP_BASIC_GEN_AI_PASSWORD..."
 set "POETRY_HTTP_BASIC_GEN_AI_USERNAME=oauth2accesstoken"
-
-for /f "tokens=*" %%a in ('gcloud auth print-access-token') do (
-    set "POETRY_HTTP_BASIC_GEN_AI_PASSWORD=%%a"
+for /f "tokens=* usebackq" %%i in (`gcloud auth print-access-token`) do (
+    set "POETRY_HTTP_BASIC_GEN_AI_PASSWORD=%%i"
 )
 exit /b
 
-REM Function to install dependencies
+:configure_poetry_python_path
+call :log "Configuring Poetry to use Python !PYTHON_PATH!..."
+!POETRY_PATH! env use !PYTHON_PATH! || call :handle_error "Failed to configure Poetry to use Python !PYTHON_PATH!."
+exit /b
+
 :install_dependencies
 call :log "Installing dependencies..."
-
-"%POETRY_PATH%" install
-if %ERRORLEVEL% NEQ 0 (
-    call :handle_error "Failed to install dependencies. Please try again."
-)
+!POETRY_PATH! add python-magic-bin  || call :handle_error "Failed to add python-magic-bin."
+!POETRY_PATH! install || call :handle_error "Failed to install dependencies."
 exit /b
 
-REM Function to show poetry python interpreter path
+
 :show_poetry_python_interpreter_path
 call :log "Getting Python interpreter path for use in IDE..."
-
-"%POETRY_PATH%" env info --executable
-if %ERRORLEVEL% NEQ 0 (
-    call :handle_error "Failed to get Python interpreter path. Please try again."
-)
+!POETRY_PATH! env info --executable || call :handle_error "Failed to get Python interpreter path. Please try again."
 exit /b
 
-REM Main function
-:main
-call :log "%COLOR_INFO%Checking custom-tool-and-agent example requirements...%COLOR_RESET%"
-call :get_python_path
-call :check_requirements
-call :install_command "poetry" "%POETRY_VERSION%"
 
-call :deactivate_conda
-call :check_gcloud_login
-call :check_artifact_access
-call :log "%COLOR_SUCCESS%All requirements are satisfied.%COLOR_RESET%"
-
-call :log "%COLOR_INFO%Setting up custom-tool-and-agent example...%COLOR_RESET%"
-call :copy_env_file
-call :setup_poetry_http_basic
-call :configure_poetry_python_path
-call :install_dependencies
-call :log "%COLOR_SUCCESS%custom-tool-and-agent example ready to run.%COLOR_RESET%"
-
-call :show_poetry_python_interpreter_path
-call :log "%COLOR_SUCCESS%custom-tool-and-agent example finished running.%COLOR_RESET%"
-
+:: Logging function
+:log
+for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set datetime=%%I
+echo [%datetime:~0,4%-%datetime:~4,2%-%datetime:~6,2% %datetime:~8,2%:%datetime:~10,2%:%datetime:~12,2%] %~1
 exit /b
 
-REM Call main function
-call :main
-endlocal
+:: Error handling function
+:handle_error
+call :log "An error occurred: %~1"
+call :exit_application
+exit /b
+
+:: Exit application function
+:exit_application
+call :log "Exiting..."
+call :exit_batch
+
+:exit_batch
+if not exist "%temp%\ExitBatchYes.txt" call :build_yes
+call :CtrlC <"%temp%\ExitBatchYes.txt" 1>nul 2>&1
+
+:: Error code terminated by user
+:CtrlC
+cmd /c exit -1073741510
+
+:: To give yes reponse when exit
+:build_yes
+pushd "%temp%"
+set "yes="
+copy nul ExitBatchYes.txt >nul
+for /f "delims=(/ tokens=2" %%Y in (
+  '"copy /-y nul ExitBatchYes.txt <nul"'
+) do if not defined yes set "yes=%%Y"
+echo %yes%>ExitBatchYes.txt
+popd
+exit /b
