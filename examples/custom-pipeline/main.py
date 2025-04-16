@@ -13,11 +13,9 @@ async def main():
     pipeline_config = {}
     pipeline = pipeline_builder.build(pipeline_config)
     state = pipeline_builder.build_initial_state({"message": input("Question: ")}, {})
-    result = await pipeline.invoke(
+    await pipeline.invoke(
         initial_state=state, config={"user_multimodal_contents": []}
     )
-    response = result.get("response")
-    print(f"Response:\n{response}")
 
 
 if __name__ == "__main__":
