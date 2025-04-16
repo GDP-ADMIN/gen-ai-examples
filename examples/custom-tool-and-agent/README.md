@@ -68,17 +68,36 @@ This is an example how to create custom tool and agent.
        ```
      </details>
 
+## Setting Python Interpreter Path in VSCode IDE
+
+Set up the Python interpreter path in your IDE by following these instructions:
+
+> [!WARNING]
+> You must complete the steps in **Installing Dependencies** until you see the `custom-tool-and-agent example finished running.` on the console before continuing with the steps below on this section.
+
+1. Open your VScode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
+2. After you run `./local-start.sh` using steps in **Installing Dependencies**, you will see the log `PYTHON_PATH will be set to:` in the console. Copy the path in the next line, which looks something like:
+   ```
+   /home/<username>/gen-ai-examples/examples/custom-tool-and-agent/.venv/bin/python3
+   ```
+3. Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
+
+   <img width="493" alt="image" src="https://github.com/user-attachments/assets/2e463386-3424-45b0-8e2e-b9b7adab21b0" />
+   
+4. Select `Enter interpreter path...`
+5. Paste the previously copied path from the console and press enter.
+
+   <img width="501" alt="image" src="https://github.com/user-attachments/assets/3fc2db14-d8e5-45fd-9f74-e7f59cf84abc" />
+
+6. Check the bottom status bar in VSCode (as shown in the image below) to ensure the selected Python interpreter points to the `.venv` environment created by Poetry (e.g., `Python 3.11.10 ('.venv')`).
+
+   <img width="203" alt="image" src="https://github.com/user-attachments/assets/3dffba0d-8cd7-4577-880b-ea74d0080b7c" />
+
 ## Tool Development Guide
 
 ### Creating a Custom Tool
 1. Open your VSCode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
-2. Activate the newly installed virtual environment. VSCode usually activates this environment automatically. If it doesn't activate the environment automatically, then you should click it and select the python from this path `/custom-tool-and-agent/.venv/bin/python`.
-   *   **Alternative**: You can also use the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`), type "Python: Select Interpreter", and choose the interpreter associated with the `.venv` directory within your project.
-   *   **Verify**: Check the bottom status bar in VSCode (as shown in the image below) to ensure the selected Python interpreter points to the `.venv` environment created by Poetry (e.g., `Python 3.11.10 ('.venv')`).
-
-         <img width="203" alt="image" src="https://github.com/user-attachments/assets/3dffba0d-8cd7-4577-880b-ea74d0080b7c" />
-
-3. Create a new Python file named `weather_forecast_tool.py` in the current directory (`examples/custom-tool-and-agent`).
+2. Create a new Python file named `weather_forecast_tool.py` in the current directory (`examples/custom-tool-and-agent`).
    *  Open a terminal. You can use the integrated terminal in VSCode (Terminal > New Terminal) or an external terminal window. Ensure your terminal's current working directory is `gen-ai-examples/examples/custom-tool-and-agent`.
 
          ```bash
@@ -87,11 +106,11 @@ This is an example how to create custom tool and agent.
 
    *  Alternatively, you can use your operating system's file explorer/finder to navigate to the project directory and create a new file, or use VSCode's file explorer panel to right-click in the directory and select "New File".
          
-5. Open the newly created `weather_forecast_tool.py` file in VSCode.
-6. Copy the entire content from the sample tool file located at `sample_tools/weather_forecast_tool.py` and paste it into your new `weather_forecast_tool.py`.
+3. Open the newly created `weather_forecast_tool.py` file in VSCode.
+4. Copy the entire content from the sample tool file located at `sample_tools/weather_forecast_tool.py` and paste it into your new `weather_forecast_tool.py`.
    *   The sample file demonstrates the basic structure of a tool using the `@tool_plugin` decorator.
    *   **What this tool does**: This sample tool provides weather forecasts for specific days of the week across multiple cities (New York, London, and Tokyo). It uses mock weather data stored within the tool itself and takes a day of the week as input. The tool returns formatted weather information including condition, temperature, and humidity for each location.
-7. Check the import statements. Ensure that there are no import errors.
+5. Check the import statements. Ensure that there are no import errors.
    *   **What are import errors?** These errors mean that Python cannot find a specific piece of code (a library or module) that the tool needs to function. This usually happens if a required dependency wasn't installed correctly or if VSCode isn't using the correct Python environment where the dependencies were installed.
    *   **How to check**: Look for any red squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor. These visual cues indicate a problem. You can also open the "Problems" panel in VSCode (usually accessible via the View menu or by clicking the error/warning icons in the bottom status bar) to see a list of specific errors.
    *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and that `poetry install` (Step 4 under Installing Dependencies) completed without errors.
