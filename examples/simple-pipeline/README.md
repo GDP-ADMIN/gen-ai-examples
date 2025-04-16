@@ -1,6 +1,6 @@
-# GLLM Plugin Hello World
+# GLLM Plugin Hello World for Custom Pipeline
 
-This is an example of how to use the gllm-plugin library to build a simple pipeline.
+This is an example of how to use the gllm-plugin library to build a custom pipeline.
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ This is an example of how to use the gllm-plugin library to build a simple pipel
 
 2. **Access to GDP-ADMIN/gen-ai-internal repository**
 
-   You can try to access the [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) repository in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
+   You can try to access the [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal)  and [GDP-ADMIN/gen-ai-external](https://github.com/GDP-ADMIN/gen-ai-external) repositories in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
 
 3. **SSH Key in your GitHub Account**
 
