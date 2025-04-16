@@ -10,14 +10,7 @@ This is an example how to create custom tool and agent.
       python --version
       ```
 
-2. **[Poetry](https://python-poetry.org/docs/) v1.8.1 or above**:
-   - Poetry is used for dependency management and packaging in Python projects. It simplifies the process of managing project dependencies and virtual environments. You can check using `poetry --version`.
-
-      ```bash
-      poetry --version
-      ```
-
-4. **[Google Cloud CLI](https://cloud.google.com/sdk/docs/install)**:
+2. **[Google Cloud CLI](https://cloud.google.com/sdk/docs/install)**:
    - The `gcloud` CLI is required for authenticating to access private package repositories. Ensure it's installed and configured (`gcloud auth login`, `gcloud config set project <your-project-id>`).
    - Install the CLI by following the instructions at [cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install).
    - After installation, configure it by running:
@@ -27,10 +20,10 @@ This is an example how to create custom tool and agent.
        gcloud config set project <your-project-id>
        ```
 
-5. **VSCode IDE**
+3. **VSCode IDE**
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
 
-6. **GDP Labs VPN**
+4. **GDP Labs VPN**
    - The GDP Labs VPN is required to access the GLChat staging environment where tools are uploaded and agents are tested. Ensure you are connected to the VPN before proceeding with steps involving GLChat.
 
 ### Installing dependencies
@@ -47,18 +40,28 @@ This is an example how to create custom tool and agent.
    cd gen-ai-examples/examples/custom-tool-and-agent
    ```
 
-3. Configure Poetry to authenticate with Google Artifact Registry (or other private repository):
-   - This command uses your `gcloud` credentials to grant Poetry access to private packages required by the project.
+3. Execute the script:
 
-      ```bash
-      poetry config http-basic.gen-ai oauth2accesstoken "$(gcloud auth print-access-token)"
-      ```
+   - For Linux, macOS, or Windows WSL:
 
-4. Install all dependencies specified in the lock file:
+     ```bash
+     ./local-start.sh
+     ```
 
-   ```bash
-   poetry install
-   ```
+     > [!NOTE]
+     > On Windows, you can either install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) or execute the batch file in Windows Powershell or Command Prompt as described in the next section.
+
+   - For Windows Powershell:
+
+     ```powershell
+     .\local-start.bat
+     ```
+
+   - For Windows Command Prompt:
+
+     ```cmd
+     local-start.bat
+     ```
 
 ## Tool Development Guide
 
