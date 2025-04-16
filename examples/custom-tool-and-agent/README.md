@@ -23,9 +23,6 @@ This is an example how to create custom tool and agent.
 3. **VSCode IDE**
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
 
-4. **GDP Labs VPN**
-   - The GDP Labs VPN is required to access the GLChat staging environment where tools are uploaded and agents are tested. Ensure you are connected to the VPN before proceeding with steps involving GLChat.
-
 ### Installing dependencies
 
 1. Clone the `gen-ai-examples` repository.
@@ -93,7 +90,7 @@ This is an example how to create custom tool and agent.
    *   Once you've successfully run through this example, see the [Advanced: Developing Your Own Custom Tool](#advanced-developing-your-own-custom-tool) section at the end of this document for guidance on creating tools beyond this sample.
 
 ### Upload tool to GL Chat
-1. Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GLChat (ensure you are connected to the GDP Labs VPN).
+1. Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent) menu in GLChat.
 2. Select the "Tools" menu and click the "Upload Tool" button
    
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/90d0b2fa-b481-4f56-a90e-c2f0c0340f41" />
@@ -152,7 +149,7 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 
 ### Configure the Test Agent
 
-1. Go back to the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GLChat.
+1. Go back to the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent) menu in GLChat.
 2. Select the "Agent" tab and ensure "Custom Agent" is selected in the filter/dropdown.
 3. Find the "Hello World Agent" card, click the triple dots icon (...), and then click "Edit".
 
@@ -168,7 +165,7 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 
 ### Converse with Agent
 
-1. Open the [GLChat Chat UI](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/) in your browser (ensure you are connected to the GDP Labs VPN).
+1. Open the [GLChat Chat UI](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/) in your browser.
 2. From the left-hand sidebar, click on the "Chatbot" selection menu (it might initially say "Demo General Purpose").
 3. Select "Demo General Purpose" from the dropdown list.
 
@@ -188,7 +185,7 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
 
 #### Reset Hello World Agent
 
-1.   Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GLChat
+1.   Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent) menu in GLChat
 2.   In the previous steps, we edited the Hello World Agent to Weather Forecast Agent, navigate to this agent, click the triple dots icon, and then click "Edit"
 
       <img width="458" alt="image" src="https://github.com/user-attachments/assets/629d8a89-2eee-445d-afa4-17fa60287a53" />
@@ -198,12 +195,12 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
 
 #### Delete The Weather Forecast Agent
 
-1.   Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GLChat
+1.   Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent) menu in GLChat
 2.   In the previous steps, we created a new agent named Weather Forecast Agent, navigate to this agent, click the triple dots icon, and then click "Delete"
 
 #### Delete the `weather_forecast_tool`
 
-1.   Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/agent-setting/agent) menu in GLChat
+1.   Open the [Agent Setting](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent) menu in GLChat
 2.   Select the "Tools" menu
 3.   Select the "Custom Tools" section
 4.   Navigate to the `weather_forecast_tool`, click the triple dots, and then click "Delete"
