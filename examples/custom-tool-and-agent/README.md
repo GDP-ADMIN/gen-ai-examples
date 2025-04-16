@@ -5,50 +5,57 @@ This is an example how to create custom tool and agent.
 
 1. **Python v3.11 or above**:
    - Ensure that Python is installed and available in your environment. You can check using `python --version`.
-   ```bash
-   python --version
-   ```
+     
+      ```bash
+      python --version
+      ```
 
 2. **[Poetry](https://python-poetry.org/docs/) v1.8.1 or above**:
    - Poetry is used for dependency management and packaging in Python projects. It simplifies the process of managing project dependencies and virtual environments. You can check using `poetry --version`.
-   ```bash
-   poetry --version
-   ```
 
-3. **[Google Cloud CLI](https://cloud.google.com/sdk/docs/install)**:
+      ```bash
+      poetry --version
+      ```
+
+4. **[Google Cloud CLI](https://cloud.google.com/sdk/docs/install)**:
    - The `gcloud` CLI is required for authenticating to access private package repositories. Ensure it's installed and configured (`gcloud auth login`, `gcloud config set project <your-project-id>`).
    - Install the CLI by following the instructions at [cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install).
    - After installation, configure it by running:
+     
        ```bash
        gcloud auth login
        gcloud config set project <your-project-id>
        ```
 
-4. **VSCode IDE**
+5. **VSCode IDE**
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
 
-5. **GDP Labs VPN**
+6. **GDP Labs VPN**
    - The GDP Labs VPN is required to access the GLChat staging environment where tools are uploaded and agents are tested. Ensure you are connected to the VPN before proceeding with steps involving GLChat.
 
 ### Installing dependencies
 
 1. Clone the `gen-ai-examples` repository.
+
    ```bash
    git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
    ```
 
 2. Navigate to the example directory:
+
    ```bash
    cd gen-ai-examples/examples/custom-tool-and-agent
    ```
 
 3. Configure Poetry to authenticate with Google Artifact Registry (or other private repository):
    - This command uses your `gcloud` credentials to grant Poetry access to private packages required by the project.
-   ```bash
-   poetry config http-basic.gen-ai oauth2accesstoken "$(gcloud auth print-access-token)"
-   ```
+
+      ```bash
+      poetry config http-basic.gen-ai oauth2accesstoken "$(gcloud auth print-access-token)"
+      ```
 
 4. Install all dependencies specified in the lock file:
+
    ```bash
    poetry install
    ```
@@ -61,17 +68,19 @@ This is an example how to create custom tool and agent.
    *   **Alternative**: You can also use the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`), type "Python: Select Interpreter", and choose the interpreter associated with the `.venv` directory within your project.
    *   **Verify**: Check the bottom status bar in VSCode (as shown in the image below) to ensure the selected Python interpreter points to the `.venv` environment created by Poetry (e.g., `Python 3.11.10 ('.venv')`).
 
-   <img width="203" alt="image" src="https://github.com/user-attachments/assets/3dffba0d-8cd7-4577-880b-ea74d0080b7c" />
+         <img width="203" alt="image" src="https://github.com/user-attachments/assets/3dffba0d-8cd7-4577-880b-ea74d0080b7c" />
 
 3. Create a new Python file named `weather_forecast_tool.py` in the current directory (`examples/custom-tool-and-agent`).
    *   Open a terminal. You can use the integrated terminal in VSCode (Terminal > New Terminal) or an external terminal window. Ensure your terminal's current working directory is `gen-ai-examples/examples/custom-tool-and-agent`.
-     ```bash
-     touch weather_forecast_tool.py
-     ```
-4. Open the newly created `weather_forecast_tool.py` file in VSCode.
-5. Copy the entire content from the sample tool file located at `sample_tools/weather_forecast_tool.py` and paste it into your new `weather_forecast_tool.py`.
+
+         ```bash
+        touch weather_forecast_tool.py
+        ```
+         
+5. Open the newly created `weather_forecast_tool.py` file in VSCode.
+6. Copy the entire content from the sample tool file located at `sample_tools/weather_forecast_tool.py` and paste it into your new `weather_forecast_tool.py`.
    *   The sample file demonstrates the basic structure of a tool using the `@tool_plugin` decorator.
-6. Check the import statements. Ensure that there are no import errors.
+7. Check the import statements. Ensure that there are no import errors.
    *   **What are import errors?** These errors mean that Python cannot find a specific piece of code (a library or module) that the tool needs to function. This usually happens if a required dependency wasn't installed correctly or if VSCode isn't using the correct Python environment where the dependencies were installed.
    *   **How to check**: Look for any red squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor. These visual cues indicate a problem. You can also open the "Problems" panel in VSCode (usually accessible via the View menu or by clicking the error/warning icons in the bottom status bar) to see a list of specific errors.
    *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and that `poetry install` (Step 4 under Installing Dependencies) completed without errors.
@@ -170,6 +179,7 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
 1.  **Create a Python File**: Create a new `.py` file for your tool (e.g., `my_calculator_tool.py`).
 2.  **Import Necessary Modules**: You'll typically need `BaseTool` from `langchain_core.tools`, `BaseModel` and `Field` from `pydantic`, and the `tool_plugin` decorator from `gllm_plugin.tools`.
 3.  **Define Input Schema (if needed)**: If your tool requires specific inputs, define a Pydantic `BaseModel` subclass. Use `Field` to add descriptions and validation for each input parameter.
+
     ```python
     from pydantic import BaseModel, Field
 
@@ -177,13 +187,15 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
         parameter1: str = Field(..., description="Description for parameter 1")
         parameter2: int = Field(..., description="Description for parameter 2")
     ```
-4.  **Create Tool Class**: Define a class that inherits from `langchain_core.tools.BaseTool`.
-5.  **Add Decorator**: Apply the `@tool_plugin(version="...")` decorator to your class for automatic registration.
-6.  **Set Class Attributes**: Define the required attributes within your class:
+    
+5.  **Create Tool Class**: Define a class that inherits from `langchain_core.tools.BaseTool`.
+6.  **Add Decorator**: Apply the `@tool_plugin(version="...")` decorator to your class for automatic registration.
+7.  **Set Class Attributes**: Define the required attributes within your class:
     *   `name`: A unique string identifier for your tool (e.g., `"my_calculator"`).
     *   `description`: A clear, concise description of what the tool does (used by the AI agent to decide when to use it).
     *   `args_schema`: Set this to your Pydantic input schema class (e.g., `args_schema: type[BaseModel] = MyToolInput`). If your tool takes no input, you might omit this or use a default.
-7.  **Implement `_run` Method**: Define the `_run` method. This is the core logic of your tool. It receives the input parameters (defined in your `args_schema`) as arguments and should return a string result.
+8.  **Implement `_run` Method**: Define the `_run` method. This is the core logic of your tool. It receives the input parameters (defined in your `args_schema`) as arguments and should return a string result.
+
     ```python
     from langchain_core.tools import BaseTool
     from gllm_plugin.tools import tool_plugin
@@ -203,4 +215,5 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
             # --- End of logic ---
             return result # Return a string
     ```
-8.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat using the steps in the [Upload tool to GL Chat](#upload-tool-to-gl-chat) section and configure an agent to use it.
+    
+9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat using the steps in the [Upload tool to GL Chat](#upload-tool-to-gl-chat) section and configure an agent to use it.
