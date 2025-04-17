@@ -40,12 +40,12 @@ This is an example how to create custom tool and agent.
    - If you don't have access, please make a request to ticket(at)gdplabs.id.
 
    **Notes**:\
-   If you're unsure whether you already have access, simply proceed to the next step. The script in step 4 of the [Installing Dependencies](#installing-dependencies) section will automatically check your access status. If you don't have the necessary permissions, you'll see this error message: `User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id.`
+   If you're unsure whether you already have access, simply proceed to the next step. The script in step 4 of the [Running the Code](#running-the-code) section will automatically check your access status. If you don't have the necessary permissions, you'll see this error message: `User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id.`
 
 7. **VSCode IDE**
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
 
-## Installing Dependencies
+## Running the Code
 
 1. Open a terminal (on Mac/Linux) or command prompt (on Windows)
 
@@ -93,7 +93,7 @@ This is an example how to create custom tool and agent.
 Set up the Python interpreter path in your IDE by following these instructions:
 
 > [!WARNING]
-> You must complete the steps in [Installing Dependencies](#installing-dependencies) until you see the `custom-tool-and-agent example finished running.` on the console before continuing with the steps below on this section.
+> You must complete the steps in [Running the Code](#running-the-code) until you see the `custom-tool-and-agent example finished running.` on the console before continuing with the steps below on this section.
 
 1. Open your VScode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
 2. On the left side-bar, click the "Extensions" menu (Ctrl+Shift+X). Type "Python" in the Search Bar and then click an extension named "Python" from "Microsoft". Finally, click the "Install" button.
@@ -106,7 +106,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
    <img width="579" alt="image" src="https://github.com/user-attachments/assets/72979f2b-16b1-4265-8d30-dfab96cd6a61" />
    
-5. After you run `./local-start.sh` using steps in [Installing Dependencies](#installing-dependencies), you will see the log `PYTHON_PATH will be set to:` in the console. Copy the path in the next line, which looks something like:
+5. After you run `./local-start.sh` using steps in [Running the Code](#running-the-code), you will see the log `PYTHON_PATH will be set to:` in the console. Copy the path in the next line, which looks something like:
    ```
    /home/<username>/gen-ai-examples/examples/custom-tool-and-agent/.venv/bin/python3
    ```
@@ -138,7 +138,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
 5. Check the import statements. Ensure that there are no import errors.
    *   **What are import errors?** These errors mean that Python cannot find a specific piece of code (a library or module) that the tool needs to function. This usually happens if a required dependency wasn't installed correctly or if VSCode isn't using the correct Python environment where the dependencies were installed.
    *   **How to check**: Look for any red squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor. These visual cues indicate a problem. You can also open the "Problems" panel in VSCode (usually accessible via the View menu or by clicking the error/warning icons in the bottom status bar) to see a list of specific errors.
-   *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and the script `local-start` (Step 4 under [Installing Dependencies](#installing-dependencies)) completed without errors.
+   *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and the script `local-start` (Step 4 under [Running the Code](#running-the-code)) completed without errors.
    *   Once you've successfully run through this example, see the [Advanced: Developing Your Own Custom Tool](#advanced-developing-your-own-custom-tool) section at the end of this document for guidance on creating tools beyond this sample.
 
 ### Upload tool to GLChat
