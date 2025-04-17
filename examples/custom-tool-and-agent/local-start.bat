@@ -22,7 +22,7 @@ call :check_gcloud_login
 call :check_artifact_access
 call :log "All requirements are satisfied."
 call :log "Setting up custom-tool-and-agent example..."
-call :copy_env_file
+:: call :copy_env_file
 call :setup_poetry_http_basic
 :: call :configure_poetry_python_path
 call :install_dependencies

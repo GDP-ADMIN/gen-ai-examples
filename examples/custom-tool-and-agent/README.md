@@ -39,24 +39,29 @@ This is an example how to create custom tool and agent.
    - This is required for `poetry` to download necessary dependencies.
    - If you don't have access, please make a request to ticket(at)gdplabs.id.
 
+   Notes:
+   If you're unsure whether you already have access, simply proceed to the next step. The script in step 4 of the **Installing Dependencies** section will automatically check your access status. If you don't have the necessary permissions, you'll see this error message: `User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id.`
+
 6. **VSCode IDE**
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
 
 ### Installing dependencies
 
-1. Clone the `gen-ai-examples` repository.
+1. Open a terminal (on Mac/Linux) or command prompt (on Windows)
+
+2. Clone the `gen-ai-examples` repository.
 
    ```bash
    git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
    ```
 
-2. Navigate to the example directory:
+3. Navigate to the example directory:
 
    ```bash
    cd gen-ai-examples/examples/custom-tool-and-agent
    ```
 
-3. Execute the script:
+4. Execute the script:
 
    - For Linux, macOS, or Windows WSL:
 
