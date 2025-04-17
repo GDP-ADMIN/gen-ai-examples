@@ -45,7 +45,7 @@ This is an example how to create custom tool and agent.
 7. **VSCode IDE**
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
 
-### Installing dependencies
+### Installing Dependencies
 
 1. Open a terminal (on Mac/Linux) or command prompt (on Windows)
 
@@ -96,26 +96,30 @@ Set up the Python interpreter path in your IDE by following these instructions:
 > You must complete the steps in [Installing Dependencies](#installing-dependencies) until you see the `custom-tool-and-agent example finished running.` on the console before continuing with the steps below on this section.
 
 1. Open your VScode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
-2. Open the Python code sample [weather_forecast_tool.py](./sample_tools/weather_forecast_tool.py)
+2. On the left side-bar, click the "Extensions" menu (Ctrl+Shift+X). Type "Python" in the Search Bar and then click an extension named "Python" from "Microsoft". Finally, click the "Install" button.
+
+   <img width="960" alt="image" src="https://github.com/user-attachments/assets/04d437fd-51b8-4b01-b28b-b585db091fce" />
+   
+4. Open the Python code sample [weather_forecast_tool.py](./sample_tools/weather_forecast_tool.py)
 
    Notice that there are either red or yellow squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor.
 
    <img width="579" alt="image" src="https://github.com/user-attachments/assets/72979f2b-16b1-4265-8d30-dfab96cd6a61" />
    
-3. After you run `./local-start.sh` using steps in [Installing Dependencies](#installing-dependencies), you will see the log `PYTHON_PATH will be set to:` in the console. Copy the path in the next line, which looks something like:
+5. After you run `./local-start.sh` using steps in [Installing Dependencies](#installing-dependencies), you will see the log `PYTHON_PATH will be set to:` in the console. Copy the path in the next line, which looks something like:
    ```
    /home/<username>/gen-ai-examples/examples/custom-tool-and-agent/.venv/bin/python3
    ```
-4. Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
+6. Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
 
    <img width="493" alt="image" src="https://github.com/user-attachments/assets/2e463386-3424-45b0-8e2e-b9b7adab21b0" />
    
-5. Select `Enter interpreter path...`
-6. Paste the previously copied path from the console and press enter.
+7. Select `Enter interpreter path...`
+8. Paste the previously copied path from the console and press enter.
 
    <img width="501" alt="image" src="https://github.com/user-attachments/assets/3fc2db14-d8e5-45fd-9f74-e7f59cf84abc" />
 
-7. Check the bottom status bar in VSCode (as shown in the image below) to ensure the selected Python interpreter points to the `.venv` environment created by Poetry (e.g., `Python 3.11.10 ('.venv')`).
+9. Check the bottom status bar in VSCode (as shown in the image below) to ensure the selected Python interpreter points to the `.venv` environment created by Poetry (e.g., `Python 3.11.10 ('.venv')`).
 
    <img width="203" alt="image" src="https://github.com/user-attachments/assets/3dffba0d-8cd7-4577-880b-ea74d0080b7c" />
 
@@ -143,7 +147,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
 5. Check the import statements. Ensure that there are no import errors.
    *   **What are import errors?** These errors mean that Python cannot find a specific piece of code (a library or module) that the tool needs to function. This usually happens if a required dependency wasn't installed correctly or if VSCode isn't using the correct Python environment where the dependencies were installed.
    *   **How to check**: Look for any red squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor. These visual cues indicate a problem. You can also open the "Problems" panel in VSCode (usually accessible via the View menu or by clicking the error/warning icons in the bottom status bar) to see a list of specific errors.
-   *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and that `poetry install` (Step 4 under Installing Dependencies) completed without errors.
+   *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and the script `local-start` (Step 4 under [Installing Dependencies](#installing-dependencies)) completed without errors.
    *   Once you've successfully run through this example, see the [Advanced: Developing Your Own Custom Tool](#advanced-developing-your-own-custom-tool) section at the end of this document for guidance on creating tools beyond this sample.
 
 ### Upload tool to GLChat
