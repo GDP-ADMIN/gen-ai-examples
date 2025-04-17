@@ -260,6 +260,9 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 
 After you successfully test the Weather Forecast Agent, it's better to clean up your work so that others can test it with a clean state.
 
+> [!NOTE]
+> As of now, all agents and tools are shared across all users in GLChat. We are still working on Role-Based Access Control (RBAC). That's why we still need this cleanup step.
+
 #### Reset Hello World Agent
 
 1.   Navigate back to the GLChat Admin Dashboard.
@@ -342,3 +345,7 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
     ```
     
 9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat using the steps in the [Upload tool to GLChat](#upload-tool-to-gl-chat) section and configure an agent to use it.
+
+
+> [!NOTE]
+> As of now, we still depend on the `BaseTool` module from LangChain. We will implement our own `BaseTool` module that supports conversion of tools from major providers.
