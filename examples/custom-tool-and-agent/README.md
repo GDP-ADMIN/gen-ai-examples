@@ -232,8 +232,8 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/c3d1b895-dd1b-47d2-b135-b1f4d47ff662" />
 
 5. Fill in all fields according to the Weather Forecast Agent you defined previously (**except** for the **Agent Name** field).
-   *   **Important**: Do **not** change the `Agent Name`. It must remain `Hello World Agent` because this specific name is pre-assigned to the "Demo General Purpose" chatbot for testing purposes.
-   *   Update the `Agent Display Name`, `Description`, `Model`, `Tools` (select `weather_forecast_tool`), `Timeout`, and `Instructions` to match your Weather Forecast Agent.
+   *   **Notes**: The field `Agent Name` is non-editable and it must remain `hello_world_agent` because this specific name is pre-assigned to the "Demo General Purpose" chatbot for testing purposes.
+   *   Update the `Agent Display Name`, `Description`, `Model`, `Tools` (select `weather_forecast_tool`), `Timeout`, and `Instructions` to match your Weather Forecast Agent created previously in the [Creating a Single Agent](#creating-a-single-agent).
 
          <img width="960" alt="image" src="https://github.com/user-attachments/assets/4e294958-7024-48d9-8ad2-b4a87afadad1" />
 
