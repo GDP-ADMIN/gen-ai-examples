@@ -163,7 +163,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/7c39ec3a-7760-476d-a105-133322c1e823" />
 
-4. Upon successful upload, your tool should appear in the "Custom Tools" menu
+4. Upon successful upload, your tool should appear in the "Custom Tools" menu. A confirmation message will also be displayed indicating that your tool has been successfully registered in the GLChat.
    
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/2f4ec7e3-0b82-4748-a492-49c8ecbbf5c7" />
 
@@ -175,17 +175,18 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
 ### Creating a Single Agent
 
-Let's create an agent with the ability to make weather forecast. We will be using the weather forecast tool we created in previous steps. You can also use the [weather_forecast_tool.py](/sample_tools/weather_forecast_tool.py) in the [sample_tools](/sample_tools) folder.
+Agent can only use tools that have been registered. If you already have a tool that has not yet been registered, please refer to the [Tool Development Guide](#tool-development-guide) section.
+
+Let's create an agent with the ability to make weather forecasts using the tool we registered in the previous step.
 
 #### Here's the general workflow for creating an agent in GLChat:
-1. Ensure the `weather_forecast_tool.py` tool has been uploaded to GLChat **staging** by following the steps in the "Upload tool to GLChat" section.
-2. Ensure you are logged into the GLChat **staging** Admin Dashboard.
-3. From the Admin Dashboard, navigate to the "AI Agent" section in the left sidebar and click on "Agent". The **staging** URL should be [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent).
+1. Login to GLChat Admin Dashboard, refer to [Upload tool to GLChat](#upload-tool-to-glchat) section for details.
+2. From the Admin Dashboard, navigate to the "AI Agent" section in the left sidebar and click on "Agent". The **staging** URL should be [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent).
 
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/3db6de93-eca1-4313-8deb-14cc1571a5fd" />
 
-4. Click the "Create Agent" button.
-6. Fill in all the required fields exactly as follows:
+3. Click the "Create Agent" button.
+4. Fill in all the required fields, for example:
 
    - **Agent Name**: weather_forecast_agent
    - **Agent Display Name**: Weather Forecast Agent
@@ -207,8 +208,8 @@ Let's create an agent with the ability to make weather forecast. We will be usin
 
       <img width="960" alt="image" src="https://github.com/user-attachments/assets/c048e5a9-d677-400a-b456-f18488d554e9" />
 
-8. Click the "Save" button
-9. Upon successful creation, the Weather Forecast Agent should appear in the "Custom Agents" menu
+5. Click the "Save" button
+6. Upon successful creation, the Weather Forecast Agent should appear in the "Custom Agents" menu
 
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/17507b12-a25c-4b6e-9758-faceded4184c" />
 
