@@ -10,7 +10,7 @@ This is an example of how to use the gllm-plugin library to build a custom pipel
 > [!NOTE]
 > You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
 
-1. **Python v3.12** (to run `python`)
+1. **Python v3.12** (to run `python`).
 
    - Using Conda (recommended):
 
