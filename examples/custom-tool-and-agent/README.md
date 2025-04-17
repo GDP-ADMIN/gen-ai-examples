@@ -151,7 +151,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/29217848-33a4-4010-8d21-43cb6c4f7258" />
 
-5. In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Tools". The **staging** URL should be [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools).
+5. In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "[Tools](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools)".
 
     <img width="240" alt="image" src="https://github.com/user-attachments/assets/fd451432-1766-4c19-af51-de78c3b0ef01" />
 
@@ -181,7 +181,7 @@ Let's create an agent with the ability to make weather forecasts using the tool 
 
 #### Here's the general workflow for creating an agent in GLChat:
 1. Login to GLChat Admin Dashboard, refer to [Upload tool to GLChat](#upload-tool-to-glchat) section for details.
-2. From the Admin Dashboard, navigate to the "AI Agent" section in the left sidebar and click on "Agent". The **staging** URL should be [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent).
+2. From the Admin Dashboard, navigate to the "AI Agent" section in the left sidebar and click on "[Agent](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent)".
 
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/3db6de93-eca1-4313-8deb-14cc1571a5fd" />
 
@@ -215,11 +215,11 @@ Let's create an agent with the ability to make weather forecasts using the tool 
 
 ## Testing the Agent
 
-Since direct deployment/assignment of newly created custom agents to chatbots in GLChat **staging** is not yet available (pending the Admin Dashboard feature), we provide a workaround using a pre-existing dummy agent named "Hello World Agent" that is already assigned to the "Demo General Purpose" chatbot in the **staging** environment. We will edit this existing agent to use our custom tool and instructions.
+Since direct deployment/assignment of newly created custom agents to chatbots in GLChat is not yet available (pending the Admin Dashboard feature), we provide a workaround using a pre-existing dummy agent named "Hello World Agent" that is already assigned to the "Demo General Purpose" chatbot in the **staging** environment. We will edit this existing agent to use our custom tool and instructions.
 
 ### Configure the Test Agent
 
-1. Navigate back to the GLChat **staging** Admin Dashboard (ensure you are still logged in).
+1. Navigate back to the GLChat Admin Dashboard (ensure you are still logged in).
 2. In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Agent".
 3. Select the "Agent" tab (it might be selected by default) and ensure "Custom Agent" is selected in the filter/dropdown.
 4. Find the "Hello World Agent" card, click the triple dots icon (...), and then click "Edit".
@@ -236,7 +236,7 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 
 ### Converse with Agent
 
-1. Open the [GLChat **staging** Chat UI](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/) in your browser.
+1. Open the [GLChat Chat UI](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/) in your browser.
 
    **Tips:**
    If you are on the [Admin Dashboard](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/knowledge-base) page, you can easily switch to the GLoria Chatbot UI by clicking your profile section at the bottom left of the page and selecting "Switch to GLoria Chatbot".
@@ -262,7 +262,7 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
 
 #### Reset Hello World Agent
 
-1.   Navigate back to the GLChat **staging** Admin Dashboard.
+1.   Navigate back to the GLChat Admin Dashboard.
 2.   In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Agent".
 3.   Find the "Hello World Agent" (which you previously edited), click the triple dots icon, and then click "Edit".
 
@@ -282,14 +282,14 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
 
 #### Delete The Weather Forecast Agent
 
-1.   Navigate back to the GLChat **staging** Admin Dashboard.
+1.   Navigate back to the GLChat Admin Dashboard.
 2.   In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Agent".
 3.   Find the agent named "Weather Forecast Agent", click the triple dots icon, and then click "Delete".
 4.   Make sure the agent is deleted in the UI.
 
 #### Delete the `weather_forecast_tool`
 
-1.   Navigate back to the GLChat **staging** Admin Dashboard.
+1.   Navigate back to the GLChat Admin Dashboard.
 2.   In the Admin Dashboard, locate the "AI Agent\" section in the left sidebar and click on \"Tools\".
 3.   Select the \"Custom Tools\" section.
 4.   Navigate to the `weather_forecast_tool`, click the triple dots, and then click "Delete".
@@ -341,4 +341,4 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
             return result # Return a string
     ```
     
-9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat **staging** using the steps in the [Upload tool to GLChat](#upload-tool-to-gl-chat) section and configure an agent to use it.
+9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat using the steps in the [Upload tool to GLChat](#upload-tool-to-gl-chat) section and configure an agent to use it.
