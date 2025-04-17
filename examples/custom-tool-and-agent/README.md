@@ -39,24 +39,29 @@ This is an example how to create custom tool and agent.
    - This is required for `poetry` to download necessary dependencies.
    - If you don't have access, please make a request to ticket(at)gdplabs.id.
 
-6. **VSCode IDE**
+   **Notes**:\
+   If you're unsure whether you already have access, simply proceed to the next step. The script in step 4 of the [Running the Code](#running-the-code) section will automatically check your access status. If you don't have the necessary permissions, you'll see this error message: `User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id.`
+
+7. **VSCode IDE**
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
 
-### Installing dependencies
+## Running the Code
 
-1. Clone the `gen-ai-examples` repository.
+1. Open a terminal (on Mac/Linux) or command prompt (on Windows)
+
+2. Clone the `gen-ai-examples` repository.
 
    ```bash
    git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
    ```
 
-2. Navigate to the example directory:
+3. Navigate to the example directory:
 
    ```bash
    cd gen-ai-examples/examples/custom-tool-and-agent
    ```
 
-3. Execute the script:
+4. Execute the script:
 
    - For Linux, macOS, or Windows WSL:
 
@@ -88,51 +93,56 @@ This is an example how to create custom tool and agent.
 Set up the Python interpreter path in your IDE by following these instructions:
 
 > [!WARNING]
-> You must complete the steps in **Installing Dependencies** until you see the `custom-tool-and-agent example finished running.` on the console before continuing with the steps below on this section.
+> You must complete the steps in [Running the Code](#running-the-code) until you see the `custom-tool-and-agent example finished running.` on the console before continuing with the steps below on this section.
 
 1. Open your VScode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
-2. After you run `./local-start.sh` using steps in **Installing Dependencies**, you will see the log `PYTHON_PATH will be set to:` in the console. Copy the path in the next line, which looks something like:
+2. On the left side-bar, click the "Extensions" menu (Ctrl+Shift+X). Type "Python" in the Search Bar and then click an extension named "Python" from "Microsoft". Finally, click the "Install" button.
+
+   <img width="960" alt="image" src="https://github.com/user-attachments/assets/04d437fd-51b8-4b01-b28b-b585db091fce" />
+   
+4. Open the Python code sample [weather_forecast_tool.py](./sample_tools/weather_forecast_tool.py)
+
+   Notice that there are either red or yellow squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor.
+
+   <img width="579" alt="image" src="https://github.com/user-attachments/assets/72979f2b-16b1-4265-8d30-dfab96cd6a61" />
+   
+5. After you run `./local-start.sh` using steps in [Running the Code](#running-the-code), you will see the log `PYTHON_PATH will be set to:` in the console. Copy the path in the next line, which looks something like:
    ```
    /home/<username>/gen-ai-examples/examples/custom-tool-and-agent/.venv/bin/python3
    ```
-3. Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
+6. Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
 
    <img width="493" alt="image" src="https://github.com/user-attachments/assets/2e463386-3424-45b0-8e2e-b9b7adab21b0" />
    
-4. Select `Enter interpreter path...`
-5. Paste the previously copied path from the console and press enter.
+7. Select `Enter interpreter path...`
+8. Paste the previously copied path from the console and press enter.
 
    <img width="501" alt="image" src="https://github.com/user-attachments/assets/3fc2db14-d8e5-45fd-9f74-e7f59cf84abc" />
 
-6. Check the bottom status bar in VSCode (as shown in the image below) to ensure the selected Python interpreter points to the `.venv` environment created by Poetry (e.g., `Python 3.11.10 ('.venv')`).
+9. Check the bottom status bar in VSCode (as shown in the image below) to ensure the selected Python interpreter points to the `.venv` environment created by Poetry (e.g., `Python 3.11.10 ('.venv')`).
 
    <img width="203" alt="image" src="https://github.com/user-attachments/assets/3dffba0d-8cd7-4577-880b-ea74d0080b7c" />
+
+   Your IDE will then recognize the path and will no longer show red squiggly lines under the import statements. You can try hovering over them to see the details of the library.
+
+   <img width="497" alt="image" src="https://github.com/user-attachments/assets/342841b3-0205-4b0b-869f-ea7d959ad1cd" />
 
 ## Tool Development Guide
 
 ### Creating a Custom Tool
 1. Open your VSCode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
-2. Create a new Python file named `weather_forecast_tool.py` in the current directory (`examples/custom-tool-and-agent`).
-   *  Open a terminal. You can use the integrated terminal in VSCode (Terminal > New Terminal) or an external terminal window. Ensure your terminal's current working directory is `gen-ai-examples/examples/custom-tool-and-agent`.
-
-         ```bash
-         touch weather_forecast_tool.py
-         ```
-
-   *  Alternatively, you can use your operating system's file explorer/finder to navigate to the project directory and create a new file, or use VSCode's file explorer panel to right-click in the directory and select "New File".
-         
-3. Open the newly created `weather_forecast_tool.py` file in VSCode.
-4. Copy the entire content from the sample tool file located at `sample_tools/weather_forecast_tool.py` and paste it into your new `weather_forecast_tool.py`.
+2. You can create your own tool following guide on the [Advanced: Developing Your Own Custom Tool](#advanced-developing-your-own-custom-tool) section. But, for simplicity, let's use sample tool [weather_forecast_tool.py](./sample_tools/weather_forecast_tool.py).
    *   The sample file demonstrates the basic structure of a tool using the `@tool_plugin` decorator.
    *   **What this tool does**: This sample tool provides weather forecasts for specific days of the week across multiple cities (New York, London, and Tokyo). It uses mock weather data stored within the tool itself and takes a day of the week as input. The tool returns formatted weather information including condition, temperature, and humidity for each location.
+3. Open the `weather_forecast_tool.py` file in VSCode.
 5. Check the import statements. Ensure that there are no import errors.
    *   **What are import errors?** These errors mean that Python cannot find a specific piece of code (a library or module) that the tool needs to function. This usually happens if a required dependency wasn't installed correctly or if VSCode isn't using the correct Python environment where the dependencies were installed.
    *   **How to check**: Look for any red squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor. These visual cues indicate a problem. You can also open the "Problems" panel in VSCode (usually accessible via the View menu or by clicking the error/warning icons in the bottom status bar) to see a list of specific errors.
-   *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and that `poetry install` (Step 4 under Installing Dependencies) completed without errors.
+   *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and the script `local-start` (Step 4 under [Running the Code](#running-the-code)) completed without errors.
    *   Once you've successfully run through this example, see the [Advanced: Developing Your Own Custom Tool](#advanced-developing-your-own-custom-tool) section at the end of this document for guidance on creating tools beyond this sample.
 
 ### Upload tool to GLChat
-1. Open your browser and navigate to the GLChat **staging** login page: [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/).
+1. Open your browser and navigate to the [GLChat login page](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/).
 2. Log in using your credentials (e.g., Sign in with Google).
 
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/13f114ac-1f22-4195-8294-37d498d669fe" />
@@ -141,7 +151,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/29217848-33a4-4010-8d21-43cb6c4f7258" />
 
-5. In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Tools". The **staging** URL should be [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools).
+5. In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "[Tools](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools)".
 
     <img width="240" alt="image" src="https://github.com/user-attachments/assets/fd451432-1766-4c19-af51-de78c3b0ef01" />
 
@@ -153,7 +163,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/7c39ec3a-7760-476d-a105-133322c1e823" />
 
-4. Upon successful upload, your tool should appear in the "Custom Tools" menu
+4. Upon successful upload, your tool should appear in the "Custom Tools" menu. A confirmation message will also be displayed indicating that your tool has been successfully registered in the GLChat.
    
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/2f4ec7e3-0b82-4748-a492-49c8ecbbf5c7" />
 
@@ -165,18 +175,18 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
 ### Creating a Single Agent
 
-Let's create an agent with the ability to make weather forecast. We will be using the weather forecast tool we created in previous steps. You can also use the [weather_forecast_tool.py](/sample_tools/weather_forecast_tool.py) in the [sample_tools](/sample_tools) folder.
+Agent can only use tools that have been registered. If you already have a tool that has not yet been registered, please refer to the [Tool Development Guide](#tool-development-guide) section.
+
+Let's create an agent with the ability to make weather forecasts using the tool we registered in the previous step.
 
 #### Here's the general workflow for creating an agent in GLChat:
-1. Ensure the `weather_forecast_tool.py` tool has been uploaded to GLChat **staging** by following the steps in the "Upload tool to GLChat" section.
-2. Ensure you are logged into the GLChat **staging** Admin Dashboard.
-3. From the Admin Dashboard, navigate to the "AI Agent" section in the left sidebar and click on "Agent". The **staging** URL should be [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent).
+1. Login to GLChat Admin Dashboard, refer to [Upload tool to GLChat](#upload-tool-to-glchat) section for details.
+2. From the Admin Dashboard, navigate to the "AI Agent" section in the left sidebar and click on "[Agent](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent)".
 
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/3db6de93-eca1-4313-8deb-14cc1571a5fd" />
 
-4. Click the "Create Agent" button.
-6. Fill in all the required fields exactly as follows:
-
+3. Click the "Create Agent" button.
+4. Fill in all the required fields, for example:
 
    - **Agent Name**: weather_forecast_agent
    - **Agent Display Name**: Weather Forecast Agent
@@ -198,18 +208,18 @@ Let's create an agent with the ability to make weather forecast. We will be usin
 
       <img width="960" alt="image" src="https://github.com/user-attachments/assets/c048e5a9-d677-400a-b456-f18488d554e9" />
 
-8. Click the "Save" button
-9. Upon successful creation, the Weather Forecast Agent should appear in the "Custom Agents" menu
+5. Click the "Save" button
+6. Upon successful creation, the Weather Forecast Agent should appear in the "Custom Agents" menu
 
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/17507b12-a25c-4b6e-9758-faceded4184c" />
 
 ## Testing the Agent
 
-Since direct deployment/assignment of newly created custom agents to chatbots in GLChat **staging** is not yet available (pending the Admin Dashboard feature), we provide a workaround using a pre-existing dummy agent named "Hello World Agent" that is already assigned to the "Demo General Purpose" chatbot in the **staging** environment. We will edit this existing agent to use our custom tool and instructions.
+Since direct deployment/assignment of newly created custom agents to chatbots in GLChat is not yet available (pending the Admin Dashboard feature), we provide a workaround using a pre-existing dummy agent named "Hello World Agent" that is already assigned to the "Demo General Purpose" chatbot in the **staging** environment. We will edit this existing agent to use our custom tool and instructions.
 
 ### Configure the Test Agent
 
-1. Navigate back to the GLChat **staging** Admin Dashboard (ensure you are still logged in).
+1. Navigate back to the GLChat Admin Dashboard (ensure you are still logged in).
 2. In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Agent".
 3. Select the "Agent" tab (it might be selected by default) and ensure "Custom Agent" is selected in the filter/dropdown.
 4. Find the "Hello World Agent" card, click the triple dots icon (...), and then click "Edit".
@@ -217,61 +227,72 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/c3d1b895-dd1b-47d2-b135-b1f4d47ff662" />
 
 5. Fill in all fields according to the Weather Forecast Agent you defined previously (**except** for the **Agent Name** field).
-   *   **Important**: Do **not** change the `Agent Name`. It must remain `Hello World Agent` because this specific name is pre-assigned to the "Demo General Purpose" chatbot for testing purposes.
-   *   Update the `Agent Display Name`, `Description`, `Model`, `Tools` (select `weather_forecast_tool`), `Timeout`, and `Instructions` to match your Weather Forecast Agent.
+   *   **Notes**: The field `Agent Name` is non-editable and it must remain `hello_world_agent` because this specific name is pre-assigned to the "Demo General Purpose" chatbot for testing purposes.
+   *   Update the `Description`, `Model`, `Tools` (select `weather_forecast_tool`), `Timeout`, and `Instructions` to match your Weather Forecast Agent created previously in the [Creating a Single Agent](#creating-a-single-agent).
 
-         <img width="960" alt="image" src="https://github.com/user-attachments/assets/4e294958-7024-48d9-8ad2-b4a87afadad1" />
+         <img width="960" alt="image" src="https://github.com/user-attachments/assets/9febd8eb-311b-421b-b2ef-195c8ddcdf1e" />
 
 6. Click "Save".
 
 ### Converse with Agent
 
-1. Open the [GLChat **staging** Chat UI](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/) in your browser.
-2. From the left-hand sidebar, click on the "Chatbot" selection menu (it might initially say "Demo General Purpose").
-3. Select "Demo General Purpose" from the dropdown list (this chatbot exists in the **staging** environment).
+1. Open the [GLChat Chat UI](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/) in your browser.
+
+   **Tips:**
+   If you are on the [Admin Dashboard](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/knowledge-base) page, you can easily switch to the GLoria Chatbot UI by clicking your profile section at the bottom left of the page and selecting "Switch to GLoria Chatbot".
+
+   <img width="191" alt="image" src="https://github.com/user-attachments/assets/5a4c5e2c-55f6-4269-9e11-b03f3734a3a5" />
+   
+3. From the left-hand sidebar, click on the "Chatbot" selection menu (it might initially say "Demo General Purpose").
+4. Select "Demo General Purpose" from the dropdown list (this chatbot exists in the **staging** environment).
 
    <img width="443" alt="image" src="https://github.com/user-attachments/assets/053a5ca4-d387-4595-a14e-46c04c440ef6" />
 
-4. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Weather Forecast Agent" (which is actually the edited "Hello World Agent" with your settings).
+5. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Hello World Agent" (which is the edited "Hello World Agent" with your settings).
 
-    <img width="509" alt="image" src="https://github.com/user-attachments/assets/95382787-0def-4a40-bae3-ff0623d0107f" />
+    <img width="516" alt="image" src="https://github.com/user-attachments/assets/3ef050a9-88e0-418b-bb94-90f56d07b219" />
 
-5. Select the "Weather Forecast Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
+6. Select the "Hello World Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
 
-    <img width="679" alt="image" src="https://github.com/user-attachments/assets/b68a5e41-5390-4670-b480-6be8b4253181" />
+    <img width="689" alt="image" src="https://github.com/user-attachments/assets/9f52bfd6-0d9d-4e27-90e4-80068d96c34a" />
 
 ### Cleanup The Agent
 
 After you successfully test the Weather Forecast Agent, it's better to clean up your work so that others can test it with a clean state.
 
+> [!NOTE]
+> As of now, all agents and tools are shared across all users in GLChat. We are still working on Role-Based Access Control (RBAC). That's why we still need this cleanup step.
+
 #### Reset Hello World Agent
 
-1.   Navigate back to the GLChat **staging** Admin Dashboard.
+1.   Navigate back to the GLChat Admin Dashboard.
 2.   In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Agent".
 3.   Find the "Hello World Agent" (which you previously edited), click the triple dots icon, and then click "Edit".
 
       <img width="960" alt="image" src="https://github.com/user-attachments/assets/c3d1b895-dd1b-47d2-b135-b1f4d47ff662" />
 
 4.   Update the fields back to their original values:
-    *   **Agent Display Name**: `Hello World Agent`
-    *   **Description**: `Please fill in the Description`
-    *   **Model**: `gpt-4o`
-    *   **Tools**: Select `time_tool` (remove any other tools)
-    *   **Sub-Agents**: Ensure none are selected
-    *   **Timeout**: `60`
-    *   **Instructions**: `Please fill in the Instruction`
-5.   Click "Save"
+
+      *    **Agent Display Name**: `Hello World Agent`
+      *    **Description**: `Please fill in the Description`
+      *   **Model**: `gpt-4o`
+      *   **Tools**: Select `time_tool` (remove any other tools)
+      *   **Sub-Agents**: Ensure none are selected
+      *   **Timeout**: `60`
+      *   **Instructions**: `Please fill in the Instruction`
+     
+6.   Click "Save"
 
 #### Delete The Weather Forecast Agent
 
-1.   Navigate back to the GLChat **staging** Admin Dashboard.
+1.   Navigate back to the GLChat Admin Dashboard.
 2.   In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "Agent".
 3.   Find the agent named "Weather Forecast Agent", click the triple dots icon, and then click "Delete".
 4.   Make sure the agent is deleted in the UI.
 
 #### Delete the `weather_forecast_tool`
 
-1.   Navigate back to the GLChat **staging** Admin Dashboard.
+1.   Navigate back to the GLChat Admin Dashboard.
 2.   In the Admin Dashboard, locate the "AI Agent\" section in the left sidebar and click on \"Tools\".
 3.   Select the \"Custom Tools\" section.
 4.   Navigate to the `weather_forecast_tool`, click the triple dots, and then click "Delete".
@@ -323,4 +344,8 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
             return result # Return a string
     ```
     
-9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat **staging** using the steps in the [Upload tool to GLChat](#upload-tool-to-gl-chat) section and configure an agent to use it.
+9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat using the steps in the [Upload tool to GLChat](#upload-tool-to-gl-chat) section and configure an agent to use it.
+
+
+> [!NOTE]
+> As of now, we still depend on the `BaseTool` module from LangChain. We will implement our own `BaseTool` module that supports conversion of tools from major providers.
