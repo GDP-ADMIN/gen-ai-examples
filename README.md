@@ -32,16 +32,34 @@ This repository contains a collection of examples demonstrating the usage of the
 3. **Setting up**:  
    To set up the project, please refer to the respective README file in the [gen-ai-internal-hello-world](./examples/gen-ai-internal-hello-world/README.md) directory.
 
+## Getting Started with Custom Pipeline
+
+1. **Clone the repository and navigate to the `custom-pipeline` directory**:
+
+   ```bash
+   git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
+   cd gen-ai-examples/examples/custom-pipeline
+   ```
+
+2. **Setting up**:  
+   To set up the project, please refer to the respective README file in the [custom-pipeline](./examples/custom-pipeline/README.md) directory.
+
 ## Getting Started with Custom Tool and Agent
 
-1. **Clone the repository and navigate to the `gen-ai-custom-tool` directory**:
+1. **Add SSH key to your GitHub account**
+
+   Please follow this instruction by GitHub: [Adding a new SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+
+   This is required as this sample has dependency to a private GitHub repository.
+
+2. **Clone the repository and navigate to the `custom-tool-and-agent` directory**:
 
    ```bash
    git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
    cd gen-ai-examples/examples/custom-tool-and-agent
    ```
 
-2. **Setting up**:  
+3. **Setting up**:  
    To set up the project, please refer to the respective README file in the [custom-tool-and-agent](./examples/custom-tool-and-agent/README.md) directory.
 
 ## References
