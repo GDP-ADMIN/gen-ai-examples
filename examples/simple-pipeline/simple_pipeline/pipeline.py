@@ -47,7 +47,6 @@ class SimplePipelineBuilder(PipelineBuilderPlugin[SimpleState, SimplePresetConfi
         response_synthesizer_step = step(
             component=self.build_response_synthesizer(),
             input_state_map={
-                "query": SimpleStateKeys.USER_QUERY,
                 "event_emitter": SimpleStateKeys.EVENT_EMITTER,
                 "state_variables": SimpleStateKeys.RESPONSE_SYNTHESIS_BUNDLE
             },
@@ -76,8 +75,6 @@ class SimplePipelineBuilder(PipelineBuilderPlugin[SimpleState, SimplePresetConfi
         """
         return SimpleState(
             event_emitter=kwargs.get("event_emitter"),
-            user_query=request.get("message"),
-            response="",
             response_synthesis_bundle={"context_list": [f'{request.get("message")}']}
         )
 
@@ -96,5 +93,3 @@ class SimplePipelineBuilder(PipelineBuilderPlugin[SimpleState, SimplePresetConfi
             "Here's what you asked me: "
         )
         return StaticListResponseSynthesizer(response_prefix=response_prefix)
-       
-
