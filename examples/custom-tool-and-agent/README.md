@@ -192,7 +192,6 @@ Let's create an agent with the ability to make weather forecast. We will be usin
 4. Click the "Create Agent" button.
 6. Fill in all the required fields exactly as follows:
 
-
    - **Agent Name**: weather_forecast_agent
    - **Agent Display Name**: Weather Forecast Agent
    - **Description**: This is a weather forecast agent
@@ -242,16 +241,22 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 ### Converse with Agent
 
 1. Open the [GLChat **staging** Chat UI](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/) in your browser.
-2. From the left-hand sidebar, click on the "Chatbot" selection menu (it might initially say "Demo General Purpose").
-3. Select "Demo General Purpose" from the dropdown list (this chatbot exists in the **staging** environment).
+
+   **Tips:**
+   If you are on the [Admin Dashboard](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/knowledge-base) page, you can easily switch to the GLoria Chatbot UI by clicking your profile section at the bottom left of the page and selecting "Switch to GLoria Chatbot".
+
+   <img width="191" alt="image" src="https://github.com/user-attachments/assets/5a4c5e2c-55f6-4269-9e11-b03f3734a3a5" />
+   
+3. From the left-hand sidebar, click on the "Chatbot" selection menu (it might initially say "Demo General Purpose").
+4. Select "Demo General Purpose" from the dropdown list (this chatbot exists in the **staging** environment).
 
    <img width="443" alt="image" src="https://github.com/user-attachments/assets/053a5ca4-d387-4595-a14e-46c04c440ef6" />
 
-4. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Weather Forecast Agent" (which is actually the edited "Hello World Agent" with your settings).
+5. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Weather Forecast Agent" (which is actually the edited "Hello World Agent" with your settings).
 
     <img width="509" alt="image" src="https://github.com/user-attachments/assets/95382787-0def-4a40-bae3-ff0623d0107f" />
 
-5. Select the "Weather Forecast Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
+6. Select the "Weather Forecast Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
 
     <img width="679" alt="image" src="https://github.com/user-attachments/assets/b68a5e41-5390-4670-b480-6be8b4253181" />
 
