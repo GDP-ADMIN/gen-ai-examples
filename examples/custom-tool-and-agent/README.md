@@ -39,10 +39,10 @@ This is an example how to create custom tool and agent.
    - This is required for `poetry` to download necessary dependencies.
    - If you don't have access, please make a request to ticket(at)gdplabs.id.
 
-   Notes:
-   If you're unsure whether you already have access, simply proceed to the next step. The script in step 4 of the **Installing Dependencies** section will automatically check your access status. If you don't have the necessary permissions, you'll see this error message: `User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id.`
+   **Notes**:\
+   If you're unsure whether you already have access, simply proceed to the next step. The script in step 4 of the [Installing Dependencies](#installing-dependencies) section will automatically check your access status. If you don't have the necessary permissions, you'll see this error message: `User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id.`
 
-6. **VSCode IDE**
+7. **VSCode IDE**
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
 
 ### Installing dependencies
@@ -93,25 +93,35 @@ This is an example how to create custom tool and agent.
 Set up the Python interpreter path in your IDE by following these instructions:
 
 > [!WARNING]
-> You must complete the steps in **Installing Dependencies** until you see the `custom-tool-and-agent example finished running.` on the console before continuing with the steps below on this section.
+> You must complete the steps in [Installing Dependencies](#installing-dependencies) until you see the `custom-tool-and-agent example finished running.` on the console before continuing with the steps below on this section.
 
 1. Open your VScode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
-2. After you run `./local-start.sh` using steps in **Installing Dependencies**, you will see the log `PYTHON_PATH will be set to:` in the console. Copy the path in the next line, which looks something like:
+2. Open the Python code sample [weather_forecast_tool.py](./sample_tools/weather_forecast_tool.py)
+
+   Notice that there are either red or yellow squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor.
+
+   <img width="579" alt="image" src="https://github.com/user-attachments/assets/72979f2b-16b1-4265-8d30-dfab96cd6a61" />
+   
+3. After you run `./local-start.sh` using steps in [Installing Dependencies](#installing-dependencies), you will see the log `PYTHON_PATH will be set to:` in the console. Copy the path in the next line, which looks something like:
    ```
    /home/<username>/gen-ai-examples/examples/custom-tool-and-agent/.venv/bin/python3
    ```
-3. Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
+4. Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
 
    <img width="493" alt="image" src="https://github.com/user-attachments/assets/2e463386-3424-45b0-8e2e-b9b7adab21b0" />
    
-4. Select `Enter interpreter path...`
-5. Paste the previously copied path from the console and press enter.
+5. Select `Enter interpreter path...`
+6. Paste the previously copied path from the console and press enter.
 
    <img width="501" alt="image" src="https://github.com/user-attachments/assets/3fc2db14-d8e5-45fd-9f74-e7f59cf84abc" />
 
-6. Check the bottom status bar in VSCode (as shown in the image below) to ensure the selected Python interpreter points to the `.venv` environment created by Poetry (e.g., `Python 3.11.10 ('.venv')`).
+7. Check the bottom status bar in VSCode (as shown in the image below) to ensure the selected Python interpreter points to the `.venv` environment created by Poetry (e.g., `Python 3.11.10 ('.venv')`).
 
    <img width="203" alt="image" src="https://github.com/user-attachments/assets/3dffba0d-8cd7-4577-880b-ea74d0080b7c" />
+
+   Your IDE will then recognize the path and will no longer show red squiggly lines under the import statements. You can try hovering over them to see the details of the library.
+
+   <img width="497" alt="image" src="https://github.com/user-attachments/assets/342841b3-0205-4b0b-869f-ea7d959ad1cd" />
 
 ## Tool Development Guide
 
