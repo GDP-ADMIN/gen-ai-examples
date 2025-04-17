@@ -45,7 +45,7 @@ This is an example how to create custom tool and agent.
 7. **VSCode IDE**
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
 
-### Installing Dependencies
+## Installing Dependencies
 
 1. Open a terminal (on Mac/Linux) or command prompt (on Windows)
 
@@ -131,19 +131,10 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
 ### Creating a Custom Tool
 1. Open your VSCode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
-2. Create a new Python file named `weather_forecast_tool.py` in the current directory (`examples/custom-tool-and-agent`).
-   *  Open a terminal. You can use the integrated terminal in VSCode (Terminal > New Terminal) or an external terminal window. Ensure your terminal's current working directory is `gen-ai-examples/examples/custom-tool-and-agent`.
-
-         ```bash
-         touch weather_forecast_tool.py
-         ```
-
-   *  Alternatively, you can use your operating system's file explorer/finder to navigate to the project directory and create a new file, or use VSCode's file explorer panel to right-click in the directory and select "New File".
-         
-3. Open the newly created `weather_forecast_tool.py` file in VSCode.
-4. Copy the entire content from the sample tool file located at `sample_tools/weather_forecast_tool.py` and paste it into your new `weather_forecast_tool.py`.
+2. You can create your own tool following guide on the [Advanced: Developing Your Own Custom Tool](#advanced-developing-your-own-custom-tool) section. But, for simplicity, let's use sample tool [weather_forecast_tool.py](./sample_tools/weather_forecast_tool.py).
    *   The sample file demonstrates the basic structure of a tool using the `@tool_plugin` decorator.
    *   **What this tool does**: This sample tool provides weather forecasts for specific days of the week across multiple cities (New York, London, and Tokyo). It uses mock weather data stored within the tool itself and takes a day of the week as input. The tool returns formatted weather information including condition, temperature, and humidity for each location.
+3. Open the `weather_forecast_tool.py` file in VSCode.
 5. Check the import statements. Ensure that there are no import errors.
    *   **What are import errors?** These errors mean that Python cannot find a specific piece of code (a library or module) that the tool needs to function. This usually happens if a required dependency wasn't installed correctly or if VSCode isn't using the correct Python environment where the dependencies were installed.
    *   **How to check**: Look for any red squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor. These visual cues indicate a problem. You can also open the "Problems" panel in VSCode (usually accessible via the View menu or by clicking the error/warning icons in the bottom status bar) to see a list of specific errors.
@@ -151,7 +142,7 @@ Set up the Python interpreter path in your IDE by following these instructions:
    *   Once you've successfully run through this example, see the [Advanced: Developing Your Own Custom Tool](#advanced-developing-your-own-custom-tool) section at the end of this document for guidance on creating tools beyond this sample.
 
 ### Upload tool to GLChat
-1. Open your browser and navigate to the GLChat **staging** login page: [https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/).
+1. Open your browser and navigate to the [GLChat login page](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/).
 2. Log in using your credentials (e.g., Sign in with Google).
 
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/13f114ac-1f22-4195-8294-37d498d669fe" />
