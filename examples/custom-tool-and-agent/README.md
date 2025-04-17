@@ -228,9 +228,9 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 
 5. Fill in all fields according to the Weather Forecast Agent you defined previously (**except** for the **Agent Name** field).
    *   **Notes**: The field `Agent Name` is non-editable and it must remain `hello_world_agent` because this specific name is pre-assigned to the "Demo General Purpose" chatbot for testing purposes.
-   *   Update the `Agent Display Name`, `Description`, `Model`, `Tools` (select `weather_forecast_tool`), `Timeout`, and `Instructions` to match your Weather Forecast Agent created previously in the [Creating a Single Agent](#creating-a-single-agent).
+   *   Update the `Description`, `Model`, `Tools` (select `weather_forecast_tool`), `Timeout`, and `Instructions` to match your Weather Forecast Agent created previously in the [Creating a Single Agent](#creating-a-single-agent).
 
-         <img width="960" alt="image" src="https://github.com/user-attachments/assets/4e294958-7024-48d9-8ad2-b4a87afadad1" />
+         <img width="960" alt="image" src="https://github.com/user-attachments/assets/9febd8eb-311b-421b-b2ef-195c8ddcdf1e" />
 
 6. Click "Save".
 
@@ -248,13 +248,13 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 
    <img width="443" alt="image" src="https://github.com/user-attachments/assets/053a5ca4-d387-4595-a14e-46c04c440ef6" />
 
-5. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Weather Forecast Agent" (which is actually the edited "Hello World Agent" with your settings).
+5. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Hello World Agent" (which is the edited "Hello World Agent" with your settings).
 
-    <img width="509" alt="image" src="https://github.com/user-attachments/assets/95382787-0def-4a40-bae3-ff0623d0107f" />
+    <img width="516" alt="image" src="https://github.com/user-attachments/assets/3ef050a9-88e0-418b-bb94-90f56d07b219" />
 
-6. Select the "Weather Forecast Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
+6. Select the "Hello World Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
 
-    <img width="679" alt="image" src="https://github.com/user-attachments/assets/b68a5e41-5390-4670-b480-6be8b4253181" />
+    <img width="689" alt="image" src="https://github.com/user-attachments/assets/9f52bfd6-0d9d-4e27-90e4-80068d96c34a" />
 
 ### Cleanup The Agent
 
