@@ -22,12 +22,18 @@ This repository contains a collection of examples demonstrating the usage of the
 
    This is required as this sample has dependency to a private GitHub repository.
 
-3. **Clone the repository and navigate to the `gen-ai-internal-hello-world` directory**:
+2. **Clone the repository and navigate to the `gen-ai-internal-hello-world` directory**:
 
    ```bash
    git clone git@github.com:GDP-ADMIN/gen-ai-examples.git
    cd gen-ai-examples/examples/gen-ai-internal-hello-world
    ```
 
-2. **Setting up**:  
+3. **Setting up**:  
    To set up the project, please refer to the respective README file in the [gen-ai-internal-hello-world](./examples/gen-ai-internal-hello-world/README.md) directory.
+
+## References
+1. Product Requirement Documents (PRD): Not Applicable.
+2. Architecture: Not Applicable.
+3. Design: Not Applicable.
+4. Implementation: Not Applicable.
