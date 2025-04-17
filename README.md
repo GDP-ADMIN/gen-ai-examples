@@ -32,7 +32,20 @@ This repository contains a collection of examples demonstrating the usage of the
 3. **Setting up**:  
    To set up the project, please refer to the respective README file in the [gen-ai-internal-hello-world](./examples/gen-ai-internal-hello-world/README.md) directory.
 
+## Getting Started with Custom Tool and Agent
+
+1. **Clone the repository and navigate to the `gen-ai-custom-tool` directory**:
+
+   ```bash
+   git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
+   cd gen-ai-examples/examples/custom-tool-and-agent
+   ```
+
+2. **Setting up**:  
+   To set up the project, please refer to the respective README file in the [custom-tool-and-agent](./examples/custom-tool-and-agent/README.md) directory.
+
 ## References
+
 1. Product Requirement Documents (PRD): Not Applicable.
 2. Architecture: Not Applicable.
 3. Design: Not Applicable.
