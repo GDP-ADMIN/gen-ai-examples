@@ -268,14 +268,16 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
       <img width="960" alt="image" src="https://github.com/user-attachments/assets/c3d1b895-dd1b-47d2-b135-b1f4d47ff662" />
 
 4.   Update the fields back to their original values:
-    *   **Agent Display Name**: `Hello World Agent`
-    *   **Description**: `Please fill in the Description`
-    *   **Model**: `gpt-4o`
-    *   **Tools**: Select `time_tool` (remove any other tools)
-    *   **Sub-Agents**: Ensure none are selected
-    *   **Timeout**: `60`
-    *   **Instructions**: `Please fill in the Instruction`
-5.   Click "Save"
+
+      *    **Agent Display Name**: `Hello World Agent`
+      *    **Description**: `Please fill in the Description`
+      *   **Model**: `gpt-4o`
+      *   **Tools**: Select `time_tool` (remove any other tools)
+      *   **Sub-Agents**: Ensure none are selected
+      *   **Timeout**: `60`
+      *   **Instructions**: `Please fill in the Instruction`
+     
+6.   Click "Save"
 
 #### Delete The Weather Forecast Agent
 
