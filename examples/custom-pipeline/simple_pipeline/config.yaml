@@ -7,8 +7,6 @@ presets:
       - anthropic/claude-3-5-sonnet
       - openai/gpt-4o-mini
       - openai/gpt-4o
-    supported_agents:
-      - research_agent
     support_multimodal: true
     use_docproc: false
 
@@ -16,9 +14,6 @@ presets:
     supported_models:
       - openai/gpt-4o
       - openai/gpt-4o-mini
-    supported_agents:
-      - vulnerability_validator_agent
-      - cv_screening_agent
     support_multimodal: false
     use_docproc: false
 
@@ -28,6 +23,8 @@ chatbots:
     display_name: Simple Chatbot 1a
     description: A chatbot using the preset 1
     pipeline_preset_id: preset-1
+    supported_agents:
+      - research_agent
     lmrp_catalogs:
       - name: generate_conversation_title
         scope: openai
@@ -70,6 +67,8 @@ chatbots:
     display_name: Simple Chatbot 1b
     description: Another chatbot using the preset 1
     pipeline_preset_id: preset-1
+    supported_agents:
+      - research_agent
     lmrp_catalogs:
       - name: generate_conversation_title
         scope: openai
@@ -112,6 +111,9 @@ chatbots:
     display_name: Simple Chatbot 2
     description: A chatbot using the preset 2
     pipeline_preset_id: preset-2
+    supported_agents:
+      - vulnerability_validator_agent
+      - cv_screening_agent
     lmrp_catalogs:
       - name: generate_conversation_title
         scope: openai
