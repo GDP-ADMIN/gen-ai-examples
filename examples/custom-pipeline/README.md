@@ -70,5 +70,6 @@ You need to fulfill the prerequisites to run the script. They will be checked au
       > _Artificial Intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think, learn, and perform tasks that typically require human cognitive functions. This includes activities like problem-solving, understanding natural language, recognizing patterns, making decisions, and adapting to new information..._
       
 <details><summary><h2>Troubleshooting</h2></summary>
+
 For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
 </details>

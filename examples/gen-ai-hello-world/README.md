@@ -73,5 +73,6 @@ The RAG pipeline will return the following response (more or less):
 > _The documents mentioned are referred to as Mock document 1, Mock document 2, and Mock document 3. However, without additional context or content from these documents, I cannot provide specific details about their contents or purposes._
 
 <details><summary><h2>Troubleshooting</h2></summary>
+
 For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
 </details>

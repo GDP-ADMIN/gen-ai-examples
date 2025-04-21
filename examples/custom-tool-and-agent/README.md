@@ -65,6 +65,7 @@ You need to fulfill the prerequisites to run the script. They will be checked au
 For detailed instructions on configuring the Python interpreter in VSCode, please refer to the centralized [Setting Python Interpreter Path in VSCode IDE](../../setting-python-interpreter.md) guide.
 
 <details><summary><h2>Troubleshooting</h2></summary>
+
 For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
 </details>
 
