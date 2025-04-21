@@ -69,7 +69,217 @@ For detailed instructions on configuring the Python interpreter in VSCode, pleas
 For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
 </details>
 
-## Tool Development Guide
+---
+
+## Approach 1: Using Code (Command Line / SDK)
+
+This approach involves defining tools and agents programmatically using Python scripts and the provided SDK libraries (`gllm-plugin`, `gllm-agents`). This section shows the code definitions and how to set up an environment. Note that running a full agent locally requires specific setup and understanding of the `gllm-agents` library API, which might evolve.
+
+### Setting Up the Local Environment (using Conda)
+
+1.  **Create a Conda Environment**: Open your terminal and create a new environment with Python 3.11:
+    ```bash
+    conda create -n custom-tool-agent-hello-world python=3.11 -y
+    ```
+
+2.  **Activate the Environment**:
+    ```bash
+    conda activate custom-tool-agent-hello-world
+    ```
+
+3.  **Install Required Tools**: Ensure pip and git are available within the Conda environment (they usually are with Anaconda/Miniconda).
+    ```bash
+    conda install pip git -y
+    ```
+
+4.  **Install Libraries**: Use pip to install the necessary libraries directly from their Git repositories and PyPI. Ensure your SSH keys are configured for GitHub access to the private repositories.
+    ```bash
+    pip install "git+ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git@f/migrate-gllm-agents-from-gen-ai-template#subdirectory=libs/gllm-agents"
+    # Install supporting libraries for the example
+    pip install langchain-openai python-dotenv
+    ```
+
+### Tool Development via Code
+
+#### Creating a Custom Tool (Code Example)
+Follow these steps to create your custom tool in a Python file:
+
+1. **Navigate to your working directory**:
+   ```bash
+   cd examples/custom-tool-and-agent
+   ```
+
+2. **Create the tool file**:
+   ```bash
+   touch hello_tool.py
+   ```
+
+3. **Open the file in your editor**:
+   ```bash
+   # For VSCode
+   code hello_tool.py
+   
+   # OR for nano
+   nano hello_tool.py
+   
+   # OR for vim
+   vim hello_tool.py
+   ```
+
+4. **Add the following code** to your file:
+
+```python
+# hello_tool.py
+from gllm_agents.tools.base import BaseTool
+from pydantic import BaseModel, Field
+from typing import Any, Type
+
+# Optional: Define input schema if the tool needs arguments
+class HelloInput(BaseModel):
+    name: str = Field(..., description="The name to say hello to")
+
+class SimpleHelloTool(BaseTool):
+    """A simple tool that says hello."""
+    name: str = "simple_hello_tool"
+    description: str = "Greets the user by name."
+    args_schema: Type[BaseModel] = HelloInput
+
+    def _run(self, name: str, **kwargs: Any) -> str:
+        """Uses the tool."""
+        return f"Hello, {name}!"
+```
+
+5. **Save and close the file**.
+
+> [!NOTE]
+> The `gllm-agents` library provides its own `BaseTool` implementation, which internally extends the Langchain BaseTool for compatibility.
+
+### Agent Development via Code (Simple Example)
+
+Now, let's create a script to run an agent with our custom tool:
+
+1. **Create the agent script file**:
+   ```bash
+   touch run_hello_agent.py
+   ```
+
+2. **Open the file in your editor**:
+   ```bash
+   # For VSCode
+   code run_hello_agent.py
+   
+   # OR for nano
+   nano run_hello_agent.py
+   
+   # OR for vim
+   vim run_hello_agent.py
+   ```
+
+3. **Add the following code** to your file:
+
+```python
+# run_hello_agent.py
+from gllm_agents.agent.base import Agent
+from langchain_openai import ChatOpenAI
+from hello_tool import SimpleHelloTool
+
+# Initialize the LLM
+llm = ChatOpenAI(model="gpt-4o")
+
+# Initialize your tool
+tool = SimpleHelloTool()
+
+# Create and run the agent
+agent = Agent(
+    name="HelloAgent",
+    instruction="You are a helpful assistant that can greet people by name.",
+    llm=llm,
+    tools=[tool],
+    verbose=True  # To see the agent's thought process
+)
+
+# Run the agent
+response = agent.run("Please say hello to Raymond")
+print(response.get('output', response))
+```
+
+4. **Save and close the file**.
+
+### Running Your Agent
+
+Before running the agent, you need to set your OpenAI API key:
+
+1. **Option A: Set it directly in your terminal**:
+   ```bash
+   export OPENAI_API_KEY="your-api-key-here"
+   ```
+
+   **Option B: Create a .env file**:
+   ```bash
+   # Create .env file
+   touch .env
+   
+   # Add your API key to the file
+   echo "OPENAI_API_KEY=your-api-key-here" > .env
+   ```
+
+2. **Run the agent script**:
+   ```bash
+   python run_hello_agent.py
+   ```
+
+3. **Expected output**:
+   You should see something similar to:
+   ```
+   
+   > Entering new AgentExecutor chain...
+   
+   Invoking: `simple_hello_tool` with `{'name': 'Raymond'}`
+   
+   
+   Hello, Raymond!
+   
+   > Finished chain.
+   Hello, Raymond!
+   ```
+
+4. **Verification**:
+   - The agent successfully initializes
+   - The verbose output shows the agent deciding to use your tool
+   - The final output contains "Hello, Raymond!" or a similar greeting
+
+### Troubleshooting
+
+If you encounter issues:
+
+1. **Import errors**: Ensure all dependencies were installed correctly.
+   ```bash
+   pip list | grep -E 'gllm-agents|langchain|openai|dotenv'
+   ```
+
+2. **OpenAI API Key errors**: Verify your API key is set correctly:
+   ```bash
+   # Check if environment variable exists
+   echo $OPENAI_API_KEY | wc -c
+   
+   # Should show a number greater than 1 if set
+   ```
+
+3. **Python errors**: Double-check your code for typos or syntax errors.
+
+4. **SSH key errors**: If you had issues installing the git repository:
+   ```bash
+   # Test your GitHub SSH connection
+   ssh -T git@github.com
+   ```
+
+---
+
+## Approach 2: Using GLChat UI (Web Interface)
+
+This approach involves creating, managing, and testing your tools and agents directly within the GLChat web interface.
+
+### Tool Development via GLChat UI
 
 ### Creating a Custom Tool
 1. Open your VSCode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
@@ -291,3 +501,5 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
 
 > [!NOTE]
 > As of now, we still depend on the `BaseTool` module from LangChain. We will implement our own `BaseTool` module that supports conversion of tools from major providers.
+
+--- 

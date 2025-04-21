@@ -9,6 +9,7 @@ readme = "README.md"
 python = ">=3.11,<3.13"
 
 gllm-plugin = {git = "ssh://git@github.com:GDP-ADMIN/gen-ai-external.git", subdirectory = "libs/gllm-plugin"}
+gllm-agents = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", branch = "f/migrate-gllm-agents-from-gen-ai-template", subdirectory = "libs/gllm-agents"}
 
 [[tool.poetry.source]]
 name = "gen-ai"
