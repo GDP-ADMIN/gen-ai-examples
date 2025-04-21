@@ -2,8 +2,6 @@
 
 This is an example of how to use the gllm-plugin library to build a custom pipeline.
 
-> [!WARNING]
-> The GenAI SDK binary version is currently only available for Linux, macOS, and Windows.
 
 <details><summary><h2>Prerequisites</h2></summary>
 
