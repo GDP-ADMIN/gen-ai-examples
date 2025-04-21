@@ -2,7 +2,6 @@
 
 This is an example of how to use the gllm-plugin library to build a custom pipeline.
 
-
 <details><summary><h2>Prerequisites</h2></summary>
 
 Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
