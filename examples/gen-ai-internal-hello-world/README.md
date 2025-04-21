@@ -4,8 +4,7 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 
 See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-examples).
 
-<details>
-<summary><span style="font-size: 1.5em; font-weight: bold;">Prerequisites</span></summary>
+<details><summary><h2>Prerequisites</h2></summary>
 
 > Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
 >

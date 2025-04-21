@@ -1,8 +1,7 @@
 # Custom Tool and Agent Hello World
 This is an example how to create custom tool and agent.
 
-<details>
-<summary><span style="font-size: 1.5em; font-weight: bold;">Prerequisites</span></summary>
+<details><summary><h2>Prerequisites</h2></summary>
 
 > Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
 >
