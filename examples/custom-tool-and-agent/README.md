@@ -7,14 +7,15 @@ This is an example how to create custom tool and agent.
 > You need to fulfill the prerequisites to run the script.
 
 1. **Python v3.12** (to run `python`)
+   <details>
+   <summary>Installation Options (Conda recommended)</summary>
 
    - Using Conda (recommended):
 
      You can use [Miniconda](https://docs.anaconda.com/miniconda/install) to install and manage Python versions.
 
-   - <details>
-     <summary>Using Python installer (alternative)</summary>
-     
+   - Using Python installer (alternative):
+    
      You can download the Python installer from the link [Python 3.12.8](https://www.python.org/downloads/release/python-3128/), select the version appropriate for your operating system, and run the installer.
 
      > [!NOTE]
@@ -22,28 +23,45 @@ This is an example how to create custom tool and agent.
    </details>
 
 2. **Google Cloud CLI v493.0.0 or above** (to run `gcloud`).
+   <details>
+   <summary>Installation and Configuration Details</summary>
 
    - You can install it by following [this instruction](https://cloud.google.com/sdk/docs/install).
    - After installing it, sign in to your account using `gcloud auth login` command.
    - If the `gcloud` CLI asks you to enter project ID, enter `gdp-labs`.
+   </details>
 
 3. **Access to GDP-ADMIN/gen-ai-internal repository**
+   <details>
+   <summary>Details</summary>
 
-   You can try to access the [GDP-ADMIN/gen-ai-external](https://github.com/GDP-ADMIN/gen-ai-external) repository in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
+   You can try to access the [GDP-ADMIN/gen-ai-external](https://github.com/GDP-ADMIN/gen-ai-external) repository in your browser. If you don't have access, please make a request to ticket(at)gdplabs.id.
+   </details>
 
 4. **SSH Key in your GitHub Account**
+   <details>
+   <summary>Details</summary>
 
    You must add your SSH key to your GitHub account. Please follow this instruction by GitHub: [Adding a new SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account). This is required as this sample has dependency to a private GitHub repository.
+   </details>
 
 5. **Access to the GDP Labs Google Artifact Registry**.
+   <details>
+   <summary>Details and Access Check</summary>
+
    - This is required for `poetry` to download necessary dependencies.
    - If you don't have access, please make a request to ticket(at)gdplabs.id.
 
    **Notes**:\
    If you're unsure whether you already have access, simply proceed to the next step. The script in step 4 of the [Running the Code](#running-the-code) section will automatically check your access status. If you don't have the necessary permissions, you'll see this error message: `User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id.`
+   </details>
 
 7. **VSCode IDE**
+   <details>
+   <summary>Download Link</summary>
+
    - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
+   </details>
 
 ## Running the Code
 
@@ -70,7 +88,7 @@ This is an example how to create custom tool and agent.
      ```
 
    - <details>
-     <summary>For Windows (alternative)</summary>
+     <summary>Alternative for Windows (Powershell/CMD)</summary>
 
      > [!NOTE]
      > On Windows, you can either install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) and use the command above, or execute the batch file directly in Windows Powershell or Command Prompt as shown below.
@@ -89,6 +107,8 @@ This is an example how to create custom tool and agent.
      </details>
 
 ## Setting Python Interpreter Path in VSCode IDE
+<details>
+<summary>Expand for VSCode Python Interpreter Setup Guide</summary>
 
 Set up the Python interpreter path in your IDE by following these instructions:
 
@@ -126,18 +146,29 @@ Set up the Python interpreter path in your IDE by following these instructions:
    Your IDE will then recognize the path and will no longer show red squiggly lines under the import statements. You can try hovering over them to see the details of the library.
 
    <img width="497" alt="image" src="https://github.com/user-attachments/assets/342841b3-0205-4b0b-869f-ea7d959ad1cd" />
+</details>
 
 ## Tool Development Guide
 
 ### Creating a Custom Tool
+
 1. Open your VSCode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
 2. You can create your own tool following guide on the [Advanced: Developing Your Own Custom Tool](#advanced-developing-your-own-custom-tool) section. But, for simplicity, let's use sample tool [weather_forecast_tool.py](./sample_tools/weather_forecast_tool.py).
    *   The sample file demonstrates the basic structure of a tool using the `@tool_plugin` decorator.
-   *   **What this tool does**: This sample tool provides weather forecasts for specific days of the week across multiple cities (New York, London, and Tokyo). It uses mock weather data stored within the tool itself and takes a day of the week as input. The tool returns formatted weather information including condition, temperature, and humidity for each location.
+   *   <details>
+       <summary>What this tool does</summary>
+       This sample tool provides weather forecasts for specific days of the week across multiple cities (New York, London, and Tokyo). It uses mock weather data stored within the tool itself and takes a day of the week as input. The tool returns formatted weather information including condition, temperature, and humidity for each location.
+       </details>
 3. Open the `weather_forecast_tool.py` file in VSCode.
-5. Check the import statements. Ensure that there are no import errors.
-   *   **What are import errors?** These errors mean that Python cannot find a specific piece of code (a library or module) that the tool needs to function. This usually happens if a required dependency wasn't installed correctly or if VSCode isn't using the correct Python environment where the dependencies were installed.
-   *   **How to check**: Look for any red squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor. These visual cues indicate a problem. You can also open the "Problems" panel in VSCode (usually accessible via the View menu or by clicking the error/warning icons in the bottom status bar) to see a list of specific errors.
+4. Check the import statements. Ensure that there are no import errors.
+   *   <details>
+       <summary>What are import errors?</summary>
+       These errors mean that Python cannot find a specific piece of code (a library or module) that the tool needs to function. This usually happens if a required dependency wasn't installed correctly or if VSCode isn't using the correct Python environment where the dependencies were installed.
+       </details>
+   *   <details>
+       <summary>How to check</summary>
+       Look for any red squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor. These visual cues indicate a problem. You can also open the "Problems" panel in VSCode (usually accessible via the View menu or by clicking the error/warning icons in the bottom status bar) to see a list of specific errors.
+       </details>
    *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and the script `local-start` (Step 4 under [Running the Code](#running-the-code)) completed without errors.
    *   Once you've successfully run through this example, see the [Advanced: Developing Your Own Custom Tool](#advanced-developing-your-own-custom-tool) section at the end of this document for guidance on creating tools beyond this sample.
 
@@ -147,25 +178,26 @@ Set up the Python interpreter path in your IDE by following these instructions:
 
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/13f114ac-1f22-4195-8294-37d498d669fe" />
 
-4. After logging in, click on the "Admin Dashboard" button.
+3. After logging in, click on the "Admin Dashboard" button.
 
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/29217848-33a4-4010-8d21-43cb6c4f7258" />
 
-5. In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "[Tools](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools)".
+4. In the Admin Dashboard, locate the "AI Agent" section in the left sidebar and click on "[Tools](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/tools)".
 
     <img width="240" alt="image" src="https://github.com/user-attachments/assets/fd451432-1766-4c19-af51-de78c3b0ef01" />
 
-6. Click the "Upload Tool" button.
+5. Click the "Upload Tool" button.
 
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/2221f498-9d6a-40fb-b298-e2f26147a57f" />
 
-7. Upload the `weather_forecast_tool.py` file you created/copied.
+6. Upload the `weather_forecast_tool.py` file you created/copied.
 
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/7c39ec3a-7760-476d-a105-133322c1e823" />
 
-4. Upon successful upload, your tool should appear in the "Custom Tools" menu. A confirmation message will also be displayed indicating that your tool has been successfully registered in the GLChat.
+7. Upon successful upload, your tool should appear in the "Custom Tools" menu. A confirmation message will also be displayed indicating that your tool has been successfully registered in the GLChat.
    
     <img width="960" alt="image" src="https://github.com/user-attachments/assets/2f4ec7e3-0b82-4748-a492-49c8ecbbf5c7" />
+</details>
 
 ### Testing and Validating the Tool
 
@@ -180,6 +212,7 @@ Agent can only use tools that have been registered. If you already have a tool t
 Let's create an agent with the ability to make weather forecasts using the tool we registered in the previous step.
 
 #### Here's the general workflow for creating an agent in GLChat:
+
 1. Login to GLChat Admin Dashboard, refer to [Upload tool to GLChat](#upload-tool-to-glchat) section for details.
 2. From the Admin Dashboard, navigate to the "AI Agent" section in the left sidebar and click on "[Agent](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin/ai-agent/agent)".
 
@@ -243,16 +276,16 @@ Since direct deployment/assignment of newly created custom agents to chatbots in
 
    <img width="191" alt="image" src="https://github.com/user-attachments/assets/5a4c5e2c-55f6-4269-9e11-b03f3734a3a5" />
    
-3. From the left-hand sidebar, click on the "Chatbot" selection menu (it might initially say "Demo General Purpose").
-4. Select "Demo General Purpose" from the dropdown list (this chatbot exists in the **staging** environment).
+2. From the left-hand sidebar, click on the "Chatbot" selection menu (it might initially say "Demo General Purpose").
+3. Select "Demo General Purpose" from the dropdown list (this chatbot exists in the **staging** environment).
 
    <img width="443" alt="image" src="https://github.com/user-attachments/assets/053a5ca4-d387-4595-a14e-46c04c440ef6" />
 
-5. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Hello World Agent" (which is the edited "Hello World Agent" with your settings).
+4. In the chat interface, click the "More Agents" button. Scroll down, and you should see the "Hello World Agent" (which is the edited "Hello World Agent" with your settings).
 
     <img width="516" alt="image" src="https://github.com/user-attachments/assets/3ef050a9-88e0-418b-bb94-90f56d07b219" />
 
-6. Select the "Hello World Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
+5. Select the "Hello World Agent" and ask it a question, like "What is the weather forecast for Tuesday?".
 
     <img width="689" alt="image" src="https://github.com/user-attachments/assets/9f52bfd6-0d9d-4e27-90e4-80068d96c34a" />
 
@@ -281,7 +314,7 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
       *   **Timeout**: `60`
       *   **Instructions**: `Please fill in the Instruction`
      
-6.   Click "Save"
+5.   Click "Save"
 
 #### Delete The Weather Forecast Agent
 
@@ -349,3 +382,4 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
 
 > [!NOTE]
 > As of now, we still depend on the `BaseTool` module from LangChain. We will implement our own `BaseTool` module that supports conversion of tools from major providers.
+
