@@ -491,19 +491,19 @@ lxml = ["lxml"]
 
 [[package]]
 name = "bosa-core-binary"
-version = "0.0.0.dev2"
+version = "0.0.0.dev3"
 description = "BOSA Core Library"
 optional = false
 python-versions = "<3.13,>=3.11"
 files = [
-    {file = "bosa_core_binary-0.0.0.dev2-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:46884baf8f39a4efc644a71a3a27bb8d85a402ccd911a0ace5fba63418114d3e"},
-    {file = "bosa_core_binary-0.0.0.dev2-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:8af7059dc375de7fb167f9af8a2af49117dc5a110fbe1248fc0c0b391bcd0eb9"},
-    {file = "bosa_core_binary-0.0.0.dev2-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:c4c19238786a9b0128868eefa1d6e0f6a8d84e7e604db1c8b41d7f56134f725f"},
-    {file = "bosa_core_binary-0.0.0.dev2-cp311-cp311-win_amd64.whl", hash = "sha256:6aa2b425626790802583ee04c938320965ed9a82a3d4ded9b1ca9058e03738ac"},
-    {file = "bosa_core_binary-0.0.0.dev2-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:7dc42490940f6023364a9db8a45a8be6a43731c9e9eece6461239fcbf6abe259"},
-    {file = "bosa_core_binary-0.0.0.dev2-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:7a1e26a44a0282087fbd75548e669a5c3088da5493ce6634e59ed01ba704f439"},
-    {file = "bosa_core_binary-0.0.0.dev2-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:157549913c5d63ddd3592705060fc633bc702849508b33607ad50a4263908a70"},
-    {file = "bosa_core_binary-0.0.0.dev2-cp312-cp312-win_amd64.whl", hash = "sha256:a3b955773c9427249ab16662c284cc22969f1e825f51769a216f08c7535873a8"},
+    {file = "bosa_core_binary-0.0.0.dev3-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:69a1545275c7628a8a9e5b34d603e086a2afe742dd893c94d8c94b57c6facc66"},
+    {file = "bosa_core_binary-0.0.0.dev3-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:d2a290edf1818a8d8c061bd4eba0f35ca6b5fce7464e72989b4bbe76f95b378b"},
+    {file = "bosa_core_binary-0.0.0.dev3-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:50d9b0946f62ed944f1d3b475cf53a3663849b11ca2907c2858dde851ec11f88"},
+    {file = "bosa_core_binary-0.0.0.dev3-cp311-cp311-win_amd64.whl", hash = "sha256:5cb666095113bdcf9083448dcefd84152c7fb15ef00fffb357e3c667e191c52d"},
+    {file = "bosa_core_binary-0.0.0.dev3-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:9dd5641a2ae1cdf0636473f8283e1d9ae2550f1a3f3175319e949b63ecea981f"},
+    {file = "bosa_core_binary-0.0.0.dev3-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:a835c0a0808556ffd5fabc9b6cc12e4872a43df2edb0114118263807ab518865"},
+    {file = "bosa_core_binary-0.0.0.dev3-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:1e4055e658974e791cc145e13e9d08617b3b6add0bb3999b555a4d702efac51c"},
+    {file = "bosa_core_binary-0.0.0.dev3-cp312-cp312-win_amd64.whl", hash = "sha256:d5fb0386bab0a27d480556409c9b39454be143ce58230be6bd72eccf4f8d24e7"},
 ]
 
 [package.dependencies]
@@ -1383,8 +1383,12 @@ description = "A library containing data store components for Gen AI application
 optional = false
 python-versions = "<4.0,>=3.11"
 files = [
+    {file = "gllm_datastore_binary-0.0.15-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:8c1907d388b24e0b9c56cd84eb1d3bffcccf3d22d19b382aa1e2ac57ae9bc4b5"},
+    {file = "gllm_datastore_binary-0.0.15-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:ab65d33c2eb4c7ef4b386243f8e2adbf5ade54bd8afb3286e37cc4e1fbd1b438"},
     {file = "gllm_datastore_binary-0.0.15-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:a639f9fb64639f5eebd55bbb24aee7dffb661a78058f63b8b0fef70c18671fa9"},
     {file = "gllm_datastore_binary-0.0.15-cp311-cp311-win_amd64.whl", hash = "sha256:12d14db139066541a3b790d5b4fa3b3d991aa61c16cf5fca19228f34dbe2bb4a"},
+    {file = "gllm_datastore_binary-0.0.15-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:5ef471d6c560f2edf7da341a8a2b106ecce2b4e8696938c09d6afe6884b122c6"},
+    {file = "gllm_datastore_binary-0.0.15-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:8ae2ee19a0376ace71f3e0aade0ea74ea5b4f4e6d7336624d8dc8efa115426f5"},
     {file = "gllm_datastore_binary-0.0.15-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:3a85a9072f8b4d81d6ca00b5dd539da14c43b5c0e277bae40c19ecdf134e3b0a"},
     {file = "gllm_datastore_binary-0.0.15-cp312-cp312-win_amd64.whl", hash = "sha256:e6e821f5e1bddbeb57193eb0e5b46dfda2e2e11f8c755b1e72ba82b390ff52c1"},
     {file = "gllm_datastore_binary-0.0.15-cp313-cp313-macosx_13_0_x86_64.whl", hash = "sha256:475aed3c53df7d9a1715978f421fa6d97d85048b61689ec0140015bdda379c3b"},
@@ -1420,8 +1424,12 @@ description = "A library containing generation related components in Gen AI appl
 optional = false
 python-versions = "<3.13,>=3.11"
 files = [
+    {file = "gllm_generation_binary-0.2.11-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:2a9282f534309bf80cd4f979676af48ae03d3e62c1f76289f1bee9307ebced60"},
+    {file = "gllm_generation_binary-0.2.11-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:1ef3b50dbd293f5945a385bbe9ff90018c195d3411fb56fcc074a5ec91383630"},
     {file = "gllm_generation_binary-0.2.11-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:4e37e1fa9cdd271dc676a96adac98132858cec6c91d7382ccb339e044b1487f3"},
     {file = "gllm_generation_binary-0.2.11-cp311-cp311-win_amd64.whl", hash = "sha256:695cee39e6d46b441a7127a3c76035b46890f3985434836768182876fe00a0b6"},
+    {file = "gllm_generation_binary-0.2.11-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:ea32100bca3eafaf06b10c604e7a995c3ecad514d207a89ebfe38e87bf66f989"},
+    {file = "gllm_generation_binary-0.2.11-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:5bd0123122df051f4df769b7242fd0355d227e32ce7488b4a6df885c09863e05"},
     {file = "gllm_generation_binary-0.2.11-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:29ce3e23cef69f4815f6f9cc826bb080d86599642af0ad2b5cdbd3f5a190b29d"},
     {file = "gllm_generation_binary-0.2.11-cp312-cp312-win_amd64.whl", hash = "sha256:7e307ed1fe7efae5b1743e2a1d6f1216c11425bb23fc413792ea0e051cca1d83"},
 ]
@@ -1439,8 +1447,12 @@ description = "A library containing components related to model inferences in Ge
 optional = false
 python-versions = "<3.13,>=3.11"
 files = [
+    {file = "gllm_inference_binary-0.2.38-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:e9a3b39813103fd79a104a45b9697324388801c7d55e5910080f62981b683e41"},
+    {file = "gllm_inference_binary-0.2.38-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:6a748225f42e8da797879e40ae0f4b2287e2c9c05abb997b2be0410d203bfc5e"},
     {file = "gllm_inference_binary-0.2.38-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:921535dcd66f1e81ee05bcb5decaa5b31db80de6e9e4e25f07a20f29fdbbe213"},
     {file = "gllm_inference_binary-0.2.38-cp311-cp311-win_amd64.whl", hash = "sha256:2d53b46c4cff5a369237825006210d0ca2c3c3f159a5cd6e21b8acd9d251350d"},
+    {file = "gllm_inference_binary-0.2.38-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:b969ef79e5ff149597bcf1ce4145c2bce2b6c482f14c320d924d7e91837b4ece"},
+    {file = "gllm_inference_binary-0.2.38-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:e379f87d55385577ca54719f1314361b079deed83c8387fa38d9b67877eff623"},
     {file = "gllm_inference_binary-0.2.38-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:98b585f5f5961e0d3bed032fef0a6d06baf28c36b0bd393a2e35b565b8abc144"},
     {file = "gllm_inference_binary-0.2.38-cp312-cp312-win_amd64.whl", hash = "sha256:3f26ceb5464002bf9c8f330dcb5b9ec92919755560105f15f8b046799ec17b1e"},
 ]
@@ -1476,8 +1488,12 @@ description = "A library containing miscellaneous components for Gen AI applicat
 optional = false
 python-versions = "<3.13,>=3.11"
 files = [
+    {file = "gllm_misc_binary-0.2.19-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:ae322f52e1cd8ab16a0bdd4e7f48ca43e11a0ba3d88a726a0e7ba45d49f8795d"},
+    {file = "gllm_misc_binary-0.2.19-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:a09ce79fcc5c19f6ff3c2d8494e297e7ef5616d18c33d9615af67b3d8d347cbd"},
     {file = "gllm_misc_binary-0.2.19-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:7e99f8cbd65a386209dfb0543a8cf671ea5877159cfbd13865ec0a33e62285ce"},
     {file = "gllm_misc_binary-0.2.19-cp311-cp311-win_amd64.whl", hash = "sha256:e041275bea5a7a1554a922d034fa423f489bbe86bc2ae85384aaa2286c640037"},
+    {file = "gllm_misc_binary-0.2.19-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:e697094af79091a07c217a73575782d4da5d8cc5ad5db01dae61d66f8583f9a1"},
+    {file = "gllm_misc_binary-0.2.19-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:a73f5c73fcffec96a9e1c22392749ac11885d40b32285c0e1eeda2fdd59de456"},
     {file = "gllm_misc_binary-0.2.19-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:435731e6b1c6cd28c877c8f9b449a00f27d2ebe9f9a08d64e1fe6a7807f4667b"},
     {file = "gllm_misc_binary-0.2.19-cp312-cp312-win_amd64.whl", hash = "sha256:993053b19422253566c49724de09e13e23960479a52ebf49898a1c7ede526dc8"},
 ]
@@ -1510,8 +1526,12 @@ description = "A library containing components related to Gen AI applications pi
 optional = false
 python-versions = "<4.0,>=3.11"
 files = [
+    {file = "gllm_pipeline_binary-0.2.17-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:b02ba61bf947dd04961fadfb433250c44b16d2d1202f814cd64035fec26ca460"},
+    {file = "gllm_pipeline_binary-0.2.17-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:c2e6837bb2492556b81604eb0a8945c0393234fd018690cb4820b68a7a5c147e"},
     {file = "gllm_pipeline_binary-0.2.17-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:29e83a99c87842deda3bb73d362a2b8d992b66517d0cda3197139cc72bd546a3"},
     {file = "gllm_pipeline_binary-0.2.17-cp311-cp311-win_amd64.whl", hash = "sha256:64b8b8db768158f03cafa96f0fd55dfeb8a03a1c4120b8cca368399012acdcef"},
+    {file = "gllm_pipeline_binary-0.2.17-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:3b29d3cbdc34de1c1cd6235286c019f1675ab5d96beee855a176cd9927c7ee0c"},
+    {file = "gllm_pipeline_binary-0.2.17-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:efd6f1a2af42534dcdee3391544677c50a5dc328c48d7a7c85969193bbe8120f"},
     {file = "gllm_pipeline_binary-0.2.17-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:19dda72afbdb11d1be022e3199f005fc5d9b88385d7c99d056d98f422a1195f1"},
     {file = "gllm_pipeline_binary-0.2.17-cp312-cp312-win_amd64.whl", hash = "sha256:33b9f3a855bb4a06f8d79852dfed75df843f967a9477a21d195c7dd937a941f5"},
 ]
@@ -1528,8 +1548,14 @@ description = ""
 optional = false
 python-versions = "<3.13,>=3.11"
 files = [
+    {file = "gllm_plugin_binary-0.0.5-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:3aeb34dc0ad04a335ce7214c393039aa2d36dbc332ed9dd8a68382314b881956"},
+    {file = "gllm_plugin_binary-0.0.5-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:5344bd2999876fd0a7ca2c3cf320511bdd435dab453a1fbaf844646576a1dbf8"},
     {file = "gllm_plugin_binary-0.0.5-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:e47f0eee369a8d0dff28f23d806bbd8c720fff7c3b91129e18de84f920d27fe0"},
+    {file = "gllm_plugin_binary-0.0.5-cp311-cp311-win_amd64.whl", hash = "sha256:f1a6aa440937590542e8cff2a7e4bb2e61834a6daf701bb75a82a2d7cf99f8a4"},
+    {file = "gllm_plugin_binary-0.0.5-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:a139e868a306636c0f82a6ec8221835e5e44fffba1e7ba5939e3d526462cef51"},
+    {file = "gllm_plugin_binary-0.0.5-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:81db75a887903a91e2164b716846e9ddfe797c09b1ebd413e419f80eff9dd0d6"},
     {file = "gllm_plugin_binary-0.0.5-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:1dc7956fb34161cab5d51259cdfc8d868f5ce4a6cd76dd52b12d7360158d9446"},
+    {file = "gllm_plugin_binary-0.0.5-cp312-cp312-win_amd64.whl", hash = "sha256:12986c3dc5c26afbb8dbfff218e48b70f0229d8222a3edee7131ae24135ac6fd"},
 ]
 
 [package.dependencies]
@@ -1548,8 +1574,12 @@ description = "A library containing RAG pipeline builders and presets for Gen AI
 optional = false
 python-versions = "<3.13,>=3.11"
 files = [
+    {file = "gllm_rag_binary-0.0.2-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:90d938821bacf7b2d8b60a6b9960c864c1ceb14c969b8bf134d0769c9a440cf4"},
+    {file = "gllm_rag_binary-0.0.2-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:2207f8873dc5d0b243d4203a6756284d5a0017cbaf94060a2c4cbc5ae59b94bb"},
     {file = "gllm_rag_binary-0.0.2-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:20ed36f60c3db48d4cf5de1aa9dfd5c5c96320ce1200692e33666473658d5761"},
     {file = "gllm_rag_binary-0.0.2-cp311-cp311-win_amd64.whl", hash = "sha256:55e3cdae0b36dfbe5b741cc79710104eb3b758069266d4ea5f7d5dab6678a48e"},
+    {file = "gllm_rag_binary-0.0.2-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:61bd79cb276dd8dba01d191893effeff64c0fdff3bf84e18cb07b36de90a38dc"},
+    {file = "gllm_rag_binary-0.0.2-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:3fa6e7e763c81798994e60e76a98155a5533586d92ea76adc08f8dbc9f4c384a"},
     {file = "gllm_rag_binary-0.0.2-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:c9c78c18e1c2b29be6cf63a21b980af081a6da15a2a57eea217813a90f93e0e8"},
     {file = "gllm_rag_binary-0.0.2-cp312-cp312-win_amd64.whl", hash = "sha256:82e19ab0344d0992a4430e4279c7011bb808cd3e67820d70fe57bca34f4dfe01"},
 ]
@@ -1574,8 +1604,12 @@ description = "A library containing retrieval related components in Gen AI appli
 optional = false
 python-versions = "<3.13,>=3.11"
 files = [
+    {file = "gllm_retrieval_binary-0.3.1-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:18ca50c81d77ee62316bd9318cf6a802fe6e32865c733679758fb8061b825ab3"},
+    {file = "gllm_retrieval_binary-0.3.1-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:90f18631e1f82952318a8f8412d308d01d050b45d4094a5b4bd19af22d1a6734"},
     {file = "gllm_retrieval_binary-0.3.1-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:69f582579ae3fb40dc408eb658cf1bfda0751ecbc957f93ee83ff739190556f9"},
     {file = "gllm_retrieval_binary-0.3.1-cp311-cp311-win_amd64.whl", hash = "sha256:45dc224a02d1dbdec92e57eff267cfa660e539ea3b415f95244bd898c998bd18"},
+    {file = "gllm_retrieval_binary-0.3.1-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:4ee4c0e2484227dea43d0b337a252b416e2407fdb21373e9ca613715fcc88ca5"},
+    {file = "gllm_retrieval_binary-0.3.1-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:fdf493c6978509bbbe71b242c07bede27a757a7bec38f6cb9da6b6a161df9c3c"},
     {file = "gllm_retrieval_binary-0.3.1-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:c66c0e9f7173566c2301ed88c61b8f6208017d8c40036915ca97f2868c8f11e8"},
     {file = "gllm_retrieval_binary-0.3.1-cp312-cp312-win_amd64.whl", hash = "sha256:11b3ff16a4cda023b34205d1e7f7860b739635ae3c4d10316a6aae436e04f881"},
 ]
