@@ -1,49 +1,18 @@
 # Custom Tool and Agent Hello World
 This is an example how to create custom tool and agent.
 
-## Prerequisites
+<details><summary><h2>Prerequisites</h2></summary>
 
-> [!NOTE]
-> You need to fulfill the prerequisites to run the script.
+Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
 
-1. **Python v3.12** (to run `python`)
+This example specifically requires:
+- Python Environment
+- Access to Private Binary Version of SDK Library
+- Access to Private Source Code Version of SDK Library (internal and external)
+- Development Environment
 
-   - Using Conda (recommended):
-
-     You can use [Miniconda](https://docs.anaconda.com/miniconda/install) to install and manage Python versions.
-
-   - <details>
-     <summary>Using Python installer (alternative)</summary>
-     
-     You can download the Python installer from the link [Python 3.12.8](https://www.python.org/downloads/release/python-3128/), select the version appropriate for your operating system, and run the installer.
-
-     > [!NOTE]
-     > For Windows, please make sure to check the `Add python.exe to PATH` option during the installation process.
-   </details>
-
-2. **Google Cloud CLI v493.0.0 or above** (to run `gcloud`).
-
-   - You can install it by following [this instruction](https://cloud.google.com/sdk/docs/install).
-   - After installing it, sign in to your account using `gcloud auth login` command.
-   - If the `gcloud` CLI asks you to enter project ID, enter `gdp-labs`.
-
-3. **Access to GDP-ADMIN/gen-ai-internal repository**
-
-   You can try to access the [GDP-ADMIN/gen-ai-external](https://github.com/GDP-ADMIN/gen-ai-external) repository in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
-
-4. **SSH Key in your GitHub Account**
-
-   You must add your SSH key to your GitHub account. Please follow this instruction by GitHub: [Adding a new SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account). This is required as this sample has dependency to a private GitHub repository.
-
-5. **Access to the GDP Labs Google Artifact Registry**.
-   - This is required for `poetry` to download necessary dependencies.
-   - If you don't have access, please make a request to ticket(at)gdplabs.id.
-
-   **Notes**:\
-   If you're unsure whether you already have access, simply proceed to the next step. The script in step 4 of the [Running the Code](#running-the-code) section will automatically check your access status. If you don't have the necessary permissions, you'll see this error message: `User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id.`
-
-7. **VSCode IDE**
-   - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
+You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
+</details>
 
 ## Running the Code
 
@@ -90,42 +59,15 @@ This is an example how to create custom tool and agent.
 
 ## Setting Python Interpreter Path in VSCode IDE
 
-Set up the Python interpreter path in your IDE by following these instructions:
-
 > [!WARNING]
-> You must complete the steps in [Running the Code](#running-the-code) until you see the `custom-tool-and-agent example finished running.` on the console before continuing with the steps below on this section.
+> You must complete the steps in [Running the Code](#running-the-code) until you see the `custom-tool-and-agent example finished running.` on the console before configuring your Python interpreter.
 
-1. Open your VScode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
-2. On the left side-bar, click the "Extensions" menu (Ctrl+Shift+X). Type "Python" in the Search Bar and then click an extension named "Python" from "Microsoft". Finally, click the "Install" button.
+For detailed instructions on configuring the Python interpreter in VSCode, please refer to the centralized [Setting Python Interpreter Path in VSCode IDE](../../setting-python-interpreter.md) guide.
 
-   <img width="960" alt="image" src="https://github.com/user-attachments/assets/04d437fd-51b8-4b01-b28b-b585db091fce" />
-   
-4. Open the Python code sample [weather_forecast_tool.py](./sample_tools/weather_forecast_tool.py)
+<details><summary><h2>Troubleshooting</h2></summary>
 
-   Notice that there are either red or yellow squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor.
-
-   <img width="579" alt="image" src="https://github.com/user-attachments/assets/72979f2b-16b1-4265-8d30-dfab96cd6a61" />
-   
-5. After you run `./local-start.sh` using steps in [Running the Code](#running-the-code), you will see the log `PYTHON_PATH will be set to:` in the console. Copy the path in the next line, which looks something like:
-   ```
-   /home/<username>/gen-ai-examples/examples/custom-tool-and-agent/.venv/bin/python3
-   ```
-6. Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
-
-   <img width="493" alt="image" src="https://github.com/user-attachments/assets/2e463386-3424-45b0-8e2e-b9b7adab21b0" />
-   
-7. Select `Enter interpreter path...`
-8. Paste the previously copied path from the console and press enter.
-
-   <img width="501" alt="image" src="https://github.com/user-attachments/assets/3fc2db14-d8e5-45fd-9f74-e7f59cf84abc" />
-
-9. Check the bottom status bar in VSCode (as shown in the image below) to ensure the selected Python interpreter points to the `.venv` environment created by Poetry (e.g., `Python 3.11.10 ('.venv')`).
-
-   <img width="203" alt="image" src="https://github.com/user-attachments/assets/3dffba0d-8cd7-4577-880b-ea74d0080b7c" />
-
-   Your IDE will then recognize the path and will no longer show red squiggly lines under the import statements. You can try hovering over them to see the details of the library.
-
-   <img width="497" alt="image" src="https://github.com/user-attachments/assets/342841b3-0205-4b0b-869f-ea7d959ad1cd" />
+For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
+</details>
 
 ## Tool Development Guide
 
