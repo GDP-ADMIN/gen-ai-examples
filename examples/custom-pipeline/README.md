@@ -65,7 +65,11 @@ You need to fulfill the prerequisites to run the script. They will be checked au
       The custom pipeline will return the following response (more or less):
 
       > _Artificial Intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think, learn, and perform tasks that typically require human cognitive functions. This includes activities like problem-solving, understanding natural language, recognizing patterns, making decisions, and adapting to new information..._
-      
+
+## Additional Resources
+
+For detailed instructions on creating, testing, and registering a custom pipeline, please refer to the [GL Chat Custom Pipeline Guide](./guide.md).
+
 <details><summary><h2>Troubleshooting</h2></summary>
 
 For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
