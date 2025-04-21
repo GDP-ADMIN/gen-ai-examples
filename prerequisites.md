@@ -1,21 +1,21 @@
 # Prerequisites for GenAI Examples
 
-This document contains all prerequisites needed to run the examples in the GenAI Examples repository.
+This document contains various prerequisites needed to run the examples in the GenAI Examples repository.
 
 ## Python Environment
 
-1. **Python v3.12**
+1. **Python v3.11 or v3.12**
 
    - Using Conda (recommended):
      You can use [Miniconda](https://docs.anaconda.com/miniconda/install) to install and manage Python versions.
 
    - Using Python installer (alternative):
-     You can download the Python installer from [Python 3.12.8](https://www.python.org/downloads/release/python-3128/), select the version appropriate for your operating system, and run the installer.
+     You can download the Python installer from [Python 3.12.10](https://www.python.org/downloads/release/python-31210/), select the version appropriate for your operating system, and run the installer.
      
      > [!NOTE]
      > For Windows, please make sure to check the `Add python.exe to PATH` option during the installation process.
 
-## Google Cloud Requirements
+## Access to Private Binary Version of SDK Library
 
 1. **Google Cloud CLI v493.0.0 or above**
 
@@ -24,10 +24,9 @@ This document contains all prerequisites needed to run the examples in the GenAI
    - If the `gcloud` CLI asks you to enter project ID, enter `gdp-labs`.
 
 2. **Access to the GDP Labs Google Artifact Registry**
-   - This is required for some examples to download necessary dependencies.
    - If you don't have access, please make a request to ticket(at)gdplabs.id.
 
-## Repository Access Requirements
+## Access to Private Source Code Version of SDK Library
 
 1. **Access to GDP-ADMIN/gen-ai-internal repository**
    - You can try to access the [GDP-ADMIN/gen-ai-internal](https://github.com/GDP-ADMIN/gen-ai-internal) repository in your browser.
