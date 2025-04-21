@@ -1,18 +1,19 @@
 # Custom Tool and Agent Hello World
 This is an example how to create custom tool and agent.
 
-## Prerequisites
+<summary><h2>Prerequisites</h2></summary>
+<details>
 
-> [!NOTE]
 > Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
 >
 > This example specifically requires:
-> - Python v3.12
-> - Google Cloud CLI v493.0.0+
-> - Access to GDP-ADMIN/gen-ai-external repository
-> - SSH Key configured in your GitHub Account
-> - Access to GDP Labs Google Artifact Registry
-> - VSCode IDE
+> - Python Environment
+> - Access to Private Binary Version of SDK Library
+> - Access to Private Source Code Version of SDK Library (internal and external)
+> - Development Environment
+>
+> You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
+</details>
 
 ## Running the Code
 
@@ -99,11 +100,6 @@ Set up the Python interpreter path in your IDE by following these instructions:
 ## Troubleshooting
 
 For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
-
-Some issues specific to this example include:
-- Unable to access repository GDP-ADMIN/gen-ai-external
-- ImportError: failed to find libmagic (macOS/Windows)
-- IDE setup and Python path configuration
 
 ## Tool Development Guide
 
