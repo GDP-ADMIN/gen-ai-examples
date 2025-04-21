@@ -6,14 +6,14 @@ See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-exam
 
 <details><summary><h2>Prerequisites</h2></summary>
 
-> Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
->
-> This example specifically requires:
-> - Python Environment
-> - Access to Private Source Code Version of SDK Library (internal only)
-> - Development Environment
->
-> You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
+Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
+
+This example specifically requires:
+- Python Environment
+- Access to Private Source Code Version of SDK Library (internal only)
+- Development Environment
+
+You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
 </details>
 
 ## Running the Code

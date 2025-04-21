@@ -7,13 +7,13 @@ This is an example of how to use the gllm-plugin library to build a custom pipel
 
 <details><summary><h2>Prerequisites</h2></summary>
 
-> Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
->
-> This example specifically requires:
-> - Python Environment
-> - Access to Private Binary Version of SDK Library
->
-> You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
+Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
+
+This example specifically requires:
+- Python Environment
+- Access to Private Binary Version of SDK Library
+
+You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
 </details>
 
 ## Running the Code
