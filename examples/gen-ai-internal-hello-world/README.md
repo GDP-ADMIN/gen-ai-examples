@@ -4,16 +4,18 @@ This is an example of how to use the gllm-pipeline library to build a simple RAG
 
 See other examples in [gen-ai-examples](https://github.com/GDP-ADMIN/gen-ai-examples).
 
-## Prerequisites
+<summary><h2>Prerequisites</h2></summary>
+<details>
 
-> [!NOTE]
 > Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
 >
 > This example specifically requires:
-> - Python v3.12
-> - Access to GDP-ADMIN/gen-ai-internal repository
-> - SSH Key configured in your GitHub Account
-> - VSCode IDE
+> - Python Environment
+> - Access to Private Source Code Version of SDK Library (internal only)
+> - Development Environment
+>
+> You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
+</details>
 
 ## Running the Code
 
@@ -108,9 +110,3 @@ Your IDE will then recognize the path and will no longer show red squiggly lines
 ## Troubleshooting
 
 For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
-
-Some issues specific to this example include:
-- Unable to access repository GDP-ADMIN/gen-ai-internal
-- Error executing component StuffResponseSynthesizer
-- ImportError: failed to find libmagic (macOS/Windows)
-- Unable to import 'gllm_generation.response_synthesizer'
