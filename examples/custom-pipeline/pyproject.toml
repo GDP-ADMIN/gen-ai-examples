@@ -7,20 +7,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
-gllm-pipeline = {version="*", source = "gen-ai"}
-gllm-core = {version="*", source = "gen-ai"}
-gllm-plugin = {version="*", source = "gen-ai"}
-gllm-generation = {version="*", source = "gen-ai"}
-gllm-rag = {version="*", source = "gen-ai"}
-
-[[tool.poetry.source]]
-name = "gen-ai"
-url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/simple/"
-priority = "supplemental"
-
-[[tool.poetry.source]]
-name = "pypi"
-priority = "primary"
+gllm-pipeline-binary = {version="*"}
+gllm-core-binary = {version="*"}
+gllm-plugin-binary = {version="*"}
+gllm-generation-binary = {version="*"}
+gllm-rag-binary = {version="*"}
 
 [build-system]
 requires = ["poetry-core"]
