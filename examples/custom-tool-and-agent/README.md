@@ -60,42 +60,10 @@ This is an example how to create custom tool and agent.
 
 ## Setting Python Interpreter Path in VSCode IDE
 
-Set up the Python interpreter path in your IDE by following these instructions:
-
 > [!WARNING]
-> You must complete the steps in [Running the Code](#running-the-code) until you see the `custom-tool-and-agent example finished running.` on the console before continuing with the steps below on this section.
+> You must complete the steps in [Running the Code](#running-the-code) until you see the `custom-tool-and-agent example finished running.` on the console before configuring your Python interpreter.
 
-1. Open your VScode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
-2. On the left side-bar, click the "Extensions" menu (Ctrl+Shift+X). Type "Python" in the Search Bar and then click an extension named "Python" from "Microsoft". Finally, click the "Install" button.
-
-   <img width="960" alt="image" src="https://github.com/user-attachments/assets/04d437fd-51b8-4b01-b28b-b585db091fce" />
-   
-4. Open the Python code sample [weather_forecast_tool.py](./sample_tools/weather_forecast_tool.py)
-
-   Notice that there are either red or yellow squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor.
-
-   <img width="579" alt="image" src="https://github.com/user-attachments/assets/72979f2b-16b1-4265-8d30-dfab96cd6a61" />
-   
-5. After you run `./local-start.sh` using steps in [Running the Code](#running-the-code), you will see the log `PYTHON_PATH will be set to:` in the console. Copy the path in the next line, which looks something like:
-   ```
-   /home/<username>/gen-ai-examples/examples/custom-tool-and-agent/.venv/bin/python3
-   ```
-6. Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) and type `> Python: Select Interpreter` and press enter.
-
-   <img width="493" alt="image" src="https://github.com/user-attachments/assets/2e463386-3424-45b0-8e2e-b9b7adab21b0" />
-   
-7. Select `Enter interpreter path...`
-8. Paste the previously copied path from the console and press enter.
-
-   <img width="501" alt="image" src="https://github.com/user-attachments/assets/3fc2db14-d8e5-45fd-9f74-e7f59cf84abc" />
-
-9. Check the bottom status bar in VSCode (as shown in the image below) to ensure the selected Python interpreter points to the `.venv` environment created by Poetry (e.g., `Python 3.11.10 ('.venv')`).
-
-   <img width="203" alt="image" src="https://github.com/user-attachments/assets/3dffba0d-8cd7-4577-880b-ea74d0080b7c" />
-
-   Your IDE will then recognize the path and will no longer show red squiggly lines under the import statements. You can try hovering over them to see the details of the library.
-
-   <img width="497" alt="image" src="https://github.com/user-attachments/assets/342841b3-0205-4b0b-869f-ea7d959ad1cd" />
+For detailed instructions on configuring the Python interpreter in VSCode, please refer to the centralized [Setting Python Interpreter Path in VSCode IDE](../../setting-python-interpreter.md) guide.
 
 ## Troubleshooting
 

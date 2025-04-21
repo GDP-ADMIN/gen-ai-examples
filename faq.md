@@ -60,15 +60,7 @@ I am an AI assistant here to help you with your questions and provide informatio
 
 ### 1. I got `Unable to import 'gllm_generation.response_synthesizer'` error in VSCode IDE. How do I fix it?
 
-You need to change the Python interpreter path in your IDE. Follow these steps:
-
-1. Run `./local-start.sh` first
-2. Look for the log `Getting python interpreter path for use in IDE...` in the console
-3. Copy the path in the next line
-4. Open command palette (`⌘+Shift+P` for Mac or `Ctrl+Shift+P` for Linux/Windows) 
-5. Type `> Python: Select Interpreter` and press enter
-6. Select `Enter interpreter path...`
-7. Paste the previously copied path and press enter
+You need to change the Python interpreter path in your IDE. For detailed instructions, please refer to the [Setting Python Interpreter Path in VSCode IDE](setting-python-interpreter.md) guide.
 
 ## Platform-Specific Issues
 
