@@ -4,46 +4,15 @@ This is an example how to create custom tool and agent.
 ## Prerequisites
 
 > [!NOTE]
-> You need to fulfill the prerequisites to run the script.
-
-1. **Python v3.12** (to run `python`)
-
-   - Using Conda (recommended):
-
-     You can use [Miniconda](https://docs.anaconda.com/miniconda/install) to install and manage Python versions.
-
-   - <details>
-     <summary>Using Python installer (alternative)</summary>
-     
-     You can download the Python installer from the link [Python 3.12.8](https://www.python.org/downloads/release/python-3128/), select the version appropriate for your operating system, and run the installer.
-
-     > [!NOTE]
-     > For Windows, please make sure to check the `Add python.exe to PATH` option during the installation process.
-   </details>
-
-2. **Google Cloud CLI v493.0.0 or above** (to run `gcloud`).
-
-   - You can install it by following [this instruction](https://cloud.google.com/sdk/docs/install).
-   - After installing it, sign in to your account using `gcloud auth login` command.
-   - If the `gcloud` CLI asks you to enter project ID, enter `gdp-labs`.
-
-3. **Access to GDP-ADMIN/gen-ai-internal repository**
-
-   You can try to access the [GDP-ADMIN/gen-ai-external](https://github.com/GDP-ADMIN/gen-ai-external) repository in your browser. If you don’t have access, please make a request to ticket(at)gdplabs.id.
-
-4. **SSH Key in your GitHub Account**
-
-   You must add your SSH key to your GitHub account. Please follow this instruction by GitHub: [Adding a new SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account). This is required as this sample has dependency to a private GitHub repository.
-
-5. **Access to the GDP Labs Google Artifact Registry**.
-   - This is required for `poetry` to download necessary dependencies.
-   - If you don't have access, please make a request to ticket(at)gdplabs.id.
-
-   **Notes**:\
-   If you're unsure whether you already have access, simply proceed to the next step. The script in step 4 of the [Running the Code](#running-the-code) section will automatically check your access status. If you don't have the necessary permissions, you'll see this error message: `User does not have access to the GDP Labs Google Artifact Registry. Please contact the GDP Labs DSO team at infra(at)gdplabs.id.`
-
-7. **VSCode IDE**
-   - Go to [VSCode](https://code.visualstudio.com/download) to download VSCode IDE.
+> Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
+>
+> This example specifically requires:
+> - Python v3.12
+> - Google Cloud CLI v493.0.0+
+> - Access to GDP-ADMIN/gen-ai-external repository
+> - SSH Key configured in your GitHub Account
+> - Access to GDP Labs Google Artifact Registry
+> - VSCode IDE
 
 ## Running the Code
 
@@ -126,6 +95,15 @@ Set up the Python interpreter path in your IDE by following these instructions:
    Your IDE will then recognize the path and will no longer show red squiggly lines under the import statements. You can try hovering over them to see the details of the library.
 
    <img width="497" alt="image" src="https://github.com/user-attachments/assets/342841b3-0205-4b0b-869f-ea7d959ad1cd" />
+
+## Troubleshooting
+
+For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
+
+Some issues specific to this example include:
+- Unable to access repository GDP-ADMIN/gen-ai-external
+- ImportError: failed to find libmagic (macOS/Windows)
+- IDE setup and Python path configuration
 
 ## Tool Development Guide
 
