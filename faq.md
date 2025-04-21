@@ -2,7 +2,7 @@
 
 This document contains common questions and troubleshooting tips for the GenAI Examples repository.
 
-## API and Environment Issues
+## API Key Issues
 
 ### 1. I got error `Error executing component StuffResponseSynthesizer__user_query_response_synthesis_bundle`. How do I fix it?
 
@@ -16,7 +16,7 @@ OPENAI_API_KEY =<YOUR_OPENAI_API_KEY> # Get your OpenAI API key from https://pla
 LANGUAGE_MODEL =<VALID_OPENAI_LANGUAGE_MODEL_NAME> # e.g. "gpt-3.5-turbo", "gpt-4o-mini", "gpt-4o"
 ```
 
-## Repository Access Issues
+## Source Code Access Issues (on Source Code Version of SDK Library)
 
 ### 1. I got error `Unable to access repository GDP-ADMIN/gen-ai-internal. Please check your GitHub credentials and repository permissions.`. How do I fix it?
 
@@ -29,7 +29,7 @@ If you haven't set up your SSH key, you might get errors like:
 
 To fix this, you need to add your SSH key to your GitHub account. Please follow this instruction by GitHub: [Adding a new SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
-## Code Execution Issues
+## Source Code Access Issues (on Binary Version of SDK Library)
 
 ### 1. I got error `OSError: could not get source code`. How do I fix it?
 
@@ -74,35 +74,8 @@ You need to change the Python interpreter path in your IDE. Follow these steps:
 
 ### 1. I got error `ImportError: failed to find libmagic`. How do I fix it?
 
-This typically happens if you use macOS or Windows.
-
-#### For macOS:
-
-There are two alternatives:
-
-1. If you have [conda](https://docs.anaconda.com/miniconda/install/) installed:
-
-```
-conda install libmagic
-cd /usr/local/lib
-sudo ln -s /opt/miniconda3/pkgs/libmagic-5.39-h6ba3021_1/lib/libmagic.dylib libmagic.dylib
-```
-
-> [!WARNING]
-> Please adjust the path of your Conda installation if it differs. In the example above, the path is `/opt/miniconda3/`.
-
-2. If you have [brew](https://brew.sh/) installed:
-
-```
-brew install libmagic
-```
+For detailed solutions to this issue, please refer to the [macOS Requirements](prerequisites.md#macos-requirements) section in the prerequisites document.
 
 ### 2. I got error `Unable to find installation candidates`. How do I fix it?
 
-Our binary SDK can only be run on specific OSes:
-
-1. **Linux / WSL**: x86_64 architecture.
-2. **macOS**: 
-   - x86_64 (Intel) - macOS version 13 or newer
-   - arm64 (Apple Silicon) - macOS version 14 or newer
-3. **Windows**: 64bit architecture. 
+For detailed solutions to this issue, please refer to the [Binary SDK Compatibility](prerequisites.md#binary-sdk-compatibility) section in the prerequisites document.
