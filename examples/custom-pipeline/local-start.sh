@@ -204,7 +204,6 @@ check_requirements() {
     log "Checking system requirements..."
 
     check_command_version "$PYTHON_CMD" "$PYTHON_VERSION" "--version"
-    check_command_version "gcloud" "$GCLOUD_VERSION" "--version"
 
     log "System requirements are satisfied."
 }
@@ -302,13 +301,10 @@ main() {
     install_command "poetry" "$POETRY_VERSION"
 
     deactivate_conda
-    check_gcloud_login
-    check_artifact_access
     log "${COLOR_SUCCESS}All requirements are satisfied.$COLOR_RESET"
 
     log "${COLOR_INFO}Setting up ${PROJECT_NAME} example...$COLOR_RESET"
     copy_env_file
-    setup_poetry_http_basic
     configure_poetry_python_path
     install_dependencies
     log "${COLOR_SUCCESS}${PROJECT_NAME} example ready to run.$COLOR_RESET"
