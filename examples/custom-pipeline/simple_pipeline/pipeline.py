@@ -15,6 +15,7 @@ from typing import Any
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_plugin.pipeline.pipeline_plugin import PipelineBuilderPlugin
 from gllm_rag.preset.lm import LM, LMState
+from gllm_rag.preset.initializer import ModelId
 from simple_pipeline.preset_config import SimplePresetConfig
 
 load_dotenv()
@@ -35,10 +36,6 @@ class SimplePipelineBuilder(PipelineBuilderPlugin[LMState, SimplePresetConfig]):
     def __init__(self):
         """Initialize the simple pipeline builder."""
         super().__init__()
-        self.lm = LM(
-            language_model_id=os.getenv("LANGUAGE_MODEL"),
-            language_model_credentials=os.getenv("OPENAI_API_KEY"),
-        )
 
     def build(self, pipeline_config: dict[str, Any]) -> Pipeline:
         """Build the pipeline.
@@ -49,6 +46,12 @@ class SimplePipelineBuilder(PipelineBuilderPlugin[LMState, SimplePresetConfig]):
         Returns:
             Pipeline: The simple pipeline.
         """
+        model_name = str(pipeline_config.get("model_name"))
+        api_key = pipeline_config.get("api_key")
+        self.lm = LM(
+            language_model_id=model_name,
+            language_model_credentials=os.getenv(api_key),
+        )
         return self.lm.build()
 
     def build_initial_state(
