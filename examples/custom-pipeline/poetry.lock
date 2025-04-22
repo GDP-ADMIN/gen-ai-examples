@@ -491,19 +491,19 @@ lxml = ["lxml"]
 
 [[package]]
 name = "bosa-core-binary"
-version = "0.0.0.dev3"
+version = "0.1.6"
 description = "BOSA Core Library"
 optional = false
 python-versions = "<3.13,>=3.11"
 files = [
-    {file = "bosa_core_binary-0.0.0.dev3-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:69a1545275c7628a8a9e5b34d603e086a2afe742dd893c94d8c94b57c6facc66"},
-    {file = "bosa_core_binary-0.0.0.dev3-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:d2a290edf1818a8d8c061bd4eba0f35ca6b5fce7464e72989b4bbe76f95b378b"},
-    {file = "bosa_core_binary-0.0.0.dev3-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:50d9b0946f62ed944f1d3b475cf53a3663849b11ca2907c2858dde851ec11f88"},
-    {file = "bosa_core_binary-0.0.0.dev3-cp311-cp311-win_amd64.whl", hash = "sha256:5cb666095113bdcf9083448dcefd84152c7fb15ef00fffb357e3c667e191c52d"},
-    {file = "bosa_core_binary-0.0.0.dev3-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:9dd5641a2ae1cdf0636473f8283e1d9ae2550f1a3f3175319e949b63ecea981f"},
-    {file = "bosa_core_binary-0.0.0.dev3-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:a835c0a0808556ffd5fabc9b6cc12e4872a43df2edb0114118263807ab518865"},
-    {file = "bosa_core_binary-0.0.0.dev3-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:1e4055e658974e791cc145e13e9d08617b3b6add0bb3999b555a4d702efac51c"},
-    {file = "bosa_core_binary-0.0.0.dev3-cp312-cp312-win_amd64.whl", hash = "sha256:d5fb0386bab0a27d480556409c9b39454be143ce58230be6bd72eccf4f8d24e7"},
+    {file = "bosa_core_binary-0.1.6-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:69a122243ebc46a770a825c18ac8946c3604fa7432fa9e9c23cda0bebc0fd023"},
+    {file = "bosa_core_binary-0.1.6-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:f0aa1a830ecc5cc1a381be529c5ec3215e674b946db71e167cd3defd1bbd4665"},
+    {file = "bosa_core_binary-0.1.6-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:23d3b5075106406d1142f86296e426f77edf12f38859fc63d8501b6392c39c15"},
+    {file = "bosa_core_binary-0.1.6-cp311-cp311-win_amd64.whl", hash = "sha256:9ed241c768f16f775f139f79ec1a691551c1ed5b1568429d409430ff1bcb889d"},
+    {file = "bosa_core_binary-0.1.6-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:ed38578977855b0face8adbd0c53f016966a0c38f1edb75e06f9b3b58eb91d3a"},
+    {file = "bosa_core_binary-0.1.6-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:2ab862a5bc99df35c7fdabeb3208ecac493a454791e95671425c40c544c692fa"},
+    {file = "bosa_core_binary-0.1.6-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:33f1be4643ad49b6bf98ac5102d443c5049adbe194912f1e37383f22e9d64752"},
+    {file = "bosa_core_binary-0.1.6-cp312-cp312-win_amd64.whl", hash = "sha256:52ca966f09761d24e73ec9d4531e4dc8d1e29029395f7f4e8912e01a6fce53da"},
 ]
 
 [package.dependencies]
@@ -2776,13 +2776,13 @@ tenacity = ">=8.1.0,<8.4.0 || >8.4.0,<9.0.0"
 
 [[package]]
 name = "langchain-core"
-version = "0.3.54"
+version = "0.3.55"
 description = "Building applications with LLMs through composability"
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "langchain_core-0.3.54-py3-none-any.whl", hash = "sha256:cd42155d9089e2fd4695ee02a4b2bc6daf55b9d4e1a37639647cf2455ed4fa04"},
-    {file = "langchain_core-0.3.54.tar.gz", hash = "sha256:55ce38939038e19b1271f36f512335462d7f64057b531598b3651d2b403e1b42"},
+    {file = "langchain_core-0.3.55-py3-none-any.whl", hash = "sha256:b3cb36bf37755a616158a79866657c6697b43a2f7c69dd723ce425f1c76c1baa"},
+    {file = "langchain_core-0.3.55.tar.gz", hash = "sha256:0f2b3e311621116a83510c70b0ac9d959030a0a457a69483535cff18501fedc9"},
 ]
 
 [package.dependencies]
@@ -2915,13 +2915,13 @@ ormsgpack = ">=1.8.0,<2.0.0"
 
 [[package]]
 name = "langgraph-sdk"
-version = "0.1.61"
+version = "0.1.63"
 description = "SDK for interacting with LangGraph API"
 optional = false
 python-versions = "<4.0.0,>=3.9.0"
 files = [
-    {file = "langgraph_sdk-0.1.61-py3-none-any.whl", hash = "sha256:f2d774b12497c428862993090622d51e0dbc3f53e0cee3d74a13c7495d835cc6"},
-    {file = "langgraph_sdk-0.1.61.tar.gz", hash = "sha256:87dd1f07ab82da8875ac343268ece8bf5414632017ebc9d1cef4b523962fd601"},
+    {file = "langgraph_sdk-0.1.63-py3-none-any.whl", hash = "sha256:6fb78a7fc6a30eea43bd0d6401dbc9e3263d0d4c03f63c04035980da7e586b05"},
+    {file = "langgraph_sdk-0.1.63.tar.gz", hash = "sha256:62bf2cc31e5aa6c5b9011ee1702bcf1e36e67e142a60bd97af2611162fb58e18"},
 ]
 
 [package.dependencies]
@@ -2964,13 +2964,13 @@ files = [
 
 [[package]]
 name = "llama-index-core"
-version = "0.12.31"
+version = "0.12.32"
 description = "Interface between LLMs and your data"
 optional = false
 python-versions = "<4.0,>=3.9"
 files = [
-    {file = "llama_index_core-0.12.31-py3-none-any.whl", hash = "sha256:ac1482d1fd111611394c3f86dc0cad5e925f96f5db76eb1f7c2120dd133e8770"},
-    {file = "llama_index_core-0.12.31.tar.gz", hash = "sha256:2ad2b6000277ca2c45ea0fa358ffefb4350cffb6630e3498f9501352e7529526"},
+    {file = "llama_index_core-0.12.32-py3-none-any.whl", hash = "sha256:4cad0be8c31cc8a0250d68205b3c193e5f97f3a33b3ecc2d81df365aa23d120e"},
+    {file = "llama_index_core-0.12.32.tar.gz", hash = "sha256:7fae277ae88e0fd9507ee06b6ddb96b72ad2f57e4695047dd5e6d68014a0b6b9"},
 ]
 
 [package.dependencies]
@@ -6155,13 +6155,13 @@ sqlcipher = ["sqlcipher3_binary"]
 
 [[package]]
 name = "sqlglot"
-version = "26.15.0"
+version = "26.16.0"
 description = "An easily customizable SQL parser and transpiler"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "sqlglot-26.15.0-py3-none-any.whl", hash = "sha256:e4839f989e83b081af636e1f1312105c453b7fc3d440e8e10a5aaa447d16cd48"},
-    {file = "sqlglot-26.15.0.tar.gz", hash = "sha256:8349b782b8cee8b0ec6d228341a6564de562bdb7d87e7843e4849e9bf576e9a9"},
+    {file = "sqlglot-26.16.0-py3-none-any.whl", hash = "sha256:7ecc3f7c73d714cad39a11a48c76db5e64466f93c793bf56ed8df6bb1210efb7"},
+    {file = "sqlglot-26.16.0.tar.gz", hash = "sha256:253585bd6694bf376af100a306f71d8dae2e6b5be0b61df130a7c1d868d28487"},
 ]
 
 [package.extras]

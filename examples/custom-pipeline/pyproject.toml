@@ -17,7 +17,9 @@ gllm-plugin-binary = "^0.0.5"
 name = "simple-pipeline"
 version = "0.0.1"
 description = ""
-authors = ["GenAI SDK Team <gat-sdk@gdplabs.id>"]
+authors = [
+    { name = "GenAI SDK Team", email = "gat-sdk@gdplabs.id" }
+]
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 dependencies = [
