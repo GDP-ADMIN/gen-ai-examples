@@ -77,11 +77,9 @@ This approach uses the `gllm-agents` library directly in Python.
 
 ### Installation
 
-First, ensure you have set up and activated the Conda environment (`custom-tool-agent-hello-world`) as described in the [Setting Up the Local Environment](#setting-up-the-local-environment-using-conda) steps above. Then, install the required libraries:
-
 ```bash
+# From the activated custom-tool-agent-hello-world conda environment
 pip install "git+ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git@f/migrate-gllm-agents-from-gen-ai-template#subdirectory=libs/gllm-agents"
-# Install supporting libraries (may be included as dependencies, but explicit install ensures they exist)
 pip install langchain-openai python-dotenv
 ```
 
@@ -90,8 +88,6 @@ pip install langchain-openai python-dotenv
 This example uses two files: `hello_tool.py` for the tool definition and `hello_agent_example.py` to run the agent.
 
 **1. Tool Definition (`hello_tool.py`)**
-
-This file defines the `SimpleHelloTool`. Ensure this file exists in your directory (it should be included in the repository).
 
 ```python
 # hello_tool.py
@@ -109,85 +105,63 @@ class SimpleHelloTool(BaseTool):
     args_schema: Type[BaseModel] = HelloInput
 
     def _run(self, name: str, **kwargs: Any) -> str:
-        # Modify the return string to indicate it's from the tool
         return f"Tool says: Hello, {name}!"
 ```
 
 **2. Agent Runner Script (`hello_agent_example.py`)**
 
-This Python file initializes and runs the agent using the tool above. Ensure this file exists in your directory (it should be included in the repository).
-
 ```python
 # hello_agent_example.py
 from gllm_agents import Agent
 from langchain_openai import ChatOpenAI
-# Import the custom tool from the other file
 from hello_tool import SimpleHelloTool
 
 # Initialize components
-# Note: ChatOpenAI() will automatically look for the OPENAI_API_KEY env var.
 llm = ChatOpenAI(model="gpt-4o")
 tool = SimpleHelloTool()
 
 # Create Agent
 agent = Agent(
     name="HelloAgent",
-    # Revert to simpler instruction
     instruction="You are a helpful assistant that can greet people by name using the provided tool.",
     llm=llm,
     tools=[tool],
-    # Set verbose=True to see agent thoughts
     verbose=True
 )
 
 # Run Agent
 query = "Please greet Raymond"
 response = agent.run(query)
-
-# Print the final output from the response dictionary
 print(response['output'])
-
-# Expected output format is now modified by the tool's return value
-# Example: Tool says: Hello, Raymond!
 ```
 
-### Running the Example
+### Running the Example & Expected Output
 
-(_If running this, ensure you set the `OPENAI_API_KEY` environment variable_)
-
+First, set your OpenAI API key:
 ```bash
 export OPENAI_API_KEY="sk-..."
-# OR create a .env file with the key
 ```
 
-Then, execute the script:
-
+Then run the script:
 ```bash
 python hello_agent_example.py
 ```
 
-3. **Expected output**: 
-   With `verbose=True`, you should see detailed steps like this:
-   ```
-   
-   > Entering new AgentExecutor chain...
-   Invoking: `simple_hello_tool` with `{'name': 'Raymond'}`
-   
-   Tool says: Hello, Raymond!
-   
-   > Finished chain.
-   Tool says: Hello, Raymond!
-   ```
-   (Note: The exact verbose output might vary slightly based on library versions.)
+With `verbose=True`, you'll see the agent's thinking process, similar to:
+```
+> Entering new AgentExecutor chain...
+Invoking: `simple_hello_tool` with `{'name': 'Raymond'}`
 
-4. **Verification**:
-   - The agent successfully initializes.
-   - The verbose output (`Entering new AgentExecutor chain...`, `Invoking: ...`, `Finished chain.`) appears.
-   - The final output matches the tool's modified return value (e.g., starts with "Tool says:").
+Tool says: Hello, Raymond!
 
-### Troubleshooting
+> Finished chain.
+Tool says: Hello, Raymond!
+```
 
-For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
+The key indicators of success:
+- The agent initialization completes without errors
+- The verbose output shows the tool being invoked
+- The final output includes the greeting with "Tool says:" prefix
 
 --- 
 
