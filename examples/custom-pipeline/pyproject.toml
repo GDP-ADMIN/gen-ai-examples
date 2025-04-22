@@ -13,6 +13,17 @@ gllm-generation-binary = "^0.2.11"
 gllm-rag-binary = "^0.0.2"
 gllm-plugin-binary = "^0.0.5"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[project]
+name = "simple-pipeline"
+version = "0.0.1"
+description = ""
+authors = ["GenAI SDK Team <gat-sdk@gdplabs.id>"]
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "gllm-core-binary>=0.2.15",
+    "gllm-generation-binary>=0.2.11",
+    "gllm-pipeline-binary>=0.2.17",
+    "gllm-plugin-binary>=0.0.5",
+    "gllm-rag-binary>=0.0.2",
+]

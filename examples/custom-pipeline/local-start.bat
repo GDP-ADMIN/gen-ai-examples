@@ -20,12 +20,12 @@ call :get_python_path
 call :check_requirements
 call :install_command "poetry" "%MIN_POETRY_VERSION%"
 call :deactivate_conda
-call :check_gcloud_login
-call :check_artifact_access
+:: call :check_gcloud_login
+:: call :check_artifact_access
 call :log "All requirements are satisfied."
 call :log "Setting up !PROJECT_NAME! example..."
 call :copy_env_file
-call :setup_poetry_http_basic
+:: call :setup_poetry_http_basic
 :: call :configure_poetry_python_path
 call :install_dependencies
 call :log "!PROJECT_NAME! example ready to run."
@@ -65,7 +65,7 @@ exit /b
 call :log "Checking system requirements..."
 :: Check command version
 call :check_command_version "%PYTHON_CMD%" "%MIN_PYTHON_VERSION%" "--version"
-call :check_command_version "gcloud" "%MIN_GCLOUD_VERSION%" "--version"
+::call :check_command_version "gcloud" "%MIN_GCLOUD_VERSION%" "--version"
 call :log "System requirements are satisfied."
 exit /b
 
