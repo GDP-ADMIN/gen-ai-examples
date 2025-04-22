@@ -73,55 +73,25 @@ For common issues and their solutions, please refer to the centralized [FAQ docu
 
 ## Approach 1: Using Code (Command Line / SDK)
 
-This approach involves defining tools and agents programmatically using Python scripts and the provided SDK libraries (`gllm-plugin`, `gllm-agents`). This section shows the code definitions and how to set up an environment. Note that running a full agent locally requires specific setup and understanding of the `gllm-agents` library API, which might evolve.
+This approach uses the `gllm-agents` library directly in Python.
 
-### Setting Up the Local Environment (using Conda)
+### Installation
 
-1.  **Create a Conda Environment**: Open your terminal and create a new environment with Python 3.11:
-    ```bash
-    conda create -n custom-tool-agent-hello-world python=3.11 -y
-    ```
+First, ensure you have set up and activated the Conda environment (`custom-tool-agent-hello-world`) as described in the [Setting Up the Local Environment](#setting-up-the-local-environment-using-conda) steps above. Then, install the required libraries:
 
-2.  **Activate the Environment**:
-    ```bash
-    conda activate custom-tool-agent-hello-world
-    ```
+```bash
+pip install "git+ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git@f/migrate-gllm-agents-from-gen-ai-template#subdirectory=libs/gllm-agents"
+# Install supporting libraries (may be included as dependencies, but explicit install ensures they exist)
+pip install langchain-openai python-dotenv
+```
 
-3.  **Install Required Tools**: Ensure pip and git are available within the Conda environment (they usually are with Anaconda/Miniconda).
-    ```bash
-    conda install pip git -y
-    ```
+### Hello World Example
 
-4.  **Install Libraries**: Use pip to install the necessary libraries directly from their Git repositories and PyPI. Ensure your SSH keys are configured for GitHub access to the private repositories.
-    ```bash
-    pip install "git+ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git@f/migrate-gllm-agents-from-gen-ai-template#subdirectory=libs/gllm-agents"
-    # Install supporting libraries for the example
-    pip install langchain-openai python-dotenv
-    ```
+This example uses two files: `hello_tool.py` for the tool definition and `hello_agent_example.py` to run the agent.
 
-### Tool Development via Code
+**1. Tool Definition (`hello_tool.py`)**
 
-#### Examining the Custom Tool (hello_tool.py)
-The repository already includes a simple tool implementation. Let's examine it:
-
-1. **Navigate to your working directory**:
-   ```bash
-   cd examples/custom-tool-and-agent
-   ```
-
-2. **Open the existing tool file**:
-   ```bash
-   # For VSCode
-   code hello_tool.py
-   
-   # OR for nano
-   nano hello_tool.py
-   
-   # OR for vim
-   vim hello_tool.py
-   ```
-
-3. **Examine the code** in the file, which should look like this:
+This file defines the `SimpleHelloTool`. Ensure this file exists in your directory (it should be included in the repository).
 
 ```python
 # hello_tool.py
@@ -129,7 +99,6 @@ from gllm_agents.tools.base import BaseTool
 from pydantic import BaseModel, Field
 from typing import Any, Type
 
-# Optional: Define input schema if the tool needs arguments
 class HelloInput(BaseModel):
     name: str = Field(..., description="The name to say hello to")
 
@@ -140,135 +109,88 @@ class SimpleHelloTool(BaseTool):
     args_schema: Type[BaseModel] = HelloInput
 
     def _run(self, name: str, **kwargs: Any) -> str:
-        """Uses the tool."""
-        return f"Hello, {name}!"
+        # Modify the return string to indicate it's from the tool
+        return f"Tool says: Hello, {name}!"
 ```
 
-This tool is very simple - it takes a name as input and returns a greeting message.
+**2. Agent Runner Script (`hello_agent_example.py`)**
 
-> [!NOTE]
-> The `gllm-agents` library provides its own `BaseTool` implementation, which internally extends the Langchain BaseTool for compatibility.
-
-### Agent Development via Code (Simple Example)
-
-Now, let's create a script to run an agent with our custom tool:
-
-1. **Create the agent script file**:
-   ```bash
-   touch run_hello_agent.py
-   ```
-
-2. **Open the file in your editor**:
-   ```bash
-   # For VSCode
-   code run_hello_agent.py
-   
-   # OR for nano
-   nano run_hello_agent.py
-   
-   # OR for vim
-   vim run_hello_agent.py
-   ```
-
-3. **Add the following code** to your file:
+This Python file initializes and runs the agent using the tool above. Ensure this file exists in your directory (it should be included in the repository).
 
 ```python
-# run_hello_agent.py
+# hello_agent_example.py
+import os
 from gllm_agents.agent.base import Agent
 from langchain_openai import ChatOpenAI
+# Import the custom tool from the other file
 from hello_tool import SimpleHelloTool
 
-# Initialize the LLM
+# Initialize components
+# Note: ChatOpenAI() will automatically look for the OPENAI_API_KEY env var.
 llm = ChatOpenAI(model="gpt-4o")
-
-# Initialize your tool
 tool = SimpleHelloTool()
 
-# Create and run the agent
+# Create Agent
 agent = Agent(
     name="HelloAgent",
-    instruction="You are a helpful assistant that can greet people by name.",
+    # Revert to simpler instruction
+    instruction="You are a helpful assistant that can greet people by name using the provided tool.",
     llm=llm,
     tools=[tool],
-    verbose=True  # To see the agent's thought process
+    # Set verbose=True to see agent thoughts
+    verbose=True
 )
 
-# Run the agent
-response = agent.run("Please say hello to Raymond")
-print(response.get('output', response))
+# Run Agent
+query = "Please greet Raymond"
+response = agent.run(query)
+
+# Print the final output from the response dictionary
+print(response['output'])
+
+# Expected output format is now modified by the tool's return value
+# Example: Tool says: Hello, Raymond!
 ```
 
-4. **Save and close the file**.
+### Running the Example
 
-### Running Your Agent
+(_If running this, ensure you set the `OPENAI_API_KEY` environment variable_)
 
-Before running the agent, you need to set your OpenAI API key:
+```bash
+export OPENAI_API_KEY="sk-..."
+# OR create a .env file with the key
+```
 
-1. **Option A: Set it directly in your terminal**:
-   ```bash
-   export OPENAI_API_KEY="your-api-key-here"
-   ```
+Then, execute the script:
 
-   **Option B: Create a .env file**:
-   ```bash
-   # Create .env file
-   touch .env
-   
-   # Add your API key to the file
-   echo "OPENAI_API_KEY=your-api-key-here" > .env
-   ```
+```bash
+python hello_agent_example.py
+```
 
-2. **Run the agent script**:
-   ```bash
-   python run_hello_agent.py
-   ```
-
-3. **Expected output**:
-   You should see something similar to:
+3. **Expected output**: 
+   With `verbose=True`, you should see detailed steps like this:
    ```
    
    > Entering new AgentExecutor chain...
-   
    Invoking: `simple_hello_tool` with `{'name': 'Raymond'}`
    
-   
-   Hello, Raymond!
+   Tool says: Hello, Raymond!
    
    > Finished chain.
-   Hello, Raymond!
+   Tool says: Hello, Raymond!
    ```
+   (Note: The exact verbose output might vary slightly based on library versions.)
 
 4. **Verification**:
-   - The agent successfully initializes
-   - The verbose output shows the agent deciding to use your tool
-   - The final output contains "Hello, Raymond!" or a similar greeting
+   - The agent successfully initializes.
+   - The verbose output (`Entering new AgentExecutor chain...`, `Invoking: ...`, `Finished chain.`) appears.
+   - The final output matches the tool's modified return value (e.g., starts with "Tool says:").
 
 ### Troubleshooting
 
-If you encounter issues:
+For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
 
-1. **Import errors**: Ensure all dependencies were installed correctly.
-   ```bash
-   pip list | grep -E 'gllm-agents|langchain|openai|dotenv'
-   ```
-
-2. **OpenAI API Key errors**: Verify your API key is set correctly:
-   ```bash
-   # Check if environment variable exists
-   echo $OPENAI_API_KEY | wc -c
-   
-   # Should show a number greater than 1 if set
-   ```
-
-3. **Python errors**: Double-check your code for typos or syntax errors.
-
-4. **SSH key errors**: If you had issues installing the git repository:
-   ```bash
-   # Test your GitHub SSH connection
-   ssh -T git@github.com
-   ```
-
----
+--- 
 
 ## Approach 2: Using GLChat UI (Web Interface)
 
