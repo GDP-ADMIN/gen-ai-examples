@@ -101,20 +101,15 @@ This approach involves defining tools and agents programmatically using Python s
 
 ### Tool Development via Code
 
-#### Creating a Custom Tool (Code Example)
-Follow these steps to create your custom tool in a Python file:
+#### Examining the Custom Tool (hello_tool.py)
+The repository already includes a simple tool implementation. Let's examine it:
 
 1. **Navigate to your working directory**:
    ```bash
    cd examples/custom-tool-and-agent
    ```
 
-2. **Create the tool file**:
-   ```bash
-   touch hello_tool.py
-   ```
-
-3. **Open the file in your editor**:
+2. **Open the existing tool file**:
    ```bash
    # For VSCode
    code hello_tool.py
@@ -126,7 +121,7 @@ Follow these steps to create your custom tool in a Python file:
    vim hello_tool.py
    ```
 
-4. **Add the following code** to your file:
+3. **Examine the code** in the file, which should look like this:
 
 ```python
 # hello_tool.py
@@ -149,7 +144,7 @@ class SimpleHelloTool(BaseTool):
         return f"Hello, {name}!"
 ```
 
-5. **Save and close the file**.
+This tool is very simple - it takes a name as input and returns a greeting message.
 
 > [!NOTE]
 > The `gllm-agents` library provides its own `BaseTool` implementation, which internally extends the Langchain BaseTool for compatibility.
