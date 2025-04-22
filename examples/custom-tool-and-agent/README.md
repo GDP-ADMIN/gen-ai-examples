@@ -47,7 +47,7 @@ class SimpleHelloTool(BaseTool):
     args_schema: Type[BaseModel] = HelloInput
 
     def _run(self, name: str, **kwargs: Any) -> str:
-        return f"Tool says: Hello, {name}!"
+        return f"Good day, {name}!"
 ```
 
 **2. Agent Runner Script (`hello_agent_example.py`)**
@@ -164,9 +164,9 @@ pip install gllm-agents-binary==0.0.1b5
 
 *This section is a work in progress. Steps for specifically testing and validating an uploaded tool before associating it with an agent will be added in a future update.*
 
-## Agent Development Guide
+### Agent Development Guide
 
-### Creating a Single Agent
+#### Creating a Single Agent
 
 Agent can only use tools that have been registered. If you already have a tool that has not yet been registered, please refer to the [Tool Development Guide](#tool-development-guide) section.
 
@@ -206,7 +206,7 @@ Let's create an agent with the ability to make weather forecasts using the tool 
 
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/17507b12-a25c-4b6e-9758-faceded4184c" />
 
-## Testing the Agent
+### Testing the Agent
 
 Since direct deployment/assignment of newly created custom agents to chatbots in GLChat is not yet available (pending the Admin Dashboard feature), we provide a workaround using a pre-existing dummy agent named "Hello World Agent" that is already assigned to the "Demo General Purpose" chatbot in the **staging** environment. We will edit this existing agent to use our custom tool and instructions.
 
