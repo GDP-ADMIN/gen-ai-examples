@@ -72,7 +72,7 @@ agent = Agent(
 )
 
 # Run Agent
-query = "Please greet Raymond"
+query = "Please greet World"
 response = agent.run(query)
 print(response['output'])
 ```
@@ -92,18 +92,18 @@ python hello_agent_example.py
 With `verbose=True`, you'll see the agent's thinking process, similar to:
 ```
 > Entering new AgentExecutor chain...
-Invoking: `simple_hello_tool` with `{'name': 'Raymond'}`
+Invoking: `simple_hello_tool` with `{'name': 'World'}`
 
-Tool says: Hello, Raymond!
+Hello, World!
 
 > Finished chain.
-Tool says: Hello, Raymond!
+Hello, World!
 ```
 
 The key indicators of success:
 - The agent initialization completes without errors
 - The verbose output shows the tool being invoked
-- The final output includes the greeting with "Tool says:" prefix
+- The final output includes the greeting with "Hello, World!"
 
 --- 
 

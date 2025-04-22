@@ -21,11 +21,11 @@ agent = Agent(
 )
 
 # Run Agent
-query = "Please greet Raymond"
+query = "Please greet World"
 response = agent.run(query)
 
 # Print the final output from the response dictionary
 print(response['output'])
 
 # Expected output format is now modified by the tool's return value
-# Example: Tool says: Hello, Raymond! 
+# Example: Hello, World! 
