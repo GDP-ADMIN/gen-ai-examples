@@ -15,7 +15,6 @@ from typing import Any
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_plugin.pipeline.pipeline_plugin import PipelineBuilderPlugin
 from gllm_rag.preset.lm import LM, LMState
-from gllm_rag.preset.initializer import ModelId
 from simple_pipeline.preset_config import SimplePresetConfig
 
 load_dotenv()
