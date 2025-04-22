@@ -1,5 +1,5 @@
 # hello_tool.py
-from gllm_agents.tools.base import BaseTool
+from gllm_agents import BaseTool
 from pydantic import BaseModel, Field
 from typing import Any, Type
 

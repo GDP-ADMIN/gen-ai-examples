@@ -1,6 +1,5 @@
 # hello_agent_example.py
-import os
-from gllm_agents.agent.base import Agent
+from gllm_agents import Agent
 from langchain_openai import ChatOpenAI
 # Import the custom tool from the other file
 from hello_tool import SimpleHelloTool
