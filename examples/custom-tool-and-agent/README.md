@@ -1,72 +1,15 @@
 # Custom Tool and Agent Hello World
 This is an example how to create custom tool and agent.
 
-<details><summary><h2>Prerequisites</h2></summary>
+## Prerequisites
 
-Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
+<details><summary>Click to expand prerequisites</summary>
 
-This example specifically requires:
+This example requires:
 - Python Environment
-- Access to Private Binary Version of SDK Library
-- Access to Private Source Code Version of SDK Library (internal and external)
-- Development Environment
+- Access to the specified GitHub repositories 
 
-You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
-</details>
-
-## Running the Code
-
-1. Open a terminal (on Mac/Linux) or command prompt (on Windows)
-
-2. Clone the `gen-ai-examples` repository.
-
-   ```bash
-   git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
-   ```
-
-3. Navigate to the example directory:
-
-   ```bash
-   cd gen-ai-examples/examples/custom-tool-and-agent
-   ```
-
-4. Execute the script:
-
-   - For Linux, macOS, or Windows WSL:
-
-     ```bash
-     ./local-start.sh
-     ```
-
-   - <details>
-     <summary>For Windows (alternative)</summary>
-
-     > [!NOTE]
-     > On Windows, you can either install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) and use the command above, or execute the batch file directly in Windows Powershell or Command Prompt as shown below.
-
-     - For Windows Powershell:
-
-       ```powershell
-       .\local-start.bat
-       ```
-
-     - For Windows Command Prompt:
-
-       ```cmd
-       local-start.bat
-       ```
-     </details>
-
-## Setting Python Interpreter Path in VSCode IDE
-
-> [!WARNING]
-> You must complete the steps in [Running the Code](#running-the-code) until you see the `custom-tool-and-agent example finished running.` on the console before configuring your Python interpreter.
-
-For detailed instructions on configuring the Python interpreter in VSCode, please refer to the centralized [Setting Python Interpreter Path in VSCode IDE](../../setting-python-interpreter.md) guide.
-
-<details><summary><h2>Troubleshooting</h2></summary>
-
-For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
+You need to have proper GitHub authentication configured to access the repositories for pip installation.
 </details>
 
 ---
@@ -169,6 +112,15 @@ The key indicators of success:
 
 This approach involves creating, managing, and testing your tools and agents directly within the GLChat web interface.
 
+### Installation
+
+```bash
+# From the activated custom-tool-agent-hello-world conda environment
+pip install "git+ssh://git@github.com/GDP-ADMIN/gen-ai-external.git#subdirectory=libs/gllm-plugin"
+# If you want to use both approaches, also install:
+pip install "git+ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git@f/migrate-gllm-agents-from-gen-ai-template#subdirectory=libs/gllm-agents"
+```
+
 ### Tool Development via GLChat UI
 
 ### Creating a Custom Tool
@@ -177,7 +129,7 @@ This approach involves creating, managing, and testing your tools and agents dir
    *   The sample file demonstrates the basic structure of a tool using the `@tool_plugin` decorator.
    *   **What this tool does**: This sample tool provides weather forecasts for specific days of the week across multiple cities (New York, London, and Tokyo). It uses mock weather data stored within the tool itself and takes a day of the week as input. The tool returns formatted weather information including condition, temperature, and humidity for each location.
 3. Open the `weather_forecast_tool.py` file in VSCode.
-5. Check the import statements. Ensure that there are no import errors.
+4. Check the import statements. Ensure that there are no import errors.
    *   **What are import errors?** These errors mean that Python cannot find a specific piece of code (a library or module) that the tool needs to function. This usually happens if a required dependency wasn't installed correctly or if VSCode isn't using the correct Python environment where the dependencies were installed.
    *   **How to check**: Look for any red squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor. These visual cues indicate a problem. You can also open the "Problems" panel in VSCode (usually accessible via the View menu or by clicking the error/warning icons in the bottom status bar) to see a list of specific errors.
    *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and the script `local-start` (Step 4 under [Running the Code](#running-the-code)) completed without errors.
