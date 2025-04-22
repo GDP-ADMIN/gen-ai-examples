@@ -22,8 +22,7 @@ This approach uses the `gllm-agents` library directly in Python.
 
 ```bash
 # From the activated custom-tool-agent-hello-world conda environment
-pip install "git+ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git@f/migrate-gllm-agents-from-gen-ai-template#subdirectory=libs/gllm-agents"
-pip install langchain-openai python-dotenv
+pip install gllm-agents-binary==0.0.1b5
 ```
 
 ### Hello World Example
@@ -116,9 +115,9 @@ This approach involves creating, managing, and testing your tools and agents dir
 
 ```bash
 # From the activated custom-tool-agent-hello-world conda environment
-pip install "git+ssh://git@github.com/GDP-ADMIN/gen-ai-external.git#subdirectory=libs/gllm-plugin"
+pip install gllm-plugin-binary==0.0.5
 # If you want to use both approaches, also install:
-pip install "git+ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git@f/migrate-gllm-agents-from-gen-ai-template#subdirectory=libs/gllm-agents"
+pip install gllm-agents-binary==0.0.1b5
 ```
 
 ### Tool Development via GLChat UI
