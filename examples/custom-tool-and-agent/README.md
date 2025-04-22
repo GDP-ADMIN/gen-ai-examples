@@ -1,75 +1,126 @@
 # Custom Tool and Agent Hello World
 This is an example how to create custom tool and agent.
 
-<details><summary><h2>Prerequisites</h2></summary>
+## Prerequisites
 
-Please refer to the centralized [prerequisites.md](../../prerequisites.md) file for detailed requirements to run this example.
+<details><summary>Click to expand prerequisites</summary>
 
-This example specifically requires:
+This example requires:
 - Python Environment
-- Access to Private Binary Version of SDK Library
-- Access to Private Source Code Version of SDK Library (internal and external)
-- Development Environment
+- Access to the specified GitHub repositories 
 
-You need to fulfill the prerequisites to run the script. They will be checked automatically when you execute it.
+You need to have proper GitHub authentication configured to access the repositories for pip installation.
 </details>
 
-## Running the Code
+---
 
-1. Open a terminal (on Mac/Linux) or command prompt (on Windows)
+## Approach 1: Using Code (Command Line / SDK)
 
-2. Clone the `gen-ai-examples` repository.
+This approach uses the `gllm-agents` library directly in Python.
 
-   ```bash
-   git clone https://github.com/GDP-ADMIN/gen-ai-examples.git
-   ```
+### Installation
 
-3. Navigate to the example directory:
+```bash
+# From the activated custom-tool-agent-hello-world conda environment
+pip install gllm-agents-binary==0.0.1b5
+```
 
-   ```bash
-   cd gen-ai-examples/examples/custom-tool-and-agent
-   ```
+### Hello World Example
 
-4. Execute the script:
+This example uses two files: `hello_tool.py` for the tool definition and `hello_agent_example.py` to run the agent.
 
-   - For Linux, macOS, or Windows WSL:
+**1. Tool Definition (`hello_tool.py`)**
 
-     ```bash
-     ./local-start.sh
-     ```
+```python
+# hello_tool.py
+from gllm_agents import BaseTool
+from pydantic import BaseModel, Field
+from typing import Any, Type
 
-   - <details>
-     <summary>For Windows (alternative)</summary>
+class HelloInput(BaseModel):
+    name: str = Field(..., description="The name to say hello to")
 
-     > [!NOTE]
-     > On Windows, you can either install [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) and use the command above, or execute the batch file directly in Windows Powershell or Command Prompt as shown below.
+class SimpleHelloTool(BaseTool):
+    """A simple tool that says hello."""
+    name: str = "simple_hello_tool"
+    description: str = "Greets the user by name."
+    args_schema: Type[BaseModel] = HelloInput
 
-     - For Windows Powershell:
+    def _run(self, name: str, **kwargs: Any) -> str:
+        return f"Good day, {name}!"
+```
 
-       ```powershell
-       .\local-start.bat
-       ```
+**2. Agent Runner Script (`hello_agent_example.py`)**
 
-     - For Windows Command Prompt:
+```python
+# hello_agent_example.py
+from gllm_agents import Agent
+from langchain_openai import ChatOpenAI
+from hello_tool import SimpleHelloTool
 
-       ```cmd
-       local-start.bat
-       ```
-     </details>
+# Initialize components
+llm = ChatOpenAI(model="gpt-4o")
+tool = SimpleHelloTool()
 
-## Setting Python Interpreter Path in VSCode IDE
+# Create Agent
+agent = Agent(
+    name="HelloAgent",
+    instruction="You are a helpful assistant that can greet people by name using the provided tool.",
+    llm=llm,
+    tools=[tool],
+    verbose=True
+)
 
-> [!WARNING]
-> You must complete the steps in [Running the Code](#running-the-code) until you see the `custom-tool-and-agent example finished running.` on the console before configuring your Python interpreter.
+# Run Agent
+query = "Please greet Raymond"
+response = agent.run(query)
+print(response['output'])
+```
 
-For detailed instructions on configuring the Python interpreter in VSCode, please refer to the centralized [Setting Python Interpreter Path in VSCode IDE](../../setting-python-interpreter.md) guide.
+### Running the Example & Expected Output
 
-<details><summary><h2>Troubleshooting</h2></summary>
+First, set your OpenAI API key:
+```bash
+export OPENAI_API_KEY="sk-..."
+```
 
-For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
-</details>
+Then run the script:
+```bash
+python hello_agent_example.py
+```
 
-## Tool Development Guide
+With `verbose=True`, you'll see the agent's thinking process, similar to:
+```
+> Entering new AgentExecutor chain...
+Invoking: `simple_hello_tool` with `{'name': 'Raymond'}`
+
+Tool says: Hello, Raymond!
+
+> Finished chain.
+Tool says: Hello, Raymond!
+```
+
+The key indicators of success:
+- The agent initialization completes without errors
+- The verbose output shows the tool being invoked
+- The final output includes the greeting with "Tool says:" prefix
+
+--- 
+
+## Approach 2: Using GLChat UI (Web Interface)
+
+This approach involves creating, managing, and testing your tools and agents directly within the GLChat web interface.
+
+### Installation
+
+```bash
+# From the activated custom-tool-agent-hello-world conda environment
+pip install gllm-plugin-binary==0.0.5
+# If you want to use both approaches, also install:
+pip install gllm-agents-binary==0.0.1b5
+```
+
+### Tool Development via GLChat UI
 
 ### Creating a Custom Tool
 1. Open your VSCode within the `gen-ai-examples/examples/custom-tool-and-agent` directory.
@@ -77,7 +128,7 @@ For common issues and their solutions, please refer to the centralized [FAQ docu
    *   The sample file demonstrates the basic structure of a tool using the `@tool_plugin` decorator.
    *   **What this tool does**: This sample tool provides weather forecasts for specific days of the week across multiple cities (New York, London, and Tokyo). It uses mock weather data stored within the tool itself and takes a day of the week as input. The tool returns formatted weather information including condition, temperature, and humidity for each location.
 3. Open the `weather_forecast_tool.py` file in VSCode.
-5. Check the import statements. Ensure that there are no import errors.
+4. Check the import statements. Ensure that there are no import errors.
    *   **What are import errors?** These errors mean that Python cannot find a specific piece of code (a library or module) that the tool needs to function. This usually happens if a required dependency wasn't installed correctly or if VSCode isn't using the correct Python environment where the dependencies were installed.
    *   **How to check**: Look for any red squiggly underlines beneath `import` statements (like `from gllm_plugin.tools import tool_plugin`) in the VSCode editor. These visual cues indicate a problem. You can also open the "Problems" panel in VSCode (usually accessible via the View menu or by clicking the error/warning icons in the bottom status bar) to see a list of specific errors.
    *   If you see import errors, double-check that you have activated the correct virtual environment (Step 2 - verify the Python interpreter in the status bar) and the script `local-start` (Step 4 under [Running the Code](#running-the-code)) completed without errors.
@@ -113,9 +164,9 @@ For common issues and their solutions, please refer to the centralized [FAQ docu
 
 *This section is a work in progress. Steps for specifically testing and validating an uploaded tool before associating it with an agent will be added in a future update.*
 
-## Agent Development Guide
+### Agent Development Guide
 
-### Creating a Single Agent
+#### Creating a Single Agent
 
 Agent can only use tools that have been registered. If you already have a tool that has not yet been registered, please refer to the [Tool Development Guide](#tool-development-guide) section.
 
@@ -155,7 +206,7 @@ Let's create an agent with the ability to make weather forecasts using the tool 
 
    <img width="960" alt="image" src="https://github.com/user-attachments/assets/17507b12-a25c-4b6e-9758-faceded4184c" />
 
-## Testing the Agent
+### Testing the Agent
 
 Since direct deployment/assignment of newly created custom agents to chatbots in GLChat is not yet available (pending the Admin Dashboard feature), we provide a workaround using a pre-existing dummy agent named "Hello World Agent" that is already assigned to the "Demo General Purpose" chatbot in the **staging** environment. We will edit this existing agent to use our custom tool and instructions.
 
@@ -291,3 +342,5 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
 
 > [!NOTE]
 > As of now, we still depend on the `BaseTool` module from LangChain. We will implement our own `BaseTool` module that supports conversion of tools from major providers.
+
+--- 
