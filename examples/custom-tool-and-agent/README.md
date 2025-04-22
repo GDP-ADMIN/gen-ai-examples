@@ -244,7 +244,7 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
 
 ## Advanced: Developing Your Own Custom Tool
 
-The steps above guide you through using the provided `weather_forecast_tool.py` sample. To create your *own* custom tool, follow these general principles (referencing concepts from the [Tool Implementation Document](tool_implementation.md) for more detail):
+The steps above guide you through using the provided `weather_forecast_tool.py` sample. To create your *own* custom tool, follow these general principles (referencing concepts from the [Tool Implementation Document](https://github.com/GDP-ADMIN/gen-ai-template/blob/main/applications/gdplabs-gen-ai-starter-gllm-backend/gdplabs_gen_ai_starter_gllm_backend/gllm_agents/TOOL_PLUGIN_IMPLEMENTATION.md#glchat-tool-plugin-system-implementation-document) for more detail):
 
 1.  **Create a Python File**: Create a new `.py` file for your tool (e.g., `my_calculator_tool.py`).
 2.  **Import Necessary Modules**: You'll typically need `BaseTool` from `langchain_core.tools`, `BaseModel` and `Field` from `pydantic`, and the `tool_plugin` decorator from `gllm_plugin.tools`.
@@ -267,7 +267,7 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
 8.  **Implement `_run` Method**: Define the `_run` method. This is the core logic of your tool. It receives the input parameters (defined in your `args_schema`) as arguments and should return a string result.
 
     ```python
-    from langchain_core.tools import BaseTool
+    from gllm_agents import BaseTool
     from gllm_plugin.tools import tool_plugin
     from typing import Any # Import Any
 
