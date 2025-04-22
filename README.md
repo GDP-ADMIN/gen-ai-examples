@@ -48,8 +48,6 @@ We have provided a more comprehensive step-by-step sample for this in https://gl
 2. **Setting up**:  
    To set up the project, please refer to the respective README file in the [custom-pipeline](./examples/custom-pipeline/README.md) directory.
 
-3. **Setting up**:  
-   To set up the project, please refer to the respective README file in the [custom-tool-and-agent](./examples/custom-tool-and-agent/README.md) directory.
 
 ## References
 
