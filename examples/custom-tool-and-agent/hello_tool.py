@@ -15,4 +15,4 @@ class SimpleHelloTool(BaseTool):
 
     def _run(self, name: str, **kwargs: Any) -> str:
         """Uses the tool."""
-        return f"Good day, {name}!"
+        return f"Hello, {name}!"
