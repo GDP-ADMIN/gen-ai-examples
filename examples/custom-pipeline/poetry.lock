@@ -1543,19 +1543,19 @@ langgraph = ">=0.2.16,<0.3.0"
 
 [[package]]
 name = "gllm-plugin-binary"
-version = "0.0.5"
+version = "0.0.6"
 description = ""
 optional = false
 python-versions = "<3.13,>=3.11"
 files = [
-    {file = "gllm_plugin_binary-0.0.5-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:3aeb34dc0ad04a335ce7214c393039aa2d36dbc332ed9dd8a68382314b881956"},
-    {file = "gllm_plugin_binary-0.0.5-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:5344bd2999876fd0a7ca2c3cf320511bdd435dab453a1fbaf844646576a1dbf8"},
-    {file = "gllm_plugin_binary-0.0.5-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:e47f0eee369a8d0dff28f23d806bbd8c720fff7c3b91129e18de84f920d27fe0"},
-    {file = "gllm_plugin_binary-0.0.5-cp311-cp311-win_amd64.whl", hash = "sha256:f1a6aa440937590542e8cff2a7e4bb2e61834a6daf701bb75a82a2d7cf99f8a4"},
-    {file = "gllm_plugin_binary-0.0.5-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:a139e868a306636c0f82a6ec8221835e5e44fffba1e7ba5939e3d526462cef51"},
-    {file = "gllm_plugin_binary-0.0.5-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:81db75a887903a91e2164b716846e9ddfe797c09b1ebd413e419f80eff9dd0d6"},
-    {file = "gllm_plugin_binary-0.0.5-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:1dc7956fb34161cab5d51259cdfc8d868f5ce4a6cd76dd52b12d7360158d9446"},
-    {file = "gllm_plugin_binary-0.0.5-cp312-cp312-win_amd64.whl", hash = "sha256:12986c3dc5c26afbb8dbfff218e48b70f0229d8222a3edee7131ae24135ac6fd"},
+    {file = "gllm_plugin_binary-0.0.6-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:655518564e48c5c3a43a47d10621a5eaf838a1728a0436a3b41ea8b705631744"},
+    {file = "gllm_plugin_binary-0.0.6-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:f99b434b10180489651fe00cfe5a03f505a45f9d5babfd2d72663c23bd5c1eb7"},
+    {file = "gllm_plugin_binary-0.0.6-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:bebfe5f9e729eddef02c987aeb8d6e2ce6ae901485a8af3dba6eddc3ba472cfe"},
+    {file = "gllm_plugin_binary-0.0.6-cp311-cp311-win_amd64.whl", hash = "sha256:98e122d14b5e2003adaa0fe97a8128dd358f0f844ef212f6e45abe64a81afb51"},
+    {file = "gllm_plugin_binary-0.0.6-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:bf72aa000e5edc234ac71cfb1b0bc4d07a4906bd4b0c707fa0dd6da6c9d32c3f"},
+    {file = "gllm_plugin_binary-0.0.6-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:c0ff6872050e9c6ea86c7f8bbefec69593ae5c1c64b18b1b77371f61b97a3f26"},
+    {file = "gllm_plugin_binary-0.0.6-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:cace562c462a7a69b182536b14744f5d6fb46924a387b55fddac75e3592c48c8"},
+    {file = "gllm_plugin_binary-0.0.6-cp312-cp312-win_amd64.whl", hash = "sha256:8891faf6ae68ff3562d5aefd7115dbf66ca99304b61b4b8d480493fc4866ef07"},
 ]
 
 [package.dependencies]
@@ -7201,4 +7201,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.13"
-content-hash = "3fb29eaf0a61b5fa0a28c22c1b087f53ff79d4ae91ced7ce6208a6eaab17dc80"
+content-hash = "4235613650284d756f7fbebf02997dde649dd7784e88ad36ff42e80726b7a5e5"
