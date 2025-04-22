@@ -295,10 +295,10 @@ After you successfully test the Weather Forecast Agent, it's better to clean up 
 
 ## Advanced: Developing Your Own Custom Tool
 
-The steps above guide you through using the provided `weather_forecast_tool.py` sample. To create your *own* custom tool, follow these general principles (referencing concepts from the [Tool Implementation Document](tool_implementation.md) for more detail):
+The steps above guide you through using the provided `weather_forecast_tool.py` sample. To create your *own* custom tool, follow these general principles:
 
 1.  **Create a Python File**: Create a new `.py` file for your tool (e.g., `my_calculator_tool.py`).
-2.  **Import Necessary Modules**: You'll typically need `BaseTool` from `langchain_core.tools`, `BaseModel` and `Field` from `pydantic`, and the `tool_plugin` decorator from `gllm_plugin.tools`.
+2.  **Import Necessary Modules**: You'll typically need `BaseTool` from `gllm_agents`, `BaseModel` and `Field` from `pydantic`, and the `tool_plugin` decorator from `gllm_plugin.tools`.
 3.  **Define Input Schema (if needed)**: If your tool requires specific inputs, define a Pydantic `BaseModel` subclass. Use `Field` to add descriptions and validation for each input parameter.
 
     ```python
@@ -309,7 +309,7 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
         parameter2: int = Field(..., description="Description for parameter 2")
     ```
     
-5.  **Create Tool Class**: Define a class that inherits from `langchain_core.tools.BaseTool`.
+5.  **Create Tool Class**: Define a class that inherits from `gllm_agents.BaseTool`.
 6.  **Add Decorator**: Apply the `@tool_plugin(version="...")` decorator to your class for automatic registration.
 7.  **Set Class Attributes**: Define the required attributes within your class:
     *   `name`: A unique string identifier for your tool (e.g., `"my_calculator"`).
@@ -318,7 +318,7 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
 8.  **Implement `_run` Method**: Define the `_run` method. This is the core logic of your tool. It receives the input parameters (defined in your `args_schema`) as arguments and should return a string result.
 
     ```python
-    from langchain_core.tools import BaseTool
+    from gllm_agents import BaseTool
     from gllm_plugin.tools import tool_plugin
     from typing import Any # Import Any
 
@@ -337,10 +337,4 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
             return result # Return a string
     ```
     
-9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat using the steps in the [Upload tool to GLChat](#upload-tool-to-gl-chat) section and configure an agent to use it.
-
-
-> [!NOTE]
-> As of now, we still depend on the `BaseTool` module from LangChain. We will implement our own `BaseTool` module that supports conversion of tools from major providers.
-
---- 
+9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat using the steps in the [Upload tool to GLChat](#upload-tool-to-glchat) section and configure an agent to use it.
