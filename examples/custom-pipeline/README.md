@@ -8,7 +8,7 @@ This is an example of how to use the gllm-plugin library to build a custom pipel
 pip install gllm-pipeline-binary gllm-core-binary gllm-generation-binary gllm-rag-binary gllm-plugin-binary
 ```
 
-2. Create `.env` file and set your OpenAI API Key
+2. Create `.env` file based on `.env.example` and set your OpenAI API Key. You can also change the Language Model of your preference.
 
 ```bash
 cp .env.example .env
