@@ -286,7 +286,7 @@ The steps above guide you through using the provided `weather_forecast_tool.py` 
             return result # Return a string
     ```
     
-9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat using the steps in the [Upload tool to GLChat](#upload-tool-to-gl-chat) section and configure an agent to use it.
+9.  **Upload and Use**: Once created, you can upload this new tool `.py` file to GLChat using the steps in the [Upload tool to GLChat](#upload-tool-to-glchat) section and configure an agent to use it.
 
 
 > [!NOTE]
