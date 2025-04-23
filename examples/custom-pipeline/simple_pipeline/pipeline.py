@@ -46,7 +46,7 @@ class SimplePipelineBuilder(PipelineBuilderPlugin[LMState, SimplePresetConfig]):
             Pipeline: The simple pipeline.
         """
         model_name = str(pipeline_config.get("model_name") or os.getenv("LANGUAGE_MODEL", ""))
-        api_key = os.getenv(pipeline_config.get("api_key") or "OPENAI_API_KEY", "")
+        api_key = os.getenv(pipeline_config.get("api_key") or "API_KEY", "")
         self.lm = LM(
             language_model_id=model_name,
             language_model_credentials=api_key,
