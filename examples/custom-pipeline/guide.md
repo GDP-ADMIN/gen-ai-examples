@@ -6,20 +6,22 @@ This guide will help you create, test, and register a custom pipeline in GL Chat
 
 ### 1. Using Provided Example
 
-#### Step 1: Compress Custom Pipeline to Zip
-
 To prepare your custom pipeline for registration:
 
 1. Compress the entire `custom-pipeline/` directory into a zip file.
 2. Name the zip file, e.g., `custom-pipeline.zip`.
 
+   - **Naming Conventions**: The zip file name should only contain alphanumeric characters, hyphens (`-`), and underscores (`_`). Avoid using spaces or special characters to ensure compatibility.
+
 This zip file is needed for registration in GL Chat.
 
-### 2. Your Own Pipeline
+### 2. Using Your Own Pipeline
 
 To create your own pipeline, follow these steps:
 
 1. **Create a New Directory**: Inside the `custom-pipeline/` directory, create a new directory for your custom pipeline. Name it appropriately, e.g., `my_custom_pipeline`.
+
+   - **Naming Conventions**: The directory name should only contain alphanumeric characters and underscores (`_`). Avoid using spaces or special characters to ensure compatibility.
 
 2. **Define the Pipeline State**: In your new directory, create a `state.py` file to define the state for your pipeline. This state will manage data throughout the pipeline's execution.
 
@@ -39,19 +41,7 @@ For detailed instructions on creating a custom pipeline, refer to the [PIPELINE.
 
 ### 1. Using Provided Example
 
-To test the provided example, you can run the pipeline locally using one of the following methods:
-
-- **Using the Shell Script**: Run the `local-start.sh` script to start the pipeline.
-  ```sh
-  ./local-start.sh
-  ```
-
-- **Using Poetry**: If you prefer to use Poetry, run the following command to execute the `main.py` file:
-  ```sh
-  poetry run python main.py
-  ```
-
-These commands will help you test the pipeline locally to ensure it functions as expected.
+To test the provided example, you can run the pipeline locally by following the instructions in the [README.md](./README.md#running-the-code).
 
 ### 2. Your Own Pipeline
 
@@ -71,17 +61,7 @@ To test your own pipeline, you will need to adjust the `main.py` file to integra
 
    - **Configure Your Pipeline**: Update the `pipeline_config` and `state` initialization to match your pipeline's requirements. You may need to adjust the input parameters and configuration settings based on your pipeline's design.
 
-2. **Run the Pipeline**: Use one of the following methods to test your pipeline:
-
-   - **Using the Shell Script**: If you have a script similar to `local-start.sh`, modify it to run your custom pipeline.
-     ```sh
-     ./local-start.sh
-     ```
-
-   - **Using Poetry**: Run the following command to execute your updated `main.py` file:
-     ```sh
-     poetry run python main.py
-     ```
+2. **Run the Pipeline**: To test your pipeline, follow the instructions in the [README.md](./README.md#running-the-code).
 
 3. **Verify Functionality**: Ensure that your pipeline runs as expected and interacts correctly with any configured chatbots or components.
 
@@ -93,7 +73,13 @@ By following these steps, you can test your custom pipeline locally. Adjust `mai
 
 To register your pipeline with the GLChat system, follow these steps:
 
-1. **Create a New User**: Go to the GL Chat admin dashboard and create a new user.
+1. **Create a New User**: 
+   - Go to the [GL Chat admin dashboard](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin).
+   - In the navigation bar, choose **"User Management"**.
+   - Click on the **"New User"** button at the top right corner.
+   - Fill out the form with the necessary details for the new user.
+   - Click the **"Save"** button located on the right corner to save the new user information.
+   - **Reminder**: Note the username you created, as it will need to be set in the `config.yaml` file.
 
 2. **Set the New User in `config.yaml`**: Update your `config.yaml` file to include the new user settings.
 
@@ -103,7 +89,7 @@ To register your pipeline with the GLChat system, follow these steps:
 
    - **Sample API Request**:
      ```sh
-     curl -X POST "http://your-domain.com/register-pipeline-plugin" \
+     curl -X POST "https://stag-gbe-gdplabs-gen-ai-starter.obrol.id/register-pipeline-plugin" \
      -H 'Content-Type: multipart/form-data' \
      -F zip_file="@/path/to/your-pipeline.zip"
      ```
@@ -112,7 +98,7 @@ To register your pipeline with the GLChat system, follow these steps:
 
 5. **Verify Registration**: After registration, verify that your pipeline is active by checking the available chatbots in GLChat. Ensure that a chatbot configured with your new pipeline is listed and functioning as expected.
 
-### 2. Without `config.yaml`
+### Without `config.yaml`
 
 #### Automating Preset Creation via Backend
 
