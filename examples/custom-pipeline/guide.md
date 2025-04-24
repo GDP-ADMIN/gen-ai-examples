@@ -67,11 +67,11 @@ To test your own pipeline, you will need to adjust the `main.py` file to integra
 
 By following these steps, you can test your custom pipeline locally. Adjust `main.py` as needed to fit your specific pipeline logic and requirements.
 
-## Register Pipeline
+## Register Custom Pipeline
 
 ### Using `config.yaml`
 
-To register your pipeline with the GLChat system, follow these steps:
+To register your pipeline with the GLChat system using `config.yaml`, follow these steps:
 
 1. **Create a New User**: 
    - Go to the [GL Chat admin dashboard](https://stag-chat-ui-gdplabs-gen-ai-starter.obrol.id/admin).
@@ -94,17 +94,42 @@ To register your pipeline with the GLChat system, follow these steps:
      -F zip_file="@/path/to/your-pipeline.zip"
      ```
 
-   Replace `your-domain.com` with the actual domain where your backend is hosted.
-
 5. **Verify Registration**: After registration, verify that your pipeline is active by checking the available chatbots in GLChat. Ensure that a chatbot configured with your new pipeline is listed and functioning as expected.
 
 ### Without `config.yaml`
 
-#### Automating Preset Creation via Backend
+To register your pipeline with the GLChat system without using `config.yaml`, follow these steps:
 
-*Note: Detailed instructions for automating preset creation via the backend will be provided soon.*
+1. **No Need to Create `config.yaml`**: You do not need to create a `config.yaml` file for this registration process.
 
-#### Setup a Preset from Admin Dashboard
+2. **Register via Endpoint**: Use the API to register your pipeline. Send a request to the GLChat backend with your pipeline's configuration.
 
-*Note: Detailed instructions for setting up a preset from the admin dashboard will be provided soon.*
+   - **Sample API Request**:
+     ```sh
+     curl -X POST "https://stag-gbe-gdplabs-gen-ai-starter.obrol.id/register-pipeline-plugin" \
+     -H 'Content-Type: multipart/form-data' \
+     -F zip_file="@/path/to/your-pipeline.zip"
+     ```
+
+3. **Create Chatbot via Admin Dashboard**: After registering via the endpoint, go to the GL Chat admin dashboard to complete the registration process.
+    - In the navigation bar, choose **"Chatbot"**.
+    - Click on the **"Create Chatbot"** option.
+    - Click the **"New Chatbot"** button at the top right corner.
+    - Fill in the required fields: **Chatbot ID**, **Chatbot Name**, and **Description**.
+    - Expand the **Advanced Settings** section.
+    - In the **RAG Pipeline** dropdown, select your custom pipeline, e.g., `simple-pipeline`.
+    - Click the **"Save"** button.
+
+4. **Assign User to New Chatbot**: Set who can access this chatbot.
+
+   - Navigate to the **"Chatbot"** section in the admin dashboard.
+   - Choose **"Manage Chatbot"** to view the list of chatbots.
+   - Select the chatbot by clicking **"See Detail"** in the action column.
+   - On the new page, click the **"Assign User"** button at the top right.
+   - You can set user access by **Company Domain** or **Account**:
+     - **Company Domain**: This option will show a selection of companies. Check the company that should have access.
+     - **Account**: This option will show a list of users. Check the users that should have access.
+   - Click the **"Save"** button at the top right to apply the changes.
+
+By following these steps, you can complete the registration of your pipeline and assign users to the chatbot, ensuring that your custom pipeline is correctly configured and accessible to the intended users.
 
