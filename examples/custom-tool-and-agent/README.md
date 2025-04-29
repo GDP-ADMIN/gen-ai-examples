@@ -17,17 +17,32 @@ The project also contains AI Agents that utilize the power of [MCP (Model Contex
 
 The final output should look something like this:
 ```
-=== Response from hello ===
-Is a tool called? True
-Tool Called: hello_tool
-Output AIMessage: Hello, World!
+> Entering new AgentExecutor chain...
 
-=== Response from goodbye ===
-Is a tool called? True
-Tool Called: goodbye_tool
-Output AIMessage: Goodbye, World!
+Invoking: `hello_tool` with `{'name': 'World'}`
 
-=== Response from no tool ===
-Is a tool called? False
-Output AIMessage: Hello! I'm here to help you with any questions or tasks you have. How can I assist you today?
+
+Processing request of type CallToolRequest
+Hello, World!Hello, World!
+
+> Finished chain.
+
+
+> Entering new AgentExecutor chain...
+
+Invoking: `goodbye_tool` with `{'name': 'World'}`
+
+
+Goodbye, World!Goodbye, World!
+
+> Finished chain.
+
+
+> Entering new AgentExecutor chain...
+I'm here to help you! How can I assist you today? If you need me to say hello or goodbye to someone by name, just let me know!
+
+> Finished chain.
+{'input': 'Say hello to World', 'output': 'Hello, World!'}
+{'input': 'Say goodbye to World', 'output': 'Goodbye, World!'}
+{'input': "What's going on?", 'output': "I'm here to help you! How can I assist you today? If you need me to say hello or goodbye to someone by name, just let me know!"}
 ```
