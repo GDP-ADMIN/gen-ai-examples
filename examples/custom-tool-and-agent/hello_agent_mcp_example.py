@@ -2,14 +2,16 @@ import asyncio
 import dotenv
 
 from gllm_agents import Agent
-from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain_mcp_adapters.client import (MultiServerMCPClient, SSEConnection,
+                                           StdioConnection,
+                                           WebsocketConnection)
 from langchain_openai import ChatOpenAI
 
 dotenv.load_dotenv()
 
 
 class MCPClient:
-    def __init__(self, connections):
+    def __init__(self, connections: list[StdioConnection | SSEConnection | WebsocketConnection]):
         self.connections = connections
         self.client = None
         self._initialized = False
