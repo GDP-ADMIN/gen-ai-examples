@@ -10,6 +10,8 @@ python = ">=3.11,<3.13"
 
 gllm-plugin-binary = "0.0.5"
 gllm-agents-binary = "0.0.1b5"
+langchain-mcp-adapters = "^0.0.9"
+mcp = "^1.6.0"
 
 [[tool.poetry.source]]
 name = "gen-ai"
