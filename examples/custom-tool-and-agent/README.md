@@ -13,9 +13,9 @@ The project also contains AI Agents that utilize the power of [MCP (Model Contex
 ### Setting up and Execution
 1. Run `poetry install`
 2. Add `.env` your api key (i.e., `OPENAI_API_KEY`)
-3. Run `./run_example.sh`
+3. Run `./run_example_stdio.sh` *or* `./run_example_sse.sh` (if you want to try either transport).
 
-The final output should look something like this:
+The final output should contain something like this for both:
 ```
 Available tools:
 ['text_frequency_counter', 'sort_frequencies', 'to_json']
