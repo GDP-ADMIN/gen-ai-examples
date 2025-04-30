@@ -17,32 +17,28 @@ The project also contains AI Agents that utilize the power of [MCP (Model Contex
 
 The final output should look something like this:
 ```
+Available tools:
+['text_frequency_counter', 'sort_frequencies', 'to_json']
+
+
 > Entering new AgentExecutor chain...
 
-Invoking: `hello_tool` with `{'name': 'World'}`
+Invoking: `text_frequency_counter` with `{'text': 'a a a a b b c c c d d e e e e f f f g g g h h i i j j j k k l l l m m n n o o o o o p p q r r r s s s s t t u u v v w x y z'}`
 
 
 Processing request of type CallToolRequest
-Hello, World!Hello, World!
+{"a": 4, "b": 2, "c": 3, "d": 2, "e": 4, "f": 3, "g": 3, "h": 2, "i": 2, "j": 3, "k": 2, "l": 3, "m": 2, "n": 2, "o": 5, "p": 2, "q": 1, "r": 3, "s": 4, "t": 2, "u": 2, "v": 2, "w": 1, "x": 1, "y": 1, "z": 1}
+Invoking: `sort_frequencies` with `{'frequencies': {'a': 4, 'b': 2, 'c': 3, 'd': 2, 'e': 4, 'f': 3, 'g': 3, 'h': 2, 'i': 2, 'j': 3, 'k': 2, 'l': 3, 'm': 2, 'n': 2, 'o': 5, 'p': 2, 'q': 1, 'r': 3, 's': 4, 't': 2, 'u': 2, 'v': 2, 'w': 1, 'x': 1, 'y': 1, 'z': 1}}`
+
+
+Processing request of type CallToolRequest
+{"o": 5, "a": 4, "e": 4, "s": 4, "c": 3, "f": 3, "g": 3, "j": 3, "l": 3, "r": 3, "b": 2, "d": 2, "h": 2, "i": 2, "k": 2, "m": 2, "n": 2, "p": 2, "t": 2, "u": 2, "v": 2, "q": 1, "w": 1, "x": 1, "y": 1, "z": 1}
+Invoking: `to_json` with `{'data': {'o': 5, 'a': 4, 'e': 4, 's': 4, 'c': 3}}`
+
+
+Processing request of type CallToolRequest
+{"o": 5, "a": 4, "e": 4, "s": 4, "c": 3}{"o": 5, "a": 4, "e": 4, "s": 4, "c": 3}
 
 > Finished chain.
-
-
-> Entering new AgentExecutor chain...
-
-Invoking: `goodbye_tool` with `{'name': 'World'}`
-
-
-Goodbye, World!Goodbye, World!
-
-> Finished chain.
-
-
-> Entering new AgentExecutor chain...
-I'm here to help you! How can I assist you today? If you need me to say hello or goodbye to someone by name, just let me know!
-
-> Finished chain.
-{'input': 'Say hello to World', 'output': 'Hello, World!'}
-{'input': 'Say goodbye to World', 'output': 'Goodbye, World!'}
-{'input': "What's going on?", 'output': "I'm here to help you! How can I assist you today? If you need me to say hello or goodbye to someone by name, just let me know!"}
+{'input': "\n            What are the top 5 frequent words in the text 'a a a a b b c c c d d e e e e f f f g g g h h i i j j j k k\n            l l l m m n n o o o o o p p q r r r s s s s t t u u v v w x y z'\n\n            Output should *only* be the JSON string of the dictionary of words and their frequencies.\n        ", 'output': '{"o": 5, "a": 4, "e": 4, "s": 4, "c": 3}'}
 ```
