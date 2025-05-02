@@ -27,12 +27,7 @@ async def main():
             verbose=True
         )
 
-        response = await agent.arun("""
-            What are the top 5 frequent words in the text 'a a a a b b c c c d d e e e e f f f g g g h h i i j j j k k
-            l l l m m n n o o o o o p p q r r r s s s s t t u u v v w x y z'
-
-            Output should *only* be the JSON string of the dictionary of words and their frequencies.
-        """)
+        response = await agent.arun("What is the square root of ((2 + 3 * 2) ^ 2)?")
         print(response)
 
     finally:

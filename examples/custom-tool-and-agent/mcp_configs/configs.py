@@ -1,14 +1,14 @@
 mcp_config_sse = {
-    "text_frequency_counter": {
+    "math_tools": {
         "url": "http://localhost:8000/sse",
         "transport": "sse",
     }
 }
 
 mcp_config_stdio = {
-    "text_frequency_counter": {
+    "math_tools": {
         "command": "python",
-        "args": ["mcp_tools/text_frequency_counter_stdio.py"],
+        "args": ["mcp_tools/math_tools_stdio.py"],
         "transport": "stdio",
     }
 }

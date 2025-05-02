@@ -14,7 +14,7 @@ trap cleanup SIGINT SIGTERM EXIT
 
 # Start the server in the background
 echo "Starting the server..."
-poetry run python mcp_tools/text_frequency_counter_sse.py > server.log 2>&1 &
+poetry run python mcp_tools/math_tools_sse.py > server.log 2>&1 &
 SERVER_PID=$!
 
 # Wait for the server to be ready
