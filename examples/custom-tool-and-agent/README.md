@@ -19,6 +19,8 @@ The final output should contain something like this for both:
 ```
 Available tools:
 ['add', 'subtract', 'multiply', 'divide', 'square_root', 'power']
+Running agent with prompt: What is the square root of ((2 + 3 * 2) ^ 2)?
+
 
 > Entering new AgentExecutor chain...
 
