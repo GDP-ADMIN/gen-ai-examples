@@ -46,3 +46,65 @@ Processing request of type CallToolRequest
 > Finished chain.
 {'input': 'What is the square root of ((2 + 3 * 2) ^ 2)?', 'output': 'The square root of ((2 + 3 * 2) ^ 2) is 8.'}
 ```
+
+### Customizing MCP Servers
+
+In the [mcp_configs/configs.py](mcp_configs/configs.py) file, you can customize the MCP servers. You can add more or remove MCP Servers as per your requirements.
+
+Defining an MCP Server requires the `transport` to be defined. It is one of:
+- `stdio`
+- `sse`
+
+**Note that HTTP Streams are not supported for Python yet.**
+
+#### STDIO Server
+
+An STDIO server is a server that uses the standard input and output to communicate with the MCP. 
+
+```python
+{
+    "tool_name": {
+        "command": "python",
+        "args": ["mcp_tools/tool_name.py"],
+        "transport": "stdio",
+    }
+}
+```
+`command` can be one of (but not limited to)
+- `python`
+- `npx`
+- `docker`
+
+`args` is a list of arguments to pass to the command.
+
+#### SSE Servers
+
+An SSE server is a server that uses the Server-Sent Events (SSE) to communicate with the MCP. It simply needs a URL to the SSE endpoint. Typically, this ends in `/sse`.
+
+```python
+{
+    "tool_name": {
+        "url": "http://localhost:8000/sse",
+        "transport": "sse",
+    }
+}
+```
+
+#### Example
+
+An example of multiple MCP servers is as follows:
+
+```python
+mcp_config = {
+    "math_tools": {
+        "command": "python",
+        "args": ["mcp_tools/math_tools_stdio.py"],
+        "transport": "stdio",
+    },
+    "bosa_github": {
+        "url": "https://api.bosa.id/sse/github",
+        "transport": "sse",
+    },
+}
+```
+
