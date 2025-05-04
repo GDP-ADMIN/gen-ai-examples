@@ -2,8 +2,8 @@ import asyncio
 import dotenv
 
 from gllm_agents import Agent
+from gllm_agents.mcp.client import MCPClient
 from langchain_openai import ChatOpenAI
-from mcp_client import MCPClient
 from mcp_configs.configs import mcp_config_stdio
 
 dotenv.load_dotenv()
