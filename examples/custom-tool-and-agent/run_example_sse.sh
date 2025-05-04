@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Installing project dependencies..."
+poetry install
+
 # Function to cleanup on exit
 cleanup() {
     echo "Cleaning up..."
