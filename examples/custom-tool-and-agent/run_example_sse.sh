@@ -15,6 +15,12 @@ cleanup() {
 # Set up trap to catch script termination
 trap cleanup SIGINT SIGTERM EXIT
 
+# Check if port 8000 is already in use
+if lsof -i:8000 -t &>/dev/null; then
+    echo "Port 8000 is already in use. Aborting."
+    exit 1
+fi
+
 # Start the server in the background
 echo "Starting the server..."
 poetry run python mcp_tools/math_tools_sse.py > server.log 2>&1 &
