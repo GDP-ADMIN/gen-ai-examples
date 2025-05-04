@@ -9,15 +9,12 @@ from mcp_configs.configs import mcp_config_sse
 dotenv.load_dotenv()
 
 async def main():
-    client = MCPClient(mcp_config_sse)
+    async with MCPClient(mcp_config_sse) as client:
+        tools = client.get_tools()
 
-    await client.initialize()
-    tools = client.get_tools()
-
-    print("Available tools:")
-    print(str([tool.name for tool in tools]))
-    
-    try:
+        print("Available tools:")
+        print(str([tool.name for tool in tools]))
+        
         llm = ChatOpenAI(model="gpt-4.1")
         agent = Agent(
             name="HelloAgent",
@@ -29,9 +26,6 @@ async def main():
 
         response = await agent.arun("What is the square root of ((2 + 3 * 2) ^ 2)?")
         print(response)
-
-    finally:
-        await client.cleanup()
 
 if __name__ == "__main__":
     asyncio.run(main())
