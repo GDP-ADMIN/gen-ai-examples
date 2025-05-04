@@ -12,7 +12,7 @@ async def main():
     async with MCPClient(mcp_config_stdio) as client:
         tools = client.get_tools()
 
-        print("Available tools:")
+        print("\033[1mAvailable tools:\033[0m")
         print(str([tool.name for tool in tools]))
         
         llm = ChatOpenAI(model="gpt-4.1")
@@ -24,6 +24,7 @@ async def main():
             verbose=True
         )
 
+        print("\033[1mRunning agent with prompt\033[0m: What is the square root of ((2 + 3 * 2) ^ 2)?")
         response = await agent.arun("What is the square root of ((2 + 3 * 2) ^ 2)?")
         print(response)
 
