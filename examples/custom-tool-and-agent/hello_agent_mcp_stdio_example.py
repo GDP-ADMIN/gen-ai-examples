@@ -18,14 +18,15 @@ async def main():
         llm = ChatOpenAI(model="gpt-4.1")
         agent = Agent(
             name="HelloAgent",
-            instruction="You are a helpful assistant that can greet people by name using the provided tool.",
+            instruction="You are a helpful assistant that can calculate math problems using the provided tools.",
             llm=llm,
             tools=tools,
             verbose=True
         )
 
-        print("\033[1mRunning agent with prompt\033[0m: What is the square root of ((2 + 3 * 2) ^ 2)?")
-        response = await agent.arun("What is the square root of ((2 + 3 * 2) ^ 2)?")
+        query = "What is the square root of ((2 + 3 * 2) ^ 2)?"
+        print(f"\033[1mRunning agent with prompt\033[0m: {query}")
+        response = await agent.arun(query)
         print(response)
 
 if __name__ == "__main__":
