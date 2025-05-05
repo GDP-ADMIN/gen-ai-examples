@@ -61,14 +61,14 @@ Running agent with prompt: Tell me a short funny story
 
 > Entering new AgentExecutor chain...
 
-Invoking: `message` with `{'prompt': 'Kapan RS Medistra berdiri?'}`
+Invoking: `message` with `{'prompt': 'What is the capital of Indonesia?'}`
 
 
-RS Medistra berdiri pada tanggal 28 November 1991.
-RS Medistra berdiri pada tanggal 28 November 1991.
+The capital of Indonesia is Jakarta.
+The capital of Indonesia is Jakarta.
 
 > Finished chain.
-{'input': 'Kapan RS Medistra berdiri?', 'output': 'RS Medistra berdiri pada tanggal 28 November 1991.'}
+{'input': 'What is the capital of Indonesia?', 'output': 'The capital of Indonesia is Jakarta.'}
 ```
 
 ### Customizing MCP Servers
