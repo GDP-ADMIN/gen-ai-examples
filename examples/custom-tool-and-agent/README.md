@@ -57,7 +57,7 @@ Processing request of type CallToolRequest
 ```
 Available tools:
 ['message']
-Running agent with prompt: Tell me a short funny story
+Running agent with prompt: What is the capital of Indonesia?
 
 > Entering new AgentExecutor chain...
 
