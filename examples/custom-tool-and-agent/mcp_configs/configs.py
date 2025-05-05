@@ -12,3 +12,10 @@ mcp_config_stdio = {
         "transport": "stdio",
     }
 }
+
+mcp_config_glchat = {
+    "glchat_tools": {
+        "url": "http://localhost:8000/sse",
+        "transport": "sse",
+    }
+}

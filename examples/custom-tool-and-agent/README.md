@@ -49,6 +49,25 @@ Processing request of type CallToolRequest
 {'input': 'What is the square root of ((2 + 3 * 2) ^ 2)?', 'output': 'The square root of ((2 + 3 * 2) ^ 2) is 8.'}
 ```
 
+3. You can also run `run_example_glchat.sh` to run the example with GLChat agent. The output will be something like this:
+```
+Available tools:
+['message']
+Running agent with prompt: Kapan RS Medistra berdiri?
+
+
+> Entering new AgentExecutor chain...
+
+Invoking: `message` with `{'prompt': 'Kapan RS Medistra berdiri?'}`
+
+
+RS Medistra berdiri pada tanggal 28 November 1991.
+RS Medistra berdiri pada tanggal 28 November 1991.
+
+> Finished chain.
+{'input': 'Kapan RS Medistra berdiri?', 'output': 'RS Medistra berdiri pada tanggal 28 November 1991.'}
+```
+
 ### Customizing MCP Servers
 
 In the [mcp_configs/configs.py](mcp_configs/configs.py) file, you can customize the MCP servers. You can add more or remove MCP Servers as per your requirements.
