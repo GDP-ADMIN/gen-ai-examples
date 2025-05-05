@@ -16,10 +16,9 @@ def message(prompt: str) -> int:
     Returns:
         str: The response from GLChat.
     """
-    # url = "https://chat-api.gdplabs.id/message"
-    url = "https://stag-gbe-gdplabs-gen-ai-starter.obrol.id/message"
+    url = "https://chat-api.gdplabs.id/message"
     payload = {
-        "chatbot_id": "demo_medistra",
+        "chatbot_id": "general-purpose",
         "message": prompt,
         'content-type': 'application/json'
     }

@@ -7,15 +7,18 @@ Check the step-by-step sample to create custom tool and agent in https://glair.g
 The project also contains AI Agents that utilize the power of [MCP (Model Context Protocol)](https://modelcontextprotocol.io/introduction).
 
 ### Pre-requisites
+
 1. Python 3.11 or 3.12.
 2. Poetry (`pip install poetry`)
 
 ### Setting up and Execution
+
 1. Add `.env` your api key (i.e., `OPENAI_API_KEY`)
-2. Run `./run_example_stdio.sh` *or* `./run_example_sse.sh` (if you want to try either transport).
-    a. When running SSE script, we expect port `8000` to be free; otherwise, you will be informed, and the execution will be aborted.
+2. Run `./run_example_stdio.sh` _or_ `./run_example_sse.sh` (if you want to try either transport).
+   a. When running SSE script, we expect port `8000` to be free; otherwise, you will be informed, and the execution will be aborted.
 
 The final output should contain something like this for both:
+
 ```
 Available tools:
 ['add', 'subtract', 'multiply', 'divide', 'square_root', 'power']
@@ -49,12 +52,12 @@ Processing request of type CallToolRequest
 {'input': 'What is the square root of ((2 + 3 * 2) ^ 2)?', 'output': 'The square root of ((2 + 3 * 2) ^ 2) is 8.'}
 ```
 
-3. You can also run `run_example_glchat.sh` to run the example with GLChat agent. The output will be something like this:
+3. You can also run `run_example_glchat.sh` (you need to enable GDP Labs VPN for this to work) to run the example with GLChat agent. The output will be something like this:
+
 ```
 Available tools:
 ['message']
-Running agent with prompt: Kapan RS Medistra berdiri?
-
+Running agent with prompt: Tell me a short funny story
 
 > Entering new AgentExecutor chain...
 
@@ -73,6 +76,7 @@ RS Medistra berdiri pada tanggal 28 November 1991.
 In the [mcp_configs/configs.py](mcp_configs/configs.py) file, you can customize the MCP servers. You can add more or remove MCP Servers as per your requirements.
 
 Defining an MCP Server requires the `transport` to be defined. It is one of:
+
 - `stdio`
 - `sse`
 
@@ -80,7 +84,7 @@ Defining an MCP Server requires the `transport` to be defined. It is one of:
 
 #### STDIO Server
 
-An STDIO server is a server that uses the standard input and output to communicate with the MCP. 
+An STDIO server is a server that uses the standard input and output to communicate with the MCP.
 
 ```python
 {
@@ -91,7 +95,9 @@ An STDIO server is a server that uses the standard input and output to communica
     }
 }
 ```
+
 `command` can be one of (but not limited to)
+
 - `python`
 - `npx`
 - `docker`
@@ -128,4 +134,3 @@ mcp_config = {
     },
 }
 ```
-

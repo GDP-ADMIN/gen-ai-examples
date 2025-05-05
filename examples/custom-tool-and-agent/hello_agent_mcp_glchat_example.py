@@ -24,8 +24,7 @@ async def main():
             verbose=True
         )
 
-        query = "Kapan RS Medistra berdiri?"
-        # query = "What is the square root of ((2 + 3 * 2) ^ 2)?"
+        query = "What is the capital of Indonesia?"
         print(f"\033[1mRunning agent with prompt\033[0m: {query}")
         response = await agent.arun(query)
         print(response)
