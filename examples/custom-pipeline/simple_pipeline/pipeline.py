@@ -35,10 +35,6 @@ class SimplePipelineBuilder(PipelineBuilderPlugin[LMState, SimplePresetConfig]):
     def __init__(self):
         """Initialize the simple pipeline builder."""
         super().__init__()
-        self.lm = LM(
-            language_model_id=os.getenv("LANGUAGE_MODEL"),
-            language_model_credentials=os.getenv("OPENAI_API_KEY"),
-        )
 
     def build(self, pipeline_config: dict[str, Any]) -> Pipeline:
         """Build the pipeline.
@@ -49,6 +45,12 @@ class SimplePipelineBuilder(PipelineBuilderPlugin[LMState, SimplePresetConfig]):
         Returns:
             Pipeline: The simple pipeline.
         """
+        model_name = str(pipeline_config.get("model_name") or os.getenv("LANGUAGE_MODEL", ""))
+        api_key = os.getenv(pipeline_config.get("api_key") or "LLM_API_KEY", "")
+        self.lm = LM(
+            language_model_id=model_name,
+            language_model_credentials=api_key,
+        )
         return self.lm.build()
 
     def build_initial_state(
