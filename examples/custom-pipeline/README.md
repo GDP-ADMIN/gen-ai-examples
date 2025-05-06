@@ -90,6 +90,10 @@ You need to fulfill the prerequisites to run the script. They will be checked au
 
 </details>
 
+## Additional Resources
+
+For detailed instructions on creating, testing, and registering a custom pipeline, please refer to the [GL Chat Custom Pipeline Guide](./guide.md).
+
 <details><summary><h2>Troubleshooting</h2></summary>
 
 For common issues and their solutions, please refer to the centralized [FAQ document](../../faq.md).
