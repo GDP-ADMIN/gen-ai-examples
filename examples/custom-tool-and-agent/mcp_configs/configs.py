@@ -10,5 +10,10 @@ mcp_config_stdio = {
         "command": "python",
         "args": ["mcp_tools/math_tools_stdio.py"],
         "transport": "stdio",
+    },
+    "bad_tool": {
+        "command": "python",
+        "args": ["mcp_tools/bad_tool_stdio.py"],
+        "transport": "stdio",
     }
 }

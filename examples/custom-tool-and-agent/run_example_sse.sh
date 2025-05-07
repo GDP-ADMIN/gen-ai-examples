@@ -42,6 +42,6 @@ done
 
 # Run the example
 echo "Running the example..."
-poetry run python hello_agent_mcp_sse_example.py
+poetry run python hello_agent_mcp_stdio_example.py
 
 # The cleanup function will be called automatically due to the trap 
