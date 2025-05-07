@@ -337,7 +337,7 @@ semantic-router = []
 type = "git"
 url = "ssh://git@github.com/GDP-ADMIN/bosa-sdk.git"
 reference = "f/agent-tools"
-resolved_reference = "522a319a6bc85a65ea2586cce59e37f938db6d5e"
+resolved_reference = "42d98b1c187dafd8b003f6f54a23b9bca8074b51"
 subdirectory = "python/bosa-connectors"
 
 [[package]]
