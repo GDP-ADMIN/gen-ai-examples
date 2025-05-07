@@ -324,7 +324,7 @@ files = []
 develop = false
 
 [package.dependencies]
-gllm-agents = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git", subdirectory = "libs/gllm-agents"}
+gllm-agents-binary = "0.0.2"
 pydantic = "^2.9.2"
 requests = "^2.31.0"
 
@@ -337,7 +337,7 @@ semantic-router = []
 type = "git"
 url = "ssh://git@github.com/GDP-ADMIN/bosa-sdk.git"
 reference = "f/agent-tools"
-resolved_reference = "6befe5771a6143208f0a6c3ab95ceea17b47af8a"
+resolved_reference = "522a319a6bc85a65ea2586cce59e37f938db6d5e"
 subdirectory = "python/bosa-connectors"
 
 [[package]]
@@ -840,31 +840,6 @@ files = [
     {file = "future-1.0.0-py3-none-any.whl", hash = "sha256:929292d34f5872e70396626ef385ec22355a1fae8ad29e1a734c3e43f9fbc216"},
     {file = "future-1.0.0.tar.gz", hash = "sha256:bd2968309307861edae1458a4f8a4f3598c03be43b97521076aebf5d94c07b05"},
 ]
-
-[[package]]
-name = "gllm-agents"
-version = "0.0.1b4"
-description = "A library for managing agents in Gen AI applications."
-optional = false
-python-versions = ">=3.11,<3.13"
-groups = ["main"]
-markers = "python_version >= \"3.12\" or python_version == \"3.11\""
-files = []
-develop = false
-
-[package.dependencies]
-langchain = "^0.3.0"
-langchain-mcp-adapters = "^0.0.9"
-langchain-openai = "^0.3.0"
-pydantic = "^2.9.1"
-python-dotenv = "^1.0.0"
-
-[package.source]
-type = "git"
-url = "ssh://git@github.com/GDP-ADMIN/gen-ai-internal.git"
-reference = "HEAD"
-resolved_reference = "d73ca38cd8fd6f7fc4ca95afbdfa0edbaa4deea2"
-subdirectory = "libs/gllm-agents"
 
 [[package]]
 name = "gllm-agents-binary"
