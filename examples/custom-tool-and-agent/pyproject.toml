@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["raymond.christopher <raymond.christopher@gdplabs.id>", "fachriza.adhiatma <fachriza.d.adhiatma@gdplabs.id>"]
 readme = "README.md"
-package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
@@ -13,6 +12,8 @@ gllm-plugin-binary = "0.0.5"
 gllm-agents-binary = "0.0.2"
 langchain-mcp-adapters = "^0.0.9"
 mcp = "^1.6.0"
+
+bosa-connectors = { extras = ["all"], git = "ssh://git@github.com/GDP-ADMIN/bosa-sdk.git", branch = "f/agent-tools", subdirectory = "python/bosa-connectors" }
 
 [[tool.poetry.source]]
 name = "gen-ai"
