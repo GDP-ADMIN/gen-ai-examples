@@ -19,7 +19,7 @@ tools = bosa_connector_tool_generator.generate_tools()
 agent = Agent(
     name="BOSAConnectorAgent",
     # Revert to simpler instruction
-    instruction="You are a helpful assistant that use BOSA to connect with Twitter API.",
+    instruction="You are a helpful assistant that use BOSA to connect with third party API such as Twitter, Google, Google Docs, Github.",
     llm=llm,
     tools=tools,
     # Set verbose=True to see agent thoughts
