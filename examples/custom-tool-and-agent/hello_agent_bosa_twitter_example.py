@@ -2,12 +2,12 @@
 from gllm_agents import Agent
 from langchain_openai import ChatOpenAI
 # Import the custom tool from the other file
-from bosa_twitter_tool import BosaTwitterTool
+from bosa_twitter_get_user_tool import BosaTwitterGetUserTool
 
 # Initialize components
 # Note: ChatOpenAI() will automatically look for the OPENAI_API_KEY env var.
 llm = ChatOpenAI(model="gpt-4o")
-twitter_tool = BosaTwitterTool()
+twitter_tool = BosaTwitterGetUserTool()
 
 # Create Agent
 agent = Agent(

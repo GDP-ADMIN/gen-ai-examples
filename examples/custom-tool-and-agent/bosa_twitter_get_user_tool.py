@@ -12,10 +12,10 @@ load_dotenv()
 class TwitterUserInput(BaseModel):
     username: str = Field(..., description="The username of target user to search for.")
 
-class BosaTwitterTool(BaseTool):
-    """A tool to search Twitter using BOSA by input username."""
+class BosaTwitterGetUserTool(BaseTool):
+    """A tool to search twitter user using BOSA by input username."""
     name: str = "bosa_twitter_tool"
-    description: str = "Search to twitter using BOSA by input username."
+    description: str = "Search twitter user using BOSA by input username."
     args_schema: Type[BaseModel] = TwitterUserInput
 
     def _run(self, username: str,  **kwargs: Any) -> str:
