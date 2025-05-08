@@ -30,6 +30,9 @@ class BosaTwitterGetUserTool(BaseTool):
         
         try:
             result = bosa_connector.execute("twitter", "get-users", max_attempts=1, input_=params)
+
+            ### you can modify the return in BOSAConnector to processing the data or do something else.
+            ### (Ex: return the result in a more readable format so AI can understand it better)
         except Exception as e:
             result = f"An error occurred: {str(e)}. Please try again."
         return result
