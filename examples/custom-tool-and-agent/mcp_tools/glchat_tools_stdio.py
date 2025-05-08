@@ -16,29 +16,22 @@ def message(prompt: str) -> int:
     Returns:
         str: The response from GLChat.
     """
-    url = "https://chat-api.gdplabs.id/message"
-    payload = {
-        "chatbot_id": "general-purpose",
-        "message": prompt,
-        'content-type': 'application/json'
-    }
-    response = requests.post(url, data=payload, stream=True)
-    content = response.content.decode('utf-8')
-    lines = content.split('\n')
-
+    response = requests.post(
+        "https://chat-api.gdplabs.id/message",
+        data={'chatbot_id': 'no-op', 'message': prompt, 'content-type': 'application/json'},
+        stream=True
+    )
+    
     final_message = ""
-    for line in lines:
+    for line in response.content.decode('utf-8').split('\n'):
         if line.startswith('data:'):
             try:
-                json_str = line[5:]  # Remove 'data:' prefix
-                data = json.loads(json_str)
-
-                if 'message' in data and data['status'] == 'response':
+                data = json.loads(line[5:])
+                if data.get('status') == 'response' and 'message' in data:
                     final_message = data['message']
             except json.JSONDecodeError:
-                # Skip malformed JSON
-                continue
-
+                pass
+    
     return final_message
 
 if __name__ == "__main__":
