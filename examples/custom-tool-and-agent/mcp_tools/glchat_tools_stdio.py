@@ -18,8 +18,7 @@ def message(prompt: str) -> int:
     """
     response = requests.post(
         "https://chat-api.gdplabs.id/message",
-        data={'chatbot_id': 'no-op', 'message': prompt, 'content-type': 'application/json'},
-        stream=True
+        data={'chatbot_id': 'general-purpose', 'message': prompt, 'content-type': 'application/json'}
     )
     
     final_message = ""
