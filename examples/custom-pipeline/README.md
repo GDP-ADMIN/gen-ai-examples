@@ -8,7 +8,7 @@ This is an example of how to use the gllm-plugin library to build a custom pipel
 pip install gllm-core-binary gllm-generation-binary gllm-pipeline-binary gllm-plugin-binary gllm-rag-binary
 ```
 
-2. Create `.env` file based on `.env.example` and set your OpenAI API Key. You can also change the Language Model of your preference.
+2. Create `.env` file based on `.env.example` and set your LLM API Key. You can also change the Language Model of your preference.
 
 ```bash
 cp .env.example .env
@@ -51,7 +51,7 @@ You need to fulfill the prerequisites to run the script. They will be checked au
 
 ## Running the Code
 
-1.  Configure environment variables: copy `.env.example` to `.env` and set up your `OPENAI_API_KEY` and `LANGUAGE_MODEL`.
+1.  Configure environment variables: copy `.env.example` to `.env` and set up your `LLM_API_KEY` and `LANGUAGE_MODEL`.
 
     - For Linux, macOS, or Windows WSL:
 
@@ -89,6 +89,10 @@ You need to fulfill the prerequisites to run the script. They will be checked au
       ```
 
 </details>
+
+## Additional Resources
+
+For detailed instructions on creating, testing, and registering a custom pipeline, please refer to the [GL Chat Custom Pipeline Guide](./guide.md).
 
 <details><summary><h2>Troubleshooting</h2></summary>
 
