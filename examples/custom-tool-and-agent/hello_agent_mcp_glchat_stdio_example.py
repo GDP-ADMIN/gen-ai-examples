@@ -4,12 +4,12 @@ import dotenv
 from gllm_agents import Agent
 from gllm_agents.mcp.client import MCPClient
 from langchain_openai import ChatOpenAI
-from mcp_configs.configs import mcp_config_glchat
+from mcp_configs.configs import mcp_config_glchat_stdio
 
 dotenv.load_dotenv()
 
 async def main():
-    async with MCPClient(mcp_config_glchat) as client:
+    async with MCPClient(mcp_config_glchat_stdio) as client:
         tools = client.get_tools()
 
         print("\033[1mAvailable tools:\033[0m")
