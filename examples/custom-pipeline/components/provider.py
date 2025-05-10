@@ -21,7 +21,7 @@ def get_available_providers() -> dict[str, list[str]]:
             continue
 
         key = os.getenv(env_var_name)
-        if key:
+        if key and not key.strip().startswith("#"):
             available_providers[provider] = model_map
         else:
             missing_keys.append((provider, env_var_name))
