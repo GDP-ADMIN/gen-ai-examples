@@ -10,7 +10,7 @@ from gllm_rag.preset.lm import LM
 from gllm_agents.mcp.client import MCPClient
 from langchain_openai import ChatOpenAI
 
-from mcp_pipeline.mcp_config import mcp_servers
+from mcp_pipeline.mcp_config import get_mcp_servers
 
 
 class McpResponseSynthesizer(BaseResponseSynthesizer):
@@ -49,7 +49,7 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
         Raises:
             NotImplementedError: If the method is not implemented in a subclass.
         """
-        async with MCPClient(mcp_servers) as mcp:
+        async with MCPClient(get_mcp_servers()) as mcp:
             tools = mcp.get_tools()
             model_name = str(os.getenv("LANGUAGE_MODEL", ""))
             api_key = os.getenv(os.getenv("LLM_API_KEY"), "")
@@ -68,6 +68,4 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
             )
 
             response = await agent.arun(query)
-            print("++++++++ RESPONSE ++++++++++")
-            print(response)
-            return response.__str__()
+            return response['output']
