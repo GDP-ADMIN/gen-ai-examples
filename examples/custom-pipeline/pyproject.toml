@@ -28,4 +28,6 @@ dependencies = [
     "gllm-pipeline-binary>=0.2.17",
     "gllm-plugin-binary>=0.0.5",
     "gllm-rag-binary>=0.0.2",
+    "python-dotenv (>=1.1.0,<2.0.0)",
+    "gllm-agents-binary (>=0.0.2,<0.0.3)",
 ]

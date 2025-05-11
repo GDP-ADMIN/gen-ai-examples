@@ -18,6 +18,8 @@ cp .env.example .env
 
 ```bash
 python main.py
+
+# or run `python main_mcp.py` for using Model Context Protocol tools.
 ```
 
 ---

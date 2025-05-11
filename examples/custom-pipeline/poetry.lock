@@ -1399,6 +1399,31 @@ files = [
 ]
 
 [[package]]
+name = "gllm-agents-binary"
+version = "0.0.2"
+description = "A library for managing agents in Gen AI applications."
+optional = false
+python-versions = "<3.13,>=3.11"
+groups = ["main"]
+files = [
+    {file = "gllm_agents_binary-0.0.2-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:75af6af6e1ac2a452f0c10f56fc7f32647a04a05fdbcd445e0b993050b8d573e"},
+    {file = "gllm_agents_binary-0.0.2-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:6628c58e262af2eb6bd078ac2857dbd45336b4396c14bf222e7d077e678f6372"},
+    {file = "gllm_agents_binary-0.0.2-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:8ad13bfefdb30c190c8ba73143e026b5d923d8f0d59406637d690f2c3ec94145"},
+    {file = "gllm_agents_binary-0.0.2-cp311-cp311-win_amd64.whl", hash = "sha256:349d200ac56de9a00897943f6b9286e71cc1f5b4381de25a000f2e8fea5a4a10"},
+    {file = "gllm_agents_binary-0.0.2-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:7185660533578b195865b30174343e7227d2790106ebfba980a0abf41c90170f"},
+    {file = "gllm_agents_binary-0.0.2-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:6bbc5e5b6631eb8cfef6f1b4038250a05cf280dea37b82df8cace8c8eee4da68"},
+    {file = "gllm_agents_binary-0.0.2-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:4b3a5c25ae35fa19575ff09f8383a0336d0e83ab5ad620e64a9333571102246e"},
+    {file = "gllm_agents_binary-0.0.2-cp312-cp312-win_amd64.whl", hash = "sha256:8093c673bb29b59ca29d39a2f5373c6dfdd65e99cd9d2bb80f8b45826668990e"},
+]
+
+[package.dependencies]
+langchain = ">=0.3.0,<0.4.0"
+langchain-mcp-adapters = ">=0.0.9,<0.0.10"
+langchain-openai = ">=0.3.0,<0.4.0"
+pydantic = ">=2.9.1,<3.0.0"
+python-dotenv = ">=1.0.0,<2.0.0"
+
+[[package]]
 name = "gllm-core-binary"
 version = "0.2.15"
 description = "A library containing core components for Gen AI applications."
@@ -2966,6 +2991,22 @@ anthropic = ["anthropic[vertexai] (>=0.35.0,<1)"]
 mistral = ["langchain-mistralai (>=0.2.0,<1)"]
 
 [[package]]
+name = "langchain-mcp-adapters"
+version = "0.0.9"
+description = "Make Anthropic Model Context Protocol (MCP) tools compatible with LangChain and LangGraph agents."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "langchain_mcp_adapters-0.0.9-py3-none-any.whl", hash = "sha256:7c3dedd7830de826f418706c8a2fe388afcf8daf2037a1b39d1e065a5eacb082"},
+    {file = "langchain_mcp_adapters-0.0.9.tar.gz", hash = "sha256:9ecd10fc420d98b3c14115bbca3174575e0a4ea29bd125ef39d11191a72ff1a1"},
+]
+
+[package.dependencies]
+langchain-core = ">=0.3.36,<0.4"
+mcp = ">=1.4.1,<1.7"
+
+[[package]]
 name = "langchain-openai"
 version = "0.3.14"
 description = "An integration package connecting OpenAI and LangChain"
@@ -3287,6 +3328,33 @@ packaging = ">=17.0"
 dev = ["marshmallow[tests]", "pre-commit (>=3.5,<5.0)", "tox"]
 docs = ["autodocsumm (==0.2.14)", "furo (==2024.8.6)", "sphinx (==8.1.3)", "sphinx-copybutton (==0.5.2)", "sphinx-issues (==5.0.0)", "sphinxext-opengraph (==0.9.1)"]
 tests = ["pytest", "simplejson"]
+
+[[package]]
+name = "mcp"
+version = "1.6.0"
+description = "Model Context Protocol SDK"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "mcp-1.6.0-py3-none-any.whl", hash = "sha256:7bd24c6ea042dbec44c754f100984d186620d8b841ec30f1b19eda9b93a634d0"},
+    {file = "mcp-1.6.0.tar.gz", hash = "sha256:d9324876de2c5637369f43161cd71eebfd803df5a95e46225cab8d280e366723"},
+]
+
+[package.dependencies]
+anyio = ">=4.5"
+httpx = ">=0.27"
+httpx-sse = ">=0.4"
+pydantic = ">=2.7.2,<3.0.0"
+pydantic-settings = ">=2.5.2"
+sse-starlette = ">=1.6.1"
+starlette = ">=0.27"
+uvicorn = ">=0.23.1"
+
+[package.extras]
+cli = ["python-dotenv (>=1.0.0)", "typer (>=0.12.4)"]
+rich = ["rich (>=13.9.4)"]
+ws = ["websockets (>=15.0.1)"]
 
 [[package]]
 name = "mdurl"
@@ -6414,6 +6482,26 @@ dev = ["duckdb (>=0.6)", "maturin (>=1.4,<2.0)", "mypy", "pandas", "pandas-stubs
 rs = ["sqlglotrs (==0.4.0)"]
 
 [[package]]
+name = "sse-starlette"
+version = "2.3.4"
+description = "SSE plugin for Starlette"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "sse_starlette-2.3.4-py3-none-any.whl", hash = "sha256:b8100694f3f892b133d0f7483acb7aacfcf6ed60f863b31947664b6dc74e529f"},
+    {file = "sse_starlette-2.3.4.tar.gz", hash = "sha256:0ffd6bed217cdbb74a84816437c609278003998b4991cd2e6872d0b35130e4d5"},
+]
+
+[package.dependencies]
+anyio = ">=4.7.0"
+starlette = ">=0.41.3"
+
+[package.extras]
+examples = ["fastapi"]
+uvicorn = ["uvicorn (>=0.34.0)"]
+
+[[package]]
 name = "starlette"
 version = "0.46.2"
 description = "The little ASGI library that shines."
@@ -7475,4 +7563,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.13"
-content-hash = "14812889bbfba7f070d8a8974b6da7170c209d9a473df02da12b20a9682492c2"
+content-hash = "aefc7ab08acfb2844a6f947fee4af1142dfb0e6837f937e86455e6873515649b"
