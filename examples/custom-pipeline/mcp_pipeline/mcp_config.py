@@ -1,12 +1,11 @@
 from typing import Any
 
 
-def get_mcp_servers() -> dict[str, Any]:
+def get_mcp_servers(zapier_server_url: str) -> dict[str, Any]:
     mcp_servers = {
-        "math_tools": {
-            "command": "python",
-            "args": ["mcp_pipeline/mcp_math.py"],
-            "transport": "stdio",
+        "zapier_github": {
+            "url": zapier_server_url,
+            "transport": "sse",
         },
     }
 

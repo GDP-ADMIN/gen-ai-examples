@@ -3,14 +3,19 @@
 This module shows how to create and execute a basic pipeline using the gllm-plugin library.
 It takes user input as a question and processes it through the pipeline to generate a response.
 """
-from mcp_pipeline.mcp_config import get_mcp_servers
-from gllm_agents.mcp.client import MCPClient
-from mcp_pipeline.pipeline import McpPipelineBuilderPlugin
 import asyncio
+import os
 
+from dotenv import load_dotenv
+from gllm_agents.mcp.client import MCPClient
+from mcp_pipeline.mcp_config import get_mcp_servers
+from mcp_pipeline.pipeline import McpPipelineBuilderPlugin
+
+load_dotenv()
 
 async def main():
-    async with MCPClient(get_mcp_servers()) as mcp:
+    zapier_url = os.getenv("ZAPIER_SERVER_URL", "")
+    async with MCPClient(get_mcp_servers(zapier_url)) as mcp:
         pipeline_builder = McpPipelineBuilderPlugin()
         pipeline_config = {"mcp": mcp}
         pipeline = await pipeline_builder.build(pipeline_config)

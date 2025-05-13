@@ -30,4 +30,5 @@ dependencies = [
     "gllm-rag-binary>=0.0.2",
     "python-dotenv (>=1.1.0,<2.0.0)",
     "gllm-agents-binary (>=0.0.2,<0.0.3)",
+    "gllm-inference-binary (>=0.2.47,<0.3.0)",
 ]
