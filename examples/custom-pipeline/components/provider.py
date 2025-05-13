@@ -27,10 +27,10 @@ def get_available_providers() -> dict[str, list[str]]:
             missing_keys.append((provider, env_var_name))
 
     if missing_keys:
-        print_colored("\nSome providers are missing API keys:", "yellow")
+        print_colored("\nTo use these providers, set the following API key in the environment variables:", "yellow")
         for provider, env_var in missing_keys:
             print_colored(
-                f"  • {provider}: Set environment variable '{env_var}'", "yellow"
+                f"  • {provider}: '{env_var}'", "yellow"
             )
         print()
 
@@ -42,5 +42,6 @@ def show_missing_providers():
     print_colored(
         "Please set at least one of the following environment variables:", "yellow"
     )
+
     for provider, env_var in MODEL_KEY_MAP.items():
         print(f"  • {provider}: {env_var}")

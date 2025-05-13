@@ -1,7 +1,15 @@
 """UI components for the custom pipeline demo."""
 
 def print_colored(text: str, color: str = "default") -> None:
-    """Print colored text to the console."""
+    """Print colored text to the console.
+    
+    Args:
+        text (str): The text to print.
+        color (str): The color of the text.
+
+    Returns:
+        None
+    """
     colors = {
         "red": "\033[91m",
         "green": "\033[92m",
@@ -17,7 +25,15 @@ def print_colored(text: str, color: str = "default") -> None:
     print(f"{color_code}{text}{end_color}")
 
 def display_menu(options: list[str], title: str) -> None:
-    """Display a menu with options."""
+    """Display a menu with options.
+    
+    Args:
+        options (list[str]): The list of options to display.
+        title (str): The title of the menu.
+
+    Returns:
+        None
+    """
     print_colored(f"\n{title}", "cyan")
     print_colored("=" * len(title), "cyan")
 
@@ -27,7 +43,15 @@ def display_menu(options: list[str], title: str) -> None:
     print_colored("\nEnter 'q' to quit", "yellow")
 
 def get_user_choice(options: list[str], prompt: str) -> str | None:
-    """Get user choice from a list of options."""
+    """Get user choice from a list of options.
+    
+    Args:
+        options (list[str]): The list of options to choose from.
+        prompt (str): The prompt to display to the user.
+
+    Returns:
+        str | None: The user's choice or None if the user quits.
+    """
     while True:
         try:
             choice = input(f"{prompt}: ").strip().lower()
