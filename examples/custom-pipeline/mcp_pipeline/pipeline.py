@@ -10,14 +10,15 @@ from enum import StrEnum
 from dotenv import load_dotenv
 from typing import Any, TypedDict
 
-from gllm_generation.response_synthesizer import StuffResponseSynthesizer
+from gllm_inference.lm_invoker import OpenAILMInvoker
+from gllm_inference.prompt_builder import AgnosticPromptBuilder
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import step
 from gllm_plugin.pipeline.pipeline_plugin import PipelineBuilderPlugin
-from gllm_rag.preset.lm import LM, LMState
+from gllm_generation.response_synthesizer import StuffResponseSynthesizer
 
 from mcp_pipeline.preset_config import McpPresetConfig
-from mcp_pipeline.response_synthesizer import McpResponseSynthesizer
+from gllm_rag.preset.initializer import build_lm_invoker
 
 load_dotenv(override=True)
 
@@ -52,7 +53,7 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
     name = "mcp-pipeline"
     preset_config_class = McpPresetConfig
 
-    def build(self, pipeline_config: dict[str, Any]) -> Pipeline:
+    async def build(self, pipeline_config: dict[str, Any]) -> Pipeline:
         """Build the pipeline.
 
         Args:
@@ -61,15 +62,21 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         Returns:
             Pipeline: The simple pipeline.
         """
-        # model_name = str(pipeline_config.get("model_name") or os.getenv("LANGUAGE_MODEL", ""))
-        # api_key = os.getenv(pipeline_config.get("api_key") or "LLM_API_KEY", "")
-        # self.lm = LM(
-        #     language_model_id=model_name,
-        #     language_model_credentials=api_key,
-        # )
+        mcp = pipeline_config["mcp"]
+        tools = mcp.get_tools()
+        invoker = build_lm_invoker(
+            model_id=str(pipeline_config.get("model_name") or os.getenv("LANGUAGE_MODEL", "")),
+            credentials=os.getenv(pipeline_config.get("api_key") or "LLM_API_KEY", ""),
+            config={"tools": tools},
+        )
 
+        prompt_builder = AgnosticPromptBuilder(
+            system_template="You are a helpful assistant that can use tools to calculate basic math problems.",
+            user_template="{query}",
+        )
+        response_synthesizer = StuffResponseSynthesizer.from_lm_components(prompt_builder, invoker)
         response_synthesizer_step = step(
-            component=McpResponseSynthesizer(),
+            component=response_synthesizer,
             input_state_map={
                 "query": SimpleStateKeys.QUERY,
             },
@@ -94,6 +101,4 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         Returns:
             SimpleState: The initial state.
         """
-        return SimpleState(
-            query=request.get("message"),
-        )
+        return SimpleState(query=request.get("message"), response=None)
