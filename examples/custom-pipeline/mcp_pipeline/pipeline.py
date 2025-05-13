@@ -53,7 +53,7 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
     name = "mcp-pipeline"
     preset_config_class = McpPresetConfig
 
-    async def build(self, pipeline_config: dict[str, Any]) -> Pipeline:
+    def build(self, pipeline_config: dict[str, Any]) -> Pipeline:
         """Build the pipeline.
 
         Args:

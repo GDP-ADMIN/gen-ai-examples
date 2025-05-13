@@ -18,7 +18,7 @@ async def main():
     async with MCPClient(get_mcp_servers(zapier_url)) as mcp:
         pipeline_builder = McpPipelineBuilderPlugin()
         pipeline_config = {"mcp": mcp}
-        pipeline = await pipeline_builder.build(pipeline_config)
+        pipeline = pipeline_builder.build(pipeline_config)
         state = pipeline_builder.build_initial_state({"message": input("Question: ")}, {})
         result = await pipeline.invoke(
             initial_state=state, config={"user_multimodal_contents": []}
