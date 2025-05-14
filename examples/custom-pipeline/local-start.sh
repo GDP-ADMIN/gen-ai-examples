@@ -253,15 +253,15 @@ check_artifact_access() {
 }
 
 copy_env_file() {
-    # Copies the .env.example file to .env.
-    if [[ ! -f ".env" ]]; then
-        cp .env.example .env
-        log "Successfully copied '.env.example' to '.env'."
-        log "${COLOR_WARNING}Please change the values in the .env file with your own values and then run './local-start.sh' again.$COLOR_RESET"
+    # Copies the simple_pipeline/.env.example file to simple_pipeline/.env.
+    if [[ ! -f "simple_pipeline/.env" ]]; then
+        cp simple_pipeline/.env.example simple_pipeline/.env
+        log "Successfully copied 'simple_pipeline/.env.example' to 'simple_pipeline/.env'."
+        log "${COLOR_WARNING}Please change the values in the simple_pipeline/.env file with your own values and then run './local-start.sh' again.$COLOR_RESET"
         exit_application
     fi
 
-    log ".env file exists. Continuing..."
+    log "simple_pipeline/.env file exists. Continuing..."
 }
 
 setup_poetry_http_basic() {

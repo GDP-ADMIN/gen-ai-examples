@@ -11,7 +11,7 @@ import asyncio
 async def main():
     pipeline_builder = SimplePipelineBuilder()
     pipeline_config = {}
-    pipeline = pipeline_builder.build(pipeline_config)
+    pipeline = await pipeline_builder.build(pipeline_config)
     state = pipeline_builder.build_initial_state({"message": input("Question: ")}, {})
     await pipeline.invoke(
         initial_state=state, config={"user_multimodal_contents": []}
