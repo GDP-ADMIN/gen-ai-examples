@@ -13,8 +13,11 @@ gllm-plugin-binary = "0.0.5"
 gllm-agents-binary = "0.0.2"
 langchain-mcp-adapters = "^0.0.9"
 mcp = "^1.6.0"
+bosa-connectors-binary = "^0.0.9"
 
-bosa-connectors = { extras = ["all"], git = "ssh://git@github.com/GDP-ADMIN/bosa-sdk.git", branch = "f/agent-tools", subdirectory = "python/bosa-connectors" }
+[[tool.poetry.source]]
+name = "pypi"
+priority = "primary"
 
 [[tool.poetry.source]]
 name = "gen-ai"
