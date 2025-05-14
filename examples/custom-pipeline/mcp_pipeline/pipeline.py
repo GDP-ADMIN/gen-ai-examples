@@ -10,7 +10,8 @@ from enum import StrEnum
 from dotenv import load_dotenv
 from typing import Any, TypedDict
 
-from gllm_inference.lm_invoker import OpenAILMInvoker
+from gllm_agents.mcp.client import MCPClient
+from mcp_pipeline.mcp_config import get_mcp_servers
 from gllm_inference.prompt_builder import AgnosticPromptBuilder
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import step
@@ -52,8 +53,14 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
 
     name = "mcp-pipeline"
     preset_config_class = McpPresetConfig
+    mcp = MCPClient
 
-    def build(self, pipeline_config: dict[str, Any]) -> Pipeline:
+    async def init_mcp(self):
+        zapier_url = os.getenv("ZAPIER_SERVER_URL", "")
+        self.mcp = MCPClient(get_mcp_servers(zapier_url))
+        await self.mcp.__aenter__()
+
+    async def build(self, pipeline_config: dict[str, Any]) -> Pipeline:
         """Build the pipeline.
 
         Args:
@@ -62,8 +69,8 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         Returns:
             Pipeline: The simple pipeline.
         """
-        mcp = pipeline_config["mcp"]
-        tools = mcp.get_tools()
+        await self.init_mcp()
+        tools = self.mcp.get_tools()
         invoker = build_lm_invoker(
             model_id=str(pipeline_config.get("model_name") or os.getenv("LANGUAGE_MODEL", "")),
             credentials=os.getenv(pipeline_config.get("api_key") or "LLM_API_KEY", ""),
@@ -102,3 +109,6 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
             SimpleState: The initial state.
         """
         return SimpleState(query=request.get("message"), response=None)
+
+    async def cleanup(self):
+        await self.mcp.__aexit__(None, None, None)
