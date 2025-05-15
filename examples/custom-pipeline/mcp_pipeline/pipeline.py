@@ -12,15 +12,16 @@ from dotenv import load_dotenv
 from typing import Any, TypedDict, Optional, ClassVar
 
 from gllm_agents.mcp.client import MCPClient
-from mcp_pipeline.mcp_config import get_mcp_servers
+from gllm_core.event.event_emitter import EventEmitter
 from gllm_inference.prompt_builder import AgnosticPromptBuilder
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import step
 from gllm_plugin.pipeline.pipeline_plugin import PipelineBuilderPlugin
 from gllm_generation.response_synthesizer import StuffResponseSynthesizer
-
-from mcp_pipeline.preset_config import McpPresetConfig
 from gllm_rag.preset.initializer import build_lm_invoker
+
+from mcp_pipeline.mcp_config import get_mcp_servers
+from mcp_pipeline.preset_config import McpPresetConfig
 
 load_dotenv(override=True)
 
@@ -34,7 +35,7 @@ class SimpleState(TypedDict):
 
     query: str
     response: str
-
+    event_emitter: Optional[EventEmitter] = None
 
 
 class SimpleStateKeys(StrEnum):
@@ -42,6 +43,7 @@ class SimpleStateKeys(StrEnum):
 
     QUERY = "query"
     RESPONSE = "response"
+    EVENT_EMITTER = "event_emitter"
 
 class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
     """MCP Pipeline Builder Plugin.
@@ -81,6 +83,7 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         """
         await self.init_mcp()
         tools = self.mcp.get_tools()
+        
         invoker = build_lm_invoker(
             model_id=str(pipeline_config.get("model_name") or os.getenv("LANGUAGE_MODEL", "")),
             credentials=os.getenv(pipeline_config.get("api_key") or "LLM_API_KEY", ""),
@@ -96,6 +99,7 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
             component=response_synthesizer,
             input_state_map={
                 "query": SimpleStateKeys.QUERY,
+                "event_emitter": SimpleStateKeys.EVENT_EMITTER,
             },
             output_state=SimpleStateKeys.RESPONSE,
         )
@@ -118,7 +122,7 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         Returns:
             SimpleState: The initial state.
         """
-        return SimpleState(query=request.get("message"), response=None)
+        return SimpleState(query=request.get("message"), response=None, event_emitter=kwargs.get("event_emitter"))
 
     async def cleanup(self):
         """Clean up MCP client instance.
