@@ -19,8 +19,8 @@ presets:
 
 
 chatbots:
-  - id: simple-chatbot-1a
-    display_name: Simple Chatbot 1a
+  - id: mcp-chatbot-1a
+    display_name: MCP Chatbot 1a
     description: A chatbot using the preset 1
     pipeline_preset_id: preset-1
     supported_agents:
@@ -63,8 +63,8 @@ chatbots:
         output_parser_type: none
         output_parser_kwargs:
 
-  - id: simple-chatbot-1b
-    display_name: Simple Chatbot 1b
+  - id: mcp-chatbot-1b
+    display_name: MCP Chatbot 1b
     description: Another chatbot using the preset 1
     pipeline_preset_id: preset-1
     supported_agents:
@@ -107,8 +107,8 @@ chatbots:
         output_parser_type: none
         output_parser_kwargs:
 
-  - id: simple-chatbot-2
-    display_name: Simple Chatbot 2
+  - id: mcp-chatbot-2
+    display_name: MCP Chatbot 2
     description: A chatbot using the preset 2
     pipeline_preset_id: preset-2
     supported_agents:
@@ -155,8 +155,8 @@ chatbots:
 user_chatbots:
   - user_id: usernew1
     chatbot_ids:
-      - simple-chatbot-1a
-      - simple-chatbot-1b
+      - mcp-chatbot-1a
+      - mcp-chatbot-1b
 
   - user_id: usernew2
     chatbot_ids:
