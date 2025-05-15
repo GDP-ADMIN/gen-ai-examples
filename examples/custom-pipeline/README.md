@@ -8,10 +8,10 @@ This is an example of how to use the gllm-plugin library to build a custom pipel
 pip install gllm-core-binary gllm-generation-binary gllm-pipeline-binary gllm-plugin-binary gllm-rag-binary
 ```
 
-2. Create `.env` file based on `.env.example` and set your LLM API Key. You can also change the Language Model of your preference.
+2. Create `simple_pipeline/.env` file based on `simple_pipeline/.env.example` and set your LLM API Key. You can also change the Language Model of your preference.
 
 ```bash
-cp .env.example .env
+cp simple_pipeline/.env.example simple_pipeline/.env
 ```
 
 3. Run the example
@@ -53,18 +53,18 @@ You need to fulfill the prerequisites to run the script. They will be checked au
 
 ## Running the Code
 
-1.  Configure environment variables: copy `.env.example` to `.env` and set up your `LLM_API_KEY` and `LANGUAGE_MODEL`.
+1.  Configure environment variables: copy `.env.example` to `.env` and set up your `SIMPLE_PIPELINE_LLM_API_KEY` and `SIMPLE_PIPELINE_LANGUAGE_MODEL`.
 
     - For Linux, macOS, or Windows WSL:
 
       ```bash
-      cp .env.example .env
+      cp simple_pipeline/.env.example simple_pipeline/.env
       ```
 
     - For Windows Powershell or Command Prompt:
 
       ```powershell
-      copy .env.example .env
+      copy simple_pipeline/.env.example simple_pipeline/.env
       ```
 
 2.  Execute the script:
