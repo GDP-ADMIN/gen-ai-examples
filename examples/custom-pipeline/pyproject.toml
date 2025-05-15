@@ -11,7 +11,7 @@ gllm-pipeline-binary = "^0.2.17"
 gllm-core-binary = "^0.2.15"
 gllm-generation-binary = "^0.2.11"
 gllm-rag-binary = "^0.0.2"
-gllm-plugin-binary = "^0.0.6"
+gllm-plugin-binary = "^0.0.9"
 
 [project]
 name = "simple-pipeline"
@@ -26,6 +26,6 @@ dependencies = [
     "gllm-core-binary>=0.2.15",
     "gllm-generation-binary>=0.2.11",
     "gllm-pipeline-binary>=0.2.17",
-    "gllm-plugin-binary>=0.0.5",
+    "gllm-plugin-binary>=0.0.9",
     "gllm-rag-binary>=0.0.2",
 ]
