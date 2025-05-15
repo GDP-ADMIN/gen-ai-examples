@@ -11,7 +11,7 @@ gllm-pipeline-binary = "^0.2.17"
 gllm-core-binary = "^0.2.15"
 gllm-generation-binary = "^0.2.11"
 gllm-rag-binary = "^0.0.2"
-gllm-plugin = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-external.git", rev = "397c6038f34fafbcdb76d01598d064b2bdc73a68", subdirectory = "libs/gllm-plugin"}
+gllm-plugin-binary = "^0.0.9"
 
 [project]
 name = "simple-pipeline"
@@ -30,5 +30,5 @@ dependencies = [
     "python-dotenv (>=1.1.0,<2.0.0)",
     "gllm-agents-binary (>=0.0.2,<0.0.3)",
     "gllm-inference-binary (>=0.2.47,<0.3.0)",
-    "gllm-plugin @ git+ssh://git@github.com/GDP-ADMIN/gen-ai-external.git@397c6038f34fafbcdb76d01598d064b2bdc73a68#subdirectory=libs/gllm-plugin",
+    "gllm-plugin-binary (>=0.0.9,<0.0.10)",
 ]
