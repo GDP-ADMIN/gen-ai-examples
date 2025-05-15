@@ -5,10 +5,11 @@ Authors:
 """
 
 import os
+import asyncio
 from enum import StrEnum
 
 from dotenv import load_dotenv
-from typing import Any, TypedDict
+from typing import Any, TypedDict, Optional, ClassVar
 
 from gllm_agents.mcp.client import MCPClient
 from mcp_pipeline.mcp_config import get_mcp_servers
@@ -53,12 +54,21 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
 
     name = "mcp-pipeline"
     preset_config_class = McpPresetConfig
-    mcp = MCPClient
+
+    _mcp_instance: ClassVar[Optional[MCPClient]] = None
+    _mcp_lock: ClassVar[asyncio.Lock] = asyncio.Lock()
+    _initialized: ClassVar[bool] = False
 
     async def init_mcp(self):
-        zapier_url = os.getenv("ZAPIER_SERVER_URL", "")
-        self.mcp = MCPClient(get_mcp_servers(zapier_url))
-        await self.mcp.__aenter__()
+        """Initialize MCP client as a singleton with thread-safety."""
+        async with self.__class__._mcp_lock:
+            if not self.__class__._initialized:
+                zapier_url = os.getenv("ZAPIER_SERVER_URL", "")
+                self.__class__._mcp_instance = MCPClient(get_mcp_servers(zapier_url))
+                await self.__class__._mcp_instance.__aenter__()
+                self.__class__._initialized = True
+
+        self.mcp = self.__class__._mcp_instance
 
     async def build(self, pipeline_config: dict[str, Any]) -> Pipeline:
         """Build the pipeline.
@@ -111,4 +121,12 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         return SimpleState(query=request.get("message"), response=None)
 
     async def cleanup(self):
-        await self.mcp.__aexit__(None, None, None)
+        """Clean up MCP client instance.
+        
+        This is designed to be called only once at the end of the application lifecycle.
+        """
+        async with self.__class__._mcp_lock:
+            if self.__class__._initialized and self.__class__._mcp_instance is not None:
+                await self.__class__._mcp_instance.__aexit__(None, None, None)
+                self.__class__._mcp_instance = None
+                self.__class__._initialized = False
