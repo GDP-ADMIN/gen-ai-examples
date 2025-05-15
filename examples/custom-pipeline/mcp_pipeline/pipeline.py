@@ -6,7 +6,9 @@ Authors:
 
 import os
 import asyncio
+import logging
 from enum import StrEnum
+from asyncio import TimeoutError
 
 from dotenv import load_dotenv
 from typing import Any, TypedDict, Optional, ClassVar
@@ -56,6 +58,7 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
 
     name = "mcp-pipeline"
     preset_config_class = McpPresetConfig
+    timeout = 15.0  # 15 seconds timeout before any MCP initialization fails
 
     _mcp_instance: ClassVar[Optional[MCPClient]] = None
     _mcp_lock: ClassVar[asyncio.Lock] = asyncio.Lock()
@@ -63,12 +66,27 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
 
     async def init_mcp(self):
         """Initialize MCP client as a singleton with thread-safety."""
-        async with self.__class__._mcp_lock:
-            if not self.__class__._initialized:
-                zapier_url = os.getenv("ZAPIER_SERVER_URL", "")
-                self.__class__._mcp_instance = MCPClient(get_mcp_servers(zapier_url))
-                await self.__class__._mcp_instance.__aenter__()
-                self.__class__._initialized = True
+        logger = logging.getLogger(__name__)
+        logger.info("Initializing MCP client")
+        
+        try:
+            async with self.__class__._mcp_lock:
+                if not self.__class__._initialized:
+                    zapier_url = os.getenv("ZAPIER_SERVER_URL", "")
+                    self.__class__._mcp_instance = MCPClient(get_mcp_servers(zapier_url))
+                    try:
+                        await asyncio.wait_for(self.__class__._mcp_instance.__aenter__(), self.timeout)
+                        self.__class__._initialized = True
+                        logger.info("MCP client initialized successfully")
+                    except (TimeoutError, Exception) as e:
+                        logger.error(f"Failed to initialize MCP client: {type(e).__name__}: {str(e)}")
+                        self.__class__._mcp_instance = None
+                        self.__class__._initialized = False
+                        raise
+        except Exception as e:
+            logger.error(f"Error during MCP initialization: {type(e).__name__}: {str(e)}")
+            # Re-raise to let caller handle it
+            raise
 
         self.mcp = self.__class__._mcp_instance
 
@@ -80,9 +98,24 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
 
         Returns:
             Pipeline: The simple pipeline.
+
+        Raises:
+            Exception: If MCP client initialization fails.
         """
-        await self.init_mcp()
-        tools = self.mcp.get_tools()
+        logger = logging.getLogger(__name__)
+        
+        try:
+            await self.init_mcp()
+            if not self.__class__._initialized or self.mcp is None:
+                logger.warning("MCP initialization did not complete successfully. Proceeding without MCP tools.")
+                tools = []
+            else:
+                tools = self.mcp.get_tools()
+        except Exception as e:
+            logger.error(f"Failed to initialize MCP during pipeline build: {type(e).__name__}: {str(e)}")
+            logger.info("Proceeding with pipeline build without MCP tools")
+            tools = []
+
         
         invoker = build_lm_invoker(
             model_id=str(pipeline_config.get("model_name") or os.getenv("LANGUAGE_MODEL", "")),
@@ -129,8 +162,25 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         
         This is designed to be called only once at the end of the application lifecycle.
         """
-        async with self.__class__._mcp_lock:
-            if self.__class__._initialized and self.__class__._mcp_instance is not None:
-                await self.__class__._mcp_instance.__aexit__(None, None, None)
-                self.__class__._mcp_instance = None
-                self.__class__._initialized = False
+        logger = logging.getLogger(__name__)
+        logger.info("Cleaning up MCP client instance")
+        
+        try:
+            async with self.__class__._mcp_lock:
+                if self.__class__._initialized and self.__class__._mcp_instance is not None:
+                    try:
+                        await asyncio.wait_for(
+                            self.__class__._mcp_instance.__aexit__(None, None, None),
+                            self.timeout
+                        )
+                        logger.info("MCP client cleanup completed successfully")
+                    except TimeoutError:
+                        logger.warning(f"MCP client cleanup timed out after {self.timeout} seconds")
+                    except Exception as e:
+                        logger.error(f"Error during MCP cleanup: {type(e).__name__}: {str(e)}")
+                    finally:
+                        self.__class__._mcp_instance = None
+                        self.__class__._initialized = False
+                        logger.info("MCP client references have been reset")
+        except Exception as e:
+            logger.error(f"Unexpected error during MCP cleanup: {type(e).__name__}: {str(e)}")

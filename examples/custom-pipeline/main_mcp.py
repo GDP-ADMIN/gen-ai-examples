@@ -4,6 +4,7 @@ This module shows how to create and execute a basic pipeline using the gllm-plug
 It takes user input as a question and processes it through the pipeline to generate a response.
 """
 import asyncio
+import traceback
 
 from dotenv import load_dotenv
 from mcp_pipeline.pipeline import McpPipelineBuilderPlugin
@@ -41,11 +42,16 @@ async def main():
     print(f"Using model: {selected_model}")
     
     state = pipeline_builder.build_initial_state({"message": input("Question: ")}, {})
-    result = await pipelines[selected_model].invoke(
-        initial_state=state, config={"user_multimodal_contents": []}
-    )
-    print(result)
-    await pipeline_builder.cleanup()
+    try:
+        result = await pipelines[selected_model].invoke(
+            initial_state=state, config={"user_multimodal_contents": []}
+        )
+        print(result)
+    except Exception as e:
+        traceback.print_exc()
+        print(f"Error: {e}")
+    finally:
+        await pipeline_builder.cleanup()
 
 if __name__ == "__main__":
     asyncio.run(main())
