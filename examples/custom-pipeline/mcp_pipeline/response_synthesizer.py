@@ -69,4 +69,4 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
 
             if event_emitter:
                 await event_emitter.emit(response['output'], event_level=EventLevel.INFO, event_type=EventType.RESPONSE)
-            return response.__str__()
+            return response['output']
