@@ -13,7 +13,7 @@ from typing import Any, TypedDict
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import step
 from gllm_plugin.pipeline.pipeline_plugin import PipelineBuilderPlugin
-from gllm_core.event.event_emitter import EventEmitter
+from gllm_core.event import EventEmitter
 from mcp_pipeline.preset_config import McpPresetConfig
 from mcp_pipeline.response_synthesizer import McpResponseSynthesizer
 
@@ -89,5 +89,6 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         """
         return SimpleState(
             query=request.get("message"),
+            response=None,
             event_emitter=kwargs.get("event_emitter")
         )
