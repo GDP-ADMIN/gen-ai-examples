@@ -3,6 +3,7 @@ import os
 from typing import Any
 
 from gllm_core.event import EventEmitter as EventEmitter
+from gllm_core.constants import EventLevel, EventType
 from gllm_inference.schema import PromptRole as PromptRole
 from gllm_generation.response_synthesizer.response_synthesizer import BaseResponseSynthesizer
 
