@@ -11,14 +11,12 @@ from dotenv import load_dotenv
 from typing import Any, TypedDict
 
 from mcp_pipeline.preset_config import McpPresetConfig
-# from mcp_pipeline.response_synthesizer import McpResponseSynthesizer
 
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import step
 from gllm_plugin.pipeline.pipeline_plugin import PipelineBuilderPlugin
-# from gllm_core.event import EventEmitter
 
-# Imports for RS
+# Imports for Response Synthesizer
 from gllm_core.event import EventEmitter as EventEmitter
 from gllm_core.constants import EventLevel, EventType
 from gllm_inference.schema import PromptRole as PromptRole
@@ -54,6 +52,7 @@ class SimpleStateKeys(StrEnum):
     EVENT_EMITTER = "event_emitter"
 
 
+# TODO debug why this cannot be in a separate file without failing to import.
 class McpResponseSynthesizer(BaseResponseSynthesizer):
 
     async def synthesize_response(
@@ -91,11 +90,8 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
             NotImplementedError: If the method is not implemented in a subclass.
         """
         zapier_url = os.getenv("ZAPIER_SERVER_URL", "")
-        print("Initiating MCP Servers...")
-        print(zapier_url)
         async with MCPClient(get_mcp_servers(zapier_url)) as mcp:
             tools = mcp.get_tools()
-            print("Tools: ", tools)
 
             llm = ChatOpenAI(model="gpt-4.1")
             agent = Agent(
