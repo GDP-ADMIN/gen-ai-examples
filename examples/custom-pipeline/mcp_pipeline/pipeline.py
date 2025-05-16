@@ -10,8 +10,8 @@ from enum import StrEnum
 from dotenv import load_dotenv
 from typing import Any, TypedDict
 
-from .preset_config import McpPresetConfig
-# from .response_synthesizer import McpResponseSynthesizer
+from mcp_pipeline.preset_config import McpPresetConfig
+# from mcp_pipeline.response_synthesizer import McpResponseSynthesizer
 
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import step
@@ -28,7 +28,7 @@ from gllm_agents.agent import Agent
 from gllm_agents.mcp.client import MCPClient
 from langchain_openai import ChatOpenAI
 
-from .mcp_config import get_mcp_servers
+from mcp_pipeline.mcp_config import get_mcp_servers
 
 load_dotenv(override=True)
 
