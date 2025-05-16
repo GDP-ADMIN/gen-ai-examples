@@ -119,7 +119,7 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         
         invoker = build_lm_invoker(
             model_id=str(pipeline_config.get("model_name") or os.getenv("LANGUAGE_MODEL", "")),
-            credentials=os.getenv(pipeline_config.get("api_key") or "LLM_API_KEY", ""),
+            credentials=os.getenv(pipeline_config.get("api_key") or os.getenv("LLM_API_KEY"), ""),
             config={"tools": tools},
         )
 
