@@ -15,9 +15,12 @@ async def main():
     pipeline_config = {}
     pipeline = await pipeline_builder.build(pipeline_config)
     state = pipeline_builder.build_initial_state({"message": input("Question: ")}, {})
-    await pipeline.invoke(
+    response = await pipeline.invoke(
         initial_state=state, config={"user_multimodal_contents": []}
     )
+    print()
+    print("Response:\n")
+    print(response['response'])
 
 if __name__ == "__main__":
     asyncio.run(main())
