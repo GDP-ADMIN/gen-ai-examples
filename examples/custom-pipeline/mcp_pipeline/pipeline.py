@@ -24,11 +24,20 @@ from gllm_generation.response_synthesizer.response_synthesizer import BaseRespon
 
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_openai import ChatOpenAI
+from langchain_core.language_models import BaseLanguageModel
 from langgraph.prebuilt import create_react_agent
 
 from mcp_pipeline.mcp_config import get_mcp_servers
 
 load_dotenv(override=True)
+
+def get_language_model(model: str, key: str) -> BaseLanguageModel:
+    provider = model.split("/")[0]
+    model_name = model.split("/")[1]
+    if provider == "openai":
+        return ChatOpenAI(model=model_name, api_key=key)
+    else:
+        raise ValueError(f"Unsupported model: {model}")
 
 
 class SimpleState(TypedDict):
@@ -55,6 +64,11 @@ class SimpleStateKeys(StrEnum):
 
 # TODO debug why this cannot be in a separate file without failing to import.
 class McpResponseSynthesizer(BaseResponseSynthesizer):
+
+    def __init__(self, model: str, key: str):
+        super().__init__()
+        self.model = model
+        self.key = key
 
     async def synthesize_response(
         self,
@@ -94,10 +108,13 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
         client = MultiServerMCPClient(get_mcp_servers(zapier_url))
         tools = await client.get_tools()
 
+        model = self.model
+        key = self.key
+
         agent = create_react_agent(
             name="HelloAgent",
             prompt="You are a helpful assistant that can utilize all tools given to you to solve the user's input.",
-            model=ChatOpenAI(model="gpt-4.1"),
+            model=get_language_model(model, key),
             tools=tools,
         )
 
@@ -162,8 +179,11 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         Returns:
             Pipeline: The simple pipeline.
         """
+        model = pipeline_config["model_name"] if "model_name" in pipeline_config else os.getenv("LANGUAGE_MODEL", "openai/gpt-4.1")
+        key = pipeline_config["api_key"] if "api_key" in pipeline_config else os.getenv("LLM_API_KEY", "")
+
         response_synthesizer_step = step(
-            component=McpResponseSynthesizer(),
+            component=McpResponseSynthesizer(model=model, key=key),
             input_state_map={
                 "query": SimpleStateKeys.QUERY,
             },

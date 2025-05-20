@@ -4,7 +4,7 @@ This module shows how to create and execute a basic pipeline using the gllm-plug
 It takes user input as a question and processes it through the pipeline to generate a response.
 """
 import asyncio
-
+import os
 from dotenv import load_dotenv
 from mcp_pipeline.pipeline import McpPipelineBuilderPlugin
 
@@ -12,7 +12,10 @@ load_dotenv()
 
 async def main():
     pipeline_builder = McpPipelineBuilderPlugin()
-    pipeline_config = {}
+    
+    model_name = os.getenv("LANGUAGE_MODEL", "openai/gpt-4.1")
+    api_key = os.getenv("LLM_API_KEY", "")
+    pipeline_config = {"model_name": model_name, "api_key": api_key}
     pipeline = await pipeline_builder.build(pipeline_config)
     state = pipeline_builder.build_initial_state({"message": input("Question: ")}, {})
     response = await pipeline.invoke(
