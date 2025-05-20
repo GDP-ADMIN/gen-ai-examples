@@ -30,6 +30,7 @@ from mcp_pipeline.mcp_config import get_mcp_servers
 
 load_dotenv(override=True)
 
+
 class SimpleState(TypedDict):
     """A TypedDict representing the state of the Simple Pipeline.
 
@@ -93,29 +94,50 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
         client = MultiServerMCPClient(get_mcp_servers(zapier_url))
         tools = await client.get_tools()
 
-        model = ChatOpenAI(model="gpt-4.1")
         agent = create_react_agent(
             name="HelloAgent",
             prompt="You are a helpful assistant that can utilize all tools given to you to solve the user's input.",
-            model=model,
-            tools=tools
+            model=ChatOpenAI(model="gpt-4.1"),
+            tools=tools,
         )
 
-        response = await agent.ainvoke({"messages": query})
-        print("\nTool Calls:")
-        for message in response['messages']:
-            if hasattr(message, 'tool_calls') and message.tool_calls:
-                for tool_call in message.tool_calls:
-                    print(f"\nTool: {tool_call['name']}")
-                    print(f"Arguments: {tool_call['args']}")
-                    print(f"ID: {tool_call['id']}")
+        final_response = ""
+        processed_tool_ids = set()
 
-        # Get the last AIMessage content
-        last_ai_message = next((msg for msg in reversed(response['messages']) if hasattr(msg, 'content') and msg.content), None)
-        final_response = last_ai_message.content if last_ai_message else "No response generated"
+        async for chunk in agent.astream({"messages": query}, stream_mode="values"):
+            if isinstance(chunk, dict) and 'messages' in chunk:
+                messages = chunk['messages']
 
-        if event_emitter:
-            await event_emitter.emit(final_response['response'], event_level=EventLevel.INFO, event_type=EventType.RESPONSE)
+                for message in messages:
+                    if hasattr(message, 'additional_kwargs') and 'tool_calls' in message.additional_kwargs:
+                        tool_calls = message.additional_kwargs['tool_calls']
+                        for tool_call in tool_calls:
+                            if tool_call['id'] not in processed_tool_ids:
+                                processed_tool_ids.add(tool_call['id'])
+                                
+                                tool_info = f"Called tool `{tool_call['function']['name']}` with arguments: {tool_call['function']['arguments']}"
+                                print(tool_info)
+
+                                if event_emitter:
+                                    await event_emitter.emit(
+                                        tool_info,
+                                        event_level=EventLevel.INFO, 
+                                        event_type=EventType.DATA
+                                    )
+
+        if 'messages' in chunk:
+            messages = chunk['messages']
+            last_ai_message = next((msg for msg in reversed(messages) 
+                                   if hasattr(msg, 'content') and msg.content), None)
+            final_response = last_ai_message.content if last_ai_message else "No response generated"
+
+            if event_emitter and final_response:
+                await event_emitter.emit(
+                    final_response, 
+                    event_level=EventLevel.INFO, 
+                    event_type=EventType.RESPONSE
+                )
+        
         return final_response
 
 
