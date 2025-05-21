@@ -4,7 +4,10 @@ Authors:
     Samuel Lusandi (samuel.lusandi@gdplabs.id)
 """
 
+import json
+import uuid
 import os
+import time
 from enum import StrEnum
 
 from dotenv import load_dotenv
@@ -104,6 +107,7 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
         Raises:
             NotImplementedError: If the method is not implemented in a subclass.
         """
+        start_time = time.time()
         zapier_url = os.getenv("ZAPIER_SERVER_URL", "")
         client = MultiServerMCPClient(get_mcp_servers(zapier_url))
         tools = await client.get_tools()
@@ -135,12 +139,38 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
                                 tool_info = f"Called tool `{tool_call['function']['name']}` with arguments: {tool_call['function']['arguments']}"
                                 print(tool_info)
 
+                                step_id = str(uuid.uuid4())
+                                tool_running_data = {
+                                    "data_type": "process",
+                                    "data_value": {
+                                        "id": step_id,
+                                        "message": tool_info,
+                                        "status": "running",
+                                        "time": round(time.time() - start_time, 2)
+                                    },
+                                }
+                                tool_finished_data = {
+                                    "data_type": "process",
+                                    "data_value": {
+                                        "id": step_id,
+                                        "message": tool_info,
+                                        "status": "finished",
+                                        "time": round(time.time() - start_time, 2)
+                                    },
+                                }
+
                                 if event_emitter:
                                     await event_emitter.emit(
-                                        tool_info,
-                                        event_level=EventLevel.INFO, 
+                                        json.dumps(tool_running_data),
+                                        event_level=EventLevel.INFO,
                                         event_type=EventType.DATA
                                     )
+                                    await event_emitter.emit(
+                                        json.dumps(tool_finished_data),
+                                        event_level=EventLevel.INFO,
+                                        event_type=EventType.DATA
+                                    )
+
 
         if 'messages' in chunk:
             messages = chunk['messages']
@@ -179,8 +209,8 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         Returns:
             Pipeline: The simple pipeline.
         """
-        model = pipeline_config["model_name"] if "model_name" in pipeline_config else os.getenv("LANGUAGE_MODEL", "openai/gpt-4.1")
-        key = pipeline_config["api_key"] if "api_key" in pipeline_config else os.getenv("LLM_API_KEY", "")
+        model = str(pipeline_config["model_name"]) if "model_name" in pipeline_config else os.getenv("LANGUAGE_MODEL", "openai/gpt-4.1")
+        key = os.getenv(pipeline_config["api_key"]) if "api_key" in pipeline_config else os.getenv("LLM_API_KEY", "")
 
         response_synthesizer_step = step(
             component=McpResponseSynthesizer(model=model, key=key),
