@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "aip-agent-quickstart"
+version = "0.1.0"
+description = "AIP Agent Quickstart Example"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = "aip_agent_quickstart"}]
+
+[tool.poetry.dependencies]
+python = ">=3.13,<3.14"
+gllm-agents-binary = "0.2.1"
+langchain = "^0.3.0"
+langchain-core = "^0.3.0"
+langgraph = "^0.2.16"
+langchain-openai = "^0.3.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
