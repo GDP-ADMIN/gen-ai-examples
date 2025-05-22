@@ -2,6 +2,7 @@
 
 from langchain.tools import tool
 from typing import Union
+from .weather_tool import weather_tool
 
 @tool
 def add_numbers(a: Union[int, float], b: Union[int, float]) -> Union[int, float]:
@@ -15,3 +16,6 @@ def add_numbers(a: Union[int, float], b: Union[int, float]) -> Union[int, float]
         The sum of a and b
     """
     return a + b
+
+
+__all__ = ["add_numbers", "weather_tool"]

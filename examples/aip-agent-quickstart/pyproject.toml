@@ -2,7 +2,7 @@
 name = "aip-agent-quickstart"
 version = "0.1.0"
 description = "AIP Agent Quickstart Example"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["Raymond Christopher <raymond.christopher@gdplabs.id>", "Fachriza Adhiatma <fachriza.d.adhiatma@gdplabs.id>", "Christian Trisno Sen Long Chen <christian.t.s.l.chen@gdplabs.id>"]
 readme = "README.md"
 packages = [{include = "aip_agent_quickstart"}]
 
