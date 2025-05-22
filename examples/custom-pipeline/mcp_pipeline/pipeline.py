@@ -73,7 +73,7 @@ class MaximumToolCallsException(Exception):
 # TODO debug why this cannot be in a separate file without failing to import.
 class McpResponseSynthesizer(BaseResponseSynthesizer):
 
-    MAX_TOOL_CALLS = 2
+    MAX_TOOL_CALLS = 10
 
     def __init__(self, model: str, key: str):
         super().__init__()
