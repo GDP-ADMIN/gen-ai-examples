@@ -21,7 +21,7 @@ This repository contains quick start examples demonstrating different agent impl
    ```bash
    poetry install
    ```
-## Running the Examples
+## Running Agents
 
 ### LangGraph Agent
 
@@ -78,6 +78,66 @@ Tool executed: sum_numbers(70, 10)
 Tool executed: sum_numbers(80, 5)
 [arun] Final Response: The sum of 23 and 47 is 70. Adding 10 to that gives 80, and adding 5 more results in 85.
 --- End of Google ADK Example ---
+```
+
+## Running Agents with MCP
+
+### LangGraph Agent with STDIO
+
+This example demonstrates a LangGraph-based agent that uses Model Control Protocol (MCP) over stdio for communication.
+
+#### Setup
+
+1. First, start the MCP server:
+```bash
+poetry run python aip_agent_quickstart/mcp_servers/mcp_server_stdio.py
+```
+
+2. Set your OpenAI API key:
+```bash
+export OPENAI_API_KEY='your-openai-api-key-here'
+```
+
+#### Running the Example
+
+```bash
+poetry run python hello_world_langgraph_mcp_stdio.py
+```
+
+Expected output:
+```
+Query: What's the weather forecast for monday?
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
+```
+
+### LangGraph Agent with SSE
+
+This example demonstrates a LangGraph-based agent that uses Model Control Protocol (MCP) over Server-Sent Events (SSE) for communication.
+
+#### Setup
+
+1. First, start the MCP server:
+```bash
+poetry run python aip_agent_quickstart/mcp_servers/mcp_server_sse.py
+```
+
+2. Set your OpenAI API key:
+```bash
+export OPENAI_API_KEY='your-openai-api-key-here'
+```
+
+#### Running the Example
+
+```bash
+poetry run python hello_world_langgraph_mcp_sse.py
+```
+
+Expected output:
+```
+Query: What's the weather forecast for monday?
+Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
 ```
 
 ## About the Examples
