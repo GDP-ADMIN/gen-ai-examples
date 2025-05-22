@@ -21,7 +21,7 @@ This repository contains quick start examples demonstrating different agent impl
    ```bash
    poetry install
    ```
-## Running the Examples
+## Running Agents
 
 ### LangGraph Agent
 
@@ -80,15 +80,17 @@ Tool executed: sum_numbers(80, 5)
 --- End of Google ADK Example ---
 ```
 
-### LangGraph MCP Agent with stdio
+## Running Agents with MCP
 
-This example demonstrates a LangGraph-based agent that uses Message Control Protocol (MCP) over stdio for communication.
+### LangGraph Agent with STDIO
+
+This example demonstrates a LangGraph-based agent that uses Model Control Protocol (MCP) over stdio for communication.
 
 #### Setup
 
 1. First, start the MCP server:
 ```bash
-python aip_agent_quickstart/mcp_servers/mcp_server_stdio.py
+poetry run python aip_agent_quickstart/mcp_servers/mcp_server_stdio.py
 ```
 
 2. Set your OpenAI API key:
@@ -110,15 +112,15 @@ Processing request of type CallToolRequest
 Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
 ```
 
-### LangGraph MCP Agent with SSE
+### LangGraph Agent with SSE
 
-This example demonstrates a LangGraph-based agent that uses Message Control Protocol (MCP) over Server-Sent Events (SSE) for communication.
+This example demonstrates a LangGraph-based agent that uses Model Control Protocol (MCP) over Server-Sent Events (SSE) for communication.
 
 #### Setup
 
 1. First, start the MCP server:
 ```bash
-python aip_agent_quickstart/mcp_servers/mcp_server_sse.py
+poetry run python aip_agent_quickstart/mcp_servers/mcp_server_sse.py
 ```
 
 2. Set your OpenAI API key:
