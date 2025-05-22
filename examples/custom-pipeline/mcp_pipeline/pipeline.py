@@ -128,6 +128,9 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
             name="HelloAgent",
             prompt=f"""You are a helpful assistant that can utilize all tools given to you to solve the user's input.
 
+            When there is anything related to relative time, you *must* call the get_current_time tool. Otherwise you will not be able to 
+            provide an accurate response. Don't forget to also include the time in the response so the user knows when the response pertains to.
+
             Here are a few things you need to do for specific tasks:
             
             Regarding Slack:
