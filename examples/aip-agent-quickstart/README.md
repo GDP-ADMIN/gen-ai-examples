@@ -80,6 +80,64 @@ Tool executed: sum_numbers(80, 5)
 --- End of Google ADK Example ---
 ```
 
+### LangGraph MCP Agent with stdio
+
+This example demonstrates a LangGraph-based agent that uses Message Control Protocol (MCP) over stdio for communication.
+
+#### Setup
+
+1. First, start the MCP server:
+```bash
+python aip_agent_quickstart/mcp_servers/mcp_server_stdio.py
+```
+
+2. Set your OpenAI API key:
+```bash
+export OPENAI_API_KEY='your-openai-api-key-here'
+```
+
+#### Running the Example
+
+```bash
+poetry run python hello_world_langgraph_mcp_stdio.py
+```
+
+Expected output:
+```
+Query: What's the weather forecast for monday?
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
+```
+
+### LangGraph MCP Agent with SSE
+
+This example demonstrates a LangGraph-based agent that uses Message Control Protocol (MCP) over Server-Sent Events (SSE) for communication.
+
+#### Setup
+
+1. First, start the MCP server:
+```bash
+python aip_agent_quickstart/mcp_servers/mcp_server_sse.py
+```
+
+2. Set your OpenAI API key:
+```bash
+export OPENAI_API_KEY='your-openai-api-key-here'
+```
+
+#### Running the Example
+
+```bash
+poetry run python hello_world_langgraph_mcp_sse.py
+```
+
+Expected output:
+```
+Query: What's the weather forecast for monday?
+Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
+```
+
 ## About the Examples
 
 Both examples demonstrate the same arithmetic capabilities but use different agent implementations. They share a common interface and tooling structure, showing how different agent implementations can be used interchangeably in the GL AI Agents Platform.
