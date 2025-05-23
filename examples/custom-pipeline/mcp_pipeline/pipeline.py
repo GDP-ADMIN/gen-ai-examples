@@ -272,8 +272,8 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         model = str(pipeline_config["model_name"]) if "model_name" in pipeline_config else os.getenv("LANGUAGE_MODEL", "openai/gpt-4.1")
         key = os.getenv(pipeline_config["api_key"]) if "api_key" in pipeline_config else os.getenv("LLM_API_KEY", "")
         
-        mcp_server_url_key = pipeline_config.get("mcp_server_url")
-        mcp_server_url = os.getenv(mcp_server_url_key)
+        mcp_server_url_key = pipeline_config.get("mcp_server_url") or "GDP_MCP_SERVER_URL"
+        mcp_server_url = os.getenv(mcp_server_url_key, "")
 
         response_synthesizer_step = step(
             component=McpResponseSynthesizer(model=model, key=key, mcp_server_url=mcp_server_url),
