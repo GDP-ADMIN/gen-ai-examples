@@ -12,6 +12,7 @@ gllm-core-binary = "^0.2.15"
 gllm-generation-binary = "^0.2.11"
 gllm-rag-binary = "^0.0.2"
 gllm-plugin-binary = "^0.0.9"
+langchain-mcp-adapters = "^0.1.0"
 
 [project]
 name = "simple-pipeline"
@@ -26,6 +27,20 @@ dependencies = [
     "gllm-core-binary>=0.2.15",
     "gllm-generation-binary>=0.2.11",
     "gllm-pipeline-binary>=0.2.17",
-    "gllm-plugin-binary>=0.0.9",
     "gllm-rag-binary>=0.0.2",
+    "python-dotenv (>=1.1.0,<2.0.0)",
+    "gllm-inference-binary (>=0.2.47,<0.3.0)",
+    "gllm-plugin-binary (>=0.0.9,<0.0.10)",
+    "langchain-mcp-adapters (>=0.1.0,<0.2.0)",
 ]
+
+[[tool.poetry.source]]
+name = "gen-ai"
+url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/simple/"
+priority = "supplemental"
+
+[[tool.poetry.source]]
+name = "gen-ai-publication"
+url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/"
+priority = "explicit"
+
