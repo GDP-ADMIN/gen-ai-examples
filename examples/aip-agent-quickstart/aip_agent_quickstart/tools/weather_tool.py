@@ -36,7 +36,7 @@ def weather_tool(city: str) -> str:
         "New York": "22°C, Sunny",
     }
 
-    city_name = city.split()[0].strip().title()
+    city_name = city.strip().title()
 
     weather = weather_data.get(city_name)
     if weather:
