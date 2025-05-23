@@ -8,10 +8,19 @@ packages = [{include = "aip_agent_quickstart"}]
 
 [tool.poetry.dependencies]
 python = ">=3.13,<3.14"
-gllm-agents-binary = "0.2.4"
+gllm-agents-binary = "0.2.6"
+# gllm-agents-binary = {version = "0.2.4", source = "gen-ai"}
+# gllm-agents = {version = "0.2.4", source = "gen-ai-internal"}
+# gllm-agents = {path = "/home/christian/Projects/gen-ai-sdk/libs/gllm-agents"}
+# gllm-agents = {path = "/home/christian/Projects/gen-ai-sdk/libs/gllm-agents"}
 langchain = "^0.3.0"
 langchain-core = "^0.3.0"
 langgraph = "^0.2.16"
+
+[[tool.poetry.source]]
+name = "gen-ai"
+url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/simple/"
+priority = "explicit"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -428,13 +428,16 @@ standard = ["email-validator (>=2.0.0)", "fastapi-cli[standard] (>=0.0.5)", "htt
 
 [[package]]
 name = "gllm-agents-binary"
-version = "0.2.4"
+version = "0.2.6"
 description = "A library for managing agents in Gen AI applications."
 optional = false
 python-versions = "<3.14,>=3.13"
 groups = ["main"]
 files = [
-    {file = "gllm_agents_binary-0.2.4-cp313-cp313-manylinux_2_31_x86_64.whl", hash = "sha256:bef2c6675b148d345fda382208bbfbb9f138b1eb17ed8256f0fbbd483a4ed753"},
+    {file = "gllm_agents_binary-0.2.6-cp313-cp313-macosx_13_0_x86_64.whl", hash = "sha256:ea3e596defbdb9edc4227c2962d0cb673862cdeba48c7c53e3b85856270bab94"},
+    {file = "gllm_agents_binary-0.2.6-cp313-cp313-macosx_14_0_arm64.whl", hash = "sha256:27cc7b99e9f5350594d71f42abac6c3b5b6fca2874cee8bc1ccd64b95b1e74a2"},
+    {file = "gllm_agents_binary-0.2.6-cp313-cp313-manylinux_2_31_x86_64.whl", hash = "sha256:5bf789d1ec4492d37c7092779b7f7d583ac4915c23b9bf082874884886def548"},
+    {file = "gllm_agents_binary-0.2.6-cp313-cp313-win_amd64.whl", hash = "sha256:e8e0c9e7ee021d0eb9c6c3d1e959703897c78c2991c4b23429429f7a4829a7a8"},
 ]
 
 [package.dependencies]
@@ -3059,4 +3062,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<3.14"
-content-hash = "288ddde0551013e02469eb5217019c998b66cf79f5b026fc56b753c8e1734b4d"
+content-hash = "c1f85ab77ae20f3e00a7f2973a55cecefce6df2ec68755a7d37b848b30b8b138"
