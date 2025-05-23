@@ -11,7 +11,7 @@ Authors:
 import asyncio
 
 from gllm_agents.agent.google_adk_agent import GoogleADKAgent
-from gllm_agents.examples.mcp_configs.configs import mcp_config_stdio
+from aip_agent_quickstart.mcp_configs.configs import mcp_config_stdio
 
 
 async def main():
