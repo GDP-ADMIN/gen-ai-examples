@@ -129,8 +129,7 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
             prompt=f"""You are a helpful assistant that can utilize all tools given to you to solve the user's input.
 
             When there is anything related to relative time, you *must* call the get_current_time tool. Otherwise you will not be able to 
-            provide an accurate response. Don't forget to also include the time in the response so the user knows when the response pertains to.
-            The timezone should be UTC+7 Asia/Jakarta.
+            provide an accurate response. The timezone *must* be UTC+7 Asia/Jakarta.
 
             Here are a few things you need to do for specific tasks:
             
@@ -179,8 +178,7 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
                                     processed_tool_ids.add(tool_call['id'])
                                     tool_call_count += 1
 
-                                    tool_info = f"Called tool `{tool_call['function']['name']}` with arguments: {tool_call['function']['arguments']}"
-                                    print(tool_call)
+                                    tool_info = f"Called tool `{tool_call['function']['name']}`"
 
                                     step_id = str(uuid.uuid4())
                                     tool_running_data = {
