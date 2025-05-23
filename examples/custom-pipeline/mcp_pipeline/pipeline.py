@@ -17,6 +17,7 @@ from mcp_pipeline.preset_config import McpPresetConfig
 
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import step
+from gllm_plugin.pipeline.base_pipeline_preset_config import BasePipelinePresetConfig
 from gllm_plugin.pipeline.pipeline_plugin import PipelineBuilderPlugin
 
 # Imports for Response Synthesizer
@@ -65,6 +66,16 @@ class SimpleStateKeys(StrEnum):
     EVENT_EMITTER = "event_emitter"
 
 
+
+class McpPresetConfig(BasePipelinePresetConfig):
+    """A Pydantic model representing the preset config of a simple pipeline.
+
+    Inherits attributes from `BasePipelinePresetConfig`.
+    """
+
+    mcp_server_url: str
+
+
 class MaximumToolCallsException(Exception):
     """Exception raised when the maximum number of tool calls is reached."""
     pass
@@ -75,10 +86,11 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
 
     MAX_TOOL_CALLS = 10
 
-    def __init__(self, model: str, key: str):
+    def __init__(self, model: str, key: str, mcp_server_url: str):
         super().__init__()
         self.model = model
         self.key = key
+        self.mcp_server_url = mcp_server_url
 
     async def synthesize_response(
         self,
@@ -115,8 +127,7 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
             NotImplementedError: If the method is not implemented in a subclass.
         """
         start_time = time.time()
-        server_url = os.getenv("GDP_MCP_SERVER_URL", "")
-        client = MultiServerMCPClient(get_mcp_servers(server_url))
+        client = MultiServerMCPClient(get_mcp_servers(self.mcp_server_url))
         tools = await client.get_tools()
         for tool in tools:
             tool.name = tool.name.replace("::", "__")
@@ -260,9 +271,12 @@ class McpPipelineBuilderPlugin(PipelineBuilderPlugin):
         """
         model = str(pipeline_config["model_name"]) if "model_name" in pipeline_config else os.getenv("LANGUAGE_MODEL", "openai/gpt-4.1")
         key = os.getenv(pipeline_config["api_key"]) if "api_key" in pipeline_config else os.getenv("LLM_API_KEY", "")
+        
+        mcp_server_url_key = pipeline_config.get("mcp_server_url")
+        mcp_server_url = os.getenv(mcp_server_url_key)
 
         response_synthesizer_step = step(
-            component=McpResponseSynthesizer(model=model, key=key),
+            component=McpResponseSynthesizer(model=model, key=key, mcp_server_url=mcp_server_url),
             input_state_map={
                 "query": SimpleStateKeys.QUERY,
             },

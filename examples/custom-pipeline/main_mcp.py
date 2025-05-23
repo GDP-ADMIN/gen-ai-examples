@@ -15,7 +15,7 @@ async def main():
     
     model_name = os.getenv("LANGUAGE_MODEL", "openai/gpt-4.1")
     api_key = os.getenv("LLM_API_KEY", "")
-    pipeline_config = {"model_name": model_name, "api_key": api_key}
+    pipeline_config = {"model_name": model_name, "api_key": api_key, "mcp_server_url": "GDP_MCP_SERVER_URL"}
     pipeline = await pipeline_builder.build(pipeline_config)
     state = pipeline_builder.build_initial_state({"message": input("Question: ")}, {})
     response = await pipeline.invoke(

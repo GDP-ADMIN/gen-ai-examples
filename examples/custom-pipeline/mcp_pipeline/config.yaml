@@ -1,6 +1,12 @@
 rago_pipeline: mcp-pipeline
 
 
+extra_configs:
+  - name: mcp_server_url
+    type: env
+    ui_type: text_field
+    level: PRESET
+
 presets:
   - pipeline_preset_id: default
     supported_models:
