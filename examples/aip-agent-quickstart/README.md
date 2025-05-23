@@ -140,6 +140,64 @@ Query: What's the weather forecast for monday?
 Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
 ```
 
+### Google ADK Agent with STDIO
+
+This example demonstrates a Google ADK-based agent that uses Model Control Protocol (MCP) over stdio for communication.
+
+#### Setup
+
+1. First, start the MCP server:
+```bash
+poetry run python aip_agent_quickstart/mcp_servers/mcp_server_stdio.py
+```
+
+2. Set your Google API key:
+```bash
+export GOOGLE_API_KEY='your-google-api-key-here'
+```
+
+#### Running the Example
+
+```bash
+poetry run python hello_world_google_adk_mcp_stdio.py
+```
+
+Expected output:
+```
+Query: What's the weather forecast for monday?
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
+```
+
+### Google ADK Agent with SSE
+
+This example demonstrates a Google ADK-based agent that uses Model Control Protocol (MCP) over Server-Sent Events (SSE) for communication.
+
+#### Setup
+
+1. First, start the MCP server:
+```bash
+poetry run python aip_agent_quickstart/mcp_servers/mcp_server_sse.py
+```
+
+2. Set your Google API key:
+```bash
+export GOOGLE_API_KEY='your-google-api-key-here'
+```
+
+#### Running the Example
+
+```bash
+poetry run python hello_world_google_adk_mcp_sse.py
+```
+
+Expected output:
+```
+Query: What's the weather forecast for monday?
+Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
+```
+
 ## About the Examples
 
 Both examples demonstrate the same arithmetic capabilities but use different agent implementations. They share a common interface and tooling structure, showing how different agent implementations can be used interchangeably in the GL AI Agents Platform.
