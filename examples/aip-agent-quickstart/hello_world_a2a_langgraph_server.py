@@ -3,9 +3,6 @@
 This server instantiates a LangGraphAgent with weather lookup capabilities and serves it
 via the A2A protocol using the to_a2a convenience method.
 
-To run this server:
-    python examples/a2a/langgraph_server_example.py
-
 It will listen on http://localhost:8001 by default.
 
 Authors:
@@ -69,8 +66,8 @@ def main(host: str, port: int):
         agent_card=agent_card,
     )
 
-    uvicorn.run(app, host=host, port=port)
     logger.info("A2A application configured. Starting Uvicorn server...")
+    uvicorn.run(app, host=host, port=port)
 
 
 if __name__ == "__main__":
