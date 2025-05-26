@@ -1,6 +1,6 @@
-"""Weather A2A server for LangGraphAgent.
+"""TravelAdvisorAgent A2A server.
 
-This server instantiates a LangGraphAgent with weather lookup capabilities and serves it
+This server instantiates a LangGraphAgent with travel_advisor_agent capabilities and serves it
 via the A2A protocol using the to_a2a convenience method.
 
 Authors:
@@ -14,7 +14,7 @@ from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from gllm_agents.utils.logger_manager import LoggerManager
 from langchain_openai import ChatOpenAI
 
-from weather_agent import config, weather_tool
+from travel_advisor_agent import config, get_place_recommendations_tool
 
 logger = LoggerManager().get_logger(__name__)
 
@@ -31,7 +31,7 @@ logger = LoggerManager().get_logger(__name__)
     help="Port to bind the server to.",
 )
 def main(host: str, port: int) -> None:
-    """Runs the LangGraph Weather A2A server."""
+    """Runs the LangGraph TravelAdvisorAgent A2A server."""
     logger.info(f"Starting {config.SERVER_AGENT_NAME} on http://{host}:{port}")
 
     agent_card = AgentCard(
@@ -44,21 +44,24 @@ def main(host: str, port: int) -> None:
         capabilities=AgentCapabilities(streaming=True),
         skills=[
             AgentSkill(
-                id="weather",
-                name="Weather Lookup",
-                description="Provides current weather information for cities.",
-                examples=["What's the weather in Tokyo?", "Get weather for London"],
-                tags=["weather"],
+                id="travel_advisor_agent_skill",
+                name="TravelAdvisorAgent Default Skill",
+                description="A sample skill for the TravelAdvisorAgent.",
+                examples=["What can you do?"],
+                tags=["travel_advisor_agent", "sample"],
             )
         ],
         authentication=AgentAuthentication(schemes=["public"]),
-        tags=["weather"],
+        tags=["travel_advisor_agent"],
     )
 
     llm = ChatOpenAI(
-        model=config.LLM_MODEL_NAME, temperature=config.LLM_TEMPERATURE, streaming=True
+        model=config.LLM_MODEL_NAME,
+        temperature=config.LLM_TEMPERATURE,
+        streaming=True,
     )
-    tools = [weather_tool]
+
+    tools = [get_place_recommendations_tool]
 
     langgraph_agent = LangGraphAgent(
         name=config.SERVER_AGENT_NAME,

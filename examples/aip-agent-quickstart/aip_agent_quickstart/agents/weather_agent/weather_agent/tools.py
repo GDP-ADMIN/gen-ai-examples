@@ -34,6 +34,7 @@ def weather_tool(city: str) -> str:
         "Tokyo": "25°C, Clear skies",
         "London": "18°C, Light rain",
         "New York": "22°C, Sunny",
+        "Paris": "20°C, Cloudy",
     }
 
     city_name = city.strip().title()

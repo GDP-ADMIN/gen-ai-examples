@@ -11,8 +11,17 @@ services:
     restart: unless-stopped
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-    # volumes:
-    #   - ./aip_agent_quickstart/agents/weather_agent:/usr/src/app # Optional: for live code reloading during development
+
+  travel_advisor_agent:
+    build:
+      context: ./aip_agent_quickstart/agents/travel_advisor_agent
+      dockerfile: Dockerfile
+    container_name: travel_advisor_agent_service
+    ports:
+      - "8002:8002"
+    restart: unless-stopped
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
 
 
 # You can define shared networks or volumes here if needed
