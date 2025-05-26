@@ -142,24 +142,37 @@ Response: The weather forecast for monday is sunny with temperatures between 28Â
 
 ### LangGraph Agent with Dockerize MCP Server
 
-This example demonstrates how to run an MCP server in a Docker container. The MCP server uses STDIO transport and will be converted to SSE transport in the Docker container using [mcp-transport](https://github.com/sparfenyuk/mcp-proxy).
+This example demonstrates how to run an MCP server in a Docker container using Docker Compose. The MCP server uses STDIO transport and will be converted to SSE transport in the Docker container using [mcp-proxy](https://github.com/sparfenyuk/mcp-proxy).
 
 #### Setup
 
-1. Locate to the `aip_agent_quickstart/mcp_server_docker`
-2. Build Docker image:
-
+1. Navigate to the `aip_agent_quickstart/mcp_server_docker` directory:
 ```bash
-docker build -t my-mcp-server .
+cd aip_agent_quickstart/mcp_server_docker
 ```
 
-3. Run Docker container:
-
+2. Start the MCP server using Docker Compose:
 ```bash
-docker run -p 8000:8000 my-mcp-server
+docker-compose up --build
+```
+
+Or run in detached mode (background):
+```bash
+docker-compose up -d --build
+```
+
+#### Configuration Options
+
+You can customize the configuration using environment variables:
+
+- **Custom port:**
+```bash
+HOST_PORT=9000 docker-compose up -d --build
 ```
 
 #### Running the Example
+
+Once the Docker Compose service is running, execute the client:
 
 ```bash
 poetry run python hello_world_langgraph_mcp_sse.py
