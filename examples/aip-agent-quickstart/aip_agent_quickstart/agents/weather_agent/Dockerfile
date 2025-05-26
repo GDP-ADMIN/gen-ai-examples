@@ -46,5 +46,3 @@ EXPOSE 8001
 
 # Run the weather agent server
 CMD ["poetry", "run", "python", "-m", "server", "--host", "0.0.0.0", "--port", "8001"]
-# CMD ["poetry", "show"]
-# CMD ["ls", "-la"]

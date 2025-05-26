@@ -5,6 +5,9 @@ This script demonstrates:
 2. Discovering and registering multiple agents (WeatherAgent and TravelAdvisorAgent).
 3. Sending a query that requires capabilities from both registered agents.
 4. Printing the consolidated response.
+
+Authors:
+    Christian Trisno Sen Long Chen (christian.t.s.l.chen@gdplabs.id)
 """
 
 from gllm_agents.agent.langgraph_agent import LangGraphAgent
