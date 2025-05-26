@@ -1,0 +1,11 @@
+services:
+  weather_agent:
+    build:
+      context: ./aip_agent_quickstart/agents/weather_agent
+      dockerfile: Dockerfile
+    container_name: weather_agent_service
+    ports:
+      - "8001:8001"
+    restart: unless-stopped
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}

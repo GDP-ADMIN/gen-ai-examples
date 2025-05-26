@@ -42,7 +42,7 @@ def main():
     # Register agents
     assistant_agent.register_a2a_agents(agent_cards)
 
-    query = "What is the weather in Jakarta City?"
+    query = "What is the weather in Jakarta?"
     logger.info(f"Processing Query: {query}")
 
     response = assistant_agent.run(query)
