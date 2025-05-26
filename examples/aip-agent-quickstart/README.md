@@ -140,6 +140,37 @@ Query: What's the weather forecast for monday?
 Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
 ```
 
+### LangGraph Agent with Dockerize MCP Server
+
+This example demonstrates how to run an MCP server in a Docker container. The MCP server uses STDIO transport and will be converted to SSE transport in the Docker container using [mcp-transport](https://github.com/sparfenyuk/mcp-proxy).
+
+#### Setup
+
+1. Locate to the `aip_agent_quickstart/mcp_server_docker`
+2. Build Docker image:
+
+```bash
+docker build -t my-mcp-server .
+```
+
+3. Run Docker container:
+
+```bash
+docker run -p 8000:8000 my-mcp-server
+```
+
+#### Running the Example
+
+```bash
+poetry run python hello_world_langgraph_mcp_sse.py
+```
+
+Expected output:
+```
+Query: What's the weather forecast for monday?
+Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
+```
+
 ## About the Examples
 
 Both examples demonstrate the same arithmetic capabilities but use different agent implementations. They share a common interface and tooling structure, showing how different agent implementations can be used interchangeably in the GL AI Agents Platform.
