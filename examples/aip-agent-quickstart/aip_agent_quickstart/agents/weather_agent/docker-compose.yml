@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  weather-agent:
+    build:
+      dockerfile: Dockerfile
+    container_name: weather_agent_server
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    restart: unless-stopped

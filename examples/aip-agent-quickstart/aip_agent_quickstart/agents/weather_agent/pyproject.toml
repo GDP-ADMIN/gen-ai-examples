@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "aip-agent-quickstart"
+name = "weather-agent"
 version = "0.1.0"
-description = "AIP Agent Quickstart Example"
+description = "Weather Agent Example"
 authors = ["Raymond Christopher <raymond.christopher@gdplabs.id>", "Fachriza Adhiatma <fachriza.d.adhiatma@gdplabs.id>", "Christian Trisno Sen Long Chen <christian.t.s.l.chen@gdplabs.id>"]
 readme = "README.md"
-packages = [{include = "aip_agent_quickstart"}]
+packages = [{include = "weather_agent"}]
 
 [tool.poetry.dependencies]
 python = ">=3.13,<3.14"
@@ -12,10 +12,6 @@ gllm-agents-binary = "0.2.6"
 langchain = "^0.3.0"
 langchain-core = "^0.3.0"
 langgraph = "^0.2.16"
-
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^3.6.2"
-ruff = "^0.6.7"
 
 [[tool.poetry.source]]
 name = "gen-ai"
