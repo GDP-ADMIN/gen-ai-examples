@@ -36,7 +36,7 @@ async def main():
 
     print("\nRunning arun with MCP SSE tools...")
     response = await agent.arun(query=query)
-    print(f"[arun] Final Response: {response.get('output')}")
+    print(f"Final Response: {response.get('output')}")
     print("--- End of Google ADK MCP SSE Example ---")
 
 
