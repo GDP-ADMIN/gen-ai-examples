@@ -76,6 +76,21 @@ The Dockerfile:
 - Runs as a non-root user for security
 - Uses a multi-stage build for efficiency
 
+## Configuration
+
+You can customize the agent's behavior by modifying the `weather_agent/config.py` file. This file contains settings such as:
+
+- `SERVER_AGENT_NAME`: The name of the agent server.
+- `DEFAULT_HOST`: The default host for the server.
+- `DEFAULT_PORT`: The default port for the server.
+- `AGENT_DESCRIPTION`: A description of the agent.
+- `AGENT_VERSION`: The version of the agent.
+- `AGENT_INSTRUCTION`: Instructions for the agent's language model.
+- `LLM_MODEL_NAME`: The name of the language model to use.
+- `LLM_TEMPERATURE`: The temperature setting for the language model.
+
+Make your changes to this file before building and running the agent.
+
 ## Examples
 
 Try asking the agent:
