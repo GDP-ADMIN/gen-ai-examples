@@ -38,7 +38,7 @@ async def main():
     )
     agent_cards = assistant_agent.discover_agents(client_a2a_config)
 
-    query = "What is the weather in Jakarta City?"
+    query = "What is the weather in Jakarta?"
     logger.info(f"Processing Query: {query}")
 
     agent_result = ""
