@@ -18,16 +18,14 @@ async def main():
     """Demonstrates the GoogleADKAgent with MCP tools via stdio transport."""
     agent_name = "GoogleADKMCPStdio"
 
-    # Create the agent with simplified instructions for weather forecasting
     agent = GoogleADKAgent(
         name=agent_name,
         instruction="You are a helpful assistant that can provide weather forecasts. For weather, specify the day in lowercase (e.g., 'monday').",
         model="gemini-2.0-flash",
-        tools=[],  # Start with no tools, will add MCP tools
+        tools=[],
         max_iterations=5,
     )
 
-    # Add the MCP server with stdio transport
     agent.add_mcp_server(mcp_config_stdio)
 
     query = "What's the weather forecast for monday?"  # Uses MCP weather tool
@@ -42,6 +40,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    # GOOGLE_API_KEY should be set in the environment.
-    # The MCP server will be started automatically as a subprocess
     asyncio.run(main())

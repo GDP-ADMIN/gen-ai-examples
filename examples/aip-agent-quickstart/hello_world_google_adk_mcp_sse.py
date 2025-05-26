@@ -17,16 +17,14 @@ async def main():
     """Demonstrates the GoogleADKAgent with MCP tools via SSE transport."""
     agent_name = "GoogleADKMCPSSE"
 
-    # Create the agent with simplified instructions for weather forecasting
     agent = GoogleADKAgent(
         name=agent_name,
         instruction="You are a helpful assistant that can provide weather forecasts. For weather, specify the day in lowercase (e.g., 'monday').",
         model="gemini-2.0-flash",
-        tools=[],  # Start with no tools, will add MCP tools
+        tools=[],
         max_iterations=5,
     )
 
-    # Add the MCP server with SSE transport
     agent.add_mcp_server(mcp_config_sse)
 
     query = "What's the weather forecast for monday?"  # Uses MCP weather tool
@@ -41,6 +39,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    # GOOGLE_API_KEY should be set in the environment.
-    # Make sure the MCP SSE server is running on http://localhost:8000/sse
     asyncio.run(main())
