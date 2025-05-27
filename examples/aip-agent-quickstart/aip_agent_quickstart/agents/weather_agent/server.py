@@ -1,9 +1,7 @@
-"""Example A2A server for a LangGraphAgent Weather Service.
+"""Weather A2A server for LangGraphAgent.
 
 This server instantiates a LangGraphAgent with weather lookup capabilities and serves it
 via the A2A protocol using the to_a2a convenience method.
-
-It will listen on http://localhost:8001 by default.
 
 Authors:
     Christian Trisno Sen Long Chen (christian.t.s.l.chen@gdplabs.id)
@@ -12,30 +10,35 @@ Authors:
 import click
 import uvicorn
 from a2a.types import AgentAuthentication, AgentCapabilities, AgentCard, AgentSkill
-from langchain_openai import ChatOpenAI
-
 from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from gllm_agents.utils.logger_manager import LoggerManager
-from gllm_agents.examples.tools import weather_tool
+from langchain_openai import ChatOpenAI
+
+from weather_agent import config, weather_tool
 
 logger = LoggerManager().get_logger(__name__)
 
 
-SERVER_AGENT_NAME = "WeatherAgent"
-
-
 @click.command()
-@click.option("--host", "host", default="localhost", help="Host to bind the server to.")
-@click.option("--port", "port", default=8001, help="Port to bind the server to.")
-def main(host: str, port: int):
+@click.option(
+    "--host", "host", default=config.DEFAULT_HOST, help="Host to bind the server to."
+)
+@click.option(
+    "--port",
+    "port",
+    default=config.DEFAULT_PORT,
+    type=int,
+    help="Port to bind the server to.",
+)
+def main(host: str, port: int) -> None:
     """Runs the LangGraph Weather A2A server."""
-    logger.info(f"Starting {SERVER_AGENT_NAME} on http://{host}:{port}")
+    logger.info(f"Starting {config.SERVER_AGENT_NAME} on http://{host}:{port}")
 
     agent_card = AgentCard(
-        name=SERVER_AGENT_NAME,
-        description="A weather agent that provides weather information for cities.",
+        name=config.SERVER_AGENT_NAME,
+        description=config.AGENT_DESCRIPTION,
         url=f"http://{host}:{port}",
-        version="1.0.0",
+        version=config.AGENT_VERSION,
         defaultInputModes=["text"],
         defaultOutputModes=["text"],
         capabilities=AgentCapabilities(streaming=True),
@@ -52,12 +55,14 @@ def main(host: str, port: int):
         tags=["weather"],
     )
 
-    llm = ChatOpenAI(model="gpt-4.1", temperature=0, streaming=True)
+    llm = ChatOpenAI(
+        model=config.LLM_MODEL_NAME, temperature=config.LLM_TEMPERATURE, streaming=True
+    )
     tools = [weather_tool]
 
     langgraph_agent = LangGraphAgent(
-        name=SERVER_AGENT_NAME,
-        instruction="You are a weather agent that provides weather information for cities. Always use the weather_tool for looking up weather data. Format your responses clearly and professionally.",
+        name=config.SERVER_AGENT_NAME,
+        instruction=config.AGENT_INSTRUCTION,
         model=llm,
         tools=tools,
     )
