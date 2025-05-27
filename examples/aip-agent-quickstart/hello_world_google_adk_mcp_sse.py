@@ -21,8 +21,6 @@ async def main():
         name=agent_name,
         instruction="You are a helpful assistant that can provide weather forecasts. For weather, specify the day in lowercase (e.g., 'monday').",
         model="gemini-2.0-flash",
-        tools=[],
-        max_iterations=5,
     )
 
     agent.add_mcp_server(mcp_config_sse)
