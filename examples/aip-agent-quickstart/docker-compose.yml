@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   weather_agent:
     build:
@@ -9,3 +11,14 @@ services:
     restart: unless-stopped
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+
+  weather_mcp_server:
+    build:
+      context: ./aip_agent_quickstart/mcp_server_docker
+      dockerfile: Dockerfile
+    container_name: weather_mcp_server
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    restart: ${RESTART_POLICY:-unless-stopped}
