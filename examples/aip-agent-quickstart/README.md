@@ -176,7 +176,7 @@ poetry run python hello_world_google_adk_mcp_stdio.py
 
 Expected output:
 ```
---- Agent: GoogleADKMCPStdio ---
+--- Agent: ADK_Stdio_Weather_Agent ---
 Query: What's the weather forecast for monday?
 
 Running arun with MCP stdio tools...
@@ -213,7 +213,7 @@ poetry run python hello_world_google_adk_mcp_sse.py
 
 Expected output:
 ```
---- Agent: GoogleADKMCPSSE ---
+--- Agent: ADK_SSE_Weather_Agent ---
 Query: What's the weather forecast for monday?
 
 Running arun with MCP SSE tools...

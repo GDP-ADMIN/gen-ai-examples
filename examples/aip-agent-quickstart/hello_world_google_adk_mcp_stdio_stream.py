@@ -16,7 +16,7 @@ from aip_agent_quickstart.mcp_configs.configs import mcp_config_stdio
 
 async def main():
     """Demonstrates the GoogleADKAgent with MCP tools via stdio transport and streaming."""
-    agent_name = "GoogleADKMCPStdioStream"
+    agent_name = "ADK_Stdio_Weather_Agent"
 
     agent = GoogleADKAgent(
         name=agent_name,

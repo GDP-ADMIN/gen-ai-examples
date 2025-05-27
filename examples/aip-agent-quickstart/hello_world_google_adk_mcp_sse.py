@@ -15,7 +15,7 @@ from gllm_agents.examples.mcp_configs.configs import mcp_config_sse
 
 async def main():
     """Demonstrates the GoogleADKAgent with MCP tools via SSE transport."""
-    agent_name = "GoogleADKMCPSSE"
+    agent_name = "ADK_SSE_Weather_Agent"
 
     agent = GoogleADKAgent(
         name=agent_name,
