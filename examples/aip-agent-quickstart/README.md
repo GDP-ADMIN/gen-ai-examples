@@ -176,10 +176,13 @@ poetry run python hello_world_google_adk_mcp_stdio.py
 
 Expected output:
 ```
+--- Agent: GoogleADKMCPStdio ---
 Query: What's the weather forecast for monday?
-Processing request of type ListToolsRequest
-Processing request of type CallToolRequest
-Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
+
+Running arun with MCP stdio tools...
+
+Final Response: The weather forecast for Monday is Sunny with temperatures between 28°C and 32°C.
+--- End of Google ADK MCP Stdio Example ---
 ```
 
 ### Google ADK Agent with SSE
@@ -210,8 +213,13 @@ poetry run python hello_world_google_adk_mcp_sse.py
 
 Expected output:
 ```
+--- Agent: GoogleADKMCPSSE ---
 Query: What's the weather forecast for monday?
-Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
+
+Running arun with MCP SSE tools...
+
+Final Response: The weather forecast for Monday is sunny with temperatures between 28°C and 32°C.
+--- End of Google ADK MCP SSE Example ---
 ```
 
 ## About the Examples
