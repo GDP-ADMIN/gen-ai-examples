@@ -7,6 +7,7 @@ readme = "README.md"
 packages = [{include = "aip_agent_quickstart"}]
 
 [tool.poetry.dependencies]
+bosa-connectors = { git = "ssh://git@github.com/GDP-ADMIN/bosa.git", branch = "bosa-connectors-python-0.1.0", subdirectory = "python/bosa-connectors" }
 python = ">=3.13,<3.14"
 gllm-agents-binary = "0.2.6"
 langchain = "^0.3.0"
