@@ -86,14 +86,18 @@ Tool executed: sum_numbers(80, 5)
 
 This example demonstrates a LangGraph-based agent that uses Model Control Protocol (MCP) over stdio for communication.
 
-#### Setup
+#### Start the MCP server
 
-1. First, start the MCP server:
+Open a terminal and run the following command:
+
 ```bash
 poetry run python aip_agent_quickstart/mcp_servers/mcp_server_stdio.py
 ```
 
-2. Set your OpenAI API key:
+#### Setup
+
+Open a new terminal and run the following command:
+
 ```bash
 export OPENAI_API_KEY='your-openai-api-key-here'
 ```
@@ -116,14 +120,18 @@ Response: The weather forecast for monday is sunny with temperatures between 28Â
 
 This example demonstrates a LangGraph-based agent that uses Model Control Protocol (MCP) over Server-Sent Events (SSE) for communication.
 
-#### Setup
+#### Start the MCP server
 
-1. First, start the MCP server:
+Open a terminal and run the following command:
+
 ```bash
 poetry run python aip_agent_quickstart/mcp_servers/mcp_server_sse.py
 ```
 
-2. Set your OpenAI API key:
+#### Setup
+
+Open a new terminal and run the following command:
+
 ```bash
 export OPENAI_API_KEY='your-openai-api-key-here'
 ```
@@ -144,14 +152,18 @@ Response: The weather forecast for monday is sunny with temperatures between 28Â
 
 This example demonstrates a Google ADK-based agent that uses Model Control Protocol (MCP) over stdio for communication.
 
-#### Setup
+#### Start the MCP server
 
-1. First, start the MCP server:
+Open a terminal and run the following command:
+
 ```bash
 poetry run python aip_agent_quickstart/mcp_servers/mcp_server_stdio.py
 ```
 
-2. Set your Google API key:
+#### Setup
+
+Open a new terminal and run the following command:
+
 ```bash
 export GOOGLE_API_KEY='your-google-api-key-here'
 ```
@@ -174,14 +186,18 @@ Response: The weather forecast for monday is sunny with temperatures between 28Â
 
 This example demonstrates a Google ADK-based agent that uses Model Control Protocol (MCP) over Server-Sent Events (SSE) for communication.
 
-#### Setup
+#### Start the MCP server
 
-1. First, start the MCP server:
+Open a terminal and run the following command:
+
 ```bash
 poetry run python aip_agent_quickstart/mcp_servers/mcp_server_sse.py
 ```
 
-2. Set your Google API key:
+#### Setup
+
+Open a new terminal and run the following command:
+
 ```bash
 export GOOGLE_API_KEY='your-google-api-key-here'
 ```
