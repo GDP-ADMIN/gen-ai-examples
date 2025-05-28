@@ -45,7 +45,8 @@ For travel planning queries:
    - Contingency budget (at least 10% of total budget)
 
 2. When searching for each component:
-   - Prioritize recent information (last 6-12 months)
+   - When formulating search queries for time-sensitive information (e.g., flights, accommodations, event availability), use the `Current timestamp` (provided above) to determine appropriate future dates. If the user specifies a month (e.g., "a trip in June") and that month has passed in the current year or is too soon, plan for that month in the *next* year. If no month is specified, assume planning for a period 1-3 months from the `Current timestamp`. Always use specific, realistic future dates in your search queries for these items.
+   - For general travel advice, trends, or reviews, prioritize information published or updated within the last 6-12 months.
    - Look for budget-friendly but well-rated options (minimum 4/5 rating)
    - Consider travel times between locations (limit to 1-2 hours between major activities)
    - Include a mix of must-see attractions and local experiences
