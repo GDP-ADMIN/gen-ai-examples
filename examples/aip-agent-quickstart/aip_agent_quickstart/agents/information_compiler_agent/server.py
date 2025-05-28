@@ -8,7 +8,7 @@ To be filled by the user.
 
 import click
 import uvicorn
-from a2a.types import AgentAuthentication, AgentCapabilities, AgentCard, AgentSkill
+from a2a.types import AgentCapabilities, AgentCard, AgentSkill
 from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from gllm_agents.utils.logger_manager import LoggerManager
 from langchain_openai import ChatOpenAI
@@ -52,7 +52,6 @@ def main(host: str, port: int) -> None:
                 tags=["information_compiler_agent", "sample"],
             )
         ],
-        authentication=AgentAuthentication(schemes=["public"]),
         tags=["information_compiler_agent"],
     )
 
