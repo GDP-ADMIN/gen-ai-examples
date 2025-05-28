@@ -55,10 +55,6 @@ async def register_a2a_agents(
     Returns:
         LangGraphAgent: The updated research agent with registered A2A agents
     """
-    if not discovery_urls:
-        # Default discovery URLs including the web search agent
-        discovery_urls = ["http://localhost:8002"]  # Web search agent runs on port 8002
-
     # Configure A2A client
     client_a2a_config = A2AClientConfig(discovery_urls=discovery_urls)
 
@@ -293,8 +289,8 @@ async def demo_with_a2a(agent):
     # Register A2A agents with explicit web search agent URL
     # web_search_url = "http://localhost:8002"
     web_search_url = "https://mcp.obrol.id/b"
-    information_compiler_url = "http://localhost:8003"
-    # information_compiler_url = "https://mcp.obrol.id/c" # WIP
+    # information_compiler_url = "http://localhost:8003"
+    information_compiler_url = "https://mcp.obrol.id/c"
 
     print("Registering A2A agents...")
     await register_a2a_agents(
