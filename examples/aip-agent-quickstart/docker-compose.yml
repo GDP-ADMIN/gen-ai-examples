@@ -14,7 +14,7 @@ services:
 
   weather_mcp_server:
     build:
-      context: ./aip_agent_quickstart/mcp_server_docker
+      context: ./aip_agent_quickstart/mcp_server_docker/weather_forecast
       dockerfile: Dockerfile
     container_name: weather_mcp_server
     ports:
