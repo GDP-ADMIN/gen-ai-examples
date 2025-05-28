@@ -9,3 +9,14 @@ services:
     restart: unless-stopped
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+
+  arxiv_mcp_server:
+    build:
+      context: ./aip_agent_quickstart/mcp_servers/arxiv
+      dockerfile: Dockerfile
+    container_name: arxiv_mcp_server
+    ports:
+      - "8006:8006"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    restart: ${RESTART_POLICY:-unless-stopped}
