@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "research-agent"
+version = "0.1.0"
+description = "Research Agent Example"
+authors = ["Raymond Christopher <raymond.christopher@gdplabs.id>"]
+readme = "README.md"
+packages = [{include = "research_agent"}]
+
+[tool.poetry.dependencies]
+python = ">=3.13,<3.14"
+gllm-agents-binary = "0.2.8"
+langchain = "^0.3.0"
+langchain-core = "^0.3.0"
+langgraph = "^0.2.16"
+langchain-openai = "^0.3.17"
+
+[[tool.poetry.source]]
+name = "gen-ai"
+url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/simple/"
+priority = "explicit"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
