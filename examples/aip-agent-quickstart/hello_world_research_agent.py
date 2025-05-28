@@ -13,6 +13,8 @@ import asyncio
 import time
 from typing import Any, Dict, List, Optional, Tuple
 
+from langchain_core.messages import HumanMessage
+
 from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from gllm_agents.agent.types import A2AClientConfig
 from gllm_agents.utils.logger_manager import LoggerManager
@@ -97,7 +99,7 @@ def format_tool_call(tool_name: str, input_data: Dict[str, Any]) -> str:
         Formatted tool call string
     """
     sep = "-" * 120
-    return sep + f"\n[TOOL] {tool_name}\n" + sep + f"\mInput: {input_data}"
+    return sep + f"\n[TOOL] {tool_name}\n" + sep + f"\nInput: {input_data}"
 
 
 def format_tool_result(tool_name: str, output: Any) -> str:
@@ -154,9 +156,46 @@ async def process_events(
                 print(format_tool_result(event["name"], data.get("output", "")))
 
             elif event_type == "on_chain_end":
-                final_output = data.get("output")
-                if final_output and hasattr(final_output, "get"):
-                    final_response = final_output.get("output", "")
+                final_output = data.get("output", {})
+                final_response = None
+
+                try:
+                    # First, handle the case where final_output is a message object
+                    if hasattr(final_output, 'content'):
+                        final_response = final_output.content
+                    # Handle dictionary outputs
+                    elif isinstance(final_output, dict):
+                        # Try to get the response from common keys
+                        if 'output' in final_output:
+                            final_response = final_output['output']
+                        elif 'content' in final_output:
+                            final_response = final_output['content']
+                        elif 'text' in final_output:
+                            final_response = final_output['text']
+                        # Handle messages array if present
+                        elif 'messages' in final_output and isinstance(final_output['messages'], list) and final_output['messages']:
+                            last_msg = final_output['messages'][-1]
+                            if hasattr(last_msg, 'content'):
+                                final_response = last_msg.content
+                            elif isinstance(last_msg, dict) and 'content' in last_msg:
+                                final_response = last_msg['content']
+                            elif hasattr(last_msg, 'text'):
+                                final_response = last_msg.text
+                    # Handle list outputs
+                    elif isinstance(final_output, list) and final_output:
+                        last_item = final_output[-1]
+                        if hasattr(last_item, 'content'):
+                            final_response = last_item.content
+                        elif isinstance(last_item, dict):
+                            final_response = last_item.get('content') or last_item.get('text') or str(last_item)
+                        else:
+                            final_response = str(last_item)
+                except Exception as e:
+                    print(f"[DEBUG] Error processing output: {e}")
+                
+                # Final fallback
+                if final_response is None:
+                    final_response = str(final_output) if final_output is not None else "No response generated"
 
     except Exception as e:
         print(f"\n[ERROR] Error processing events: {e}")
@@ -185,7 +224,7 @@ async def process_query(agent: LangGraphAgent, query: str) -> str:
             agent, query
         )
 
-        # Print the final response
+        # Print the final response with better formatting
         format_section("Final Response", "-")
         print(final_response)
 
@@ -285,10 +324,10 @@ async def main():
     agent = await demo_single_agent()
 
     # Step 2: Add MCP server - run demo but don't save the agent
-    # await demo_with_mcp(agent)
+    await demo_with_mcp(agent)
 
     # Step 3: Add A2A agents (we don't need to store the agent since we're not using it further)
-    await demo_with_a2a(agent)
+    # await demo_with_a2a(agent)
 
     # Step 4: Start interactive query session
     # await interactive_query_session(agent)
