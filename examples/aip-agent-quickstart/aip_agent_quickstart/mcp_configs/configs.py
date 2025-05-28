@@ -15,7 +15,7 @@ mcp_config_stdio = {
 
 mcp_config_arxiv_sse = {
     "arxiv_tools": {
-        "url": "http://localhost:8006/sse",
+        "url": "http://localhost:8006/YWRtaW46YWRtaW4=/sse",
         "transport": "sse",
     }
 }

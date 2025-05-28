@@ -50,4 +50,4 @@ ENV ARXIV_STORAGE_PATH=/app/storage/papers
 EXPOSE 8006
 
 # Run the multi-mcp proxy directly
-CMD ["uv", "run", "main.py", "--transport", "sse", "--host", "0.0.0.0", "--port", "8006", "--config", "/app/config/mcp.json"]
+CMD ["uv", "run", "main.py", "--transport", "sse", "--host", "0.0.0.0", "--port", "8006", "--config", "/app/config/mcp.json", "--basic-auth", "admin:admin"]
