@@ -21,6 +21,7 @@ This repository contains quick start examples demonstrating different agent impl
    ```bash
    poetry install
    ```
+
 ## Running Agents
 
 ### LangGraph Agent
@@ -44,7 +45,6 @@ Expected output:
 ```
 --- Agent: LangGraphArithmeticAgent ---
 Query: What is the sum of 23 and 47? And then add 10 to that, then add 5 more.
-
 Running arun...
 [arun] Final Response: {'output': 'The sum of 23 and 47 is 70. Adding 10 to that gives 80, and adding 5 more gives a final result of 85.', 'full_final_state': {...}}
 --- End of LangGraph Example ---
@@ -71,7 +71,6 @@ Expected output:
 ```
 --- Agent: GoogleADKCalculator ---
 Query: What is the sum of 23 and 47? And then add 10 to that, then add 5 more.
-
 Running arun...
 Tool executed: sum_numbers(23, 47)
 Tool executed: sum_numbers(70, 10)
@@ -220,6 +219,42 @@ Running arun with MCP SSE tools...
 
 Final Response: The weather forecast for Monday is sunny with temperatures between 28°C and 32°C.
 --- End of Google ADK MCP SSE Example ---
+```
+
+
+### LangGraph Agent with Dockerize MCP Server
+
+This example demonstrates how to run an MCP server in a Podman container using `podman-compose`. The MCP server uses STDIO transport and will be converted to SSE transport in the Podman container using [mcp-proxy](https://github.com/sparfenyuk/mcp-proxy).
+
+#### Setup
+
+Build Podman image:
+```bash
+podman-compose --build
+```
+
+Start the MCP server using `podman-compose`:
+```bash
+podman-compose up weather_mcp_server
+```
+
+Or run in detached mode (background):
+```bash
+podman-compose up -d weather_mcp_server
+```
+
+#### Running the Example
+
+Once the MCP server service is running, execute the client:
+
+```bash
+poetry run python hello_world_langgraph_mcp_sse.py
+```
+
+Expected output:
+```
+Query: What's the weather forecast for monday?
+Response: The weather forecast for monday is sunny with temperatures between 28°C and 32°C.
 ```
 
 ## About the Examples
