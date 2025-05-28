@@ -222,6 +222,56 @@ Final Response: The weather forecast for Monday is sunny with temperatures betwe
 --- End of Google ADK MCP SSE Example ---
 ```
 
+### LangGraph Agent with Dockerize ArXiv MCP Server
+
+This example demonstrates how to run an [ArXiv MCP server](https://github.com/blazickjp/arxiv-mcp-server) in a Podman container using `podman-compose`. The ArXiv MCP server uses STDIO transport and will be converted to SSE transport in the Podman container using [mcp-proxy](https://github.com/sparfenyuk/mcp-proxy).
+
+#### Setup
+
+Build Podman image:
+```bash
+podman-compose --build arxiv_mcp_server
+```
+
+Start the MCP server:
+```bash
+podman-compose up arxiv_mcp_server
+```
+
+Or run in detached mode (background):
+```bash
+podman-compose up -d arxiv_mcp_server
+```
+
+#### Running the Example
+
+Once the MCP server service is running, execute the client:
+
+```bash
+poetry run python hello_world_arxiv_langgraph_mcp_sse.py
+```
+
+Expected output:
+```
+Query: Search for research papers about transformer large language models (LLMs) published between January 2025 and May 2025. Focus on papers that discuss Transformer architectures and improvements
+
+Response: Here are recent research papers (Jan–May 2025) related to Transformer large language models (LLMs), focusing on architecture and improvements:
+
+1. **Hard Negative Contrastive Learning for Fine-Grained Geometric Understanding in Large Multimodal Models**
+   - **Authors:** Kai Sun, Yushi Bai, Zhen Yang, Jiajie Zhang, Ji Qi, Lei Hou, Juanzi Li
+   - **Abstract:** Proposes a novel hard negative contrastive learning framework for vision encoders in large multimodal models (LMMs), enhancing geometric reasoning. The method, MMGeoLM, outperforms other open-source models and rivals GPT-4o in geometric tasks. The study also analyzes the impact of negative sample construction on LMM performance.
+   - **arXiv ID:** 2505.20152v1
+   - [Read PDF](http://arxiv.org/pdf/2505.20152v1)
+
+2. **On the (Non) Injectivity of Piecewise Linear Janossy Pooling**
+   - **Authors:** Ilai Reshef, Nadav Dym
+   - **Abstract:** Investigates multiset functions in neural networks, relevant for Transformer architectures. The paper proves that no piecewise linear Janossy pooling function can be injective, impacting the design of efficient and expressive pooling mechanisms in LLMs and graph neural networks.
+   - **arXiv ID:** 2505.20150v1
+   - [Read PDF](http://arxiv.org/pdf/2505.20150v1)
+
+While other papers in the search results focus on statistical methods, entropy estimation, or medical imaging, the two above are most relevant to Transformer LLM architectures and their improvements. If you want more details or a deeper dive into any of these papers, let me know!
+```
+
 ## About the Examples
 
 Both examples demonstrate the same arithmetic capabilities but use different agent implementations. They share a common interface and tooling structure, showing how different agent implementations can be used interchangeably in the GL AI Agents Platform.
