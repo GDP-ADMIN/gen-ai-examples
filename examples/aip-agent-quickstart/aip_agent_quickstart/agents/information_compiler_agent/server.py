@@ -42,7 +42,7 @@ def main(host: str, port: int) -> None:
     agent_card = AgentCard(
         name=config.SERVER_AGENT_NAME,
         description=config.AGENT_DESCRIPTION,
-        url=f"http://{host}:{port}",  # This should be the publicly accessible URL
+        url=config.AGENT_URL,
         version=config.AGENT_VERSION,
         defaultInputModes=["text"],  # Or other modes like "image", "audio"
         defaultOutputModes=["text"],  # Or other modes
