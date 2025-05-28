@@ -15,7 +15,11 @@ from langchain_openai import ChatOpenAI
 
 # Imports from your agent's specific logic package
 from information_compiler_agent import config
-from information_compiler_agent.tools import read_markdown_file, write_markdown_file, create_markdown_file  # Markdown tools
+from information_compiler_agent.tools import (
+    read_markdown_file,
+    write_markdown_file,
+    create_markdown_file,
+)  # Markdown tools
 
 logger = LoggerManager().get_logger(__name__)
 
@@ -52,7 +56,7 @@ def main(host: str, port: int) -> None:
                     "Read the content of my notes.md file",
                     "Create a new markdown file called project-summary.md",
                     "Add this information to my existing research.md file",
-                    "Compile this data into a structured markdown document"
+                    "Compile this data into a structured markdown document",
                 ],
                 tags=["markdown", "file-management", "information-compiler"],
             )
@@ -68,7 +72,11 @@ def main(host: str, port: int) -> None:
         # Add other necessary parameters like api_key if not set globally
     )
 
-    tools = [read_markdown_file, write_markdown_file, create_markdown_file]  # Add your agent's tools here
+    tools = [
+        read_markdown_file,
+        write_markdown_file,
+        create_markdown_file,
+    ]  # Add your agent's tools here
 
     # Instantiate your agent (e.g., LangGraphAgent or a custom one)
     langgraph_agent = LangGraphAgent(
@@ -76,6 +84,7 @@ def main(host: str, port: int) -> None:
         instruction=config.AGENT_INSTRUCTION,
         model=llm,
         tools=tools,
+        verbose=True,
     )
 
     # Convert the agent to an A2A FastAPI app
