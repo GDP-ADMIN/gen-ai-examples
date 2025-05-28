@@ -10,9 +10,9 @@ extra_configs:
 presets:
   - pipeline_preset_id: default
     supported_models:
+      - openai/gpt-4.1
       - openai/gpt-4o-mini
       - openai/gpt-4o
-      - openai/gpt-4.1
     support_multimodal: true
     use_docproc: false
 
