@@ -76,6 +76,7 @@ def main(host: str, port: int) -> None:
         instruction=config.AGENT_INSTRUCTION,
         model=llm,
         tools=tools,
+        verbose=True,
     )
 
     # Convert the agent to an A2A FastAPI app
