@@ -15,7 +15,7 @@ from langchain_openai import ChatOpenAI
 
 # Imports from your agent's specific logic package
 from information_compiler_agent import config
-from information_compiler_agent.tools import sample_tool  # Example tool
+from information_compiler_agent.tools import read_markdown_file, write_markdown_file, create_markdown_file  # Markdown tools
 
 logger = LoggerManager().get_logger(__name__)
 
@@ -47,12 +47,17 @@ def main(host: str, port: int) -> None:
             AgentSkill(
                 id="information_compiler_agent_skill",
                 name="InformationCompilerAgent Default Skill",
-                description="A sample skill for the InformationCompilerAgent.",
-                examples=["What can you do?"],  # Replace with actual examples
-                tags=["information_compiler_agent", "sample"],
+                description="Manages markdown files including reading, writing, and creating new files for information compilation.",
+                examples=[
+                    "Read the content of my notes.md file",
+                    "Create a new markdown file called project-summary.md",
+                    "Add this information to my existing research.md file",
+                    "Compile this data into a structured markdown document"
+                ],
+                tags=["markdown", "file-management", "information-compiler"],
             )
         ],
-        tags=["information_compiler_agent"],
+        tags=["information_compiler", "markdown", "file_management"],
     )
 
     # Configure your LLM (e.g., OpenAI, Anthropic, local model)
@@ -63,7 +68,7 @@ def main(host: str, port: int) -> None:
         # Add other necessary parameters like api_key if not set globally
     )
 
-    tools = [sample_tool]  # Add your agent's tools here
+    tools = [read_markdown_file, write_markdown_file, create_markdown_file]  # Add your agent's tools here
 
     # Instantiate your agent (e.g., LangGraphAgent or a custom one)
     langgraph_agent = LangGraphAgent(
