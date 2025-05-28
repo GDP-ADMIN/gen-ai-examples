@@ -32,35 +32,12 @@ async def create_research_agent() -> LangGraphAgent:
     Returns:
         LangGraphAgent: The configured research agent
     """
-    # Create the LLM
-    llm = ChatOpenAI(model="gpt-4.1", temperature=0)
-
-    # Create the Research Agent with the instruction but no tools yet
-    research_agent = LangGraphAgent(
+    return LangGraphAgent(
         name="ResearchAgent",
         instruction=RESEARCH_AGENT_INSTRUCTION,
-        model=llm,
-        tools=[],
-        verbose=True,
+        model=ChatOpenAI(model="gpt-4.1", temperature=0),
+        # verbose=True,
     )
-
-    return research_agent
-
-
-async def add_mcp_server(agent: LangGraphAgent) -> LangGraphAgent:
-    """Add MCP server configuration to the agent for accessing arXiv tools.
-
-    Args:
-        agent: The research agent
-
-    Returns:
-        LangGraphAgent: The updated research agent with MCP server access
-    """
-    # Add the arXiv MCP server configuration
-    agent.add_mcp_server(mcp_config_arxiv_sse)
-    logger.info("Added arXiv MCP server to the Research Agent")
-
-    return agent
 
 
 async def register_a2a_agents(
@@ -76,9 +53,8 @@ async def register_a2a_agents(
         LangGraphAgent: The updated research agent with registered A2A agents
     """
     if not discovery_urls:
-        # Default discovery URLs (information_compiler_agent and web_search_agent would be here)
-        # Currently these are placeholder URLs as the agents are not yet implemented
-        discovery_urls = ["http://localhost:8003", "http://localhost:8004"]
+        # Default discovery URLs including the web search agent
+        discovery_urls = ["http://localhost:8002"]  # Web search agent runs on port 8002
 
     # Configure A2A client
     client_a2a_config = A2AClientConfig(discovery_urls=discovery_urls)
@@ -93,8 +69,6 @@ async def register_a2a_agents(
     except Exception as e:
         logger.warning(f"Failed to discover A2A agents: {e}")
         logger.warning("Continuing without A2A agents...")
-
-    return agent
 
 
 async def process_query(agent: LangGraphAgent, query: str) -> str:
@@ -136,11 +110,12 @@ async def demo_single_agent():
     return agent
 
 
-async def demo_with_mcp():
+async def demo_with_mcp(agent):
     """Step 2: Add MCP server for academic research capabilities."""
     print("\n--- STEP 2: RESEARCH AGENT WITH ARXIV MCP SERVER ---")
-    agent = await create_research_agent()
-    agent = await add_mcp_server(agent)
+
+    agent.add_mcp_server(mcp_config_arxiv_sse)
+    logger.info("Added arXiv MCP server to the Research Agent")
 
     # Test with an academic query that should use arXiv tools
     await process_query(
@@ -148,24 +123,21 @@ async def demo_with_mcp():
         "Find recent papers about transformer models in natural language processing published in 2025",
     )
 
-    return agent
 
-
-async def demo_with_a2a():
-    """Step 3: Register A2A agents for travel planning capabilities."""
+async def demo_with_a2a(agent):
+    """Step 3: Register and test A2A agents including the web search agent."""
     print("\n--- STEP 3: RESEARCH AGENT WITH A2A AGENTS ---")
-    agent = await create_research_agent()
-    agent = await add_mcp_server(agent)
-    agent = await register_a2a_agents(agent)
 
-    # Note: This would use A2A agents if available, but may fall back to general capabilities
-    # if the A2A agents are not accessible
+    # Register A2A agents with explicit web search agent URL
+    web_search_url = "http://localhost:8002"
+    print(f"\nRegistering A2A agents, including web search agent at {web_search_url}")
+    await register_a2a_agents(agent, discovery_urls=[web_search_url])
+
+    # Test web search capability
+    print("\nTesting web search capability:")
     await process_query(
-        agent,
-        "Plan a 3-day trip to Bali with budget considerations",
+        agent, "Search for the latest news about artificial intelligence"
     )
-
-    return agent
 
 
 async def test_query_types(agent: LangGraphAgent):
@@ -199,16 +171,16 @@ async def main():
     print("=== RESEARCH AGENT DEMO ===")
 
     # Step 1: Define a single agent - run demo but don't save the agent
-    await demo_single_agent()
+    agent = await demo_single_agent()
 
     # Step 2: Add MCP server - run demo but don't save the agent
-    await demo_with_mcp()
+    # await demo_with_mcp(agent)
 
     # Step 3: Add A2A agents (we don't need to store the agent since we're not using it further)
-    await demo_with_a2a()
+    await demo_with_a2a(agent)
 
     # Steps 4-6: Test different query types (commented out as we're not using it)
-    # await test_query_types(agent3)
+    # await test_query_types(agent)
 
     print("\n=== DEMO COMPLETED ===")
 
