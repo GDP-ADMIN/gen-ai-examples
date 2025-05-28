@@ -12,10 +12,11 @@ from a2a.types import AgentCapabilities, AgentCard, AgentSkill
 from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from gllm_agents.utils.logger_manager import LoggerManager
 from langchain_openai import ChatOpenAI
+from langchain_community.utilities.google_serper import GoogleSerperAPIWrapper
 
 # Imports from your agent's specific logic package
 from web_search_agent import config
-from web_search_agent.tools import sample_tool  # Example tool
+from web_search_agent.tools import GoogleSerperTool
 
 logger = LoggerManager().get_logger(__name__)
 
@@ -45,11 +46,14 @@ def main(host: str, port: int) -> None:
         capabilities=AgentCapabilities(streaming=True),  # Adjust as needed
         skills=[
             AgentSkill(
-                id="web_search_agent_skill",
+                id="web_search_id_1",
                 name="WebSearchAgent Default Skill",
-                description="A sample skill for the WebSearchAgent.",
-                examples=["What can you do?"],  # Replace with actual examples
-                tags=["web_search_agent", "sample"],
+                description="This skill enables the WebSearchAgent to perform web searches using the Google Serper API. It can be used to fetch information on a wide range of topics, from general knowledge to specific domains.",
+                examples=[
+                    "What is the capital of France?",
+                    "How does machine learning work?",
+                ],  # Actual examples
+                tags=["web_search_agent", "information_retrieval"],
             )
         ],
         tags=["web_search_agent"],
@@ -60,10 +64,11 @@ def main(host: str, port: int) -> None:
         model=config.LLM_MODEL_NAME,
         temperature=config.LLM_TEMPERATURE,
         streaming=True,
-        # Add other necessary parameters like api_key if not set globally
     )
 
-    tools = [sample_tool]  # Add your agent's tools here
+    tools = [
+        GoogleSerperTool(api_wrapper=GoogleSerperAPIWrapper())
+    ]  # Add your agent's tools here
 
     # Instantiate your agent (e.g., LangGraphAgent or a custom one)
     langgraph_agent = LangGraphAgent(

@@ -20,3 +20,15 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     restart: ${RESTART_POLICY:-unless-stopped}
+
+  web_search_agent:
+    build:
+      context: ./aip_agent_quickstart/agents/web_search_agent
+      dockerfile: Dockerfile
+    container_name: web_search_agent_service
+    ports:
+      - "8002:8002"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - SERPER_API_KEY=${SERPER_API_KEY}
+    restart: ${RESTART_POLICY:-unless-stopped}

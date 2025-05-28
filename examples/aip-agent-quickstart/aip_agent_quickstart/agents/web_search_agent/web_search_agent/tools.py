@@ -1,33 +1,66 @@
-"""Tools for the WebSearchAgent Agent."""
+"""Tool to search Google Serper API.
 
-from langchain_core.tools import tool
+Authors:
+    Raymond Christopher (raymond.christopher@gdplabs.id)
+    Fachriza Adhiatma (fachriza.d.adhiatma@gdplabs.id)
+    Christian Trisno Sen Long Chen (christian.t.s.l.chen@gdplabs.id)
+"""
+
+from datetime import datetime, timezone
+import logging
+from json import dumps
+from typing import Type
+
+from langchain_community.utilities.google_serper import GoogleSerperAPIWrapper
+from langchain_core.tools import BaseTool
+from pydantic import BaseModel, Field
+
+logger = logging.getLogger(__name__)
+
+FORMAT_STRING = "%m/%d/%y %H:%M:%S"
 
 
-@tool
-def sample_tool(query: str) -> str:
-    """A sample tool that processes a query and returns a string.
+class GoogleSerperInput(BaseModel):
+    """Input schema for the GoogleSerperTool."""
 
-    This is a placeholder. Replace it with your actual agent tools.
-    For example, it could be a tool to query a database, call an API,
-    or perform a specific calculation related to web_search_agent.
+    query: str = Field(..., description="Search query")
 
-    Args:
-        query: The input string to process.
 
-    Returns:
-        A string representing the result of the tool's operation.
+class GoogleSerperTool(BaseTool):
+    """Tool to search Google Serper API."""
+
+    name: str = "google_serper"
+    description: str = """
+    Useful for searching the web using the Google Serper API.
+    Input should be a search query.
     """
-    # TODO: Implement the actual logic for this tool
-    return f"The WebSearchAgent Agent received your query: '{query}'. This is a sample tool response."
+    save_output_history: bool = Field(default=True)
+    args_schema: Type[BaseModel] = GoogleSerperInput
+    api_wrapper: GoogleSerperAPIWrapper
+
+    def _run(
+        self,
+        query: str,
+    ) -> str:
+        """Executes a query using the API wrapper and returns the result as a JSON string.
+
+        Args:
+            query (str): The query string to be executed.
+            run_manager (Optional[CallbackManagerForToolRun], optional): An optional callback manager for the tool run.
+                Defaults to None.
+
+        Returns:
+            str: The result of the query execution, serialized as a JSON string.
+        """
+        result = self.api_wrapper.results(query)
+        return dumps(result)
 
 
-# Example of another tool:
-# @tool
-# def get_user_info(user_id: int) -> dict:
-#     """Fetches user information from a database based on user_id."""
-#     # Replace with actual database query or API call
-#     if user_id == 1:
-#         return {"user_id": 1, "name": "Alice", "email": "alice@example.com"}
-#     return {"error": "User not found"}
+class TimeTool(BaseTool):
+    """Tool to get the current time."""
 
-# Add more tools as needed for your agent's capabilities.
+    name: str = "time_tool"
+    description: str = "Useful for getting the current time."
+
+    def _run(self) -> str:
+        return datetime.now(timezone.utc).strftime(FORMAT_STRING)
