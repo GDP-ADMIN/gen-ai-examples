@@ -96,25 +96,31 @@ def format_tool_call(tool_name: str, input_data: Dict[str, Any]) -> str:
     Returns:
         Formatted tool call string
     """
-    return f"\n[TOOL] {tool_name}\nInput: {input_data}"
+    sep = "-" * 120
+    return sep + f"\n[TOOL] {tool_name}\n" + sep + f"\mInput: {input_data}"
 
 
-def format_tool_result(tool_name: str, output: Any, max_length: int = 1000) -> str:
-    """Format tool result with truncation if needed.
+def format_tool_result(tool_name: str, output: Any) -> str:
+    """Format tool result with truncation if needed, prioritizing 'content' attribute.
 
     Args:
         tool_name: Name of the tool that produced the result
         output: The output from the tool
-        max_length: Maximum length of the output to display
 
     Returns:
         Formatted tool result string
     """
-    output_str = str(output)
-    truncated = output_str[:max_length]
-    if len(output_str) > max_length:
-        truncated += "..."
-    return f"[RESULT] {tool_name}\n{truncated}"
+    if hasattr(output, "content") and isinstance(getattr(output, "content"), str):
+        # If output is an object with a string 'content' attribute (e.g., ToolMessage)
+        output_str = getattr(output, "content")
+    elif isinstance(output, str):
+        output_str = output
+    else:
+        # Fallback for other types or if content is not a simple string
+        output_str = str(output)
+
+    # Using the emoji and style observed in logs for tool output display
+    return f"\n📥 Output:\n{output_str}\n"
 
 
 async def process_events(
@@ -132,7 +138,6 @@ async def process_events(
     start_time = time.time()
     tool_call_count = 0
     final_response = None
-    response_parts = []
 
     try:
         async for event in agent.agent_executor.astream_events(
@@ -147,13 +152,6 @@ async def process_events(
 
             elif event_type == "on_tool_end":
                 print(format_tool_result(event["name"], data.get("output", "")))
-
-            elif event_type == "on_chat_model_stream":
-                chunk = data.get("chunk", {})
-                if hasattr(chunk, "content"):
-                    content = chunk.content
-                    if isinstance(content, str) and content.strip():
-                        response_parts.append(content)
 
             elif event_type == "on_chain_end":
                 final_output = data.get("output")
@@ -181,8 +179,6 @@ async def process_query(agent: LangGraphAgent, query: str) -> str:
         str: The agent's response
     """
     format_section(f"Processing query: {query}")
-    print("Processing your request...")
-
     try:
         # Process events and get metrics
         final_response, tool_call_count, processing_time = await process_events(
@@ -194,11 +190,14 @@ async def process_query(agent: LangGraphAgent, query: str) -> str:
         print(final_response)
 
         # Print performance metrics
-        format_section("Performance Metrics", "=")
+        print("\n" + "=" * 120)
+        print("PERFORMANCE METRICS".center(120))
+        print("=" * 120)
         print(f"Tool calls: {tool_call_count}")
         print(f"Processing time: {processing_time:.2f} seconds")
+        print("=" * 120 + "\n")
 
-        return final_response
+        return final_response if final_response else "No response was generated."
 
     except Exception as e:
         error_msg = f"Error processing query: {str(e)}"
@@ -243,14 +242,19 @@ async def demo_with_a2a(agent):
 
     # Register A2A agents with explicit web search agent URL
     web_search_url = "http://localhost:8002"
-    # web_search_url = "https://mcp.obrol.id/b"
-    print("\nRegistering A2A agents")
-    await register_a2a_agents(agent, discovery_urls=[web_search_url])
+    information_compiler_url = "http://localhost:8003"
 
-    # Simple travel planning query - the agent will break this down
-    travel_query = "Plan a 5-day trip to Bali for two people with a $2500 budget, including flights from Singapore."
+    print("Registering A2A agents...")
+    await register_a2a_agents(
+        agent, discovery_urls=[web_search_url, information_compiler_url]
+    )
+    print("Agents registered successfully!\n")
 
-    print("\n--- Testing travel planning query ---")
+    # Test with a travel planning query that should use A2A agents
+    travel_query = (
+        "Plan a 5-day trip to Bali for two people with a $2500 budget, including flights from Singapore."
+        "Include estimated costs for each category and daily breakdown."
+    )
     await process_query(agent, travel_query)
 
 
@@ -271,8 +275,6 @@ async def interactive_query_session(agent):
             continue
         finally:
             print("\nThank you for using the Research Agent. Goodbye!")
-
-    # Interactive session continues until user types 'exit'
 
 
 async def main():
