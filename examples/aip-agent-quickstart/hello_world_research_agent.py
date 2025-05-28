@@ -10,11 +10,13 @@ Authors:
 """
 
 import asyncio
-from typing import List, Optional
+import time
+from typing import Any, Dict, List, Optional, Tuple
 
 from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from gllm_agents.agent.types import A2AClientConfig
 from gllm_agents.utils.logger_manager import LoggerManager
+from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
 
 from aip_agent_quickstart.agents.research_agent.research_agent.config import (
@@ -71,6 +73,103 @@ async def register_a2a_agents(
         logger.warning("Continuing without A2A agents...")
 
 
+def format_section(title: str, char: str = "=", width: int = 120) -> None:
+    """Print a formatted section header.
+
+    Args:
+        title: The title to display
+        char: Character to use for the separator line
+        width: Width of the separator line
+    """
+    print(f"\n{char * width}")
+    print(title.upper())
+    print(f"{char * width}")
+
+
+def format_tool_call(tool_name: str, input_data: Dict[str, Any]) -> str:
+    """Format tool call information.
+
+    Args:
+        tool_name: Name of the tool being called
+        input_data: Input parameters for the tool
+
+    Returns:
+        Formatted tool call string
+    """
+    return f"\n[TOOL] {tool_name}\nInput: {input_data}"
+
+
+def format_tool_result(tool_name: str, output: Any, max_length: int = 1000) -> str:
+    """Format tool result with truncation if needed.
+
+    Args:
+        tool_name: Name of the tool that produced the result
+        output: The output from the tool
+        max_length: Maximum length of the output to display
+
+    Returns:
+        Formatted tool result string
+    """
+    output_str = str(output)
+    truncated = output_str[:max_length]
+    if len(output_str) > max_length:
+        truncated += "..."
+    return f"[RESULT] {tool_name}\n{truncated}"
+
+
+async def process_events(
+    agent: LangGraphAgent, query: str
+) -> Tuple[Optional[str], int, float]:
+    """Process agent events and return the final response and metrics.
+
+    Args:
+        agent: The research agent
+        query: The user's query
+
+    Returns:
+        Tuple containing (final_response, tool_call_count, processing_time)
+    """
+    start_time = time.time()
+    tool_call_count = 0
+    final_response = None
+    response_parts = []
+
+    try:
+        async for event in agent.agent_executor.astream_events(
+            {"messages": [HumanMessage(content=query)]}, version="v2"
+        ):
+            event_type = event["event"]
+            data = event.get("data", {})
+
+            if event_type == "on_tool_start":
+                tool_call_count += 1
+                print(format_tool_call(event["name"], data.get("input", {})))
+
+            elif event_type == "on_tool_end":
+                print(format_tool_result(event["name"], data.get("output", "")))
+
+            elif event_type == "on_chat_model_stream":
+                chunk = data.get("chunk", {})
+                if hasattr(chunk, "content"):
+                    content = chunk.content
+                    if isinstance(content, str) and content.strip():
+                        response_parts.append(content)
+
+            elif event_type == "on_chain_end":
+                final_output = data.get("output")
+                if final_output and hasattr(final_output, "get"):
+                    final_response = final_output.get("output", "")
+
+    except Exception as e:
+        print(f"\n[ERROR] Error processing events: {e}")
+        import traceback
+
+        traceback.print_exc()
+
+    processing_time = time.time() - start_time
+    return final_response, tool_call_count, processing_time
+
+
 async def process_query(agent: LangGraphAgent, query: str) -> str:
     """Process a user query with the research agent.
 
@@ -81,18 +180,32 @@ async def process_query(agent: LangGraphAgent, query: str) -> str:
     Returns:
         str: The agent's response
     """
-    print(f"\nProcessing query: {query}")
+    format_section(f"Processing query: {query}")
+    print("Processing your request...")
 
     try:
-        # Run the agent with the query
-        response = await agent.arun(query=query)
-        result = response.get("output", "")
+        # Process events and get metrics
+        final_response, tool_call_count, processing_time = await process_events(
+            agent, query
+        )
 
-        print(f"Agent response: {result}")
-        return result
+        # Print the final response
+        format_section("Final Response", "-")
+        print(final_response)
+
+        # Print performance metrics
+        format_section("Performance Metrics", "=")
+        print(f"Tool calls: {tool_call_count}")
+        print(f"Processing time: {processing_time:.2f} seconds")
+
+        return final_response
+
     except Exception as e:
-        error_msg = f"Error processing query: {e}"
-        print(error_msg)
+        error_msg = f"Error processing query: {str(e)}"
+        print(f"\n[ERROR] {error_msg}")
+        import traceback
+
+        traceback.print_exc()
         return error_msg
 
 
@@ -130,40 +243,36 @@ async def demo_with_a2a(agent):
 
     # Register A2A agents with explicit web search agent URL
     web_search_url = "http://localhost:8002"
-    print(f"\nRegistering A2A agents, including web search agent at {web_search_url}")
+    # web_search_url = "https://mcp.obrol.id/b"
+    print("\nRegistering A2A agents")
     await register_a2a_agents(agent, discovery_urls=[web_search_url])
 
-    # Test web search capability
-    print("\nTesting web search capability:")
-    await process_query(
-        agent, "Search for the latest news about artificial intelligence"
-    )
+    # Simple travel planning query - the agent will break this down
+    travel_query = "Plan a 5-day trip to Bali for two people with a $2500 budget, including flights from Singapore."
+
+    print("\n--- Testing travel planning query ---")
+    await process_query(agent, travel_query)
 
 
-async def test_query_types(agent: LangGraphAgent):
-    """Step 4-6: Test various query types to demonstrate the agent's capabilities."""
-    print("\n--- TESTING DIFFERENT QUERY TYPES ---")
+async def interactive_query_session(agent):
+    """Start an interactive session to ask questions to the Research Agent."""
+    print("\n=== Interactive Query Session ===")
+    while True:
+        try:
+            query = input("\nYour question: ").strip()
+            print("\nProcessing your question...")
+            response = await process_query(agent, query)
+            print(f"\nResponse: {response}")
+        except KeyboardInterrupt:
+            print("\nOperation cancelled by user.")
+            break
+        except Exception as e:
+            print(f"\nAn error occurred: {str(e)}")
+            continue
+        finally:
+            print("\nThank you for using the Research Agent. Goodbye!")
 
-    # Step 4: Academic query (should use arXiv MCP tools)
-    print("\n--- STEP 4: ACADEMIC QUERY ---")
-    await process_query(
-        agent,
-        "Summarize research trends in transformer models from 2023-2025",
-    )
-
-    # Step 5: Travel query (should use A2A agents if available)
-    print("\n--- STEP 5: TRAVEL QUERY ---")
-    await process_query(
-        agent,
-        "What are popular tourist spots in Tokyo?",
-    )
-
-    # Step 6: Unsupported query (should return a message about limitations)
-    print("\n--- STEP 6: UNSUPPORTED QUERY ---")
-    await process_query(
-        agent,
-        "What's the weather forecast for Jakarta today?",
-    )
+    # Interactive session continues until user types 'exit'
 
 
 async def main():
@@ -179,8 +288,8 @@ async def main():
     # Step 3: Add A2A agents (we don't need to store the agent since we're not using it further)
     await demo_with_a2a(agent)
 
-    # Steps 4-6: Test different query types (commented out as we're not using it)
-    # await test_query_types(agent)
+    # Step 4: Start interactive query session
+    # await interactive_query_session(agent)
 
     print("\n=== DEMO COMPLETED ===")
 
