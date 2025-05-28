@@ -10,6 +10,17 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
 
+  information_compiler_agent:
+    build:
+      context: ./aip_agent_quickstart/agents/information_compiler_agent
+      dockerfile: Dockerfile
+    container_name: information_compiler_agent_service
+    ports:
+      - "8003:8003"
+    restart: unless-stopped
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+
   arxiv_mcp_server:
     build:
       context: ./aip_agent_quickstart/mcp_servers/arxiv
