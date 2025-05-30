@@ -496,24 +496,14 @@ typing = ["typing-extensions (>=4.12.2) ; python_version < \"3.11\""]
 
 [[package]]
 name = "gllm-agents-binary"
-version = "0.2.11"
+version = "0.2.13"
 description = "A library for managing agents in Gen AI applications."
 optional = false
 python-versions = "<3.14,>=3.11"
 groups = ["main"]
 files = [
-    {file = "gllm_agents_binary-0.2.11-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:0a2db8901eaefa5cfd68bd67d45c7de6844e4653fa81210140acd6623e9dbd2e"},
-    {file = "gllm_agents_binary-0.2.11-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:3c9c266969bc28ee4ee31c8eb5d2f04b6a6006a20a15e6d6be0ab5a05c35dd84"},
-    {file = "gllm_agents_binary-0.2.11-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:2b65dd85976ca6eedfb1ab4927a72891a9049fc97d3fbdec948af69987eea970"},
-    {file = "gllm_agents_binary-0.2.11-cp311-cp311-win_amd64.whl", hash = "sha256:e14feb55bac71e9a1b9b57e79b6a3febdd051f609dd679593e7383556cb2b871"},
-    {file = "gllm_agents_binary-0.2.11-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:7d7cd7111a06e3493beb8d6515bac68213388ee02b85162773d119f5bd1a924b"},
-    {file = "gllm_agents_binary-0.2.11-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:2c7581d9aaa73f87c4b08d08d256a67a3505e4bee7b64e7c4714ef676afef2c5"},
-    {file = "gllm_agents_binary-0.2.11-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:3f16d47a7713e2db5365f0d13c5199073da4cd50039b7cf5a513188da5b315ba"},
-    {file = "gllm_agents_binary-0.2.11-cp312-cp312-win_amd64.whl", hash = "sha256:4151e77c4648624f7e074f6da8fb24316caf45b02b739bd1bf52e9e8f0791d78"},
-    {file = "gllm_agents_binary-0.2.11-cp313-cp313-macosx_13_0_x86_64.whl", hash = "sha256:84f1740a64133bef8d94c84f0e3fe285440fd2d7c2d7fe6b64929e5688162025"},
-    {file = "gllm_agents_binary-0.2.11-cp313-cp313-macosx_14_0_arm64.whl", hash = "sha256:4fe9cd1ee7c300e777862e6a1f810708d7f0dc3171823c1ad7632502e6956335"},
-    {file = "gllm_agents_binary-0.2.11-cp313-cp313-manylinux_2_31_x86_64.whl", hash = "sha256:ef03f08750f68ae5d356de41764b659ab3f181da78364fa93cba297b150bca66"},
-    {file = "gllm_agents_binary-0.2.11-cp313-cp313-win_amd64.whl", hash = "sha256:924c0564e7282b8fc289c7efa21676c440dbe12a6a75edc1de5a230e5fca4655"},
+    {file = "gllm_agents_binary-0.2.13-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:d45f78da719ad5e6b34c33041f80bdcc1754feb2bc78704481c07fd12a2a9a00"},
+    {file = "gllm_agents_binary-0.2.13-cp313-cp313-manylinux_2_31_x86_64.whl", hash = "sha256:2dfe3287eaa524c5f12c6970bbc557189d7070558af38a3664225c911dae11c9"},
 ]
 
 [package.dependencies]
@@ -1631,6 +1621,18 @@ uvicorn = ">=0.23.1"
 cli = ["python-dotenv (>=1.0.0)", "typer (>=0.12.4)"]
 rich = ["rich (>=13.9.4)"]
 ws = ["websockets (>=15.0.1)"]
+
+[[package]]
+name = "nest-asyncio"
+version = "1.6.0"
+description = "Patch asyncio to allow nested event loops"
+optional = false
+python-versions = ">=3.5"
+groups = ["main"]
+files = [
+    {file = "nest_asyncio-1.6.0-py3-none-any.whl", hash = "sha256:87af6efd6b5e897c81050477ef65c62e2b2f35d51703cae01aff2905b1852e1c"},
+    {file = "nest_asyncio-1.6.0.tar.gz", hash = "sha256:6f172d5449aca15afd6c646851f4e31e02c598d553a667e38cafa997cfec55fe"},
+]
 
 [[package]]
 name = "nodeenv"
@@ -3262,4 +3264,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<3.14"
-content-hash = "ae3a797c8f685ad5e299317984efeda5d71473d60d07665256882134b621bee1"
+content-hash = "2733551d43fffef1583a0bc0c141b605df5df166be8c6b9919707698c983d079"
