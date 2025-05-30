@@ -10,7 +10,7 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
-      - framework=${WEATHER_AGENT_TYPE:-langgraph}
+      - framework=${framework:-langgraph}
 
   weather_mcp_server:
     build:
