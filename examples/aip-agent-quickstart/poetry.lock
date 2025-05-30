@@ -496,24 +496,24 @@ typing = ["typing-extensions (>=4.12.2) ; python_version < \"3.11\""]
 
 [[package]]
 name = "gllm-agents-binary"
-version = "0.2.10"
+version = "0.2.11"
 description = "A library for managing agents in Gen AI applications."
 optional = false
 python-versions = "<3.14,>=3.11"
 groups = ["main"]
 files = [
-    {file = "gllm_agents_binary-0.2.10-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:502a8c0bab53d894a0d2c9454649f576e2609c6c11633c18a2d9d4b6e45fc901"},
-    {file = "gllm_agents_binary-0.2.10-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:a2105c906bb6a52fd32f966a62c956f70af96b7e79b2e8c1cddaa2d64b640387"},
-    {file = "gllm_agents_binary-0.2.10-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:4708bd5844b272a49e73917cb16b2fed4db14ee07c01bb6f9b1e529d21faa28e"},
-    {file = "gllm_agents_binary-0.2.10-cp311-cp311-win_amd64.whl", hash = "sha256:f9eef3b50e85e5ae8abc81a28905d254cd2cc7f548e2633c4128025662f2be0b"},
-    {file = "gllm_agents_binary-0.2.10-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:e0b5f56cefe0e43806bef82d8e49a2e61347443125fbfd72cd249573af46cb9a"},
-    {file = "gllm_agents_binary-0.2.10-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:d14a56e3c0b1760a99d23c7e61808cf6d4a06450d98e29f1bf725a7499911a18"},
-    {file = "gllm_agents_binary-0.2.10-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:20c0ca3d6b7969da3a390e5b5267ee3bac9e557037fafc1244455b3f85ac60ab"},
-    {file = "gllm_agents_binary-0.2.10-cp312-cp312-win_amd64.whl", hash = "sha256:7ce31e7c6872dd12c8cf8cce4d4ec7c9026068fecb62ec829fa17cea090fdcfa"},
-    {file = "gllm_agents_binary-0.2.10-cp313-cp313-macosx_13_0_x86_64.whl", hash = "sha256:7c7c43fe0b721f1448267a5357ee2d1db1af81eac5a30a9bc2c06417120772b1"},
-    {file = "gllm_agents_binary-0.2.10-cp313-cp313-macosx_14_0_arm64.whl", hash = "sha256:e88b2d111cb69e109f6918f940873b9eb472ce8f5737bb8ccbc1f57e25d1ad44"},
-    {file = "gllm_agents_binary-0.2.10-cp313-cp313-manylinux_2_31_x86_64.whl", hash = "sha256:9f49de26218a93b67a9cf7676697e03a48bd731466a968a0334f0626bae4626b"},
-    {file = "gllm_agents_binary-0.2.10-cp313-cp313-win_amd64.whl", hash = "sha256:f014abfc79d8f1b739e77c78c49b001e7f482c62ac501e6283097df66c8b9357"},
+    {file = "gllm_agents_binary-0.2.11-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:0a2db8901eaefa5cfd68bd67d45c7de6844e4653fa81210140acd6623e9dbd2e"},
+    {file = "gllm_agents_binary-0.2.11-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:3c9c266969bc28ee4ee31c8eb5d2f04b6a6006a20a15e6d6be0ab5a05c35dd84"},
+    {file = "gllm_agents_binary-0.2.11-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:2b65dd85976ca6eedfb1ab4927a72891a9049fc97d3fbdec948af69987eea970"},
+    {file = "gllm_agents_binary-0.2.11-cp311-cp311-win_amd64.whl", hash = "sha256:e14feb55bac71e9a1b9b57e79b6a3febdd051f609dd679593e7383556cb2b871"},
+    {file = "gllm_agents_binary-0.2.11-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:7d7cd7111a06e3493beb8d6515bac68213388ee02b85162773d119f5bd1a924b"},
+    {file = "gllm_agents_binary-0.2.11-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:2c7581d9aaa73f87c4b08d08d256a67a3505e4bee7b64e7c4714ef676afef2c5"},
+    {file = "gllm_agents_binary-0.2.11-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:3f16d47a7713e2db5365f0d13c5199073da4cd50039b7cf5a513188da5b315ba"},
+    {file = "gllm_agents_binary-0.2.11-cp312-cp312-win_amd64.whl", hash = "sha256:4151e77c4648624f7e074f6da8fb24316caf45b02b739bd1bf52e9e8f0791d78"},
+    {file = "gllm_agents_binary-0.2.11-cp313-cp313-macosx_13_0_x86_64.whl", hash = "sha256:84f1740a64133bef8d94c84f0e3fe285440fd2d7c2d7fe6b64929e5688162025"},
+    {file = "gllm_agents_binary-0.2.11-cp313-cp313-macosx_14_0_arm64.whl", hash = "sha256:4fe9cd1ee7c300e777862e6a1f810708d7f0dc3171823c1ad7632502e6956335"},
+    {file = "gllm_agents_binary-0.2.11-cp313-cp313-manylinux_2_31_x86_64.whl", hash = "sha256:ef03f08750f68ae5d356de41764b659ab3f181da78364fa93cba297b150bca66"},
+    {file = "gllm_agents_binary-0.2.11-cp313-cp313-win_amd64.whl", hash = "sha256:924c0564e7282b8fc289c7efa21676c440dbe12a6a75edc1de5a230e5fca4655"},
 ]
 
 [package.dependencies]
@@ -3262,4 +3262,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<3.14"
-content-hash = "d6f01687845b49f2f3dffafdb01a0cf8229a4378b93ff2e46945ca8965096bb1"
+content-hash = "ae3a797c8f685ad5e299317984efeda5d71473d60d07665256882134b621bee1"
