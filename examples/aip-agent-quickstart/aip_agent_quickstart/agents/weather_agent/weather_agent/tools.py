@@ -12,22 +12,7 @@ from gllm_agents.utils.logger_manager import LoggerManager
 logger = LoggerManager().get_logger(__name__)
 
 
-class WeatherToolInputSchema(BaseModel):
-    """Schema for weather tool input."""
-
-    city: str
-
-
-@tool(args_schema=WeatherToolInputSchema)
-def weather_tool(city: str) -> str:
-    """Gets the weather for a specified city.
-
-    Args:
-        city: The name of the city to get weather for.
-
-    Returns:
-        A string describing the weather conditions.
-    """
+def _weather_tool(city: str) -> str:
     weather_data = {
         "Jakarta": "32°C, Partly cloudy with high humidity",
         "Singapore": "30°C, Scattered thunderstorms",
@@ -47,3 +32,34 @@ def weather_tool(city: str) -> str:
         message = f"Weather data not available for {city}"
         logger.warning(message)
         return message
+
+
+class WeatherToolInputSchema(BaseModel):
+    """Schema for weather tool input."""
+
+    city: str
+
+
+@tool(args_schema=WeatherToolInputSchema)
+def langchain_weather_tool(city: str) -> str:
+    """Gets the weather for a specified city.
+
+    Args:
+        city: The name of the city to get weather for.
+
+    Returns:
+        A string describing the weather conditions.
+    """
+    return _weather_tool(city)
+
+
+def google_adk_weather_tool(city: str) -> str:
+    """Gets the weather for a specified city.
+
+    Args:
+        city: The name of the city to get weather for.
+
+    Returns:
+        A string describing the weather conditions.
+    """
+    return _weather_tool(city)

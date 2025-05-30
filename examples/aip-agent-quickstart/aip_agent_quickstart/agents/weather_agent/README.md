@@ -10,8 +10,8 @@ This agent provides weather information for cities using a mock weather database
 
 ```
 weather_agent/
-├── Dockerfile             # Docker configuration for containerization
-├── docker-compose.yml     # Docker Compose configuration
+├── Dockerfile             # Podman configuration for containerization
+├── docker-compose.yml     # Podman Compose configuration
 ├── weather_agent/         # Actual agent code
 │   ├── __init__.py
 │   ├── config.py
@@ -32,28 +32,28 @@ python -m aip_agent_quickstart.agents.weather_agent.server --host localhost --po
 
 The agent will be available at http://localhost:8001.
 
-### Running with Docker
+### Running with Podman
 
-There are two ways to run the agent with Docker:
+There are two ways to run the agent with Podman:
 
-#### 1. Using Docker Compose (Recommended for Production)
+#### 1. Using Podman Compose (Recommended for Production)
 
 ```bash
 # From the weather_agent directory
 # Create a .env file with your OpenAI API key
 echo "OPENAI_API_KEY=your_key_here" > .env
 # Start the container
-docker-compose up -d
+podman-compose up -d
 ```
 
-#### 2. Using Docker directly
+#### 2. Using Podman directly
 
 ```bash
 # From the project root
 # Build the image
-docker build -f examples/aip-agent-quickstart/aip_agent_quickstart/agents/weather_agent/Dockerfile -t weather-agent .
+podman build -f examples/aip-agent-quickstart/aip_agent_quickstart/agents/weather_agent/Dockerfile -t weather-agent .
 # Run the container
-docker run -d -p 8001:8001 -e OPENAI_API_KEY=your_key_here weather-agent
+podman run -d -p 8001:8001 -e OPENAI_API_KEY=your_key_here weather-agent
 ```
 
 ## Technical Details

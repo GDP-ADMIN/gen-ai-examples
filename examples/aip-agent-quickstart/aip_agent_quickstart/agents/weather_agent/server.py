@@ -7,16 +7,34 @@ Authors:
     Christian Trisno Sen Long Chen (christian.t.s.l.chen@gdplabs.id)
 """
 
+import importlib
+import os
+
 import click
 import uvicorn
-from a2a.types import AgentAuthentication, AgentCapabilities, AgentCard, AgentSkill
-from gllm_agents.agent.langgraph_agent import LangGraphAgent
+from a2a.types import AgentCapabilities, AgentCard, AgentSkill
 from gllm_agents.utils.logger_manager import LoggerManager
-from langchain_openai import ChatOpenAI
-
-from weather_agent import config, weather_tool
+from weather_agent import config
 
 logger = LoggerManager().get_logger(__name__)
+
+
+def load_agent(agent_type: str):
+    """Dynamically load the agent based on type.
+
+    Args:
+        agent_type (str): Type of agent to load ('langgraph' or 'google_adk')
+
+    Returns:
+        The loaded agent instance
+    """
+    module_name = f"{agent_type}_agent"
+    try:
+        agent_module = importlib.import_module(module_name)
+        return getattr(agent_module, f"{agent_type}_agent")
+    except (ImportError, AttributeError) as e:
+        logger.error(f"Failed to load agent type {agent_type}: {str(e)}")
+        raise click.BadParameter(f"Invalid agent type: {agent_type}")
 
 
 @click.command()
@@ -30,14 +48,24 @@ logger = LoggerManager().get_logger(__name__)
     type=int,
     help="Port to bind the server to.",
 )
-def main(host: str, port: int) -> None:
-    """Runs the LangGraph Weather A2A server."""
-    logger.info(f"Starting {config.SERVER_AGENT_NAME} on http://{host}:{port}")
+@click.option(
+    "--agent-type",
+    "agent_type",
+    default=os.environ.get("framework", "langgraph"),
+    type=click.Choice(["langgraph", "google_adk"]),
+    help="Type of agent to use. Defaults to framework env var, then 'langgraph'.",
+    show_default=True,
+)
+def main(host: str, port: int, agent_type: str) -> None:
+    """Runs the Weather A2A server with selected agent type."""
+    logger.info(
+        f"Starting {config.SERVER_AGENT_NAME} on http://{host}:{port} with {agent_type} agent"
+    )
 
     agent_card = AgentCard(
         name=config.SERVER_AGENT_NAME,
         description=config.AGENT_DESCRIPTION,
-        url=f"http://{host}:{port}",
+        url=config.AGENT_URL,
         version=config.AGENT_VERSION,
         defaultInputModes=["text"],
         defaultOutputModes=["text"],
@@ -51,27 +79,19 @@ def main(host: str, port: int) -> None:
                 tags=["weather"],
             )
         ],
-        authentication=AgentAuthentication(schemes=["public"]),
         tags=["weather"],
     )
 
-    llm = ChatOpenAI(
-        model=config.LLM_MODEL_NAME, temperature=config.LLM_TEMPERATURE, streaming=True
-    )
-    tools = [weather_tool]
+    # Load the appropriate agent dynamically
+    agent = load_agent(agent_type)
 
-    langgraph_agent = LangGraphAgent(
-        name=config.SERVER_AGENT_NAME,
-        instruction=config.AGENT_INSTRUCTION,
-        model=llm,
-        tools=tools,
-    )
-
-    app = langgraph_agent.to_a2a(
+    app = agent.to_a2a(
         agent_card=agent_card,
     )
 
-    logger.info("A2A application configured. Starting Uvicorn server...")
+    logger.info(
+        f"A2A application configured with {agent_type} agent. Starting Uvicorn server..."
+    )
     uvicorn.run(app, host=host, port=port)
 
 

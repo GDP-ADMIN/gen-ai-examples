@@ -8,7 +8,7 @@ Authors:
 
 # Server configuration
 SERVER_AGENT_NAME = "WeatherAgent"
-DEFAULT_HOST = "localhost"
+DEFAULT_HOST = "0.0.0.0"
 DEFAULT_PORT = 8001
 
 # Agent configuration
@@ -19,6 +19,7 @@ AGENT_INSTRUCTION = (
     "Always use the weather_tool for looking up weather data. "
     "Format your responses clearly and professionally."
 )
+AGENT_URL = "http://localhost:8001"
 
 # LLM configuration
 LLM_MODEL_NAME = "gpt-4.1"

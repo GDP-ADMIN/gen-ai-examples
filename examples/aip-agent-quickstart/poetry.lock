@@ -5,7 +5,7 @@ name = "a2a-sdk"
 version = "0.2.5"
 description = "A2A Python SDK"
 optional = false
-python-versions = ">=3.13"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
     {file = "a2a_sdk-0.2.5-py3-none-any.whl", hash = "sha256:00962245941937964074ae9dfa3aad05f2e156a20501d6bfaadb9cce096279c5"},
@@ -3262,4 +3262,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<3.14"
-content-hash = "e0d049bbaea2cbcbefc8349144c85989bfbdead759e3e0605780fe2e89072c21"
+content-hash = "d6f01687845b49f2f3dffafdb01a0cf8229a4378b93ff2e46945ca8965096bb1"
