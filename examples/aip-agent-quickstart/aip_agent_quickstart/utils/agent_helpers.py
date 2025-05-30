@@ -7,7 +7,7 @@ from langchain_core.messages import HumanMessage
 
 
 def print_response(response: Union[str, Any]) -> None:
-    """Print the response in a standardized format.
+    """Print the response in a visually appealing format with colors and formatting.
 
     Args:
         response: The response to print, can be string or any other type
@@ -15,38 +15,123 @@ def print_response(response: Union[str, Any]) -> None:
     if not isinstance(response, str):
         response = str(response)
 
-    print("\n" + "=" * 120)
-    print("RESPONSE".center(120))
-    print("=" * 120)
-    print(response.strip())
-    print("=" * 120 + "\n")
+    # ANSI color codes
+    BLUE = "\033[94m"
+    CYAN = "\033[96m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    BOLD = "\033[1m"
+    END = "\033[0m"
+
+    # Format the response
+    lines = response.strip().split("\n")
+    formatted_lines = []
+
+    for line in lines:
+        # Format section headers (lines that end with a colon)
+        if line.strip().endswith(":"):
+            formatted_lines.append(f"\n{YELLOW}{BOLD}{line.upper()}{END}")
+        # Format list items
+        elif line.strip().startswith(("- ", "* ", "• ")):
+            formatted_lines.append(f"{GREEN}•{END} {line[2:].strip()}")
+        # Format code blocks
+        elif line.strip().startswith("```"):
+            formatted_lines.append(f"{BLUE}{line}{END}")
+        # Format URLs
+        elif "http" in line:
+            formatted_lines.append(f"{CYAN}{line}{END}")
+        else:
+            formatted_lines.append(line)
+
+    # Join the formatted lines
+    formatted_response = "\n".join(formatted_lines)
+
+    # Print the response with a nice border
+    width = min(120, 120)  # Max width for readability
+    border = f"{BLUE}{'=' * width}{END}"
+
+    print(f"\n{border}")
+    print(f"{GREEN}{BOLD}{' 🤖 AGENT RESPONSE '.center(width, ' ')}{END}")
+    print(f"{border}")
+    print(formatted_response)
+    print(f"{border}\n")
 
 
 def format_section(title: str, char: str = "=", width: int = 120) -> None:
-    """Print a formatted section header.
+    """Print a formatted section header with colors and styling.
 
     Args:
         title: The title to display
-        char: Character to use for the separator line
+        char: Character to use for the separator line (ignored, kept for backward compatibility)
         width: Width of the separator line
     """
-    print(f"\n{char * width}")
-    print(title.upper())
-    print(f"{char * width}")
+    # ANSI color codes
+    BLUE = "\033[94m"
+    CYAN = "\033[96m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    BOLD = "\033[1m"
+    END = "\033[0m"
+
+    # Define section styles based on title
+    if "error" in title.lower():
+        color = "\033[91m"  # Red for errors
+        icon = "❌"
+    elif "warning" in title.lower():
+        color = YELLOW
+        icon = "⚠️ "
+    elif "success" in title.lower():
+        color = GREEN
+        icon = "✅ "
+    else:
+        color = CYAN
+        icon = "📌 "
+
+    # Create the formatted section
+    border = f"{BLUE}{'━' * width}{END}"
+    title_text = f"{BOLD}{color}{icon}{title.upper()}{END}"
+
+    print(f"\n{border}")
+    print(title_text)
+    print(border)
 
 
 def format_tool_call(tool_name: str, input_data: Dict[str, Any]) -> str:
-    """Format tool call information.
+    """Format tool call information with colors and styling.
 
     Args:
         tool_name: Name of the tool being called
         input_data: Input parameters for the tool
 
     Returns:
-        Formatted tool call string
+        Formatted tool call string with colors and styling
     """
-    sep = "-" * 120
-    return sep + f"\n[TOOL] {tool_name}\n" + sep + f"\nInput: {input_data}"
+    # ANSI color codes
+    BLUE = "\033[94m"
+    CYAN = "\033[96m"
+    YELLOW = "\033[93m"
+    BOLD = "\033[1m"
+    END = "\033[0m"
+
+    # Format the input data as pretty-printed JSON
+    import json
+
+    formatted_input = json.dumps(input_data, indent=2) if input_data else "No input"
+
+    # Create the formatted output
+    width = 120
+    border = f"{BLUE}{'━' * width}{END}"
+    tool_header = f"{BOLD}🛠️  TOOL CALL: {YELLOW}{tool_name}{END}"
+
+    formatted = [
+        f"\n{border}",
+        tool_header,
+        f"{BLUE}┃{END}",
+        f"{CYAN}{formatted_input}{END}",
+        border,
+    ]
+
+    return "\n".join(formatted)
 
 
 def format_tool_result(tool_name: str, output: Any) -> str:
