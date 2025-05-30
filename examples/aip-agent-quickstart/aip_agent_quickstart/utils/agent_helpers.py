@@ -320,6 +320,7 @@ async def process_events(
 
             if response_chunks:
                 final_response = "".join(response_chunks)
+            tool_call_count = 1
         else:
             # A2A mode - use agent_executor.astream_events
             async for event in agent.agent_executor.astream_events(
