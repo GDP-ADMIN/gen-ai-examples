@@ -41,7 +41,7 @@ def main():
     logger.info(f"Processing Query: {query}")
 
     response = assistant_agent.send_to_agent(agent_cards[0], query)
-    logger.info(f"Raw response: \n\n{json.dumps(response, indent=4)}Q")
+    logger.info(f"Raw response: \n\n{json.dumps(response, indent=4)}")
     logger.info(f"Agent Response: {response['content']}")
 
 
