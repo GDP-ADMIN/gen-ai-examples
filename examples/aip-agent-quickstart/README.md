@@ -50,6 +50,34 @@ Running arun...
 --- End of LangGraph Example ---
 ```
 
+### LangGraph Agent with BOSA
+
+This example demonstrates a LangGraph-based agent that can perform Twitter user details retrieval using BOSA.
+
+#### Setup
+
+Set your BOSA API key:
+```bash
+export BOSA_API_BASE_URL="your-bosa-api-base-url-here"
+export BOSA_API_KEY='your-bosa-api-key-here'
+```
+
+#### Running the Example
+
+```bash
+poetry run python hello_world_langgraph_bosa_twitter.py
+```
+
+Expected output:
+```
+--- Agent: LangGraphBosaTwitterAgent ---
+Query: Get me user details for Twitter user @elonmusk
+
+Running arun...
+[arun] Final Response: {'output': 'Here are the details for the Twitter user @elonmusk:\n\n- Name: Elon Musk\n- Username: elonmusk\n- User ID: 44196397\n\nIf you need more specific information or recent tweets, let me know!', 'full_final_state': {...}}
+--- End of LangGraph Example ---
+```
+
 ### Google ADK Agent
 
 This example demonstrates a Google ADK-based agent that can perform arithmetic operations using Google's AI models.
