@@ -16,7 +16,7 @@ from langchain_openai import ChatOpenAI
 
 from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from gllm_agents.examples.tools.langchain_arithmetic_tools import add_numbers
-from gllm_agents.examples.tools.weather_tool import weather_tool
+from gllm_agents.examples.tools.langchain_weather_tool import weather_tool
 
 
 async def main():
