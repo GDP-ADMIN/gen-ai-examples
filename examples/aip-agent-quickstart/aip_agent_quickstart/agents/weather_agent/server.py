@@ -52,7 +52,7 @@ def load_agent(agent_type: str):
     "--agent-type",
     "agent_type",
     default=os.environ.get("framework", "langgraph"),
-    type=click.Choice(["langgraph", "google_adk"]),
+    type=click.Choice(["langgraph", "google_adk", "langchain"]),
     help="Type of agent to use. Defaults to framework env var, then 'langgraph'.",
     show_default=True,
 )
