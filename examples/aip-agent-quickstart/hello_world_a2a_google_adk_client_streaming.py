@@ -35,7 +35,7 @@ async def main():
 
     # Discover agents
     client_a2a_config = A2AClientConfig(
-        discovery_urls=["http://localhost:8004"],
+        discovery_urls=["http://localhost:8001"],
     )
     agent_cards = assistant_agent.discover_agents(client_a2a_config)
 

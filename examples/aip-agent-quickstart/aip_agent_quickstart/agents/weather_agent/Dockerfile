@@ -44,5 +44,5 @@ USER ${APP_USER}
 
 EXPOSE 8001
 
-# Run the weather agent server
+# server.py now handles agent type selection based on RUNTIME_AGENT_SELECTION env var or CLI args.
 CMD ["poetry", "run", "python", "-m", "server"]
