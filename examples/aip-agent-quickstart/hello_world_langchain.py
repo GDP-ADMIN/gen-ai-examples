@@ -5,7 +5,7 @@ import asyncio
 from langchain_openai import ChatOpenAI
 
 from gllm_agents.agent.langchain_agent import LangChainAgent
-from gllm_agents.examples.tools.langchain_arithmetic_tools import add_numbers
+from aip_agent_quickstart.tools.langchain_arithmetic_tools import add_numbers
 
 
 async def langchain_example():
