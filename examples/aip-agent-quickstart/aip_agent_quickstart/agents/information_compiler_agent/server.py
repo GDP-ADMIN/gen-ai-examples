@@ -3,7 +3,9 @@
 This server instantiates a LangGraphAgent with information_compiler_agent capabilities and serves it
 via the A2A protocol using the to_a2a convenience method.
 
-To be filled by the user.
+Authors:
+    Christian Trisno Sen Long Chen (christian.t.s.l.chen@gdplabs.id)
+    Fachriza Dian Adhiatma (fachriza.d.adhiatma@gdplabs.id)
 """
 
 import click
