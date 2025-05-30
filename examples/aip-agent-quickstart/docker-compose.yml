@@ -20,6 +20,8 @@ services:
     restart: unless-stopped
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+    networks:
+      - default
 
   arxiv_mcp_server:
     build:
@@ -31,6 +33,30 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     restart: ${RESTART_POLICY:-unless-stopped}
+    networks:
+      - default
+
+  # research_agent:
+  #   build:
+  #     context: ./aip_agent_quickstart/agents/research_agent
+  #     dockerfile: Dockerfile
+  #   container_name: research_agent_service
+  #   ports:
+  #     - "8004:8004"
+  #   environment:
+  #     - OPENAI_API_KEY=${OPENAI_API_KEY}
+  #     - SERPER_API_KEY=${SERPER_API_KEY}
+  #     - PORT=8004
+  #     - WEB_SEARCH_AGENT_URL=http://web_search_agent_service:8002
+  #     - INFORMATION_COMPILER_AGENT_URL=http://information_compiler_agent_service:8003
+  #   restart: ${RESTART_POLICY:-unless-stopped}
+  #   depends_on:
+  #     web_search_agent:
+  #       condition: service_healthy
+  #     information_compiler_agent:
+  #       condition: service_healthy
+  #   networks:
+  #     - default
 
   web_search_agent:
     build:
@@ -43,6 +69,8 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - SERPER_API_KEY=${SERPER_API_KEY}
     restart: ${RESTART_POLICY:-unless-stopped}
+    networks:
+      - default
 
 networks:
   default:
