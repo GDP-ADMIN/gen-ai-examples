@@ -1,4 +1,8 @@
-"""Defines a Twitter user tool that can be used to get the user details for a specified Twitter user."""
+"""Defines a Twitter user tool that can be used to get the user details for a specified Twitter user.
+
+Authors:
+    Saul Sayers (saul.sayers@gdplabs.id)
+"""
 
 import logging
 import os

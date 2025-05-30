@@ -1,4 +1,8 @@
-"""Minimal LangGraph agent with bosa support example demonstrating asynchronous run."""
+"""Minimal LangGraph agent with bosa support example demonstrating asynchronous run.
+
+Authors:
+    Saul Sayers (saul.sayers@gdplabs.id)
+"""
 
 import asyncio
 from langchain_openai import ChatOpenAI
