@@ -101,7 +101,8 @@ async def demo_with_mcp(agent):
     # Test with an academic query that should use arXiv tools
     response = await process_query(
         agent,
-        "Find recent papers about transformer models in natural language processing published in 2023-2024",
+        "Search for research papers about transformer large language models (LLMs) published between January 2025 and May 2025. Focus on papers that discuss Transformer architectures and improvements",
+        use_mcp=True,
     )
 
     print_response(response)
@@ -120,13 +121,6 @@ async def demo_with_a2a(agent):
         agent, discovery_urls=[web_search_url, information_compiler_url]
     )
     print("Agents registered successfully!")
-
-    # Test with a query that should use A2A agents
-    response = await process_query(
-        agent,
-        "What are the latest developments in AI as of 2024?",
-    )
-    print_response(response)
 
     # Test with a travel planning query
     travel_query = (

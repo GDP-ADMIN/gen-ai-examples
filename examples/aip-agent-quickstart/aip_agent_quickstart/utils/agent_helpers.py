@@ -1,7 +1,8 @@
 """Helper functions for agent operations."""
 
+import sys
 import time
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Optional, Tuple, Union
 
 from langchain_core.messages import HumanMessage
 
@@ -96,7 +97,7 @@ def format_section(title: str, char: str = "=", width: int = 120) -> None:
     print(border)
 
 
-def format_tool_call(tool_name: str, input_data: Dict[str, Any]) -> str:
+def format_tool_call(tool_name: str, input_data: Any) -> str:
     """Format tool call information with colors and styling.
 
     Args:
@@ -115,20 +116,39 @@ def format_tool_call(tool_name: str, input_data: Dict[str, Any]) -> str:
 
     # Format the input data as pretty-printed JSON
     import json
+    from datetime import datetime
 
-    formatted_input = json.dumps(input_data, indent=2) if input_data else "No input"
+    try:
+        if isinstance(input_data, (dict, list)):
+            formatted_input = json.dumps(input_data, indent=2, ensure_ascii=False)
+        else:
+            formatted_input = str(input_data)
+    except (TypeError, ValueError):
+        formatted_input = str(input_data)
+
+    # Truncate long inputs for better readability
+    max_length = 500
+    if len(formatted_input) > max_length:
+        formatted_input = formatted_input[:max_length] + "... [truncated]"
+
+    # Get current timestamp
+    timestamp = datetime.now().strftime("%H:%M:%S")
 
     # Create the formatted output
-    width = 120
-    border = f"{BLUE}{'━' * width}{END}"
-    tool_header = f"{BOLD}🛠️  TOOL CALL: {YELLOW}{tool_name}{END}"
+    width = 80
+    border = f"{BLUE}╭{'─' * (width-2)}╮{END}"
+    tool_header = f"{BOLD}🛠️  [{BLUE}{timestamp}{END}] {YELLOW}{tool_name.upper()}{END}"
 
+    # Format the input lines
+    input_lines = [f"{BLUE}│ {CYAN}{line}{END}" for line in formatted_input.split("\n")]
+
+    # Build the formatted output
     formatted = [
         f"\n{border}",
-        tool_header,
-        f"{BLUE}┃{END}",
-        f"{CYAN}{formatted_input}{END}",
-        border,
+        f"{BLUE}│ {tool_header.ljust(width-3)}{BLUE}│{END}",
+        f"{BLUE}├{'─' * (width-2)}┤{END}",
+        *input_lines,
+        f"{BLUE}╰{'─' * (width-2)}╯{END}",
     ]
 
     return "\n".join(formatted)
@@ -144,111 +164,212 @@ def format_tool_result(tool_name: str, output: Any) -> str:
     Returns:
         Formatted tool result string
     """
+    # ANSI color codes
+    GREEN = "\033[92m"
+    CYAN = "\033[96m"
+    YELLOW = "\033[93m"
+    BLUE = "\033[94m"
+    BOLD = "\033[1m"
+    END = "\033[0m"
+
+    from datetime import datetime
+
+    # Extract content from different output formats
     if hasattr(output, "content") and isinstance(getattr(output, "content"), str):
         # If output is an object with a string 'content' attribute (e.g., ToolMessage)
         output_str = getattr(output, "content")
     elif isinstance(output, str):
         output_str = output
+    elif isinstance(output, dict):
+        # Handle MCP tool output format
+        if "tool_output" in output:
+            output_str = output["tool_output"]
+        else:
+            # Try to extract content from common keys
+            output_str = output.get("content") or output.get("result") or str(output)
     else:
-        # Fallback for other types or if content is not a simple string
         output_str = str(output)
 
-    # Using the emoji and style observed in logs for tool output display
-    return f"\n📥 Output:\n{output_str}\n"
+    # Truncate long outputs
+    max_length = 5000
+    if len(output_str) > max_length:
+        output_str = output_str[:max_length] + "\n... [truncated]"
+
+    # Get current timestamp
+    timestamp = datetime.now().strftime("%H:%M:%S")
+
+    # Create the formatted output
+    width = 80
+    border = f"{GREEN}╭{'─' * (width-2)}╮{END}"
+    result_header = f"{BOLD}✅  [{BLUE}{timestamp}{END}] RESULT FROM: {YELLOW}{tool_name.upper()}{END}"
+
+    # Format the output lines
+    output_lines = [f"{GREEN}│ {CYAN}{line}{END}" for line in output_str.split("\n")]
+
+    # Build the formatted output
+    formatted = [
+        f"\n{border}",
+        f"{GREEN}│ {result_header.ljust(width-3)}{GREEN}│{END}",
+        f"{GREEN}├{'─' * (width-2)}┤{END}",
+        *output_lines,
+        f"{GREEN}╰{'─' * (width-2)}╯{END}",
+    ]
+
+    return "\n".join(formatted)
 
 
-async def process_events(agent, query: str) -> Tuple[Optional[str], int, float]:
+def extract_final_response(output: Any) -> Optional[str]:
+    """Extract the final response from various output formats.
+
+    Args:
+        output: The output from the agent
+
+    Returns:
+        The extracted response as a string, or None if not found
+    """
+    if output is None:
+        return None
+
+    if hasattr(output, "content"):
+        return output.content
+
+    if isinstance(output, dict):
+        if "output" in output:
+            return output["output"]
+        if "content" in output:
+            return output["content"]
+        if "text" in output:
+            return output["text"]
+        if (
+            "messages" in output
+            and isinstance(output["messages"], list)
+            and output["messages"]
+        ):
+            last_msg = output["messages"][-1]
+            if hasattr(last_msg, "content"):
+                return last_msg.content
+            if isinstance(last_msg, dict) and "content" in last_msg:
+                return last_msg["content"]
+            if hasattr(last_msg, "text"):
+                return last_msg.text
+
+    if isinstance(output, list) and output:
+        last_item = output[-1]
+        if hasattr(last_item, "content"):
+            return last_item.content
+        if isinstance(last_item, dict):
+            return last_item.get("content") or last_item.get("text")
+
+    return str(output)
+
+
+async def process_events(
+    agent, query: str, use_mcp: bool = False
+) -> Tuple[Optional[str], int, float]:
     """Process agent events and return the final response and metrics.
 
     Args:
         agent: The research agent
         query: The user's query
+        use_mcp: Whether to use MCP mode (True) or A2A mode (False)
 
     Returns:
         Tuple containing (final_response, tool_call_count, processing_time)
     """
     start_time = time.time()
     tool_call_count = 0
+    response_chunks = []
     final_response = None
 
     try:
-        async for event in agent.agent_executor.astream_events(
-            {"messages": [HumanMessage(content=query)]}, version="v2"
-        ):
-            event_type = event["event"]
-            data = event.get("data", {})
+        if use_mcp:
+            # MCP mode - use arun_stream
+            tool_calls = set()  # Track unique tool calls
 
-            if event_type == "on_tool_start":
-                tool_call_count += 1
-                print(format_tool_call(event["name"], data.get("input", {})))
+            async for chunk in agent.arun_stream(query=query):
+                if isinstance(chunk, dict):
+                    # Handle tool calls - MCP uses 'tool' and 'input' keys
+                    if "tool" in chunk and chunk["tool"]:
+                        tool_name = chunk.get("tool", "unknown")
+                        tool_input = chunk.get("input", {}) or chunk.get(
+                            "tool_input", {}
+                        )
 
-            elif event_type == "on_tool_end":
-                print(format_tool_result(event["name"], data.get("output", "")))
+                        # Only count unique tool calls
+                        tool_call_id = f"{tool_name}-{str(tool_input)}"
+                        if tool_call_id not in tool_calls:
+                            tool_calls.add(tool_call_id)
+                            tool_call_count += 1
+                            print(format_tool_call(tool_name, tool_input))
 
-            elif event_type == "on_chain_end":
-                final_output = data.get("output", {})
-                final_response = None
-
-                try:
-                    # First, handle the case where final_output is a message object
-                    if hasattr(final_output, "content"):
-                        final_response = final_output.content
-                    # Handle dictionary outputs
-                    elif isinstance(final_output, dict):
-                        # Try to get the response from common keys
-                        if "output" in final_output:
-                            final_response = final_output["output"]
-                        elif "content" in final_output:
-                            final_response = final_output["content"]
-                        elif "text" in final_output:
-                            final_response = final_output["text"]
-                        # Handle messages array if present
-                        elif (
-                            "messages" in final_output
-                            and isinstance(final_output["messages"], list)
-                            and final_output["messages"]
-                        ):
-                            last_msg = final_output["messages"][-1]
-                            if hasattr(last_msg, "content"):
-                                final_response = last_msg.content
-                            elif isinstance(last_msg, dict) and "content" in last_msg:
-                                final_response = last_msg["content"]
-                            elif hasattr(last_msg, "text"):
-                                final_response = last_msg.text
-                    # Handle list outputs
-                    elif isinstance(final_output, list) and final_output:
-                        last_item = final_output[-1]
-                        if hasattr(last_item, "content"):
-                            final_response = last_item.content
-                        elif isinstance(last_item, dict):
-                            final_response = (
-                                last_item.get("content")
-                                or last_item.get("text")
-                                or str(last_item)
+                    # Handle tool results
+                    if "tool_output" in chunk and chunk["tool_output"]:
+                        print(
+                            format_tool_result(
+                                "MCP Tool Result", chunk.get("tool_output", {})
                             )
-                        else:
-                            final_response = str(last_item)
-                except Exception as e:
-                    print(f"[DEBUG] Error processing output: {e}")
+                        )
 
-                # Final fallback
-                if final_response is None:
-                    final_response = str(final_output)
+                    # Handle content
+                    if "content" in chunk and chunk["content"]:
+                        content = chunk["content"]
+                        if isinstance(content, str) and content.strip():
+                            response_chunks.append(content)
+                elif isinstance(chunk, str) and chunk.strip():
+                    response_chunks.append(chunk)
 
-        processing_time = time.time() - start_time
-        return final_response, tool_call_count, processing_time
+            if response_chunks:
+                final_response = "".join(response_chunks)
+        else:
+            # A2A mode - use agent_executor.astream_events
+            async for event in agent.agent_executor.astream_events(
+                {"messages": [HumanMessage(content=query)]}, version="v2"
+            ):
+                event_type = event["event"]
+                data = event.get("data", {})
+
+                if event_type == "on_tool_start":
+                    tool_call_count += 1
+                    print(
+                        format_tool_call(
+                            event.get("name", "unknown"), data.get("input", {})
+                        )
+                    )
+
+                elif event_type == "on_tool_end":
+                    print(
+                        format_tool_result(
+                            event.get("name", "unknown"), data.get("output", "")
+                        )
+                    )
+
+                elif event_type == "on_chain_end":
+                    final_output = data.get("output", {})
+                    final_response = extract_final_response(final_output)
+
+                # Handle any additional events if needed
+                # ...
+
+        # If we have response chunks but no final response, join them
+        if not final_response and response_chunks:
+            final_response = "".join(response_chunks)
 
     except Exception as e:
-        processing_time = time.time() - start_time
-        return str(e), tool_call_count, processing_time
+        error_msg = f"Error processing query: {str(e)}"
+        print(f"Error in process_events: {e}", file=sys.stderr)
+        return error_msg, tool_call_count, time.time() - start_time
+
+    processing_time = time.time() - start_time
+    return final_response, tool_call_count, processing_time
 
 
-async def process_query(agent, query: str) -> str:
+async def process_query(agent, query: str, use_mcp: bool = False) -> str:
     """Process a user query with the research agent.
 
     Args:
         agent: The research agent
         query: The user's query
+        use_mcp: Whether to use MCP mode (True) or A2A mode (False)
 
     Returns:
         str: The agent's response
@@ -258,7 +379,7 @@ async def process_query(agent, query: str) -> str:
     print(f"{'=' * 120}")
 
     final_response, tool_call_count, processing_time = await process_events(
-        agent, query
+        agent, query, use_mcp=use_mcp
     )
 
     # Print performance metrics
