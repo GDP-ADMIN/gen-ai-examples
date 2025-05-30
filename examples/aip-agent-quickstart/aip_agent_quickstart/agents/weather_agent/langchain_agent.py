@@ -25,7 +25,7 @@ tools = [langchain_weather_tool]
 langchain_agent = LangChainAgent(
     name=config.SERVER_AGENT_NAME,
     instruction=config.AGENT_INSTRUCTION,
-    model=llm,
+    llm=llm,
     tools=tools,
 )
 logger.info(f"LangChain Agent with name {config.SERVER_AGENT_NAME} created")
