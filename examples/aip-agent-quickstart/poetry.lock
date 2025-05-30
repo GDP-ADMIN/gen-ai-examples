@@ -2,14 +2,14 @@
 
 [[package]]
 name = "a2a-sdk"
-version = "0.2.1a1"
+version = "0.2.5"
 description = "A2A Python SDK"
 optional = false
-python-versions = ">=3.13"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "a2a_sdk-0.2.1a1-py3-none-any.whl", hash = "sha256:570a5d82ae6b5d38e6a768e75e81e415f091ac417860a15ae3a470db34d5aaca"},
-    {file = "a2a_sdk-0.2.1a1.tar.gz", hash = "sha256:92d081f4194575bc70e1a2de19807056591a8a528db07c4d53aab5d9402a5134"},
+    {file = "a2a_sdk-0.2.5-py3-none-any.whl", hash = "sha256:00962245941937964074ae9dfa3aad05f2e156a20501d6bfaadb9cce096279c5"},
+    {file = "a2a_sdk-0.2.5.tar.gz", hash = "sha256:d2bc0842ef9dda8bb127b1d07e0b4e3678127cb517cf1e9d46cbc40de944c2ac"},
 ]
 
 [package.dependencies]
@@ -20,7 +20,6 @@ opentelemetry-sdk = ">=1.33.0"
 pydantic = ">=2.11.3"
 sse-starlette = ">=2.3.3"
 starlette = ">=0.46.2"
-typing-extensions = ">=4.13.2"
 
 [[package]]
 name = "annotated-types"
@@ -469,20 +468,28 @@ typing = ["typing-extensions (>=4.12.2) ; python_version < \"3.11\""]
 
 [[package]]
 name = "gllm-agents-binary"
-version = "0.2.6"
+version = "0.2.10"
 description = "A library for managing agents in Gen AI applications."
 optional = false
-python-versions = "<3.14,>=3.13"
+python-versions = "<3.14,>=3.11"
 groups = ["main"]
 files = [
-    {file = "gllm_agents_binary-0.2.6-cp313-cp313-macosx_13_0_x86_64.whl", hash = "sha256:ea3e596defbdb9edc4227c2962d0cb673862cdeba48c7c53e3b85856270bab94"},
-    {file = "gllm_agents_binary-0.2.6-cp313-cp313-macosx_14_0_arm64.whl", hash = "sha256:27cc7b99e9f5350594d71f42abac6c3b5b6fca2874cee8bc1ccd64b95b1e74a2"},
-    {file = "gllm_agents_binary-0.2.6-cp313-cp313-manylinux_2_31_x86_64.whl", hash = "sha256:5bf789d1ec4492d37c7092779b7f7d583ac4915c23b9bf082874884886def548"},
-    {file = "gllm_agents_binary-0.2.6-cp313-cp313-win_amd64.whl", hash = "sha256:e8e0c9e7ee021d0eb9c6c3d1e959703897c78c2991c4b23429429f7a4829a7a8"},
+    {file = "gllm_agents_binary-0.2.10-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:502a8c0bab53d894a0d2c9454649f576e2609c6c11633c18a2d9d4b6e45fc901"},
+    {file = "gllm_agents_binary-0.2.10-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:a2105c906bb6a52fd32f966a62c956f70af96b7e79b2e8c1cddaa2d64b640387"},
+    {file = "gllm_agents_binary-0.2.10-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:4708bd5844b272a49e73917cb16b2fed4db14ee07c01bb6f9b1e529d21faa28e"},
+    {file = "gllm_agents_binary-0.2.10-cp311-cp311-win_amd64.whl", hash = "sha256:f9eef3b50e85e5ae8abc81a28905d254cd2cc7f548e2633c4128025662f2be0b"},
+    {file = "gllm_agents_binary-0.2.10-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:e0b5f56cefe0e43806bef82d8e49a2e61347443125fbfd72cd249573af46cb9a"},
+    {file = "gllm_agents_binary-0.2.10-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:d14a56e3c0b1760a99d23c7e61808cf6d4a06450d98e29f1bf725a7499911a18"},
+    {file = "gllm_agents_binary-0.2.10-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:20c0ca3d6b7969da3a390e5b5267ee3bac9e557037fafc1244455b3f85ac60ab"},
+    {file = "gllm_agents_binary-0.2.10-cp312-cp312-win_amd64.whl", hash = "sha256:7ce31e7c6872dd12c8cf8cce4d4ec7c9026068fecb62ec829fa17cea090fdcfa"},
+    {file = "gllm_agents_binary-0.2.10-cp313-cp313-macosx_13_0_x86_64.whl", hash = "sha256:7c7c43fe0b721f1448267a5357ee2d1db1af81eac5a30a9bc2c06417120772b1"},
+    {file = "gllm_agents_binary-0.2.10-cp313-cp313-macosx_14_0_arm64.whl", hash = "sha256:e88b2d111cb69e109f6918f940873b9eb472ce8f5737bb8ccbc1f57e25d1ad44"},
+    {file = "gllm_agents_binary-0.2.10-cp313-cp313-manylinux_2_31_x86_64.whl", hash = "sha256:9f49de26218a93b67a9cf7676697e03a48bd731466a968a0334f0626bae4626b"},
+    {file = "gllm_agents_binary-0.2.10-cp313-cp313-win_amd64.whl", hash = "sha256:f014abfc79d8f1b739e77c78c49b001e7f482c62ac501e6283097df66c8b9357"},
 ]
 
 [package.dependencies]
-a2a-sdk = "0.2.1a1"
+a2a-sdk = ">=0.2.4,<0.3"
 colorama = ">=0.4.6,<0.5.0"
 google-adk = ">=0.5.0,<0.6.0"
 langchain = ">=0.3.0,<0.4.0"
@@ -3215,4 +3222,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<3.14"
-content-hash = "cc2a6285b43628f40b1c93e0245ac0b4855e8b1fa620e094069083b9b7efb416"
+content-hash = "d6f01687845b49f2f3dffafdb01a0cf8229a4378b93ff2e46945ca8965096bb1"

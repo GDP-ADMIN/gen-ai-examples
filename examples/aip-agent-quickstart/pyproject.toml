@@ -8,7 +8,8 @@ packages = [{include = "aip_agent_quickstart"}]
 
 [tool.poetry.dependencies]
 python = ">=3.13,<3.14"
-gllm-agents-binary = "0.2.6"
+gllm-agents-binary = "0.2.10"
+
 langchain = "^0.3.0"
 langchain-core = "^0.3.0"
 langgraph = "^0.2.16"
