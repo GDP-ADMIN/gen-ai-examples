@@ -7,7 +7,7 @@ from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from aip_agent_quickstart.tools.twitter_bosa_tool import twitter_get_user_tool
 
 
-async def langgraph_bosa_example():
+async def main():
     """Demonstrates the LangGraphAgent's arun method."""
     model = ChatOpenAI(model="gpt-4.1", temperature=0)
     tools = [twitter_get_user_tool]
@@ -35,4 +35,4 @@ async def langgraph_bosa_example():
 
 if __name__ == "__main__":
     # OPENAI_API_KEY should be set in the environment.
-    asyncio.run(langgraph_bosa_example())
+    asyncio.run(main())
