@@ -20,3 +20,14 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     restart: ${RESTART_POLICY:-unless-stopped}
+
+  weather_adk_agent:
+    build:
+      context: ./aip_agent_quickstart/agents/weather_adk_agent
+      dockerfile: Dockerfile
+    container_name: weather_adk_agent_service
+    ports:
+      - "8004:8004"
+    restart: unless-stopped
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}

@@ -42,7 +42,7 @@ RUN chown -R ${APP_USER}:${APP_USER} ${APP_HOME} && \
     chown -R ${APP_USER}:${APP_USER} ${POETRY_CACHE_DIR}
 USER ${APP_USER}
 
-EXPOSE 8001
+EXPOSE 8004
 
 # Run the weather agent server
 CMD ["poetry", "run", "python", "-m", "server"]

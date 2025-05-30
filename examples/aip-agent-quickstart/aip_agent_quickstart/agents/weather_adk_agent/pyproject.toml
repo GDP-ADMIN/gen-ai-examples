@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "weather-agent"
+version = "0.1.0"
+description = "Weather Agent Example"
+authors = ["Raymond Christopher <raymond.christopher@gdplabs.id>", "Fachriza Adhiatma <fachriza.d.adhiatma@gdplabs.id>", "Christian Trisno Sen Long Chen <christian.t.s.l.chen@gdplabs.id>"]
+readme = "README.md"
+packages = [{include = "weather_agent"}]
+
+[tool.poetry.dependencies]
+python = ">=3.13,<3.14"
+gllm-agents-binary = "0.2.10"
+langchain = "^0.3.0"
+langchain-core = "^0.3.0"
+langgraph = "^0.2.16"
+
+[[tool.poetry.source]]
+name = "gen-ai"
+url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/simple/"
+priority = "explicit"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

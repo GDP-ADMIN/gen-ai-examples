@@ -7,9 +7,10 @@ Authors:
 """
 
 # Server configuration
-SERVER_AGENT_NAME = "WeatherAgent"
+SERVER_AGENT_NAME = "WeatherADKAgent"
 DEFAULT_HOST = "0.0.0.0"
-DEFAULT_PORT = 8001
+DEFAULT_PORT = 8004
+
 
 # Agent configuration
 AGENT_DESCRIPTION = "A weather agent that provides weather information for cities."
@@ -19,6 +20,7 @@ AGENT_INSTRUCTION = (
     "Always use the weather_tool for looking up weather data. "
     "Format your responses clearly and professionally."
 )
+AGENT_URL = "http://0.0.0.0:8004"
 
 # LLM configuration
 LLM_MODEL_NAME = "gpt-4.1"
