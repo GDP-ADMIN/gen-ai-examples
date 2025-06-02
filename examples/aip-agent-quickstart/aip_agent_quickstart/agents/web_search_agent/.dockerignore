@@ -1,0 +1,47 @@
+.DS_Store
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.venv
+
+# Poetry
+.poetry/
+poetry.lock # Usually committed, but can be excluded in some Docker strategies
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Secrets - ensure these are not checked into Git either!
+*.pem
+*.key
+secrets/
+.secrets
+
+# Log files
+*.log
+logs/
+
+# OS generated files
+Thumbs.db
+Desktop.ini
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
