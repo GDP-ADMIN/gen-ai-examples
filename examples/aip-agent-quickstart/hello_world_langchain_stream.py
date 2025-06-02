@@ -26,8 +26,7 @@ async def main():
 
     query = "What is the sum of 23 and 47? And then add 10 to that, then add 5 more."
     async for chunk in agent.arun_stream(query=query):
-        if isinstance(chunk, str):
-            print(chunk, end="", flush=True)
+        print(chunk if isinstance(chunk, str) else "", end="", flush=True)
 
 
 if __name__ == "__main__":
