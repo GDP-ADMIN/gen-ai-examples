@@ -2,14 +2,13 @@
 
 Authors:
     Putu Ravindra Wiguna (putu.r.wiguna@gdplabs.id)
-
 """
 
 import asyncio
 
+from gllm_agents.agent.langchain_agent import LangChainAgent
 from langchain_openai import ChatOpenAI
 
-from gllm_agents.agent.langchain_agent import LangChainAgent
 from aip_agent_quickstart.tools.langchain_arithmetic_tools import add_numbers
 
 

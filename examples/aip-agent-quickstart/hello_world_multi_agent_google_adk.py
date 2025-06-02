@@ -3,20 +3,12 @@
 This example demonstrates a coordinator agent that can delegate tasks to specialized agents.
 """
 
-import asyncio
-import nest_asyncio
-
 from gllm_agents.agent.google_adk_agent import GoogleADKAgent
-from gllm_agents.examples.tools.adk_arithmetic_tools import sum_numbers
-from gllm_agents.examples.tools.adk_weather_tool import get_weather
 
-# Apply nest_asyncio to allow nested event loops
-nest_asyncio.apply()
+from aip_agent_quickstart.tools.adk_arithmetic_tools import sum_numbers
+from aip_agent_quickstart.tools.adk_weather_tool import get_weather
 
-
-async def multi_agent_example():
-    """Demonstrates multi-agent coordination with GoogleADKAgent."""
-    # Create specialized agents
+if __name__ == "__main__":
     weather_agent = GoogleADKAgent(
         name="WeatherAgent",
         instruction=(
@@ -57,18 +49,10 @@ async def multi_agent_example():
         max_iterations=3,
     )
 
-    # Test weather query
     weather_query = "What is the weather in Tokyo?"
-    print(f"\n--- Running query 1: {weather_query} ---")
-    weather_response = await coordinator_agent.arun(query=weather_query)
-    print(f"Weather Response: {weather_response.get('output')}")
+    weather_response = coordinator_agent.run(query=weather_query)
 
-    # Test math query
     math_query = "What is 5 + 7?"
-    print(f"\n--- Running query 2: {math_query} ---")
-    math_response = await coordinator_agent.arun(query=math_query)
-    print(f"Math Response: {math_response.get('output')}")
+    math_response = coordinator_agent.run(query=math_query)
 
-
-if __name__ == "__main__":
-    asyncio.run(multi_agent_example())
+    print(f"Weather Response: {weather_response.get('output')}\nMath Response: {math_response.get('output')}")

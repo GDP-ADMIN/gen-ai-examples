@@ -10,19 +10,15 @@ Authors:
     Raymond Christopher (raymond.christopher@gdplabs.id)
 """
 
-import asyncio
-
+from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from langchain_openai import ChatOpenAI
 
-from gllm_agents.agent.langgraph_agent import LangGraphAgent
-from gllm_agents.examples.tools.langchain_arithmetic_tools import add_numbers
-from gllm_agents.examples.tools.langchain_weather_tool import weather_tool
+from aip_agent_quickstart.tools.langchain_arithmetic_tools import add_numbers
+from aip_agent_quickstart.tools.langchain_weather_tool import weather_tool
 
-
-async def main():
+if __name__ == "__main__":
     llm = ChatOpenAI(model="gpt-4.1", temperature=0)
 
-    # --- Agent Definitions (tools and sub_agents inlined) ---
     weather_agent = LangGraphAgent(
         name="WeatherAgent",
         instruction="You are a weather expert. You must use the get_weather tool to find weather information.",
@@ -34,7 +30,8 @@ async def main():
         name="MathAgent",
         instruction=(
             "You are a math expert. You must use the 'add_numbers' tool to perform addition. "
-            "The tool takes two integer arguments: 'a' and 'b'. For example, to add 5 and 7, you would call add_numbers(a=5, b=7)."
+            "The tool takes two integer arguments: 'a' and 'b'. For example, to add 5 and 7, "
+            "you would call add_numbers(a=5, b=7)."
         ),
         model=llm,
         tools=[add_numbers],
@@ -51,13 +48,6 @@ async def main():
         agents=[weather_agent, math_agent],
     )
 
-    print("--- Agents Initialized ---")
-
     query = "What is the weather in Tokyo and what is 5 + 7?"
-    print(f"\n--- Running query: {query} ---")
-    response = await coordinator_agent.arun(query=query)
-    print(f"Response: {response.get('output')}")
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
+    response = coordinator_agent.run(query=query)
+    print(response.get("output"))
