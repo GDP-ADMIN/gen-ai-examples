@@ -21,25 +21,13 @@ async def main():
     langgraph_agent.add_mcp_server(mcp_config_sse)
 
     query = "What's the weather forecast for monday?"  # Uses MCP weather tool
-
     stream_thread_id = "langgraph_mcp_stream_example"
 
-    print(f"\nQuery: {query}")
-    print("Streaming response:")
-
-    full_response = ""
     async for chunk in langgraph_agent.arun_stream(
         query=query, configurable={"configurable": {"thread_id": stream_thread_id}}
     ):
         if isinstance(chunk, str):
             print(chunk, end="", flush=True)
-            full_response += chunk
-        elif isinstance(chunk, dict) and "messages" in chunk:
-            print("\n(Stream finished with final state object)")
-        elif isinstance(chunk, dict):
-            pass
-
-    print(f"\nFull response collected: {full_response}")
 
 
 if __name__ == "__main__":

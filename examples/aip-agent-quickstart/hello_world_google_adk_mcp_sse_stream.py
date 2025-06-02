@@ -15,29 +15,16 @@ from gllm_agents.examples.mcp_configs.configs import mcp_config_sse
 
 
 async def main():
-    """Demonstrates the GoogleADKAgent with MCP tools via SSE transport and streaming."""
-    agent_name = "ADK_SSE_Weather_Agent_Stream"
-
     agent = GoogleADKAgent(
-        name=agent_name,
+        name="ADK_SSE_Weather_Agent_Stream",
         instruction="You are a helpful assistant that can provide weather forecasts. For weather, specify the day in lowercase (e.g., 'monday'). Explain your steps clearly for streaming demonstration.",
         model="gemini-2.0-flash",
     )
-
     agent.add_mcp_server(mcp_config_sse)
 
     query = "What's the weather forecast for monday?"  # Uses MCP weather tool
-
-    print(f"--- Agent: {agent_name} ---")
-    print(f"Query: {query}")
-
-    print("\nRunning arun_stream with MCP SSE tools...")
-    print("Streaming response:")
-
     async for chunk in agent.arun_stream(query=query):
         print(chunk, end="", flush=True)
-
-    print("\n--- End of Google ADK MCP SSE Streaming Example ---")
 
 
 if __name__ == "__main__":

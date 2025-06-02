@@ -13,29 +13,13 @@ import asyncio
 from gllm_agents.agent.google_adk_agent import GoogleADKAgent
 from aip_agent_quickstart.mcp_configs.configs import mcp_config_stdio
 
+agent = GoogleADKAgent(
+    name="ADK_Stdio_Weather_Agent_Stream",
+    instruction="You are a helpful assistant that can provide weather forecasts. For weather, specify the day in lowercase (e.g., 'monday').",
+    model="gemini-2.0-flash",
+)
+agent.add_mcp_server(mcp_config_stdio)
 
-async def main():
-    """Demonstrates the GoogleADKAgent with MCP tools via stdio transport."""
-    agent_name = "ADK_Stdio_Weather_Agent_Stream"
-
-    agent = GoogleADKAgent(
-        name=agent_name,
-        instruction="You are a helpful assistant that can provide weather forecasts. For weather, specify the day in lowercase (e.g., 'monday').",
-        model="gemini-2.0-flash",
-    )
-
-    agent.add_mcp_server(mcp_config_stdio)
-
-    query = "What's the weather forecast for monday?"  # Uses MCP weather tool
-
-    print(f"--- Agent: {agent_name} ---")
-    print(f"Query: {query}")
-
-    print("\nRunning arun with MCP stdio tools...")
-    response = await agent.arun(query=query)
-    print(f"Final Response: {response.get('output')}")
-    print("--- End of Google ADK MCP Stdio Example ---")
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
+query = "What's the weather forecast for monday?"  # Uses MCP weather tool
+response = asyncio.run(agent.arun(query=query))
+print(f"Response: {response.get('output')}")
