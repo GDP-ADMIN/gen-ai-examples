@@ -10,7 +10,7 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
-      - AGENT_URL=${AGENT_URL:-http://localhost:8001}
+      - AGENT_URL=${WEATHER_AGENT_URL:-http://localhost:8001}
       - framework=${framework:-langgraph}
 
   weather_mcp_server:
@@ -34,7 +34,7 @@ services:
     restart: unless-stopped
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - AGENT_URL=${AGENT_URL:-http://localhost:8003}
+      - AGENT_URL=${INFORMATION_COMPILER_AGENT_URL:-http://localhost:8003}
   arxiv_mcp_server:
     build:
       context: ./aip_agent_quickstart/mcp_servers/arxiv
@@ -56,7 +56,7 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - SERPER_API_KEY=${SERPER_API_KEY}
-      - AGENT_URL=${AGENT_URL:-http://localhost:8002}
+      - AGENT_URL=${WEB_SEARCH_AGENT_URL:-http://localhost:8002}
     restart: ${RESTART_POLICY:-unless-stopped}
 
 networks:
