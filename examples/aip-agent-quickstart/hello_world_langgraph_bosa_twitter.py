@@ -18,6 +18,5 @@ if __name__ == "__main__":
         tools=[twitter_get_user_tool],
     )
 
-    query = "Get me user details for Twitter user @elonmusk"
-    response = langgraph_agent.run(query=query)
+    response = langgraph_agent.run(query="Get me user details for Twitter user @elonmusk")
     print(response["output"])

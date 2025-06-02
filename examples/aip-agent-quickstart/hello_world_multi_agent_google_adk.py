@@ -48,10 +48,7 @@ if __name__ == "__main__":
         max_iterations=3,
     )
 
-    weather_query = "What is the weather in Tokyo?"
-    weather_response = coordinator_agent.run(query=weather_query)
-
-    math_query = "What is 5 + 7?"
-    math_response = coordinator_agent.run(query=math_query)
+    weather_response = coordinator_agent.run(query="What is the weather in Tokyo?")
+    math_response = coordinator_agent.run(query="What is 5 + 7?")
 
     print(f"Weather Response: {weather_response.get('output')}\nMath Response: {math_response.get('output')}")

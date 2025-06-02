@@ -23,6 +23,5 @@ if __name__ == "__main__":
         max_iterations=5,
     )
 
-    query = "What is the sum of 23 and 47? And then add 10 to that, then add 5 more."
-    response = agent.run(query=query)
+    response = agent.run(query="What is the sum of 23 and 47? And then add 10 to that, then add 5 more.")
     print(response.get("output"))

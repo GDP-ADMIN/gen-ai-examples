@@ -46,6 +46,5 @@ if __name__ == "__main__":
         agents=[weather_agent, math_agent],
     )
 
-    query = "What is the weather in Tokyo and what is 5 + 7?"
-    response = coordinator_agent.run(query=query)
+    response = coordinator_agent.run(query="What is the weather in Tokyo and what is 5 + 7?")
     print(response.get("output"))

@@ -14,7 +14,7 @@ from langchain_openai import ChatOpenAI
 
 async def main():
     """Main function demonstrating the General Assistant agent with streaming A2A capabilities."""
-    assistant_agent = LangChainAgent(
+    agent = LangChainAgent(
         name="AssistantAgentLangChain",
         instruction="You are a helpful assistant that can help with various tasks by delegating to specialized agents.",
         llm=ChatOpenAI(model="gpt-4.1", streaming=True),
@@ -22,12 +22,10 @@ async def main():
     )
 
     client_a2a_config = A2AClientConfig(discovery_urls=["http://localhost:8001"])
-    agent_cards = assistant_agent.discover_agents(client_a2a_config)
+    agent_cards = agent.discover_agents(client_a2a_config)
 
-    query = "What is the weather in Jakarta?"
     agent_result = ""
-
-    async for chunk in assistant_agent.astream_to_agent(agent_card=agent_cards[0], message=query):
+    async for chunk in agent.astream_to_agent(agent_card=agent_cards[0], message="What is the weather in Jakarta?"):
         task_state = chunk.get("task_state")
         content = chunk.get("content", "")
         if task_state == str(TaskState.working) and content:

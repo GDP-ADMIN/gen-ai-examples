@@ -9,7 +9,7 @@ from gllm_agents.agent.types import A2AClientConfig
 from langchain_openai import ChatOpenAI
 
 if __name__ == "__main__":
-    assistant_agent = LangChainAgent(
+    agent = LangChainAgent(
         name="AssistantAgentLangChain",
         instruction="You are a helpful assistant that can help with various tasks by delegating to specialized agents.",
         llm=ChatOpenAI(model="gpt-4.1", temperature=0),
@@ -17,8 +17,7 @@ if __name__ == "__main__":
     )
 
     client_a2a_config = A2AClientConfig(discovery_urls=["http://localhost:8001"])
-    agent_cards = assistant_agent.discover_agents(client_a2a_config)
+    agent_cards = agent.discover_agents(client_a2a_config)
 
-    query = "What is the weather in Jakarta?"
-    response = assistant_agent.send_to_agent(agent_cards[0], query)
+    response = agent.send_to_agent(agent_cards[0], query="What is the weather in Jakarta?")
     print(response.get("content", str(response)))
