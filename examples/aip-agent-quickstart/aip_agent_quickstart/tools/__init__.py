@@ -21,7 +21,6 @@ from langchain.tools import tool
 # Import ADK tools
 from .adk_arithmetic_tools import add_numbers as adk_add_numbers
 from .adk_arithmetic_tools import sum_numbers as adk_sum_numbers
-from .adk_weather_tool import get_weather as adk_get_weather
 from .adk_weather_tool import weather_tool as adk_weather_tool
 
 # Import LangChain tools
