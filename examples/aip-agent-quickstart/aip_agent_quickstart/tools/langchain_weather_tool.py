@@ -4,10 +4,9 @@ Authors:
     Christian Trisno Sen Long Chen (christian.t.s.l.chen@gdplabs.id)
 """
 
-from pydantic import BaseModel
-from langchain_core.tools import tool
-
 from gllm_agents.utils.logger_manager import LoggerManager
+from langchain_core.tools import tool
+from pydantic import BaseModel
 
 logger = LoggerManager().get_logger(__name__)
 

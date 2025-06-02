@@ -1,53 +1,24 @@
 """Example of a General Assistant LangChainAgent that can delegate tasks to specialized agents.
 
-This example demonstrates:
-1. Configuring A2A settings for a client agent.
-2. Creating a general assistant agent that can help with various queries.
-3. Delegating specific tasks to specialized agents via A2A.
-4. Handling responses and providing relevant advice.
-
 Authors:
     Putu Ravindra Wiguna (putu.r.wiguna@gdplabs.id)
 """
 
-import json
-
-from langchain_openai import ChatOpenAI
-
 from gllm_agents.agent.langchain_agent import LangChainAgent
 from gllm_agents.agent.types import A2AClientConfig
-from gllm_agents.utils.logger_manager import LoggerManager
+from langchain_openai import ChatOpenAI
 
-logger = LoggerManager().get_logger(__name__)
-
-
-def main():
-    """Main function demonstrating the General Assistant agent with A2A capabilities."""
-    # Init Assistant Agent
-    llm = ChatOpenAI(model="gpt-4.1", temperature=0)
-
-    # Create and return the LangChainAgent
-    assistant_agent = LangChainAgent(
-        name="AssistantAgentLangChain",
-        instruction="""You are a helpful assistant that can help with various tasks
-        by delegating to specialized agents.""",
-        llm=llm,
-        tools=[],
-    )
-
-    # Discover agents
-    client_a2a_config = A2AClientConfig(
-        discovery_urls=["http://localhost:8001"],
-    )
-    agent_cards = assistant_agent.discover_agents(client_a2a_config)
-
-    query = "What is the weather in Jakarta?"
-    logger.info(f"Processing Query: {query}")
-
-    response = assistant_agent.send_to_agent(agent_cards[0], query)
-    logger.info(f"Raw response: \n\n{json.dumps(response, indent=4)}")
-    logger.info(f"Agent Response: {response.get('content', str(response))}")
-
+from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
 
 if __name__ == "__main__":
-    main()
+    agent = LangChainAgent(
+        name="AssistantAgentLangChain",
+        instruction=DEFAULT_AGENT_INSTRUCTION,
+        llm=ChatOpenAI(model="gpt-4.1", temperature=0),
+    )
+
+    client_a2a_config = A2AClientConfig(discovery_urls=["http://localhost:8001"])
+    agent_cards = agent.discover_agents(client_a2a_config)
+
+    response = agent.send_to_agent(agent_cards[0], query="What is the weather in Jakarta?")
+    print(response.get("content", str(response)))

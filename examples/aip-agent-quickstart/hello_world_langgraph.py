@@ -1,16 +1,16 @@
-"""Minimal LangChain agent example demonstrating asynchronous run."""
+"""Minimal LangGraph agent example demonstrating asynchronous run."""
 
-from gllm_agents.agent.langchain_agent import LangChainAgent
+from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from langchain_openai import ChatOpenAI
 
 from aip_agent_quickstart.config import CALCULATOR_AGENT_INSTRUCTION
 from aip_agent_quickstart.tools import langchain_add_numbers
 
 if __name__ == "__main__":
-    agent = LangChainAgent(
-        name="LangChainArithmeticAgent",
+    agent = LangGraphAgent(
+        name="LangGraphArithmeticAgent",
         instruction=CALCULATOR_AGENT_INSTRUCTION,
-        llm=ChatOpenAI(model="gpt-4.1", temperature=0),
+        model=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[langchain_add_numbers],
     )
 
