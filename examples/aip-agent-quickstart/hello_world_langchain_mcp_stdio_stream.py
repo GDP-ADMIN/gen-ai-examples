@@ -6,24 +6,23 @@ Authors:
 
 import asyncio
 
+from gllm_agents.agent.langchain_agent import LangChainAgent
 from langchain_openai import ChatOpenAI
 
-from gllm_agents.agent.langchain_agent import LangChainAgent
 from aip_agent_quickstart.mcp_configs.configs import mcp_config_stdio
 
 
 async def main():
+    """Demonstrates the LangChain agent with MCP tools via stdio transport and streaming."""
     langchain_agent = LangChainAgent(
         name="langchain_mcp_stream_example",
-        instruction="You are a helpful assistant that can provide weather forecasts. For weather, specify the day in lowercase (e.g., 'monday').",
+        instruction="You are a helpful assistant that can provide weather forecasts.",
         llm=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[],
     )
     langchain_agent.add_mcp_server(mcp_config_stdio)
 
-    async for chunk in langchain_agent.arun_stream(
-        query="What's the weather forecast for monday?"
-    ):
+    async for chunk in langchain_agent.arun_stream(query="What's the weather forecast for monday?"):
         if isinstance(chunk, str):
             print(chunk, end="", flush=True)
 
