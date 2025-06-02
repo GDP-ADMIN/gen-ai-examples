@@ -1,9 +1,5 @@
 """Example showing Google ADK agent with MCP tools integration using stdio transport and streaming capabilities.
 
-This example demonstrates how to create a Google ADK agent that can use tools
-from MCP servers via stdio (standard input/output) transport while streaming the response
-in real-time. The MCP server runs as a subprocess.
-
 Authors:
     Fachriza Dian Adhiatma (fachriza.d.adhiatma@gdplabs.id)
 """

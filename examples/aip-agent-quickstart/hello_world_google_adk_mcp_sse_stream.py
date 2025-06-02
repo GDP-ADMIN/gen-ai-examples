@@ -1,9 +1,5 @@
 """Example showing Google ADK agent with MCP tools integration using SSE transport and streaming capabilities.
 
-This example demonstrates how to create a Google ADK agent that can use tools
-from MCP servers via Server-Sent Events (SSE) transport while streaming the response
-in real-time.
-
 Authors:
     Fachriza Dian Adhiatma (fachriza.d.adhiatma@gdplabs.id)
 """
