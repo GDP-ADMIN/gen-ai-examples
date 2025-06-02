@@ -7,9 +7,7 @@ Authors:
 from gllm_agents.agent.google_adk_agent import GoogleADKAgent
 from gllm_agents.agent.types import A2AClientConfig
 
-
-def main():
-    """Main function demonstrating the General Assistant agent with A2A capabilities."""
+if __name__ == "__main__":
     assistant_agent = GoogleADKAgent(
         name="GoogleAssistantAgent",
         instruction="You are a helpful assistant that can help with various tasks by delegating to specialized agents.",
@@ -25,7 +23,3 @@ def main():
     query = "What is the weather in Jakarta?"
     response = assistant_agent.run(query)
     print(response["output"])
-
-
-if __name__ == "__main__":
-    main()

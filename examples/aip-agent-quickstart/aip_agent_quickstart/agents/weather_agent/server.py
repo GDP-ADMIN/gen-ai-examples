@@ -34,13 +34,11 @@ def load_agent(agent_type: str):
         return getattr(agent_module, f"{agent_type}_agent")
     except (ImportError, AttributeError) as e:
         logger.error(f"Failed to load agent type {agent_type}: {str(e)}")
-        raise click.BadParameter(f"Invalid agent type: {agent_type}")
+        raise click.BadParameter(f"Invalid agent type: {agent_type}") from e
 
 
 @click.command()
-@click.option(
-    "--host", "host", default=config.DEFAULT_HOST, help="Host to bind the server to."
-)
+@click.option("--host", "host", default=config.DEFAULT_HOST, help="Host to bind the server to.")
 @click.option(
     "--port",
     "port",
@@ -58,9 +56,7 @@ def load_agent(agent_type: str):
 )
 def main(host: str, port: int, agent_type: str) -> None:
     """Runs the Weather A2A server with selected agent type."""
-    logger.info(
-        f"Starting {config.SERVER_AGENT_NAME} on http://{host}:{port} with {agent_type} agent"
-    )
+    logger.info(f"Starting {config.SERVER_AGENT_NAME} on http://{host}:{port} with {agent_type} agent")
 
     agent_card = AgentCard(
         name=config.SERVER_AGENT_NAME,
@@ -82,16 +78,13 @@ def main(host: str, port: int, agent_type: str) -> None:
         tags=["weather"],
     )
 
-    # Load the appropriate agent dynamically
     agent = load_agent(agent_type)
 
     app = agent.to_a2a(
         agent_card=agent_card,
     )
 
-    logger.info(
-        f"A2A application configured with {agent_type} agent. Starting Uvicorn server..."
-    )
+    logger.info(f"A2A application configured with {agent_type} agent. Starting Uvicorn server...")
     uvicorn.run(app, host=host, port=port)
 
 
