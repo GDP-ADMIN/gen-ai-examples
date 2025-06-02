@@ -9,7 +9,7 @@ from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from langchain_openai import ChatOpenAI
 
 from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
-from aip_agent_quickstart.tools.twitter_bosa_tool import twitter_get_user_tool
+from aip_agent_quickstart.tools import twitter_get_user_tool
 
 if __name__ == "__main__":
     langgraph_agent = LangGraphAgent(

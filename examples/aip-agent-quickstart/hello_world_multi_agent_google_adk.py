@@ -10,22 +10,21 @@ from aip_agent_quickstart.config import (
     MATH_AGENT_INSTRUCTION,
     WEATHER_AGENT_INSTRUCTION,
 )
-from aip_agent_quickstart.tools.adk_arithmetic_tools import sum_numbers
-from aip_agent_quickstart.tools.adk_weather_tool import get_weather
+from aip_agent_quickstart.tools import adk_sum_numbers, adk_weather_tool
 
 if __name__ == "__main__":
     weather_agent = GoogleADKAgent(
         name="WeatherAgent",
         instruction=WEATHER_AGENT_INSTRUCTION,
         model="gemini-2.0-flash",
-        tools=[get_weather],
+        tools=[adk_weather_tool],
     )
 
     math_agent = GoogleADKAgent(
         name="MathAgent",
         instruction=MATH_AGENT_INSTRUCTION,
         model="gemini-2.0-flash",
-        tools=[sum_numbers],
+        tools=[adk_sum_numbers],
     )
 
     coordinator_agent = GoogleADKAgent(
