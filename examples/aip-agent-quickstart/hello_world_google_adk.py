@@ -20,7 +20,6 @@ if __name__ == "__main__":
         ),
         model="gemini-2.0-flash",
         tools=[sum_numbers],
-        max_iterations=5,
     )
 
     response = agent.run(query="What is the sum of 23 and 47? And then add 10 to that, then add 5 more.")

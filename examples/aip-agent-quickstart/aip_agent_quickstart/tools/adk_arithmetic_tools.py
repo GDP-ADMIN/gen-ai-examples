@@ -1,4 +1,8 @@
-"""Common arithmetic tools for GLLM agent examples."""
+"""Common arithmetic tools for GLLM agent examples.
+
+Authors:
+    Raymond Christopher (raymond.christopher@gdplabs.id)
+"""
 
 
 def add_numbers(a: int, b: int) -> str:

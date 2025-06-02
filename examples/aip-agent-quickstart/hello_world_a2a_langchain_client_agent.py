@@ -13,7 +13,6 @@ if __name__ == "__main__":
         name="AssistantAgentLangChain",
         instruction="You are a helpful assistant that can help with various tasks by delegating to specialized agents.",
         llm=ChatOpenAI(model="gpt-4.1", temperature=0),
-        tools=[],
     )
 
     client_a2a_config = A2AClientConfig(discovery_urls=["http://localhost:8001"])

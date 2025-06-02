@@ -18,7 +18,6 @@ if __name__ == "__main__":
         ),
         model="gemini-2.0-flash",
         tools=[get_weather],
-        max_iterations=3,
     )
 
     math_agent = GoogleADKAgent(
@@ -31,7 +30,6 @@ if __name__ == "__main__":
         ),
         model="gemini-2.0-flash",
         tools=[sum_numbers],
-        max_iterations=3,
     )
 
     coordinator_agent = GoogleADKAgent(
@@ -45,7 +43,6 @@ if __name__ == "__main__":
         ),
         model="gemini-2.0-flash",
         agents=[weather_agent, math_agent],
-        max_iterations=3,
     )
 
     weather_response = coordinator_agent.run(query="What is the weather in Tokyo?")
