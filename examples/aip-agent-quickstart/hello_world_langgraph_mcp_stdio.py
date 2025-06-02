@@ -4,8 +4,6 @@ Authors:
     Fachriza Dian Adhiatma (fachriza.d.adhiatma@gdplabs.id)
 """
 
-import asyncio
-
 from langchain_openai import ChatOpenAI
 from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from aip_agent_quickstart.mcp_configs.configs import mcp_config_stdio
@@ -19,7 +17,5 @@ if __name__ == "__main__":
     )
     langgraph_agent.add_mcp_server(mcp_config_stdio)
 
-    response = asyncio.run(
-        langgraph_agent.arun(query="What's the weather forecast for monday?")
-    )
-    print(f"Response: {response['output']}")
+    response = langgraph_agent.run(query="What's the weather forecast for monday?")
+    print(f"Response: {response.get('output')}")
