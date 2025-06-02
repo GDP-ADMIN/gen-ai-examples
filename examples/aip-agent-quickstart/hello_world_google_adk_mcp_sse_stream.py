@@ -22,8 +22,9 @@ async def main():
     )
     agent.add_mcp_server(mcp_config_sse)
 
-    query = "What's the weather forecast for monday?"  # Uses MCP weather tool
-    async for chunk in agent.arun_stream(query=query):
+    async for chunk in agent.arun_stream(
+        query="What's the weather forecast for monday?"
+    ):
         print(chunk, end="", flush=True)
 
 

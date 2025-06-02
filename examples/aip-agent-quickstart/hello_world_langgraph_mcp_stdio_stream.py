@@ -20,11 +20,9 @@ async def main():
     )
     langgraph_agent.add_mcp_server(mcp_config_stdio)
 
-    query = "What's the weather forecast for monday?"  # Uses MCP weather tool
-    stream_thread_id = "langgraph_mcp_stream_example"
-
     async for chunk in langgraph_agent.arun_stream(
-        query=query, configurable={"configurable": {"thread_id": stream_thread_id}}
+        query="What's the weather forecast for monday?",
+        configurable={"configurable": {"thread_id": "langgraph_mcp_stream_example"}},
     ):
         if isinstance(chunk, str):
             print(chunk, end="", flush=True)

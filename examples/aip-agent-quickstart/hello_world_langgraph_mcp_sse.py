@@ -18,6 +18,7 @@ langgraph_agent = LangGraphAgent(
 )
 langgraph_agent.add_mcp_server(mcp_config_sse)
 
-query = "What's the weather forecast for monday?"  # Uses MCP weather tool
-response = asyncio.run(langgraph_agent.arun(query=query))
+response = asyncio.run(
+    langgraph_agent.arun(query="What's the weather forecast for monday?")
+)
 print(f"Response: {response['output']}")

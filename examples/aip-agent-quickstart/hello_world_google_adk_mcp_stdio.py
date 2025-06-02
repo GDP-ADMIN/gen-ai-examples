@@ -20,6 +20,5 @@ agent = GoogleADKAgent(
 )
 agent.add_mcp_server(mcp_config_stdio)
 
-query = "What's the weather forecast for monday?"  # Uses MCP weather tool
-response = asyncio.run(agent.arun(query=query))
+response = asyncio.run(agent.arun(query="What's the weather forecast for monday?"))
 print(f"Response: {response.get('output')}")

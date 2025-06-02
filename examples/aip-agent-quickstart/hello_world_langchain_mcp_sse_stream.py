@@ -15,18 +15,15 @@ from aip_agent_quickstart.mcp_configs.configs import mcp_config_sse
 async def main():
     langchain_agent = LangChainAgent(
         name="langchain_mcp_stream_example",
-        instruction="""You are a helpful assistant that can provide weather forecasts.
-        For weather, specify the day in lowercase (e.g., 'monday').""",
+        instruction="You are a helpful assistant that can provide weather forecasts. For weather, specify the day in lowercase (e.g., 'monday').",
         llm=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[],
     )
     langchain_agent.add_mcp_server(mcp_config_sse)
 
-    query = "What's the weather forecast for monday?"  # Uses MCP weather tool
-    stream_thread_id = "langchain_mcp_stream_example"
-
     async for chunk in langchain_agent.arun_stream(
-        query=query, configurable={"configurable": {"thread_id": stream_thread_id}}
+        query="What's the weather forecast for monday?",
+        configurable={"configurable": {"thread_id": "langchain_mcp_stream_example"}},
     ):
         if isinstance(chunk, str):
             print(chunk, end="", flush=True)
