@@ -14,12 +14,10 @@ from langchain_openai import ChatOpenAI
 
 async def main():
     """Main function demonstrating the General Assistant agent with streaming A2A capabilities."""
-    llm = ChatOpenAI(model="gpt-4.1", streaming=True)
-
     assistant_agent = LangChainAgent(
         name="AssistantAgentLangChain",
         instruction="You are a helpful assistant that can help with various tasks by delegating to specialized agents.",
-        llm=llm,
+        llm=ChatOpenAI(model="gpt-4.1", streaming=True),
         tools=[],
     )
 

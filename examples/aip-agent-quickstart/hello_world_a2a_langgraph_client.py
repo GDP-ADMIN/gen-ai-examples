@@ -9,12 +9,10 @@ from gllm_agents.agent.types import A2AClientConfig
 from langchain_openai import ChatOpenAI
 
 if __name__ == "__main__":
-    llm = ChatOpenAI(model="gpt-4.1")
-
     assistant_agent = LangGraphAgent(
         name="AssistantAgent",
         instruction="You are a helpful assistant that can help with various tasks by delegating to specialized agents.",
-        model=llm,
+        model=ChatOpenAI(model="gpt-4.1"),
         tools=[],
     )
 

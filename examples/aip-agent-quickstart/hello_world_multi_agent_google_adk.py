@@ -17,7 +17,7 @@ if __name__ == "__main__":
             "Always include the city name in your response."
         ),
         model="gemini-2.0-flash",
-        tools=[get_weather],  # Use the get_weather function directly
+        tools=[get_weather],
         max_iterations=3,
     )
 
@@ -34,7 +34,6 @@ if __name__ == "__main__":
         max_iterations=3,
     )
 
-    # Create coordinator agent with access to specialized agents
     coordinator_agent = GoogleADKAgent(
         name="CoordinatorAgent",
         instruction=(

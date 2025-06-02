@@ -11,12 +11,10 @@ from langchain_openai import ChatOpenAI
 from aip_agent_quickstart.tools.twitter_bosa_tool import twitter_get_user_tool
 
 if __name__ == "__main__":
-    model = ChatOpenAI(model="gpt-4.1", temperature=0)
-
     langgraph_agent = LangGraphAgent(
         name="BOSAConnectorTwitterAgent",
         instruction="You are a helpful assistant that use BOSA connector to connect with Twitter API.",
-        model=model,
+        model=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[twitter_get_user_tool],
     )
 

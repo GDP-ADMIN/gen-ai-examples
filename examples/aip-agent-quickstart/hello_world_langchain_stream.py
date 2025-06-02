@@ -15,8 +15,6 @@ from aip_agent_quickstart.tools.langchain_arithmetic_tools import add_numbers
 
 async def main():
     """Demonstrates the LangChainAgent's arun_stream method with async execution."""
-    model = ChatOpenAI(model="gpt-4.1", temperature=0)
-
     agent = LangChainAgent(
         name="LangChainStreamingCalculator",
         instruction=(
@@ -24,7 +22,7 @@ async def main():
             "When asked to add numbers, use the add_numbers tool. "
             "Explain your steps clearly for streaming demonstration."
         ),
-        llm=model,
+        llm=ChatOpenAI(model="gpt-4.1", streaming=True),
         tools=[add_numbers],
         verbose=False,
     )
