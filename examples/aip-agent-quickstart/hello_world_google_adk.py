@@ -9,15 +9,13 @@ Authors:
 
 from gllm_agents.agent.google_adk_agent import GoogleADKAgent
 
+from aip_agent_quickstart.config import CALCULATOR_AGENT_INSTRUCTION
 from aip_agent_quickstart.tools.adk_arithmetic_tools import sum_numbers
 
 if __name__ == "__main__":
     agent = GoogleADKAgent(
         name="GoogleADKCalculator",
-        instruction=(
-            "You are a calculator assistant. When asked math problems, extract numbers and call sum_numbers tool "
-            "to add them. For multi-step problems, use multiple tool calls."
-        ),
+        instruction=CALCULATOR_AGENT_INSTRUCTION,
         model="gemini-2.0-flash",
         tools=[sum_numbers],
     )

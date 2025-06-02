@@ -8,10 +8,12 @@ from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from gllm_agents.agent.types import A2AClientConfig
 from langchain_openai import ChatOpenAI
 
+from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
+
 if __name__ == "__main__":
     assistant_agent = LangGraphAgent(
         name="AssistantAgent",
-        instruction="You are a helpful assistant that can help with various tasks by delegating to specialized agents.",
+        instruction=DEFAULT_AGENT_INSTRUCTION,
         model=ChatOpenAI(model="gpt-4.1"),
     )
 

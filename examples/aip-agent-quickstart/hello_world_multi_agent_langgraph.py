@@ -13,35 +13,32 @@ Authors:
 from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from langchain_openai import ChatOpenAI
 
+from aip_agent_quickstart.config import (
+    COORDINATOR_MULTI_AGENT_INSTRUCTION,
+    MATH_AGENT_INSTRUCTION,
+    WEATHER_AGENT_INSTRUCTION,
+)
 from aip_agent_quickstart.tools.langchain_arithmetic_tools import add_numbers
 from aip_agent_quickstart.tools.langchain_weather_tool import weather_tool
 
 if __name__ == "__main__":
     weather_agent = LangGraphAgent(
         name="WeatherAgent",
-        instruction="You are a weather expert. You must use the get_weather tool to find weather information.",
+        instruction=WEATHER_AGENT_INSTRUCTION,
         model=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[weather_tool],
     )
 
     math_agent = LangGraphAgent(
         name="MathAgent",
-        instruction=(
-            "You are a math expert. You must use the 'add_numbers' tool to perform addition. "
-            "The tool takes two integer arguments: 'a' and 'b'. For example, to add 5 and 7, "
-            "you would call add_numbers(a=5, b=7)."
-        ),
+        instruction=MATH_AGENT_INSTRUCTION,
         model=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[add_numbers],
     )
 
     coordinator_agent = LangGraphAgent(
         name="CoordinatorAgent",
-        instruction=(
-            "You are a coordinator agent. Your primary role is to delegate tasks to specialized agents. "
-            "Based on the user's query, decide which agent (WeatherAgent or MathAgent) is best suited. "
-            "If a query involves multiple aspects, delegate accordingly. Synthesize their responses."
-        ),
+        instruction=COORDINATOR_MULTI_AGENT_INSTRUCTION,
         model=ChatOpenAI(model="gpt-4.1", temperature=0),
         agents=[weather_agent, math_agent],
     )

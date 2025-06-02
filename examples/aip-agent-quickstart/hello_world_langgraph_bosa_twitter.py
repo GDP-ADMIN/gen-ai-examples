@@ -8,12 +8,13 @@ Authors:
 from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from langchain_openai import ChatOpenAI
 
+from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
 from aip_agent_quickstart.tools.twitter_bosa_tool import twitter_get_user_tool
 
 if __name__ == "__main__":
     langgraph_agent = LangGraphAgent(
         name="BOSAConnectorTwitterAgent",
-        instruction="You are a helpful assistant that use BOSA connector to connect with Twitter API.",
+        instruction=DEFAULT_AGENT_INSTRUCTION,
         model=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[twitter_get_user_tool],
     )

@@ -8,10 +8,12 @@ from gllm_agents.agent.langchain_agent import LangChainAgent
 from gllm_agents.agent.types import A2AClientConfig
 from langchain_openai import ChatOpenAI
 
+from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
+
 if __name__ == "__main__":
     agent = LangChainAgent(
         name="AssistantAgentLangChain",
-        instruction="You are a helpful assistant that can help with various tasks by delegating to specialized agents.",
+        instruction=DEFAULT_AGENT_INSTRUCTION,
         llm=ChatOpenAI(model="gpt-4.1", temperature=0),
     )
 

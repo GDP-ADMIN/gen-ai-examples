@@ -10,12 +10,14 @@ from a2a.types import TaskState
 from gllm_agents.agent.google_adk_agent import GoogleADKAgent
 from gllm_agents.agent.types import A2AClientConfig
 
+from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
+
 
 async def main():
     """Main function demonstrating the General Assistant agent with streaming A2A capabilities."""
     agent = GoogleADKAgent(
         name="GoogleADKWeatherAgent",
-        instruction="You are a helpful assistant that can help with various tasks by delegating to specialized agents.",
+        instruction=DEFAULT_AGENT_INSTRUCTION,
         model="gemini-2.0-flash",
     )
 

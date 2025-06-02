@@ -7,10 +7,12 @@ Authors:
 from gllm_agents.agent.google_adk_agent import GoogleADKAgent
 from gllm_agents.agent.types import A2AClientConfig
 
+from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
+
 if __name__ == "__main__":
     agent = GoogleADKAgent(
         name="GoogleAssistantAgent",
-        instruction="You are a helpful assistant that can help with various tasks by delegating to specialized agents.",
+        instruction=DEFAULT_AGENT_INSTRUCTION,
         model="gemini-2.0-flash",
     )
 

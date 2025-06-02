@@ -11,12 +11,14 @@ from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from gllm_agents.agent.types import A2AClientConfig
 from langchain_openai import ChatOpenAI
 
+from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
+
 
 async def main():
-    """Main function demonstrating the General Assistant agent with streaming A2A capabilities."""
+    """Demonstrates LangGraphAgent with streaming A2A capabilities."""
     agent = LangGraphAgent(
         name="AssistantAgent",
-        instruction="You are a helpful assistant that can help with various tasks by delegating to specialized agents.",
+        instruction=DEFAULT_AGENT_INSTRUCTION,
         model=ChatOpenAI(model="gpt-4.1", streaming=True),
     )
 
