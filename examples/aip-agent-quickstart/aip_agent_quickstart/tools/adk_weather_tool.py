@@ -20,41 +20,22 @@ WEATHER_DATA = {
 }
 
 
-def get_weather(location: str) -> dict:
-    """Gets detailed weather information for a specified location.
+def weather_tool(city: str) -> str:
+    """Gets the weather for a specified city.
 
     Args:
-        location: The name of the city to get weather for.
+        city: The name of the city to get weather for.
 
     Returns:
-        A dictionary containing:
-            - location: The requested location name
-            - weather: A dictionary with temperature, conditions, and humidity
+        A string describing the weather conditions.
     """
-    try:
-        city_name = location.split(",")[0].strip().title()
-        weather = WEATHER_DATA.get(city_name)
+    city_name = city.strip().title()
 
-        if weather:
-            logger.info(f"Found weather for {city_name}: {weather}")
-            return {"location": city_name, "weather": weather}
-        else:
-            message = f"Weather data not available for {location}"
-            logger.warning(message)
-            return {
-                "location": city_name,
-                "weather": {"temperature": "Unknown", "conditions": "No data available", "humidity": "Unknown"},
-                "message": message,
-            }
-    except Exception as e:
-        error_msg = f"Error getting weather for {location}: {str(e)}"
-        logger.error(error_msg)
-        return {
-            "location": location,
-            "error": error_msg,
-            "weather": {"temperature": "Error", "conditions": "Error retrieving data", "humidity": "Error"},
-        }
-
-
-# Alias for backward compatibility
-weather_tool = get_weather
+    weather = WEATHER_DATA.get(city_name)
+    if weather:
+        logger.info(f"Found weather for {city_name}: {weather}")
+        return weather
+    else:
+        message = f"Weather data not available for {city}"
+        logger.warning(message)
+        return message
