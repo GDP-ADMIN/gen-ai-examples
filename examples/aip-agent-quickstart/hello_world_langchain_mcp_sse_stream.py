@@ -22,8 +22,7 @@ async def main():
     langchain_agent.add_mcp_server(mcp_config_sse)
 
     async for chunk in langchain_agent.arun_stream(
-        query="What's the weather forecast for monday?",
-        configurable={"configurable": {"thread_id": "langchain_mcp_stream_example"}},
+        query="What's the weather forecast for monday?"
     ):
         if isinstance(chunk, str):
             print(chunk, end="", flush=True)
