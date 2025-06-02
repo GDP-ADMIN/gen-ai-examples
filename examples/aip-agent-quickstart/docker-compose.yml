@@ -10,6 +10,7 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - AGENT_URL=${WEATHER_AGENT_URL:-http://localhost:8001}
       - framework=${framework:-langgraph}
 
   weather_mcp_server:
@@ -22,3 +23,42 @@ services:
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     restart: ${RESTART_POLICY:-unless-stopped}
+
+  information_compiler_agent:
+    build:
+      context: ./aip_agent_quickstart/agents/information_compiler_agent
+      dockerfile: Dockerfile
+    container_name: information_compiler_agent_service
+    ports:
+      - "8003:8003"
+    restart: unless-stopped
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - AGENT_URL=${INFORMATION_COMPILER_AGENT_URL:-http://localhost:8003}
+  arxiv_mcp_server:
+    build:
+      context: ./aip_agent_quickstart/mcp_servers/arxiv
+      dockerfile: Dockerfile
+    container_name: arxiv_mcp_server
+    ports:
+      - "8006:8006"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    restart: ${RESTART_POLICY:-unless-stopped}
+
+  web_search_agent:
+    build:
+      context: ./aip_agent_quickstart/agents/web_search_agent
+      dockerfile: Dockerfile
+    container_name: web_search_agent_service
+    ports:
+      - "8002:8002"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - SERPER_API_KEY=${SERPER_API_KEY}
+      - AGENT_URL=${WEB_SEARCH_AGENT_URL:-http://localhost:8002}
+    restart: ${RESTART_POLICY:-unless-stopped}
+
+networks:
+  default:
+    name: podman
