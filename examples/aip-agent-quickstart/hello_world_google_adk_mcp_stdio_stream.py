@@ -8,6 +8,7 @@ import asyncio
 
 from gllm_agents.agent.google_adk_agent import GoogleADKAgent
 
+from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
 from aip_agent_quickstart.mcp_configs.configs import mcp_config_stdio
 
 
@@ -15,7 +16,7 @@ async def main():
     """Demonstrates the GoogleADK agent with MCP tools via stdio transport and streaming."""
     agent = GoogleADKAgent(
         name="ADK_Stdio_Weather_Agent",
-        instruction="You are a helpful assistant that can provide weather forecasts.",
+        instruction=DEFAULT_AGENT_INSTRUCTION,
         model="gemini-2.0-flash",
     )
     agent.add_mcp_server(mcp_config_stdio)
