@@ -19,6 +19,19 @@ nest-asyncio = "^1.6.0"
 pre-commit = "^3.6.2"
 ruff = "^0.6.7"
 
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+ignore = ["B026", "C400", "C901", "E203", "E266", "F403", "F821"]
+select = ["B", "B9", "C", "D", "E", "F", "I", "PL", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D", "PLR"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [[tool.poetry.source]]
 name = "gen-ai"
 url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/simple/"

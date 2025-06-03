@@ -7,37 +7,22 @@ Authors:
     Fachriza Dian Adhiatma (fachriza.d.adhiatma@gdplabs.id)
 """
 
-import asyncio
-from datetime import datetime
-
-from langchain_openai import ChatOpenAI
 from gllm_agents.agent.langgraph_agent import LangGraphAgent
+from langchain_openai import ChatOpenAI
+
+from aip_agent_quickstart.config.agent import ARXIV_AGENT_INSTRUCTION
 from aip_agent_quickstart.mcp_configs.configs import mcp_config_arxiv_sse
 
-
-async def main():
+if __name__ == "__main__":
     arxiv_agent = LangGraphAgent(
         name="arxiv_research_agent",
-        instruction="""You are an expert arXiv research assistant. You help users find and analyze 
-        academic papers from arXiv. When searching for papers, you can:
-        1. Search by keywords, authors, or topics
-        2. Filter by date ranges
-        3. Summarize paper abstracts
-        4. Provide insights about research trends
-        
-        Always provide clear, well-structured responses with paper titles, authors, 
-        abstracts, and arXiv IDs when available.""",
+        instruction=ARXIV_AGENT_INSTRUCTION,
         model=ChatOpenAI(model="gpt-4.1", temperature=0),
-        tools=[],
     )
     arxiv_agent.add_mcp_server(mcp_config_arxiv_sse)
 
-    query = "Search for research papers about transformer large language models (LLMs) published between January 2025 and May 2025. Focus on papers that discuss Transformer architectures and improvements"
-    
-    print(f"\nQuery: {query}")
-    response = await arxiv_agent.arun(query=query)
+    response = arxiv_agent.run(
+        query="""Search for research papers about transformer large language models (LLMs) published between
+        January 2025 and May 2025. Focus on papers that discuss Transformer architectures and improvements."""
+    )
     print(f"Response: {response['output']}")
-
-
-if __name__ == "__main__":
-    asyncio.run(main()) 
