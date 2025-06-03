@@ -21,7 +21,6 @@ async def main():
         instruction=CALCULATOR_AGENT_INSTRUCTION,
         llm=ChatOpenAI(model="gpt-4.1", streaming=True),
         tools=[langchain_add_numbers],
-        verbose=False,
     )
 
     query = "What is the sum of 23 and 47? And then add 10 to that, then add 5 more."
