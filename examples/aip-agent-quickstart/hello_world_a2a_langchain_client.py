@@ -20,5 +20,5 @@ if __name__ == "__main__":
     client_a2a_config = A2AClientConfig(discovery_urls=["http://localhost:8001"])
     agent_cards = agent.discover_agents(client_a2a_config)
 
-    response = agent.send_to_agent(agent_cards[0], query="What is the weather in Jakarta?")
+    response = agent.send_to_agent(agent_cards[0], message="What is the weather in Jakarta?")
     print(response.get("content", str(response)))
