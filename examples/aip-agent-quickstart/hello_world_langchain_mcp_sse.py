@@ -5,7 +5,6 @@ Authors:
 """
 
 from gllm_agents.agent.langchain_agent import LangChainAgent
-from langchain.agents import AgentType
 from langchain_openai import ChatOpenAI
 
 from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
@@ -16,8 +15,6 @@ if __name__ == "__main__":
         name="langchain_mcp_example",
         instruction=DEFAULT_AGENT_INSTRUCTION,
         llm=ChatOpenAI(model="gpt-4.1", temperature=0),
-        tools=[],
-        agent_type=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION,
     )
     langchain_agent.add_mcp_server(mcp_config_sse)
 

@@ -19,7 +19,6 @@ async def main():
         name="langgraph_mcp_stream_example",
         instruction=DEFAULT_AGENT_INSTRUCTION,
         model=ChatOpenAI(model="gpt-4.1", temperature=0),
-        tools=[],
     )
     langgraph_agent.add_mcp_server(mcp_config_sse)
 
