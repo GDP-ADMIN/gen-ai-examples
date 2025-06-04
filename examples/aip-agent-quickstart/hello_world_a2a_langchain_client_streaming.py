@@ -18,7 +18,7 @@ async def main():
     agent = LangChainAgent(
         name="AssistantAgentLangChain",
         instruction=DEFAULT_AGENT_INSTRUCTION,
-        llm=ChatOpenAI(model="gpt-4.1", streaming=True),
+        model=ChatOpenAI(model="gpt-4.1", streaming=True),
     )
 
     client_a2a_config = A2AClientConfig(discovery_urls=["http://localhost:8001"])

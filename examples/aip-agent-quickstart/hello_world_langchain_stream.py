@@ -19,7 +19,7 @@ async def main():
     agent = LangChainAgent(
         name="LangChainStreamingCalculator",
         instruction=CALCULATOR_AGENT_INSTRUCTION,
-        llm=ChatOpenAI(model="gpt-4.1", streaming=True),
+        model=ChatOpenAI(model="gpt-4.1", streaming=True),
         tools=[langchain_add_numbers],
     )
 

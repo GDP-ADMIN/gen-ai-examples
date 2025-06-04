@@ -14,7 +14,7 @@ if __name__ == "__main__":
     agent = LangChainAgent(
         name="AssistantAgentLangChain",
         instruction=DEFAULT_AGENT_INSTRUCTION,
-        llm=ChatOpenAI(model="gpt-4.1", temperature=0),
+        model=ChatOpenAI(model="gpt-4.1", temperature=0),
     )
 
     client_a2a_config = A2AClientConfig(discovery_urls=["http://localhost:8001"])
