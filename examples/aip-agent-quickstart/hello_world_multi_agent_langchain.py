@@ -22,26 +22,24 @@ from aip_agent_quickstart.config import (
 from aip_agent_quickstart.tools import langchain_add_numbers, langchain_weather_tool
 
 if __name__ == "__main__":
-    model = ChatOpenAI(model="gpt-4.1", temperature=0)
-
     weather_agent = LangChainAgent(
         name="WeatherAgent",
         instruction=WEATHER_AGENT_INSTRUCTION,
-        model=model,
+        model=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[langchain_weather_tool],
     )
 
     math_agent = LangChainAgent(
         name="MathAgent",
         instruction=MATH_AGENT_INSTRUCTION,
-        model=model,
+        model=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[langchain_add_numbers],
     )
 
     coordinator_agent = LangChainAgent(
         name="CoordinatorAgent",
         instruction=COORDINATOR_MULTI_AGENT_INSTRUCTION,
-        model=model,
+        model=ChatOpenAI(model="gpt-4.1", temperature=0),
         agents=[weather_agent, math_agent],
     )
 
