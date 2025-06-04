@@ -9,7 +9,7 @@ packages = [{include = "aip_agent_quickstart"}]
 [tool.poetry.dependencies]
 bosa-connectors-binary = "^0.1.0"
 python = ">=3.13,<3.14"
-gllm-agents-binary = "^0.2.13"
+gllm-agents-binary = "^0.2.14"
 langchain = "^0.3.0"
 langchain-core = "^0.3.0"
 langgraph = "^0.2.16"
