@@ -14,7 +14,7 @@ if __name__ == "__main__":
     langchain_agent = LangChainAgent(
         name="langchain_mcp_example",
         instruction=DEFAULT_AGENT_INSTRUCTION,
-        llm=ChatOpenAI(model="gpt-4.1", temperature=0),
+        model=ChatOpenAI(model="gpt-4.1", temperature=0),
     )
     langchain_agent.add_mcp_server(mcp_config_sse)
 

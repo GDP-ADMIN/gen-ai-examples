@@ -10,7 +10,7 @@ if __name__ == "__main__":
     agent = LangChainAgent(
         name="LangChainArithmeticAgent",
         instruction=CALCULATOR_AGENT_INSTRUCTION,
-        llm=ChatOpenAI(model="gpt-4.1", temperature=0),
+        model=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[langchain_add_numbers],
     )
 
