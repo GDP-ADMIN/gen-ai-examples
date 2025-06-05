@@ -10,7 +10,7 @@ import os
 from bosa_connectors import BOSAConnectorToolGenerator
 
 bosa_connector_tool_generator = BOSAConnectorToolGenerator(
-    api_base_url=os.getenv("BOSA_API_BASE_URL", "https://staging-api.bosa.id"),
+    api_base_url=os.getenv("BOSA_API_BASE_URL", "https://api.bosa.id"),
     api_key=os.getenv("BOSA_API_KEY", ""),
     app_name="twitter",
 )
