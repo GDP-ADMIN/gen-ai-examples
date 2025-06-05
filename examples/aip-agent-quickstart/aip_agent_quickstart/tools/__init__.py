@@ -26,10 +26,12 @@ from .adk_weather_tool import weather_tool as adk_weather_tool
 # Import LangChain tools
 from .langchain_arithmetic_tools import add_numbers as langchain_add_numbers
 from .langchain_weather_tool import weather_tool as langchain_weather_tool
-from .twitter_bosa_tool import twitter_get_user_tool
 
 # Import generic/standalone tools
 from .weather_forecast_tool import get_weather_forecast
+
+# Import BOSA tools
+from .bosa_twitter_tools import BOSA_TWITTER_TOOLS
 
 # Framework-specific exports
 __all__ = [
@@ -44,4 +46,6 @@ __all__ = [
     "adk_weather_tool",
     # Generic/standalone tools
     "get_weather_forecast",
+    # BOSA tools
+    "BOSA_TWITTER_TOOLS"
 ]
