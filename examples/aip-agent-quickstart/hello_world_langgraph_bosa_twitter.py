@@ -20,5 +20,5 @@ if __name__ == "__main__":
         tools=bosa_twitter_tools,
     )
 
-    response = langgraph_agent.run(query="Get me user details for Twitter user @elonmusk")
+    response = langgraph_agent.run(query="Get me tweet with this id 1663983174030901249")
     print(response["output"])
