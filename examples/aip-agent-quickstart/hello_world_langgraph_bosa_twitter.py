@@ -9,7 +9,7 @@ from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from langchain_openai import ChatOpenAI
 
 from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
-from aip_agent_quickstart.tools import BOSA_TWITTER_TOOLS
+from aip_agent_quickstart.tools import bosa_twitter_tools
 
 if __name__ == "__main__":
 
@@ -17,7 +17,7 @@ if __name__ == "__main__":
         name="BOSAConnectorTwitterAgent",
         instruction=DEFAULT_AGENT_INSTRUCTION,
         model=ChatOpenAI(model="gpt-4.1", temperature=0),
-        tools=BOSA_TWITTER_TOOLS,
+        tools=bosa_twitter_tools,
     )
 
     response = langgraph_agent.run(query="Get me user details for Twitter user @elonmusk")
