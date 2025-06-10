@@ -25,21 +25,21 @@ if __name__ == "__main__":
     weather_agent = LangChainAgent(
         name="WeatherAgent",
         instruction=WEATHER_AGENT_INSTRUCTION,
-        model=ChatOpenAI(model="gpt-4.1", temperature=0),
+        llm=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[langchain_weather_tool],
     )
 
     math_agent = LangChainAgent(
         name="MathAgent",
         instruction=MATH_AGENT_INSTRUCTION,
-        model=ChatOpenAI(model="gpt-4.1", temperature=0),
+        llm=ChatOpenAI(model="gpt-4.1", temperature=0),
         tools=[langchain_add_numbers],
     )
 
     coordinator_agent = LangChainAgent(
         name="CoordinatorAgent",
         instruction=COORDINATOR_MULTI_AGENT_INSTRUCTION,
-        model=ChatOpenAI(model="gpt-4.1", temperature=0),
+        llm=ChatOpenAI(model="gpt-4.1", temperature=0),
         agents=[weather_agent, math_agent],
     )
 
