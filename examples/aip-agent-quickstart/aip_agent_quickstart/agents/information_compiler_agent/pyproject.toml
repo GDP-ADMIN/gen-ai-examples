@@ -11,7 +11,7 @@ package-mode = false # Important for not trying to install the agent itself as a
 python = ">=3.13,<3.14"
 
 # Core A2A and agent libraries
-gllm-agents-binary = "0.2.8"
+gllm-agents-binary = "0.2.15"
 
 # LangChain (optional, but common for LLM agents)
 langchain = "^0.3.0"
