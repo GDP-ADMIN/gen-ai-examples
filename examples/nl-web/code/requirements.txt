@@ -21,4 +21,3 @@ pyyaml>=6.0.1
 feedparser>=6.0.1
 httpx>=0.28.1
 seaborn>=0.13.0
-feedparser==6.0.11
