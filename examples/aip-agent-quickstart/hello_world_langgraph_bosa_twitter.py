@@ -9,15 +9,16 @@ from gllm_agents.agent.langgraph_agent import LangGraphAgent
 from langchain_openai import ChatOpenAI
 
 from aip_agent_quickstart.config import DEFAULT_AGENT_INSTRUCTION
-from aip_agent_quickstart.tools import twitter_get_user_tool
+from aip_agent_quickstart.tools import bosa_twitter_tools
 
 if __name__ == "__main__":
+
     langgraph_agent = LangGraphAgent(
         name="BOSAConnectorTwitterAgent",
         instruction=DEFAULT_AGENT_INSTRUCTION,
         model=ChatOpenAI(model="gpt-4.1", temperature=0),
-        tools=[twitter_get_user_tool],
+        tools=bosa_twitter_tools,
     )
 
-    response = langgraph_agent.run(query="Get me user details for Twitter user @elonmusk")
+    response = langgraph_agent.run(query="Get me tweet with this id 1663983174030901249")
     print(response["output"])
