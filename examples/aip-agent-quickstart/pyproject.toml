@@ -8,7 +8,7 @@ packages = [{include = "aip_agent_quickstart"}]
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.14"
-gllm-agents-binary = "0.2.15"
+gllm-agents-binary = "0.2.16"
 langchain-core = "^0.3.0"
 nest-asyncio = "^1.6.0"
 protobuf = {version = ">=6.31.1", platform = "win32"}

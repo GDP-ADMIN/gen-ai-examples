@@ -186,17 +186,14 @@ groups = ["main"]
 files = [
     {file = "bosa_connectors_binary-0.1.1-cp311-cp311-macosx_13_0_x86_64.whl", hash = "sha256:a4bb291a2e87975a9585ce5be620ab4f1be891579dc2fb41c3e39b2d6dac9e0e"},
     {file = "bosa_connectors_binary-0.1.1-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:2c47227fc2f3fc61a460bcf6de3dc26860fea64a3335ab921495e76a85cd7760"},
-    {file = "bosa_connectors_binary-0.1.1-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:e651c51f4946cbf12e234dd217a3dae1b2c3f53b4e7616832577e67d2dde4093"},
     {file = "bosa_connectors_binary-0.1.1-cp311-cp311-manylinux_2_36_x86_64.whl", hash = "sha256:bb7cd6939bbfdd0dbb0e528a0c51e8d456d6ea4e46f11977d0762a4c81077f52"},
     {file = "bosa_connectors_binary-0.1.1-cp311-cp311-win_amd64.whl", hash = "sha256:305765f07f4d2017ca0468537c9103ae7f5b5f1764981194671a75ffb415ae7b"},
     {file = "bosa_connectors_binary-0.1.1-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:a4f250ff6061ea31aad91ca9c66e66bcbc0809c0e759de7f2e7d8ba787cf3171"},
     {file = "bosa_connectors_binary-0.1.1-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:46c6778fa9d5fcdad1fd36b59d184bc2fb41fb6aa1e3c7f7870b8a66eb407eaa"},
-    {file = "bosa_connectors_binary-0.1.1-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:fd2c9fbabc68bfc997467d918f734386bdcf9c2a849214fd7e601bb49c6d573a"},
     {file = "bosa_connectors_binary-0.1.1-cp312-cp312-manylinux_2_36_x86_64.whl", hash = "sha256:d794e6ebac556fd95f954874a626234b1a0233a2cbb825e9cf20945119747432"},
     {file = "bosa_connectors_binary-0.1.1-cp312-cp312-win_amd64.whl", hash = "sha256:61d1baa991b0ef0bcfbc5bdeaecbda9cc0f40a1184bb6c971f52e541036a23e6"},
     {file = "bosa_connectors_binary-0.1.1-cp313-cp313-macosx_13_0_x86_64.whl", hash = "sha256:bfe03742ed43dfd64e6bc9aeb55807a51a15f6f5131c8bdd178ea144b7b82678"},
     {file = "bosa_connectors_binary-0.1.1-cp313-cp313-macosx_14_0_arm64.whl", hash = "sha256:2f28c5eeabf2f9eab8c2caa9043fc1ba9c6182f41db506d1c928407f7be16018"},
-    {file = "bosa_connectors_binary-0.1.1-cp313-cp313-manylinux_2_31_x86_64.whl", hash = "sha256:6c62f4d0cfe5d66277bfc107ba9b220cef7ea9cc90747f348e43a9059a0f1f55"},
     {file = "bosa_connectors_binary-0.1.1-cp313-cp313-manylinux_2_36_x86_64.whl", hash = "sha256:b10575979708de8986e4141dd6801850da7161e7ee737d55b5189ea3ea0b05fe"},
     {file = "bosa_connectors_binary-0.1.1-cp313-cp313-win_amd64.whl", hash = "sha256:af6a2401a943eaa4ffc5d82b724fb4b2934c9de8957d14c0ce3f2692a5d552a6"},
 ]
@@ -677,24 +674,24 @@ typing = ["typing-extensions (>=4.12.2) ; python_version < \"3.11\""]
 
 [[package]]
 name = "gllm-agents-binary"
-version = "0.2.15"
+version = "0.2.16"
 description = "A library for managing agents in Gen AI applications."
 optional = false
 python-versions = "<3.14,>=3.11"
 groups = ["main"]
 files = [
-    {file = "gllm_agents_binary-0.2.15-cp311-cp311-macosx_13_0_arm64.macosx_15_0_arm64.whl", hash = "sha256:1f2583171d6fa32113b2b62656a589c7b9525b20c5436e93e8cde5929b3871e7"},
-    {file = "gllm_agents_binary-0.2.15-cp311-cp311-macosx_13_0_x86_64.macosx_15_0_x86_64.whl", hash = "sha256:e50d936672f523d33fc1ab098510eb119b20868c38ee345fa397f2396691b840"},
-    {file = "gllm_agents_binary-0.2.15-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:c7aead24371b4b344bc40f6736574ed1fdf56b4e02e8935393c91289afe28043"},
-    {file = "gllm_agents_binary-0.2.15-cp311-cp311-win_amd64.whl", hash = "sha256:462264e30ddfc9d1663e674a9ee878e4fa73a718312ee5cbf70763e0f34f9abd"},
-    {file = "gllm_agents_binary-0.2.15-cp312-cp312-macosx_13_0_arm64.macosx_15_0_arm64.whl", hash = "sha256:bd5499252d0009df7073e32bc986af67896305a9f568e5d01a24100e79e72ccf"},
-    {file = "gllm_agents_binary-0.2.15-cp312-cp312-macosx_13_0_x86_64.macosx_15_0_x86_64.whl", hash = "sha256:afb1d5a9fb1aadd7b5b2b20586b372e255b8c2aec187f84c07482a15797eada5"},
-    {file = "gllm_agents_binary-0.2.15-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:0db5a9ca3beb5e7ad72671e84ad6c941788e6e129d7a9a38e554198a799e3273"},
-    {file = "gllm_agents_binary-0.2.15-cp312-cp312-win_amd64.whl", hash = "sha256:59bcd54f69dcda95582f49eba1c48503a23e90f4fdea82b83c5e578b8b3f989d"},
-    {file = "gllm_agents_binary-0.2.15-cp313-cp313-macosx_13_0_arm64.macosx_15_0_arm64.whl", hash = "sha256:b7ce3d62d07f03107d6b30810d0e2b6ca8a32a77aa862da6a78a2efe4e046ee2"},
-    {file = "gllm_agents_binary-0.2.15-cp313-cp313-macosx_13_0_x86_64.macosx_15_0_x86_64.whl", hash = "sha256:2b5cd05a60b7622e7f79af3902021c5ad42d48867c58133d98bf85a3ea43d56e"},
-    {file = "gllm_agents_binary-0.2.15-cp313-cp313-manylinux_2_31_x86_64.whl", hash = "sha256:3954af4e3209466b0616bf3a05bc4d4e073de9a95fd7d475e2421f6e171bf8de"},
-    {file = "gllm_agents_binary-0.2.15-cp313-cp313-win_amd64.whl", hash = "sha256:bebd8033e4d81f9804f1e0ebc8f0d7f3b56cde7f7902dacf76878aee5ed40eb4"},
+    {file = "gllm_agents_binary-0.2.16-cp311-cp311-macosx_13_0_arm64.macosx_15_0_arm64.whl", hash = "sha256:3310280a0ec503b9a4f8dc4621a26439dd95e94fe47c5c20a8d432b0820cffeb"},
+    {file = "gllm_agents_binary-0.2.16-cp311-cp311-macosx_13_0_x86_64.macosx_15_0_x86_64.whl", hash = "sha256:8c88fc4372305e833554cc6aee4d8e78566744a9e963fad04722d5679581d0de"},
+    {file = "gllm_agents_binary-0.2.16-cp311-cp311-manylinux_2_31_x86_64.whl", hash = "sha256:b488a56a46f01809a4a6a26275f19e05bb43f6d019e252a9cb636a208c9dd7e4"},
+    {file = "gllm_agents_binary-0.2.16-cp311-cp311-win_amd64.whl", hash = "sha256:bc4eaae6b62c56453724ff535158e71aeed26208ba0172a4af28baf6e17327e1"},
+    {file = "gllm_agents_binary-0.2.16-cp312-cp312-macosx_13_0_arm64.macosx_15_0_arm64.whl", hash = "sha256:5a608980aad099f6907b50b6b7932ade87a3123f13c96deb12f00bea13efc4e0"},
+    {file = "gllm_agents_binary-0.2.16-cp312-cp312-macosx_13_0_x86_64.macosx_15_0_x86_64.whl", hash = "sha256:34b8d69d57a2c5d0ac1754d323290a2538dd1489d6b97cc1b1e2232a07036f41"},
+    {file = "gllm_agents_binary-0.2.16-cp312-cp312-manylinux_2_31_x86_64.whl", hash = "sha256:034fa2e444996392b4ea14404686dd7c14a837c7014283ecabd5a71609ba01dc"},
+    {file = "gllm_agents_binary-0.2.16-cp312-cp312-win_amd64.whl", hash = "sha256:05724be4589daae354f22ad45a3a706f3bcb81332cc4dece3800d60a92ac4dce"},
+    {file = "gllm_agents_binary-0.2.16-cp313-cp313-macosx_13_0_arm64.macosx_15_0_arm64.whl", hash = "sha256:ce0fc159e0f89db58fe1e96064eacf9ace55638e6747e69b868696e4a700eb44"},
+    {file = "gllm_agents_binary-0.2.16-cp313-cp313-macosx_13_0_x86_64.macosx_15_0_x86_64.whl", hash = "sha256:36c161e8b72c3e82b4a54839106c9eb84d3e8e2623da8ede37917f951b95e662"},
+    {file = "gllm_agents_binary-0.2.16-cp313-cp313-manylinux_2_31_x86_64.whl", hash = "sha256:e8da03dfd6ae8ac725280ecca6aae1eddc449332a541ef5d00eb6dad80c9ca10"},
+    {file = "gllm_agents_binary-0.2.16-cp313-cp313-win_amd64.whl", hash = "sha256:cb8cb7de592b92e340fbb5050ade845ff17f7f83aa5024e141fef55ab673872f"},
 ]
 
 [package.dependencies]
@@ -702,7 +699,7 @@ a2a-sdk = ">=0.2.4,<0.2.6"
 bosa-connectors-binary = ">=0.1.0,<0.2.0"
 bosa-core-binary = ">=0.4.3,<0.5.0"
 colorama = ">=0.4.6,<0.5.0"
-deprecated = ">=1.2.14,<2.0.0"
+deprecated = ">=1.2.18,<2.0.0"
 fastapi = ">=0.115.12,<0.116.0"
 google-adk = ">=0.5.0,<0.6.0"
 langchain = ">=0.3.0,<0.4.0"
@@ -711,6 +708,7 @@ langchain-openai = ">=0.3.17,<0.4.0"
 langgraph = ">=0.2.16,<0.3.0"
 pydantic = ">=2.9.1,<3.0.0"
 python-dotenv = ">=1.0.0,<2.0.0"
+requests = ">=2.32.4,<3.0.0"
 uvicorn = ">=0.34.0,<0.35.0"
 
 [[package]]
@@ -3962,4 +3960,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.14"
-content-hash = "222db67b024bc2f1f54d1fce63f93e72fffe4b843a9339c5a4b91a8055c32e71"
+content-hash = "54edeca192391b4768d4883e146d297a3565714df9d27db07bf27b2a372d2aaf"
