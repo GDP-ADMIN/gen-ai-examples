@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "custom-gllm-backend"
+version = "0.1.0"
+description = ""
+authors = ["Ryan Ignatius Hadiwijaya <ryan.i.hadiwijaya@gdplabs.id>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+load-dotenv = "^0.1.0"
+
+# gdplabs-gen-ai-starter-gllm-backend-binary = "^0.1.0"
+gdplabs-gen-ai-starter-gllm-backend = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-template.git", subdirectory = "applications/gdplabs-gen-ai-starter-gllm-backend", branch = "f/gllm-backend-library"}
+
+[[tool.poetry.source]]
+name = "gen-ai-internal"
+url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai-internal/simple/"
+priority = "supplemental"
+
+[[tool.poetry.source]]
+name = "gen-ai"
+url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/simple/"
+priority = "supplemental"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
