@@ -11,6 +11,7 @@ from typing import Any
 from pydantic import BaseModel
 
 from gllm_core.event import EventEmitter as EventEmitter
+from gllm_core.schema import Component
 from gllm_datastore.sql_data_store import SQLAlchemySQLDataStore
 
 

@@ -12,7 +12,7 @@ from typing import Any
 
 from gllm_core.event import EventEmitter
 from gllm_core.constants import EventLevel, EventType
-from gllm_inference.schema import PromptRole
+from gllm_inference.schema import Attachment, MultimodalContent, PromptRole
 from gllm_generation.response_synthesizer.response_synthesizer import BaseResponseSynthesizer
 
 from langchain_mcp_adapters.client import MultiServerMCPClient
@@ -52,9 +52,12 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
         query: str | None = None,
         state_variables: dict[str, Any] | None = None,
         history: list[tuple[PromptRole, str | list[Any]]] | None = None,
+        extra_contents: list[MultimodalContent] | None = None,
+        attachments: list[Attachment] | None = None,
+        hyperparameters: dict[str, Any] | None = None,
         event_emitter: EventEmitter | None = None,
         system_multimodal_contents: list[Any] | None = None,
-        user_multimodal_contents: list[Any] | None = None
+        user_multimodal_contents: list[Any] | None = None,
     ) -> str:
         """Synthesizes a response based on the provided query.
 
@@ -68,6 +71,12 @@ class McpResponseSynthesizer(BaseResponseSynthesizer):
                 response. Defaults to None.
             history (list[tuple[PromptRole, str | list[Any]]] | None, optional): The chat history of the conversation
                 to be considered in generating the response. Defaults to None.
+            extra_contents (list[MultimodalContent] | None, optional): The additional multimodal contents to be considered
+                in generating the response. Defaults to None.
+            attachments (list[Attachment] | None, optional): The attachments to be considered in generating the response.
+                Defaults to None.
+            hyperparameters (dict[str, Any] | None, optional): The hyperparameters to be considered in generating the response.
+                Defaults to None.
             event_emitter (EventEmitter | None, optional): The event emitter for handling events during response
                 synthesis. Defaults to None.
             system_multimodal_contents (list[Any] | None, optional): The system multimodal contents to be considered
