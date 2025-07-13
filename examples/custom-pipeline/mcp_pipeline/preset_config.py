@@ -12,3 +12,5 @@ class McpPresetConfig(BasePipelinePresetConfig):
 
     Inherits attributes from `BasePipelinePresetConfig`.
     """
+
+    mcp_server_url: str
