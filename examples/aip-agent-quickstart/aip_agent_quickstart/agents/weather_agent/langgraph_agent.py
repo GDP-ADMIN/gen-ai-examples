@@ -7,19 +7,16 @@ Authors:
     Christian Trisno Sen Long Chen (christian.t.s.l.chen@gdplabs.id)
 """
 
-from gllm_agents.agent.langgraph_agent import LangGraphAgent
+from gllm_agents.agent import LangGraphAgent
 from gllm_agents.utils.logger_manager import LoggerManager
 from langchain_openai import ChatOpenAI
-
 from weather_agent import config
 from weather_agent.tools import langchain_weather_tool
 
 logger = LoggerManager().get_logger(__name__)
 
 
-llm = ChatOpenAI(
-    model=config.LLM_MODEL_NAME, temperature=config.LLM_TEMPERATURE, streaming=True
-)
+llm = ChatOpenAI(model=config.LLM_MODEL_NAME, temperature=config.LLM_TEMPERATURE, streaming=True)
 tools = [langchain_weather_tool]
 
 langgraph_agent = LangGraphAgent(

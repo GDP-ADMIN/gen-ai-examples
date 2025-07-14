@@ -10,9 +10,9 @@ load_dotenv()
 # --- Agent Server Configuration ---
 SERVER_AGENT_NAME: str = "WebSearchAgent"
 DEFAULT_HOST: str = "0.0.0.0"
-DEFAULT_PORT: int = 8003
+DEFAULT_PORT: int = 8002
 AGENT_VERSION: str = "0.1.0"
-AGENT_URL: str = os.getenv("AGENT_URL", "http://localhost:8003")
+AGENT_URL: str = os.getenv("AGENT_URL", "http://localhost:8002")
 
 # --- LLM Configuration ---
 OPENAI_API_KEY: str | None = os.getenv("OPENAI_API_KEY")

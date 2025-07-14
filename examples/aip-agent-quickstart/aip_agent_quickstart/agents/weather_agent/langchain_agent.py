@@ -7,7 +7,7 @@ Authors:
     Christian Trisno Sen Long Chen (christian.t.s.l.chen@gdplabs.id)
 """
 
-from gllm_agents.agent.langchain_agent import LangChainAgent
+from gllm_agents.agent import LangChainAgent
 from gllm_agents.utils.logger_manager import LoggerManager
 from langchain_openai import ChatOpenAI
 from weather_agent import config

@@ -7,7 +7,7 @@ Authors:
     Christian Trisno Sen Long Chen (christian.t.s.l.chen@gdplabs.id)
 """
 
-from gllm_agents.agent.google_adk_agent import GoogleADKAgent
+from gllm_agents.agent import GoogleADKAgent
 from gllm_agents.utils.logger_manager import LoggerManager
 
 # Imports from your agent's specific logic package
