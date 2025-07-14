@@ -9,8 +9,14 @@ ENV POETRY_CACHE_DIR=/opt/.cache
 ENV PIP_DEFAULT_TIMEOUT=100
 
 # Install poetry
-RUN apt-get update && apt-get install -y --no-install-recommends curl && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+RUN apt-get update && apt-get install -y \
+    curl \
+    gcc \
+    g++ \
+    libmagic1 \
+    pkg-config \
+    cmake \
+    && rm -rf /var/lib/apt/lists/* && \
     curl -sSL https://install.python-poetry.org | python3 -
 
 # Add poetry to PATH
