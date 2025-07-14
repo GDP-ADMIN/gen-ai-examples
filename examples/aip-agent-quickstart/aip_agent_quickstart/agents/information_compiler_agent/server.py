@@ -11,25 +11,23 @@ Authors:
 import click
 import uvicorn
 from a2a.types import AgentCapabilities, AgentCard, AgentSkill
-from gllm_agents.agent.langgraph_agent import LangGraphAgent
+from gllm_agents.agent import LangGraphAgent
 from gllm_agents.utils.logger_manager import LoggerManager
 from langchain_openai import ChatOpenAI
 
 # Imports from your agent's specific logic package
 from information_compiler_agent import config
 from information_compiler_agent.tools import (
+    create_markdown_file,
     read_markdown_file,
     write_markdown_file,
-    create_markdown_file,
 )  # Markdown tools
 
 logger = LoggerManager().get_logger(__name__)
 
 
 @click.command()
-@click.option(
-    "--host", "host", default=config.DEFAULT_HOST, help="Host to bind the server to."
-)
+@click.option("--host", "host", default=config.DEFAULT_HOST, help="Host to bind the server to.")
 @click.option(
     "--port",
     "port",

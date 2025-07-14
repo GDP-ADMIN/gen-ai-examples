@@ -10,10 +10,10 @@ Authors:
 import click
 import uvicorn
 from a2a.types import AgentCapabilities, AgentCard, AgentSkill
-from gllm_agents.agent.langgraph_agent import LangGraphAgent
+from gllm_agents.agent import LangGraphAgent
 from gllm_agents.utils.logger_manager import LoggerManager
-from langchain_openai import ChatOpenAI
 from langchain_community.utilities.google_serper import GoogleSerperAPIWrapper
+from langchain_openai import ChatOpenAI
 
 # Imports from your agent's specific logic package
 from web_search_agent import config
@@ -23,9 +23,7 @@ logger = LoggerManager().get_logger(__name__)
 
 
 @click.command()
-@click.option(
-    "--host", "host", default=config.DEFAULT_HOST, help="Host to bind the server to."
-)
+@click.option("--host", "host", default=config.DEFAULT_HOST, help="Host to bind the server to.")
 @click.option(
     "--port",
     "port",
@@ -67,9 +65,7 @@ def main(host: str, port: int) -> None:
         streaming=True,
     )
 
-    tools = [
-        GoogleSerperTool(api_wrapper=GoogleSerperAPIWrapper())
-    ]  # Add your agent's tools here
+    tools = [GoogleSerperTool(api_wrapper=GoogleSerperAPIWrapper())]  # Add your agent's tools here
 
     # Instantiate your agent (e.g., LangGraphAgent or a custom one)
     langgraph_agent = LangGraphAgent(
