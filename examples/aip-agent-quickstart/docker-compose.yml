@@ -30,11 +30,12 @@ services:
       dockerfile: Dockerfile
     container_name: information_compiler_agent_service
     ports:
-      - "8003:8003"
+      - "8002:8002"
     restart: unless-stopped
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - AGENT_URL=${INFORMATION_COMPILER_AGENT_URL:-http://localhost:8003}
+      - AGENT_URL=${INFORMATION_COMPILER_AGENT_URL:-http://localhost:8002}
+
   arxiv_mcp_server:
     build:
       context: ./aip_agent_quickstart/mcp_servers/arxiv
@@ -52,11 +53,11 @@ services:
       dockerfile: Dockerfile
     container_name: web_search_agent_service
     ports:
-      - "8002:8002"
+      - "8003:8003"
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - SERPER_API_KEY=${SERPER_API_KEY}
-      - AGENT_URL=${WEB_SEARCH_AGENT_URL:-http://localhost:8002}
+      - AGENT_URL=${WEB_SEARCH_AGENT_URL:-http://localhost:8003}
     restart: ${RESTART_POLICY:-unless-stopped}
 
 networks:

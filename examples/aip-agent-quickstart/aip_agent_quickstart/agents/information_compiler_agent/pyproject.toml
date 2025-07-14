@@ -8,10 +8,10 @@ packages = [{include = "information_compiler_agent"}]
 package-mode = false # Important for not trying to install the agent itself as a package
 
 [tool.poetry.dependencies]
-python = ">=3.13,<3.14"
+python = ">=3.12,<3.13"
 
 # Core A2A and agent libraries
-gllm-agents-binary = "0.2.15"
+gllm-agents-binary = "^0.2.22"
 
 # LangChain (optional, but common for LLM agents)
 langchain = "^0.3.0"
