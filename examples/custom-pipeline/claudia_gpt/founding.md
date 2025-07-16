@@ -75,3 +75,18 @@ sehingga metode ini harus direfactor dengan cara:
 1. semua env variable yang mau saya masukkan pertama harus di register di `config.yaml`
 2. semua env variable baru tersebut harus saya masukkan kedalam `preset_config_class = ClaudiaPresetConfig`
 3. kita hanya bisa menarik value dari env variable hanya melalui function `async def build(self, pipeline_config: dict[str, Any])` di dalam `claudia_gpt/pipeline.py`, sehingga ketika ada file lain yang membutuhkan env variable ini, mau tidak mau kita harus passing via parameter (salah satu caranya).
+
+---
+
+# Answer
+
+1. mestinya bisa langsung pake datastore
+   - oke noted buat yang ini
+2. betul, yg runtime buat dipake lewat runtime config map itu
+   - untuk yang no 2 ini, lebih ke, apa ngak bisa dibikin salah satu aja? antara di `additional_config_class` atau di `preset_config_class`
+3. dari diskusi kmrn2, custom pipeline mestinya ga boleh pake component gl chat (kecuali dipindah ke gllm plugin), tapi gw lupa logger gl chat itu pake sdk atau ada custom nya lagi ya
+   - berarti untuk yang ini, kita pakai print dulu sementara aja ya?
+4. nah iya soal env ini jadi ada 2 macem : yg udah ada di gl chat dan yg blm. kalo yg udah ada jadinya ga perlu masukin preset config, bisa langsung di get dan key nya as is. kalo yg blm, baru perlu dimasukin preset config, dan key nya kita add suffix preset uuidnya, supaya beda preset ga nabrak value env nya
+   - untuk yg ini gimana cara kita tau list of enviroinment variable apa aja yang punya GLCHAT dan mana yang blum punya GLCHAT
+5. kalo env var yg ada di gl chat: bisa. tapi kalo blm, ga bisa. mungkin bedanya itu apakah nanti GL chat BE buat claudia itu khusus claudia aja: bisa tambahin aja env var nya di BE nya. kalo claudia pipeline dimasukin ke GL chat BE yg existing skrg: ga bisa, kecuali GL chat masukin env var khusus claudia dulu
+   - untuk yang ini, better kita masukin semua nya lewat config.yaml dan dimasukin di `preset_config_class` aja ya?
