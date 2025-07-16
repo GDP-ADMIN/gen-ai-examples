@@ -13,8 +13,7 @@ from gllm_core.schema import Chunk
 from gllm_retrieval.reranker.reranker import BaseReranker
 
 from claudia_gpt.config.schemas.reranker_schema import CohereRerankerConfig
-
-# from claudia_gpt.utils.logger import logger
+from claudia_gpt.utils.logger import logger
 
 
 class CohereReranker(BaseReranker):
@@ -63,5 +62,5 @@ class CohereReranker(BaseReranker):
             reranked_chunks = [chunks[i] for i in reranked_indexes]
             return reranked_chunks
         except ApiError as error:
-            # logger.error(f"An error occurred while reranking documents: {error}")
+            logger.error(f"An error occurred while reranking documents: {error}")
             return chunks

@@ -6,10 +6,6 @@ extra_configs:
     type: env
     ui_type: text_field
     level: PRESET
-  - name: cohere_api_key
-    type: env
-    ui_type: text_field
-    level: PRESET
     
 
 presets:

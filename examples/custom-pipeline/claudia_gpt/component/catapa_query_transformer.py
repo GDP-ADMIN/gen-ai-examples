@@ -21,6 +21,9 @@ class CatapaQueryTransformer(Component):
         query_transformers (CatapaUseCaseQueryTransformer): The query transformer for the Catapa use case.
     """
 
+    QUERY_KEY = "query"
+    CHAT_HISTORY_KEY = "chat_history"
+
     def __init__(self):
         """Initialize the CatapaQueryTransformer."""
         # abbreviation_dict = DatabaseAbbreviationConfigLoader().get_abbreviation_dict()

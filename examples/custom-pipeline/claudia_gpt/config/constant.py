@@ -9,12 +9,15 @@ References:
 
 import os
 
+from claudia_gpt.api.model.constant import LangId
+
 # Cohere
 COHERE_API_KEY = os.getenv("COHERE_API_KEY", "")
 COHERE_MODEL = "rerank-multilingual-v3.0"  # Custom implementation for Claudia
 
 # Databases
 DB_URL = os.getenv("DB_URL", "")
+DATABASE_TYPE = os.getenv("DATABASE_TYPE", "mariadb")
 
 # Models
 DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", "openai/gpt-4.1")
@@ -163,9 +166,34 @@ Source:
 <context>
 {context}
 </context>"""
-HELP_CENTER_USE_CASE_USER_PROMPT = """Below is the user query: 
+HELP_CENTER_USE_CASE_USER_PROMPT = """Below is the user query:
 {query}"""
 
 # OpenAI
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_EMBEDDING_MODEL = "text-embedding-3-small"  # Custom implementation for Claudia
+
+
+class SharedConversationConstants:
+    """Class for defining constants related to shared conversations."""
+
+    DEFAULT_EXPIRY_DAYS = None  # None means no expiry
+    ERR_EXPIRED_MSG = "The shared conversation has expired."
+    ERR_NOT_FOUND_MSG = "Shared conversation not found."
+
+
+DEFAULT_LANG_ID = LangId.EN
+
+# # Auth
+CATAPA_AUTH_KEYSTORE_TYPE = os.getenv("CATAPA_AUTH_KEYSTORE_TYPE", "")
+CATAPA_AUTH_ACCESSTOKEN_JWT_PRIVATEKEY_PATH = os.getenv("CATAPA_AUTH_ACCESSTOKEN_JWT_PRIVATEKEY_PATH", "")
+CATAPA_AUTH_ACCESSTOKEN_JWT_PRIVATEKEY_PAIR = os.getenv("CATAPA_AUTH_ACCESSTOKEN_JWT_PRIVATEKEY_PAIR", "")
+CATAPA_AUTH_ACCESSTOKEN_JWT_PRIVATEKEY_PASSWORD = os.getenv("CATAPA_AUTH_ACCESSTOKEN_JWT_PRIVATEKEY_PASSWORD", "")
+
+# Encryption
+CATAPA_ENCRYPTION_KMS_PROVIDER = os.getenv("CATAPA_ENCRYPTION_KMS_PROVIDER", "").lower()
+CATAPA_ENCRYPTION_KMS_KEYID = os.getenv("CATAPA_ENCRYPTION_KMS_KEYID", "")
+CATAPA_ENCRYPTION_KMS_AWS_REGION = os.getenv("CATAPA_ENCRYPTION_KMS_AWS_REGION", "")
+CATAPA_ENCRYPTION_CURRENTKEYID = os.getenv("CATAPA_ENCRYPTION_CURRENTKEYID", "")
+CATAPA_ENCRYPTION_KEYS_K1_PASSWORD = os.getenv("CATAPA_ENCRYPTION_KEYS_K1_PASSWORD", "")
+CATAPA_ENCRYPTION_KEYS_K1_SALT = os.getenv("CATAPA_ENCRYPTION_KEYS_K1_SALT", "")
