@@ -44,7 +44,7 @@ from claudia_gpt.config.pipeline.pipeline_helper import build_save_history_step
 from claudia_gpt.config.supported_models import ModelName
 from claudia_gpt.constant.agent_type import AgentType
 from claudia_gpt.preset_config import ClaudiaPresetConfig
-from claudia_gpt.runtime_config import ClaudiaRuntimeConfig, ClaudiaRuntimeConfigKeys
+from claudia_gpt.runtime_config import ClaudiaRuntimeConfig
 from claudia_gpt.runtime_config import ClaudiaRuntimeConfigKeys as ConfigKeys
 from claudia_gpt.state import ClaudiaState, ClaudiaStateKeys, create_initial_state
 from claudia_gpt.utils.initializer import (
@@ -183,8 +183,7 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
                 "query": ClaudiaStateKeys.TRANSFORMED_QUERY,
             },
             runtime_config_map={
-                ClaudiaRuntimeConfigKeys.RERANK_KWARGS: ConfigKeys.RERANK_KWARGS,
-                ClaudiaRuntimeConfigKeys.RERANK_TYPE: ConfigKeys.RERANK_TYPE,
+                "rerank_type": ConfigKeys.RERANK_TYPE,
             },
         )
 
@@ -241,7 +240,7 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
                 "retrieval_params": ClaudiaStateKeys.RETRIEVAL_PARAMS,
             },
             output_state=ClaudiaStateKeys.CHUNKS,
-            fixed_args={"top_k": pipeline_config.get(ConfigKeys.NORMAL_SEARCH_TOP_K)},
+            fixed_args={"top_k": pipeline_config.get("normal_search_top_k")},
         )
         return catapa_retriever_step
 

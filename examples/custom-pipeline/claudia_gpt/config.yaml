@@ -16,7 +16,6 @@ presets:
       - openai/gpt-4o
     support_multimodal: true
     use_docproc: false
-    rerank_kwargs: {}
     rerank_type: cohere
     normal_search_top_k: 20
     agent_type: help_center_catapa

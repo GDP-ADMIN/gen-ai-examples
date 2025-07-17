@@ -573,7 +573,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                     session.add(new_message)
                     session.commit()
                     parent_id = new_message.id
-                    saved_messages.append(self._decrypt_message(new_message, tenant))  # Claudia adjustment
+                    saved_messages.append(self._decrypt_message(new_message))  # Claudia adjustment
 
                 return saved_messages
             except SQLAlchemyError as exc:
@@ -1216,7 +1216,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                     message.metadata_ = self._serialize_metadata(metadata_)
                     session.commit()
 
-                    updated_message = self._decrypt_message(message, kwargs.get("tenant"))  # Claudia adjustment
+                    updated_message = self._decrypt_message(message)  # Claudia adjustment
                     return updated_message
                 raise ValueError(f"Message id {message_id} does not exist.")
             except SQLAlchemyError as exc:

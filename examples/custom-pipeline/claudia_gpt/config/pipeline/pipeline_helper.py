@@ -18,7 +18,7 @@ from gllm_pipeline.steps import step
 from gllm_pipeline.steps.pipeline_step import BasePipelineStep
 
 from claudia_gpt.chat_history.schemas import DocumentStatus
-from claudia_gpt.component import ChatHistoryManager
+from claudia_gpt.component.chat_history_manager import ChatHistoryManager
 from claudia_gpt.utils.logger import logger
 
 DEFAULT_SCOPE = ""
