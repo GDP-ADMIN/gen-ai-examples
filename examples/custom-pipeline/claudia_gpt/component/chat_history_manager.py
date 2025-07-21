@@ -111,6 +111,10 @@ class ChatHistoryManager(Component, ChatHistoryConstants):
                 last_message_id=last_message_id,
             )
 
+        print("\n\n")
+        print(">>chat_history", chat_history)
+        print("\n\n")
+
         return chat_history
 
     async def write(self, kwargs: Any) -> None:

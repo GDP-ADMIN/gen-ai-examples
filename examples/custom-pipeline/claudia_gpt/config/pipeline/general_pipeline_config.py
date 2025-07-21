@@ -41,6 +41,7 @@ class GeneralPipelineConfig(BaseModel):
         start_time (float): The start time.
         lang_id (str): The language ID.
         user_multimodal_contents (list[Any]): A list containing the user multimodal contents.
+        last_message_id (str): The last message ID.
     """
 
     model_name: str | None = None
@@ -63,6 +64,7 @@ class GeneralPipelineConfig(BaseModel):
     start_time: float
     lang_id: str = DEFAULT_LANG_ID
     user_multimodal_contents: list[Any] = []
+    last_message_id: str = ""
 
     def __init__(self, request_config: dict[str, Any]):
         """Initialize a GeneralPipelineConfig instance.
@@ -111,3 +113,4 @@ class GeneralPipelineConfigKeys(StrEnum):
     START_TIME = "start_time"
     LANG_ID = "lang_id"
     USER_MULTIMODAL_CONTENTS = "user_multimodal_contents"
+    LAST_MESSAGE_ID = "last_message_id"

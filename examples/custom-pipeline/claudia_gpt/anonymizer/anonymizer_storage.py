@@ -3,18 +3,16 @@
 Authors:
     Berty C L Tobing (berty.c.l.tobing@gdplabs.id)
     Irvan Ariyanto (irvan.ariyanto@gdplabs.id)
+    Felicia Limanta (felicia.limanta@gdplabs.id)
 """
 
 from gllm_datastore.sql_data_store import SQLAlchemySQLDataStore
 from gllm_plugin.storage.base_anonymizer_storage import BaseAnonymizerStorage, MappingDataType
-from gllm_privacy.pii_detector.utils.deanonymizer_mapping import get_dict_diff
 from sqlalchemy.exc import SQLAlchemyError
 
 from claudia_gpt.anonymizer.models import AnonymizerMappingModel
 from claudia_gpt.anonymizer.schemas import AnonymizerMapping
-from claudia_gpt.encryption.encryptor.base_encryptor import (
-    BaseEncryptor,  # Claudia adjustment: use encryptor.BaseEncryptor
-)
+from claudia_gpt.encryption.base_encryptor import BaseEncryptor
 from claudia_gpt.utils.logger import logger
 
 
@@ -56,16 +54,16 @@ class AnonymizerStorage(BaseAnonymizerStorage):
                 return []
 
             decrypted_mappings: list[AnonymizerMapping] = []
-            # Claudia adjustment: decrypt the PII value
             for obj in mappings:
-                try:
-                    obj.pii_value = self.encryptor.decrypt(cipher_text=obj.pii_value).decode("utf-8")
-                except Exception as e:
-                    obj.pii_value = obj.anonymized_value
-                    logger.error(f"Failed to decrypt PII value: {e}")
-
                 anonymizer_mapping = AnonymizerMapping.model_validate(obj)
 
+                try:
+                    decrypted_pii_value = self.encryptor.decrypt(anonymizer_mapping.pii_value)
+                except Exception as e:
+                    decrypted_pii_value = anonymizer_mapping.anonymized_value
+                    logger.error(f"Failed to decrypt PII value: {e}")
+
+                anonymizer_mapping.pii_value = decrypted_pii_value
                 decrypted_mappings.append(anonymizer_mapping)
 
             return decrypted_mappings
@@ -86,9 +84,7 @@ class AnonymizerStorage(BaseAnonymizerStorage):
         """
         with self.db() as session:
             try:
-                encrypted_pii_value: str = self.encryptor.encrypt(
-                    plain_text=pii_value
-                )  # Claudia adjustment: use kwargs
+                encrypted_pii_value: str = self.encryptor.encrypt(pii_value)
 
                 new_mapping = AnonymizerMappingModel(
                     conversation_id=conversation_id,
@@ -100,14 +96,12 @@ class AnonymizerStorage(BaseAnonymizerStorage):
                 session.commit()
                 session.refresh(new_mapping)
 
-                new_mapping.pii_value = pii_value  # Claudia adjustment: set the original PII value
                 return AnonymizerMapping.model_validate(new_mapping)
             except SQLAlchemyError as exc:
                 logger.error(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
-    # Claudia adjustment: Implement update_mapping method
     def update_mapping(self, conversation_id: str, is_anonymized: bool, mapping_data_type: MappingDataType) -> None:
         """Update the mappings for a specific conversation with new anonymizer mappings.
 
@@ -116,15 +110,46 @@ class AnonymizerStorage(BaseAnonymizerStorage):
             is_anonymized (bool): The flag to determine if the message is anonymized.
             mapping_data_type (MappingDataType): A dictionary of new anonymizer mappings to update for deanonymization.
         """
-        if is_anonymized:
-            saved_mappings = self.get_mappings_by_conversation_id(conversation_id)
-            saved_anonymizer_mappings = AnonymizerMapping.convert_to_mapping_data_type(saved_mappings)
+        pass
 
-            new_mappings = get_dict_diff(saved_anonymizer_mappings, mapping_data_type)
-            for mapping in new_mappings:
-                self.create_mapping(
-                    conversation_id=conversation_id,
-                    pii_type=mapping["pii_type"],
-                    anonymized_value=mapping["anonymized_value"],
-                    pii_value=mapping["pii_value"],
+    def clone_mappings_to_conversation(self, source_conversation_id: str, target_conversation_id: str) -> None:
+        """Clone PII mappings from source conversation to target conversation.
+
+        Args:
+            source_conversation_id (str): The source conversation ID.
+            target_conversation_id (str): The target conversation ID.
+        """
+        with self.db() as session:
+            try:
+                source_mappings = (
+                    session.query(AnonymizerMappingModel)
+                    .filter(AnonymizerMappingModel.conversation_id == source_conversation_id)
+                    .all()
                 )
+
+                if not source_mappings:
+                    logger.info(f"No PII mappings to clone from {source_conversation_id}")
+                    return
+
+                new_mappings = [
+                    AnonymizerMappingModel(
+                        conversation_id=target_conversation_id,
+                        pii_type=mapping.pii_type,
+                        anonymized_value=mapping.anonymized_value,
+                        pii_value=mapping.pii_value,  # Already encrypted
+                    )
+                    for mapping in source_mappings
+                ]
+
+                session.add_all(new_mappings)
+                session.commit()
+
+                logger.info(
+                    f"Cloned {len(new_mappings)} PII mappings from {source_conversation_id} "
+                    f"to {target_conversation_id}"
+                )
+
+            except SQLAlchemyError as exc:
+                session.rollback()
+                logger.warning(f"Failed to clone PII mappings: {exc}")
+                raise

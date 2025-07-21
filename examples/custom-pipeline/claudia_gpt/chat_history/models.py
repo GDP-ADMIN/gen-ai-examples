@@ -18,6 +18,7 @@ from claudia_gpt.chat_history.schemas import DocumentStatus, MessageRole
 class ConversationModel(SQLAlchemyAdapter.base):
     """Base Database Model Class for Conversation Table."""
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = "conversation"
     id = sa.Column(sa.String(36), primary_key=True)
     user_id = sa.Column(sa.String(100))
@@ -32,6 +33,7 @@ class ConversationModel(SQLAlchemyAdapter.base):
 class MessageModel(SQLAlchemyAdapter.base):
     """Base Database Model Class for Message Table."""
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = "message"
     id = sa.Column(sa.String(36), primary_key=True)
     conversation_id = sa.Column(sa.String(36), sa.ForeignKey("conversation.id"))
@@ -48,6 +50,7 @@ class MessageModel(SQLAlchemyAdapter.base):
 class ConversationDocumentModel(SQLAlchemyAdapter.base):
     """Base Database Model Class for DocumentStatus Table."""
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = "conversation_document"
     id = sa.Column(sa.String(101), primary_key=True)
     conversation_id = sa.Column(sa.String(36), sa.ForeignKey("conversation.id"))
@@ -60,6 +63,7 @@ class ConversationDocumentModel(SQLAlchemyAdapter.base):
 class SharedConversationModel(SQLAlchemyAdapter.base):
     """Base Database Model Class for SharedConversation Table."""
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = "shared_conversation"
     id = sa.Column(sa.String(36), primary_key=True)
     user_id = sa.Column(sa.String(100))

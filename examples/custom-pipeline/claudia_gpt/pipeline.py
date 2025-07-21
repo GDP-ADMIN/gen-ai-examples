@@ -12,15 +12,19 @@ from typing import Any
 
 from dotenv import load_dotenv
 from gllm_datastore.vector_data_store import ElasticsearchVectorDataStore
+from gllm_generation.reference_formatter import SimilarityBasedReferenceFormatter
 from gllm_generation.response_synthesizer import StuffResponseSynthesizer
+from gllm_inference.em_invoker import LangChainEMInvoker
 from gllm_inference.multimodal_lm_invoker import OpenAIMultimodalLMInvoker
 from gllm_inference.prompt_builder import OpenAIPromptBuilder
 from gllm_inference.request_processor import LMRequestProcessor
 from gllm_misc.context_manipulator.repacker.repacker import Repacker, RepackerMode
 from gllm_pipeline.pipeline.pipeline import Pipeline
-from gllm_pipeline.steps import bundle, step, toggle, transform
+from gllm_pipeline.steps import bundle, if_else, step, toggle, transform
 from gllm_pipeline.steps.pipeline_step import BasePipelineStep
 from gllm_plugin.pipeline.pipeline_plugin import PipelineBuilderPlugin
+from gllm_retrieval.query_transformer import OneToOneQueryTransformer
+from gllm_retrieval.query_transformer.query_transformer import ErrorHandling
 from gllm_retrieval.reranker.reranker import BaseReranker
 from gllm_retrieval.retriever.vector_retriever.basic_vector_retriever import BasicVectorRetriever
 from langchain_openai import OpenAIEmbeddings
@@ -30,6 +34,7 @@ from claudia_gpt.component.catapa_query_transformer import CatapaQueryTransforme
 from claudia_gpt.component.chat_history_manager import ChatHistoryManager
 from claudia_gpt.config.constant import (
     DEFAULT_MODEL,
+    DEFAULT_REFERENCE_FORMATTER_THRESHOLD,
     ELASTICSEARCH_INDEX_NAME,
     ELASTICSEARCH_URL,
     HELP_CENTER_USE_CASE_SYSTEM_PROMPT,
@@ -38,18 +43,20 @@ from claudia_gpt.config.constant import (
     OPENAI_EMBEDDING_MODEL,
 )
 from claudia_gpt.config.pipeline.general_pipeline_config import GeneralPipelineConfigKeys
-from claudia_gpt.config.pipeline.pipeline_helper import build_save_history_step
+from claudia_gpt.config.pipeline.pipeline_helper import build_save_history_step, get_lmrp_by_scope, to_bool
 from claudia_gpt.config.supported_models import ModelName
 from claudia_gpt.preset_config import ClaudiaPresetConfig
 from claudia_gpt.runtime_config import ClaudiaRuntimeConfig
 from claudia_gpt.runtime_config import ClaudiaRuntimeConfigKeys as ConfigKeys
 from claudia_gpt.state import ClaudiaState, create_initial_state
 from claudia_gpt.state import ClaudiaStateKeys as StateKeys
+from claudia_gpt.utils.caching import is_prompt_within_context_limit
 from claudia_gpt.utils.constant import chat_history_manager
 from claudia_gpt.utils.initializer import (
     RerankerType,
     get_reranker,
 )
+from claudia_gpt.utils.prompts import concat_history_with_query
 
 load_dotenv(override=True)
 
@@ -89,8 +96,37 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         Returns:
             Pipeline: The simple pipeline.
         """
+        # Retrieve History
+        # Claudia version
+        # retrieve_history_step = step(
+        #     component=chat_history_manager,
+        #     input_state_map={},
+        #     output_state=StateKeys.HISTORY,
+        #     runtime_config_map={
+        #         ChatHistoryManager.USER_ID_KEY: "user_id",
+        #         ChatHistoryManager.CONVERSATION_ID_KEY: "conversation_id",
+        #         ChatHistoryManager.CHAT_HISTORY_KEY: "chat_history",
+        #     },
+        #     fixed_args={
+        #         ChatHistoryManager.OPERATION_KEY: ChatHistoryManager.OP_READ,
+        #         ChatHistoryManager.IS_MULTIMODAL_KEY: support_multimodal,
+        #         ChatHistoryManager.LIMIT_KEY: pipeline_config.get("chat_history_limit"),
+        #     },
+        # )
+
+        # GLChat version
+        multimodality = to_bool(pipeline_config.get("support_multimodal", False))
+        chat_history_limit = pipeline_config.get("chat_history_limit", 20)
+        retrieve_history_step = self._build_retrieve_history_step(multimodality, chat_history_limit)
+
         # Query Transformer
-        optional_catapa_query_transformer_step = self._build_optional_catapa_query_transformer_step()
+        # Claudia version
+        # optional_catapa_query_transformer_step = self._build_optional_catapa_query_transformer_step()
+
+        # GLChat version
+        prompt_context_char_threshold = int(pipeline_config.get("prompt_context_char_threshold", 32000))
+        combine_query_with_history_step = self._build_combine_query_with_history_step(prompt_context_char_threshold)
+        build_standalone_query_step = self._build_standalone_query_step(prompt_context_char_threshold)
 
         # Retriever
         catapa_retriever_step = self._build_catapa_retriever_step(pipeline_config)
@@ -121,6 +157,17 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         # Resposne Synthesizer
         response_synthesizer_step = self._build_catapa_response_synthesizer_step()
 
+        # Reference Fromatter
+        reference_formatter_step = step(
+            component=self.build_reference_formatter(),
+            input_state_map={
+                "response": "response",
+                "chunks": "chunks",
+                "event_emitter": "event_emitter",
+            },
+            output_state="references",
+        )
+
         # Save Message Step
         save_history_step = build_save_history_step(
             chat_history_manager=chat_history_manager,
@@ -143,13 +190,17 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
 
         return Pipeline(
             steps=[
-                optional_catapa_query_transformer_step,
+                retrieve_history_step,
+                # optional_catapa_query_transformer_step,
+                combine_query_with_history_step,
+                build_standalone_query_step,
                 catapa_retriever_step,
                 optional_rerank_chunks_step,
                 limit_chunks_step,
                 repacker_step,
                 bundler_step,
                 response_synthesizer_step,
+                reference_formatter_step,
                 save_history_step,
             ],
             state_type=ClaudiaState,
@@ -195,6 +246,33 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
             output_state=StateKeys.CHUNKS,
         )
 
+    def _build_retrieve_history_step(self, use_multimodal: bool, chat_history_limit: int) -> BasePipelineStep:
+        """Build the retrieve history step.
+
+        Args:
+            use_multimodal (bool): The multimodal flag.
+            chat_history_limit (int): The chat history limit.
+
+        Returns:
+            BasePipelineStep: The retrieve history step.
+        """
+        return step(
+            component=chat_history_manager,
+            input_state_map={},
+            output_state=StateKeys.HISTORY,
+            runtime_config_map={
+                ChatHistoryManager.USER_ID_KEY: GeneralPipelineConfigKeys.USER_ID,
+                ChatHistoryManager.CONVERSATION_ID_KEY: GeneralPipelineConfigKeys.CONVERSATION_ID,
+                ChatHistoryManager.CHAT_HISTORY_KEY: GeneralPipelineConfigKeys.CHAT_HISTORY,
+                ChatHistoryManager.LAST_MESSAGE_ID_KEY: GeneralPipelineConfigKeys.LAST_MESSAGE_ID,
+            },
+            fixed_args={
+                ChatHistoryManager.OPERATION_KEY: ChatHistoryManager.OP_READ,
+                ChatHistoryManager.IS_MULTIMODAL_KEY: use_multimodal,
+                ChatHistoryManager.LIMIT_KEY: chat_history_limit,
+            },
+        )
+
     def _build_optional_catapa_query_transformer_step(self) -> BasePipelineStep:
         """Build the optional flag embedding chunks step.
 
@@ -211,6 +289,79 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         )
         return query_transformer_step
 
+    def _build_combine_query_with_history_step(self, prompt_context_char_threshold: int) -> BasePipelineStep:
+        """Build the combine query with history step.
+
+        Includes the latest possible history messages without exceeding the prompt context character threshold.
+        Only the latest messages that fit the threshold are included, in chronological order.
+
+        Format:
+            ```
+            History:
+            user: <user_message>
+            assistant: <assistant_message>
+
+            Query:
+            <generation_query>
+            ```
+
+        Args:
+            prompt_context_char_threshold (int): The character limit above which the prompt is assumed
+            to have contained the context.
+
+        Returns:
+            BasePipelineStep: The combine query with history step.
+        """
+        return transform(
+            operation=concat_history_with_query,
+            input_states=[StateKeys.GENERATION_QUERY, StateKeys.HISTORY],
+            output_state=StateKeys.JOINED_QUERY_WITH_HISTORY,
+            name="combine_query_with_history",
+            fixed_args={"prompt_context_char_threshold": prompt_context_char_threshold},
+        )
+
+    def _build_standalone_query_step(self, prompt_context_char_threshold: int) -> BasePipelineStep:
+        """Build the standalone query step.
+
+        Args:
+            prompt_context_char_threshold (int): The character limit above which the prompt is assumed
+            to have contained the context.
+
+        Returns:
+            BasePipelineStep: The standalone query step.
+        """
+        lmrp = get_lmrp_by_scope(self.lmrp_catalogs, "standard_rag_build_standalone_query")
+        query_transformer = OneToOneQueryTransformer(
+            lm_request_processor=lmrp,
+            extract_func=lambda lm_output: lm_output.structured_output.get("transformed_query", ""),
+            on_error=ErrorHandling.KEEP,
+        )
+        standalone_query_step = step(
+            name="standalone_query_step",
+            component=query_transformer,
+            input_state_map={"query": StateKeys.JOINED_QUERY_WITH_HISTORY},
+            output_state=StateKeys.STANDALONE_QUERY,
+        )
+
+        copy_query_to_standalone_query_step = transform(
+            operation=lambda input: input[StateKeys.JOINED_QUERY_WITH_HISTORY],
+            input_states=[StateKeys.JOINED_QUERY_WITH_HISTORY],
+            output_state=StateKeys.STANDALONE_QUERY,
+        )
+
+        return if_else(
+            name="standalone_query_toggle",
+            condition=lambda input: (
+                bool(input[StateKeys.HISTORY])
+                and is_prompt_within_context_limit(
+                    input[StateKeys.JOINED_QUERY_WITH_HISTORY],
+                    prompt_context_char_threshold,
+                )
+            ),
+            if_branch=standalone_query_step,
+            else_branch=copy_query_to_standalone_query_step,
+        )
+
     def _build_catapa_retriever_step(self, pipeline_config: dict[str, Any]) -> BasePipelineStep:
         """Build the CATAPA retriever step.
 
@@ -223,7 +374,7 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         catapa_retriever_step = step(
             component=self.build_retriever(HELP_CENTER_ELASTICSEARCH_INDEX_NAME),
             input_state_map={
-                "query": StateKeys.TRANSFORMED_QUERY,
+                "query": StateKeys.STANDALONE_QUERY,
                 "retrieval_params": StateKeys.RETRIEVAL_PARAMS,
             },
             output_state=StateKeys.CHUNKS,
@@ -258,6 +409,20 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
             output_state=StateKeys.RESPONSE,
         )
         return response_synthesizer_step
+
+    def build_reference_formatter(self) -> SimilarityBasedReferenceFormatter:
+        """Build the reference formatter component.
+
+        Returns:
+            SimilarityBasedReferenceFormatter: The reference formatter component.
+        """
+        embedding_model = OpenAIEmbeddings(model=OPENAI_EMBEDDING_MODEL, api_key=SecretStr(OPENAI_API_KEY))
+        em_invoker = LangChainEMInvoker(em=embedding_model)
+        return SimilarityBasedReferenceFormatter(
+            em_invoker=em_invoker,
+            threshold=DEFAULT_REFERENCE_FORMATTER_THRESHOLD,
+            stringify=False,
+        )
 
     def build_retriever(self, index_name: str) -> BasicVectorRetriever:
         """Build the retriever component.

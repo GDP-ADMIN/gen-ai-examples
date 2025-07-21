@@ -25,6 +25,7 @@ class Abbreviation(Base):
         agent (Agent): The associated agent.
     """
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = Table.ABBREVIATIONS.value
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     agent_id = Column(String(36), ForeignKey(f"{Table.AGENTS.value}.id"), nullable=False)
@@ -44,6 +45,7 @@ class Category(Base):
         agent_example_questions (list[AgentExampleQuestion]): List of associated agent example questions.
     """
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = Table.CATEGORIES.value
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     name = Column(String(255), nullable=False, unique=True)
@@ -65,6 +67,7 @@ class AgentRole(Base):
         agent (Agent): The associated agent.
     """
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = Table.AGENTS_ROLES.value
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     agent_id = Column(String(36), ForeignKey(f"{Table.AGENTS.value}.id"), nullable=False)
@@ -90,6 +93,7 @@ class Agent(Base):
         agent_example_questions (list[AgentExampleQuestion]): List of associated agent example questions.
     """
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = Table.AGENTS.value
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     name = Column(String(255), nullable=False, unique=True)
@@ -120,6 +124,7 @@ class AgentExampleQuestion(Base):
         required_active_modules (list[AgentExampleQuestionRequiredModule]): List of required active modules.
     """
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = Table.AGENT_EXAMPLE_QUESTIONS.value
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     agent_id = Column(String(36), ForeignKey(f"{Table.AGENTS.value}.id"), nullable=False)
@@ -144,6 +149,7 @@ class AgentExampleQuestionRequiredModule(Base):
         agent_example_question (AgentExampleQuestion): The associated agent example question.
     """
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = Table.AGENT_EXAMPLE_QUESTIONS_REQUIRED_MODULES.value
     agent_example_question_id = Column(String(36), ForeignKey("agent_example_questions.id"), primary_key=True)
     name = Column(String(255), primary_key=True, nullable=False)
@@ -161,6 +167,7 @@ class Setting(Base):
         setting_value (str): Setting value.
     """
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = Table.SETTINGS.value
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     setting_key = Column(String(255), nullable=False, unique=True)
@@ -176,6 +183,7 @@ class UrlMapping(Base):
         tenant (str): The tenant associated with the URL.
     """
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = Table.URL_MAPPINGS.value
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     url = Column(Text, nullable=False)
@@ -191,6 +199,7 @@ class RateLimit(Base):
         rate_limit (str): Rate limit configuration for a particular tenant.
     """
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = Table.RATE_LIMITS.value
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     tenant = Column(String(255), nullable=False, unique=True)
@@ -207,6 +216,7 @@ class PromptTemplate(Base):
         user_prompt (str): User prompt template.
     """
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = Table.PROMPT_TEMPLATES.value
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     name = Column(String(255), nullable=False, unique=True)
@@ -225,6 +235,7 @@ class TopicSchema(Base):
         required_active_module (str): Required active module for the schema.
     """
 
+    __table_args__ = {"extend_existing": True}
     __tablename__ = Table.TOPIC_SCHEMAS.value
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     module = Column(String(255), nullable=False)

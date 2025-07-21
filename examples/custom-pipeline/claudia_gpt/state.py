@@ -50,6 +50,13 @@ class ClaudiaState(TypedDict):
         context_anonymized_data (dict[str, Any]): The anonymized data for the context.
         response_anonymized_data (dict[str, Any]): The anonymized data for the response.
         agent_ids (list[str] | None): A list of agent IDs associated with the request.
+        related (list[str]): The related topics or concepts.
+        steps (list[dict[str, Any]]): The steps taken to generate response.
+        media_mapping (dict[str, Any]): The media mapping.
+        cache_hit (bool): The cache hit flag.
+        generation_query (str): The query used for generation.
+        joined_query_with_history (str): The query combined with the conversation history.
+        standalone_query (str): The query combined with the conversation history.
     """
 
     history: list[tuple[str, list[Any]]]
@@ -80,6 +87,9 @@ class ClaudiaState(TypedDict):
     steps: list[dict[str, Any]]
     media_mapping: dict[str, Any]
     cache_hit: bool
+    generation_query: str
+    joined_query_with_history: str
+    standalone_query: str
 
 
 class ClaudiaStateKeys(StrEnum):
@@ -104,6 +114,9 @@ class ClaudiaStateKeys(StrEnum):
     STEPS = "steps"
     MEDIA_MAPPING = "media_mapping"
     CACHE_HIT = "cache_hit"
+    GENERATION_QUERY = "generation_query"
+    JOINED_QUERY_WITH_HISTORY = "joined_query_with_history"
+    STANDALONE_QUERY = "standalone_query"
 
 
 def validate_state_completeness(state: ClaudiaState) -> None:
@@ -193,6 +206,9 @@ def create_initial_state(
         steps=initial_steps,  # type: ignore[arg-type]
         media_mapping={},
         cache_hit=False,
+        generation_query="",
+        joined_query_with_history="",
+        standalone_query="",
     )
 
     validate_state_completeness(state)

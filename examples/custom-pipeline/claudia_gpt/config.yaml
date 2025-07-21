@@ -63,6 +63,58 @@ chatbots:
           }
         output_parser_type: none
         output_parser_kwargs:
+      - name: standard_rag_build_standalone_query
+        scope: openai
+        prompt_builder_type: agnostic
+        prompt_builder_kwargs:
+        prompt_builder_system_template: |
+          You are an expert in query transformation for Retrieval-Augmented Generation (RAG) systems. Your task is to combine a chat history provided as context with a given question to form a single, cohesive standalone question.
+
+          ### Transformation Logic
+
+          1. Preserve Named Entities and Specific Terms  
+            - Do not alter, translate, or paraphrase named entities, specific names, technical terms, codes, or identifiers (e.g., DevOps, SERVICE_NAME, OpenAI, VERSION_TAG).
+            - Keep them exactly as written.
+
+          2. Enhance for Retrieval  
+            - Remove stop words and conversational fluff.  
+            - Rewrite in a way that matches how the information would appear in documentation, systems, or structured data.  
+            - Use noun phrases, document-style language, and search-relevant expressions.  
+            - Avoid rephrasing the question directly, instead, transform it semantically to match how answers are stored.
+
+          ### Output Format
+
+          Return only a JSON object with the following fields:
+
+          - transformed_query: a string that combined the context and the user\'s query.
+
+
+          ### Example
+
+          **History:**  
+          "What are the deployment process for the staging environment for SERVICE_NAME?"
+
+          **User Input:**  
+          "What are the specific steps?"
+
+          **Output:**  
+          ```json
+          {{
+            "transformed_query": "What are the specific steps to deploy the SERVICE_NAME in the staging environment?"
+          }}          
+        prompt_builder_user_template: |
+          "{query}"
+        lm_invoker_type: openai
+        lm_invoker_kwargs: |
+          {
+            "model_name": "gpt-4o-mini"
+          }
+        lm_invoker_env_kwargs: |
+          {
+            "api_key": "OPENAI_API_KEY"
+          }
+        output_parser_type: json
+        output_parser_kwargs:
 
 
 user_chatbots:
