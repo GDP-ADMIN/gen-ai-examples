@@ -11,7 +11,6 @@ import json
 from typing import Any
 
 from dotenv import load_dotenv
-from gllm_datastore.sql_data_store import SQLAlchemySQLDataStore
 from gllm_datastore.vector_data_store import ElasticsearchVectorDataStore
 from gllm_generation.response_synthesizer import StuffResponseSynthesizer
 from gllm_inference.multimodal_lm_invoker import OpenAIMultimodalLMInvoker
@@ -30,7 +29,6 @@ from pydantic import SecretStr
 from claudia_gpt.component.catapa_query_transformer import CatapaQueryTransformer
 from claudia_gpt.component.chat_history_manager import ChatHistoryManager
 from claudia_gpt.config.constant import (
-    DB_URL,
     DEFAULT_MODEL,
     ELASTICSEARCH_INDEX_NAME,
     ELASTICSEARCH_URL,
@@ -42,14 +40,14 @@ from claudia_gpt.config.constant import (
 from claudia_gpt.config.pipeline.general_pipeline_config import GeneralPipelineConfigKeys
 from claudia_gpt.config.pipeline.pipeline_helper import build_save_history_step
 from claudia_gpt.config.supported_models import ModelName
-from claudia_gpt.constant.agent_type import AgentType
 from claudia_gpt.preset_config import ClaudiaPresetConfig
 from claudia_gpt.runtime_config import ClaudiaRuntimeConfig
 from claudia_gpt.runtime_config import ClaudiaRuntimeConfigKeys as ConfigKeys
-from claudia_gpt.state import ClaudiaState, ClaudiaStateKeys, create_initial_state
+from claudia_gpt.state import ClaudiaState, create_initial_state
+from claudia_gpt.state import ClaudiaStateKeys as StateKeys
+from claudia_gpt.utils.constant import chat_history_manager
 from claudia_gpt.utils.initializer import (
     RerankerType,
-    get_chat_history_storage,
     get_reranker,
 )
 
@@ -81,7 +79,6 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
     def __init__(self):
         """Initialize the Claudia pipeline builder."""
         super().__init__()
-        self.data_store = SQLAlchemySQLDataStore(engine_or_url=DB_URL, pool_pre_ping=True)
 
     async def build(self, pipeline_config: dict[str, Any]) -> Pipeline:
         """Build the pipeline.
@@ -111,32 +108,31 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         # Repacker
         repacker_step = step(
             component=Repacker(mode=RepackerMode.CONTEXT.value),  # Custom implementation for claudia
-            input_state_map={"chunks": ClaudiaStateKeys.CHUNKS},
-            output_state=ClaudiaStateKeys.CONTEXT,
+            input_state_map={"chunks": StateKeys.CHUNKS},
+            output_state=StateKeys.CONTEXT,
         )
 
         # Bundler
         bundler_step = bundle(
-            input_states=[ClaudiaStateKeys.CONTEXT],
-            output_state=ClaudiaStateKeys.RESPONSE_SYNTHESIS_BUNDLE,
+            input_states=[StateKeys.CONTEXT],
+            output_state=StateKeys.RESPONSE_SYNTHESIS_BUNDLE,
         )
 
         # Resposne Synthesizer
         response_synthesizer_step = self._build_catapa_response_synthesizer_step()
 
         # Save Message Step
-        anonymizer_storage = None
-        chat_history_storage = get_chat_history_storage()
-        chat_history_manager = ChatHistoryManager(storage=chat_history_storage, anonymizer_storage=anonymizer_storage)
         save_history_step = build_save_history_step(
             chat_history_manager=chat_history_manager,
             name="save_history",
             additional_input_state_map={
-                ChatHistoryManager.QUERY_KEY: ClaudiaStateKeys.USER_QUERY,
-                ChatHistoryManager.NEW_ANONYMIZED_MAPPINGS_KEY: ClaudiaStateKeys.NEW_ANONYMIZED_MAPPINGS,
-                ChatHistoryManager.REFERENCES_KEY: ClaudiaStateKeys.REFERENCES,
-                ChatHistoryManager.AGENT_TYPE_KEY: ClaudiaStateKeys.AGENT_TYPE,
-                ChatHistoryManager.AGENT_IDS_KEY: ClaudiaStateKeys.AGENT_IDS,
+                ChatHistoryManager.QUERY_KEY: StateKeys.USER_QUERY,
+                ChatHistoryManager.NEW_ANONYMIZED_MAPPINGS_KEY: StateKeys.NEW_ANONYMIZED_MAPPINGS,
+                ChatHistoryManager.REFERENCES_KEY: StateKeys.REFERENCES,
+                ChatHistoryManager.RELATED_KEY: StateKeys.RELATED,
+                ChatHistoryManager.STEP_INDICATORS_KEY: StateKeys.STEPS,
+                ChatHistoryManager.MEDIA_MAPPING_KEY: StateKeys.MEDIA_MAPPING,
+                ChatHistoryManager.CACHE_HIT_KEY: StateKeys.CACHE_HIT,
             },
             additional_runtime_config_map={
                 ChatHistoryManager.SEARCH_TYPE_KEY: GeneralPipelineConfigKeys.SEARCH_TYPE,
@@ -168,10 +164,10 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         rerank_step = step(
             component=reranker,
             input_state_map={
-                "chunks": ClaudiaStateKeys.CHUNKS,
-                "query": ClaudiaStateKeys.TRANSFORMED_QUERY,
+                "chunks": StateKeys.CHUNKS,
+                "query": StateKeys.TRANSFORMED_QUERY,
             },
-            output_state=ClaudiaStateKeys.CHUNKS,
+            output_state=StateKeys.CHUNKS,
         )
 
         return toggle(
@@ -179,8 +175,8 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
             condition=lambda input: input["rerank_type"] != "none",
             if_branch=rerank_step,
             input_state_map={
-                "chunks": ClaudiaStateKeys.CHUNKS,
-                "query": ClaudiaStateKeys.TRANSFORMED_QUERY,
+                "chunks": StateKeys.CHUNKS,
+                "query": StateKeys.TRANSFORMED_QUERY,
             },
             runtime_config_map={
                 "rerank_type": ConfigKeys.RERANK_TYPE,
@@ -195,8 +191,8 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         """
         return transform(
             operation=lambda inputs: inputs["chunks"][: self.CHUNK_LIMIT],
-            input_states=[ClaudiaStateKeys.CHUNKS],
-            output_state=ClaudiaStateKeys.CHUNKS,
+            input_states=[StateKeys.CHUNKS],
+            output_state=StateKeys.CHUNKS,
         )
 
     def _build_optional_catapa_query_transformer_step(self) -> BasePipelineStep:
@@ -208,21 +204,12 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         query_transformer_step = step(
             component=CatapaQueryTransformer(),
             input_state_map={
-                CatapaQueryTransformer.QUERY_KEY: ClaudiaStateKeys.USER_QUERY,
-                CatapaQueryTransformer.CHAT_HISTORY_KEY: ClaudiaStateKeys.HISTORY,
+                CatapaQueryTransformer.QUERY_KEY: StateKeys.USER_QUERY,
+                CatapaQueryTransformer.CHAT_HISTORY_KEY: StateKeys.HISTORY,
             },
-            output_state=ClaudiaStateKeys.TRANSFORMED_QUERY,
+            output_state=StateKeys.TRANSFORMED_QUERY,
         )
-
-        return toggle(
-            name="catapa_query_transformer",
-            condition=lambda input: input["agent_type"] == AgentType.HELP_CENTER_CATAPA.value,
-            if_branch=query_transformer_step,
-            input_state_map={
-                CatapaQueryTransformer.QUERY_KEY: ClaudiaStateKeys.USER_QUERY,
-                CatapaQueryTransformer.CHAT_HISTORY_KEY: ClaudiaStateKeys.HISTORY,
-            },
-        )
+        return query_transformer_step
 
     def _build_catapa_retriever_step(self, pipeline_config: dict[str, Any]) -> BasePipelineStep:
         """Build the CATAPA retriever step.
@@ -236,10 +223,10 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         catapa_retriever_step = step(
             component=self.build_retriever(HELP_CENTER_ELASTICSEARCH_INDEX_NAME),
             input_state_map={
-                "query": ClaudiaStateKeys.TRANSFORMED_QUERY,
-                "retrieval_params": ClaudiaStateKeys.RETRIEVAL_PARAMS,
+                "query": StateKeys.TRANSFORMED_QUERY,
+                "retrieval_params": StateKeys.RETRIEVAL_PARAMS,
             },
-            output_state=ClaudiaStateKeys.CHUNKS,
+            output_state=StateKeys.CHUNKS,
             fixed_args={"top_k": pipeline_config.get("normal_search_top_k")},
         )
         return catapa_retriever_step
@@ -263,12 +250,12 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         response_synthesizer_step = step(
             component=response_synthesizer,
             input_state_map={
-                "query": ClaudiaStateKeys.TRANSFORMED_QUERY,
-                "state_variables": ClaudiaStateKeys.RESPONSE_SYNTHESIS_BUNDLE,
-                "history": ClaudiaStateKeys.HISTORY,
-                "event_emitter": ClaudiaStateKeys.EVENT_EMITTER,
+                "query": StateKeys.TRANSFORMED_QUERY,
+                "state_variables": StateKeys.RESPONSE_SYNTHESIS_BUNDLE,
+                "history": StateKeys.HISTORY,
+                "event_emitter": StateKeys.EVENT_EMITTER,
             },
-            output_state=ClaudiaStateKeys.RESPONSE,
+            output_state=StateKeys.RESPONSE,
         )
         return response_synthesizer_step
 
@@ -287,7 +274,7 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         if not index_name:
             raise ValueError("Error building retriever. Index name must be provided.")
 
-        embedding_model = OpenAIEmbeddings(model=OPENAI_EMBEDDING_MODEL, openai_api_key=SecretStr(OPENAI_API_KEY))
+        embedding_model = OpenAIEmbeddings(model=OPENAI_EMBEDDING_MODEL, api_key=SecretStr(OPENAI_API_KEY))
         data_store = ElasticsearchVectorDataStore(
             index_name=index_name, embedding=embedding_model, url=ELASTICSEARCH_URL
         )

@@ -7,10 +7,10 @@ References:
     NONE
 """
 
+import typing
 from chunk import Chunk
 from enum import StrEnum
 from typing import Any, TypedDict
-import typing
 
 from gllm_core.event import EventEmitter
 
@@ -76,6 +76,10 @@ class ClaudiaState(TypedDict):
     context_anonymized_data: dict[str, Any]
     response_anonymized_data: dict[str, Any]
     agent_ids: list[str] | None
+    related: list[str]
+    steps: list[dict[str, Any]]
+    media_mapping: dict[str, Any]
+    cache_hit: bool
 
 
 class ClaudiaStateKeys(StrEnum):
@@ -96,6 +100,11 @@ class ClaudiaStateKeys(StrEnum):
     REFERENCES = "references"
     AGENT_TYPE = "agent_type"
     AGENT_IDS = "agent_ids"
+    RELATED = "related"
+    STEPS = "steps"
+    MEDIA_MAPPING = "media_mapping"
+    CACHE_HIT = "cache_hit"
+
 
 def validate_state_completeness(state: ClaudiaState) -> None:
     """Validate that all required fields are present in the state.
@@ -119,6 +128,7 @@ def validate_state_completeness(state: ClaudiaState) -> None:
     extra_fields = actual_fields - required_fields
     if extra_fields:
         raise ValueError(f"Unexpected fields in state: {extra_fields}")
+
 
 def create_initial_state(
     request_config: dict[str, Any], pipeline_config: dict[str, Any], **kwargs: Any
@@ -179,6 +189,10 @@ def create_initial_state(
         context_anonymized_data={},
         response_anonymized_data={},
         agent_ids=[],
+        related=[],
+        steps=initial_steps,  # type: ignore[arg-type]
+        media_mapping={},
+        cache_hit=False,
     )
 
     validate_state_completeness(state)

@@ -25,12 +25,10 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Query
 from sqlalchemy.orm.session import Session
 
-from claudia_gpt.analytics.utils.mapped_url_util import replace_urls_in_string
 from claudia_gpt.anonymizer.schemas import AnonymizerMapping
 from claudia_gpt.chat_history.models import (
     ConversationDocumentModel,
     ConversationModel,
-    MessageContextModel,
     MessageModel,
     SharedConversationModel,
 )
@@ -45,9 +43,6 @@ from claudia_gpt.chat_history.schemas import (
 from claudia_gpt.config.constant import (
     SharedConversationConstants,
 )
-from claudia_gpt.constant.agent_type import PUBLIC_AGENT_TYPES
-from claudia_gpt.encryption.encryptor.rolling_key_bytes_encryptor import RollingKeyBytesEncryptor
-from claudia_gpt.multi_tenant.context.tenant_context_holder import TenantContextHolder
 from claudia_gpt.utils.logger import logger
 
 # Note: SQL apostrophes need to be doubled within string literals
@@ -71,27 +66,24 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         self,
         data_store: SQLAlchemySQLDataStore,
         text_analyzer: TextAnalyzer,
-        rolling_key_bytes_encryptor: RollingKeyBytesEncryptor,
     ):
         """Initialize ChatHistory class.
 
         Args:
             data_store (SQLAlchemySQLDataStore): Chat history data store.
             text_analyzer (TextAnalyzer): Text analyzer.
-            rolling_key_bytes_encryptor (RollingKeyBytesEncryptor): Rolling key bytes encryptor.
         """
         self.db = data_store.db
         self.text_analyzer = text_analyzer
-        self.rolling_key_bytes_encryptor = rolling_key_bytes_encryptor
 
-    def get_conversations(  # noqa: PLR0913
+    def get_conversations(
         self,
         user_id: str,
         query: str = "",
         chatbot_ids: list[str] | None = None,
         cursor: str | None = None,
         limit: int | None = None,
-        **kwargs: Any,  # noqa: ARG002
+        **kwargs: Any,
     ) -> tuple[int, list[Conversation]]:
         """Get list of conversations for a user.
 
@@ -110,8 +102,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                 - List of paginated conversations.
 
         Raises:
-            ValueError: If cursor format is invalid.
-            DatabaseError: If database operation fails.
+            ValueError: If cursor format is invalid or if database operation fails.
         """
         try:
             with self.db() as session:
@@ -133,13 +124,8 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             logger.error(f"Database error while fetching conversations: {e}")
             raise ValueError("Failed to fetch conversations") from e
 
-    def _get_filtered_query(  # noqa: PLR0913
-        self,
-        session: Session,
-        user_id: str,
-        query: str,
-        chatbot_ids: list[str] | None,
-        cursor: str | None,
+    def _get_filtered_query(
+        self, session: Session, user_id: str, query: str, chatbot_ids: list[str] | None, cursor: str | None
     ) -> Query[ConversationModel]:
         """Build and return filtered conversation query.
 
@@ -154,10 +140,8 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         Returns:
             Query[ConversationModel]: The filtered query, filtered by user_id, is_active, chatbot_ids, and query.
         """
-        tenant = TenantContextHolder.get_tenant()
         base_query = session.query(ConversationModel).filter(
             ConversationModel.user_id == user_id,
-            ConversationModel.tenant == tenant,  # Claudia adjustment: add tenant
             ConversationModel.is_active.is_(True),
         )
 
@@ -180,12 +164,8 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
 
         if cursor:
             try:
-                cursor_datetime = (
-                    datetime.fromisoformat(cursor).timestamp() * 1000
-                )  # Claudia adjustment: convert to milliseconds
-                base_query = base_query.filter(
-                    ConversationModel.updated_date < cursor_datetime
-                )  # Claudia adjustment: change column name to updated_date
+                cursor_datetime = datetime.fromisoformat(cursor)
+                base_query = base_query.filter(ConversationModel.updated_time < cursor_datetime)
             except ValueError as err:
                 raise ValueError("Invalid cursor format.") from err
 
@@ -198,7 +178,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         base_query = (
             session.query(ConversationModel)
             .filter(ConversationModel.id.in_(distinct_ids_subquery))
-            .order_by(desc(ConversationModel.updated_date))  # Claudia adjustment: change column name to updated_date
+            .order_by(desc(ConversationModel.updated_time))
         )
 
         return base_query
@@ -253,9 +233,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                 MessageModel.conversation_id,
                 MessageModel.id.label("message_id"),
                 func.first_value(MessageModel.content)
-                .over(
-                    partition_by=MessageModel.conversation_id, order_by=MessageModel.created_date
-                )  # Claudia adjustment: change column name to created_date
+                .over(partition_by=MessageModel.conversation_id, order_by=MessageModel.created_time)
                 .label("content"),
             )
             .filter(
@@ -271,7 +249,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         for conv in conversations:
             conv.first_matching_message, conv.first_matching_message_id = conv_message_map.get(conv.id, (None, None))
 
-    def get_conversation(self, user_id: str, conversation_id: str, **kwargs: Any) -> Conversation | None:  # noqa: ARG002
+    def get_conversation(self, user_id: str, conversation_id: str, **kwargs: Any) -> Conversation | None:
         """Get conversation by ID.
 
         Args:
@@ -288,13 +266,13 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
 
     def create_conversation(
         self, user_id: str, conversation_title: str | None, chatbot_id: str, **kwargs: Any
-    ) -> Conversation:  # noqa: D417
+    ) -> Conversation:
         """Create new conversation.
 
         Args:
             user_id (str): User ID.
             conversation_title (str | None): Conversation title, default to None.
-            chatbot_id (str): Chatbot ID.
+            chatbot_id (str): Chatbot ID
             **kwargs (Any): Additional keyword arguments.
 
         Returns:
@@ -307,8 +285,6 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                     user_id=user_id,
                     title=conversation_title,
                     project_id=chatbot_id,
-                    tenant=TenantContextHolder.get_tenant(),
-                    **kwargs,
                 )
                 session.add(new_conversation)
                 session.commit()
@@ -317,17 +293,11 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                 conversation = Conversation.from_model(new_conversation)
                 return conversation
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
-    def rename_conversation(
-        self,
-        user_id: str,
-        conversation_id: str,
-        new_title: str,
-        **kwargs: Any,  # noqa: ARG002
-    ) -> Conversation:
+    def rename_conversation(self, user_id: str, conversation_id: str, new_title: str, **kwargs: Any) -> Conversation:
         """Rename a conversation.
 
         Args:
@@ -339,11 +309,6 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         Returns:
             Conversation: Updated Conversation object.
         """
-        # Claudia adjustment: add tenant
-        tenant = TenantContextHolder.get_tenant()
-        if not tenant:
-            raise ValueError("Tenant ID is required to rename the conversation.")
-
         with self.db() as session:
             try:
                 conversation = self._get_conversation(session, user_id, conversation_id)
@@ -356,7 +321,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                 updated_conversation = Conversation.from_model(conversation)
                 return updated_conversation
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
@@ -367,6 +332,8 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         conversation_id: str,
         parent_id: str | None = None,
         source: str | None = None,
+        conversation: Conversation | None = None,
+        metadata_: dict[str, Any] | None = None,
         **kwargs: Any,
     ) -> Message:
         """Add user message to a conversation.
@@ -377,18 +344,22 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             conversation_id (str): Existing conversation ID.
             parent_id (str | None): Parent message ID. Defaults to None.
             source (str | None): Source of the message. Defaults to None.
+            conversation (Conversation | None): Conversation object if any. Defaults to None.
+            metadata_ (dict[str, Any] | None): Additional metadata for the message. Defaults to None.
             kwargs (Any): Additional keyword arguments.
 
         Returns:
             Message: Newly created Message object.
         """
         return self.add_message(
-            MessageRole.USER,
-            message,
-            user_id,
-            conversation_id,
-            parent_id,
-            source,
+            message_role=MessageRole.user,
+            message=message,
+            user_id=user_id,
+            conversation_id=conversation_id,
+            parent_id=parent_id,
+            source=source,
+            conversation=conversation,
+            metadata_=metadata_,
             **kwargs,
         )
 
@@ -399,6 +370,8 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         conversation_id: str,
         parent_id: str | None = None,
         source: str | None = None,
+        conversation: Conversation | None = None,
+        metadata_: dict[str, Any] | None = None,
         **kwargs: Any,
     ) -> Message:
         """Add AI message to a conversation.
@@ -409,18 +382,22 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             conversation_id (str): Conversation ID.
             parent_id (str | None): Parent message ID. Defaults to None.
             source (str | None): Source of the message. Defaults to None.
+            conversation (Conversation | None): Conversation object if any. Defaults to None.
+            metadata_ (dict[str, Any] | None): Additional metadata for the message. Defaults to None.
             kwargs (Any): Additional keyword arguments.
 
         Returns:
             Message: Newly created Message object.
         """
         return self.add_message(
-            MessageRole.AI,
-            message,
-            user_id,
-            conversation_id,
-            parent_id,
-            source,
+            message_role=MessageRole.assistant,
+            message=message,
+            user_id=user_id,
+            conversation_id=conversation_id,
+            parent_id=parent_id,
+            source=source,
+            conversation=conversation,
+            metadata_=metadata_,
             **kwargs,
         )
 
@@ -432,6 +409,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         conversation_id: str,
         parent_id: str,
         source: str,
+        conversation: Conversation | None = None,
         metadata_: dict[str, Any] | None = None,
         **kwargs: Any,
     ) -> Message:
@@ -444,57 +422,41 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             conversation_id (str): Conversation ID.
             parent_id (str): Parent message ID.
             source (str): Source of the message.
-            metadata_ (dict[str, Any] | None): Additional metadata for the message.
+            conversation (Conversation | None): Conversation object if any. Defaults to None.
+            metadata_ (dict[str, Any] | None): Additional metadata for the message. Defaults to None.
             kwargs (Any): Additional keyword arguments.
 
         Returns:
             Message: Newly created Message object.
         """
-        encrypted_message = self._encrypt_message(message, message_role)
         with self.db() as session:
             try:
-                conversation = self._get_conversation(session, user_id, conversation_id)
+                conversation = conversation or self._get_conversation(session, user_id, conversation_id)
                 self._validate_conversation_exists(conversation_id, conversation)
 
-                agent_type = kwargs.get("agent_type")
-                message_id = kwargs.pop("id", str(uuid.uuid4()))  # Claudia adjustment: use pop to avoid duplicate id.
+                message_id = kwargs.get("id", str(uuid.uuid4()))
+                logger.info(f"add_message: Creating message with id={message_id}")
+
                 metadata_text = self._serialize_metadata(metadata_)
-                parent_id = None if not parent_id else parent_id  # Claudia adjustment: prevent foreign key error.
 
                 logger.debug(f"Add metadata in conversation {conversation_id} : {metadata_}")
-                # Claudia adjustment: Use message context model for public agent types
-                if agent_type in PUBLIC_AGENT_TYPES:
-                    new_message = MessageContextModel(
-                        id=message_id,
-                        conversation_id=conversation_id,
-                        role=message_role,
-                        content=encrypted_message,
-                        parent_id=parent_id,
-                        source=source,
-                        metadata_=metadata_text,
-                        **kwargs,
-                    )
-                else:
-                    new_message = MessageModel(
-                        id=message_id,
-                        conversation_id=conversation_id,
-                        role=message_role,
-                        content=encrypted_message,
-                        parent_id=parent_id,
-                        source=source,
-                        metadata_=metadata_text,
-                        **kwargs,
-                    )
+                new_message = MessageModel(
+                    id=message_id,
+                    conversation_id=conversation_id,
+                    role=message_role,
+                    content=message,
+                    parent_id=parent_id,
+                    source=source,
+                    metadata_=metadata_text,
+                )
                 session.add(new_message)
-                conversation.updated_date = (
-                    datetime.now().timestamp() * 1000
-                )  # Claudia adjustment: change column name to updated_date
+                conversation.updated_time = datetime.now(timezone.utc)
                 session.commit()
 
-                message_obj = self._decrypt_message(new_message)  # Claudia adjustment
+                message_obj = Message.model_validate(new_message)
                 return message_obj
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
@@ -503,7 +465,6 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         user_id: str,
         conversation_id: str,
         message_list: list[Any],
-        tenant: str,  # Claudia adjustment: add tenant
         attachments: dict[str, Any] | None = None,
     ) -> list[Message]:
         """Save message.
@@ -512,7 +473,6 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             user_id (str): User ID.
             conversation_id (str): Conversation ID.
             message_list (list[Message]): List of messages.
-            tenant (str): Tenant ID. Defaults to None.
             attachments (dict[str, Any] | None): list of document ID, status, and type. Defaults to None.
 
         Returns:
@@ -524,16 +484,15 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                 conversation_id=conversation_id,
                 role=msg.role,
                 content=msg.content,
-                created_date=datetime.now(timezone.utc),  # Claudia adjustment: change column name to created_date
+                created_time=datetime.now(timezone.utc),
                 is_active=True,
                 parent_id=msg.parent_id,
                 source=msg.source,
-                metadata_=attachments if msg.role == MessageRole.USER else None,
-                agent_type=msg.agent_type,  # Claudia adjustment: add agent_type
+                metadata_=attachments if msg.role == MessageRole.user else None,
             )
             for msg in message_list
         ]
-        parent_id = None  # Claudia adjustment: prevent foreign key error.
+        parent_id = conversation_id
         with self.db() as session:
             try:
                 conversation = self._get_conversation(session, user_id, conversation_id)
@@ -562,31 +521,29 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                         conversation_id=conversation_id,
                         role=message.role,
                         content=message.content,
-                        created_date=message.created_date,
+                        created_time=message.created_time,
                         source=message.source,
                         parent_id=message.parent_id if message.parent_id else parent_id,
                         metadata_=metadata_text,
                     )
-                    conversation.updated_date = (
-                        datetime.now().timestamp() * 1000
-                    )  # Claudia adjustment: change column name to updated_date
+                    conversation.updated_time = datetime.now(timezone.utc)
                     session.add(new_message)
                     session.commit()
                     parent_id = new_message.id
-                    saved_messages.append(self._decrypt_message(new_message))  # Claudia adjustment
+                    saved_messages.append(Message.model_validate(new_message))
 
                 return saved_messages
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
-    def get_messages_by_ids(self, message_ids: list[str], **kwargs: Any) -> list[Message]:  # noqa: ARG002
-        """Get messages by IDs.
+    def get_messages_by_ids(self, message_ids: list[str], **kwargs: Any) -> list[Message]:
+        """Get messages by ID.
 
         Args:
             message_ids (list[str]): List of message ID.
-            kwargs (Any): Additional arguments.
+            **kwargs (Any): Additional keyword arguments.
 
         Returns:
             list[Message]: List of messages.
@@ -597,18 +554,18 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         with self.db() as session:
             try:
                 messages = session.query(MessageModel).filter(MessageModel.id.in_(message_ids)).all()
-                message_list = [self._decrypt_message(msg) for msg in messages]  # Claudia adjustment
+                message_list = [Message.model_validate(msg) for msg in messages]
                 return message_list
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to fetch messages: {exc}")
+                logger.warning(f"Failed to fetch messages: {exc}")
                 raise exc
 
-    def get_message_by_id(self, message_id: str, **kwargs: Any) -> Message:  # noqa: ARG002
+    def get_message_by_id(self, message_id: str, **kwargs: Any) -> Message:
         """Get message by ID.
 
         Args:
             message_id (str): Message ID.
-            kwargs (Any): Additional arguments.
+            **kwargs (Any): Additional keyword arguments.
 
         Returns:
             Message: Message object.
@@ -617,10 +574,10 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             try:
                 message = session.query(MessageModel).filter(MessageModel.id == message_id).first()
                 if message:
-                    message = self._decrypt_message(message)  # Claudia adjustment
+                    message = Message.model_validate(message)
                     return message
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to fetch message: {exc}")
+                logger.warning(f"Failed to fetch message: {exc}")
                 raise exc
 
     def get_messages(
@@ -629,7 +586,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         conversation_id: str,
         limit: int | None = None,
         max_timestamp: datetime | None = None,
-        **kwargs: Any,  # noqa: ARG002
+        **kwargs: Any,
     ) -> list[Message]:
         """Get list of messages for a conversation.
 
@@ -644,7 +601,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             List[Message]: List of Message objects.
         """
         if not max_timestamp:
-            max_timestamp = datetime.now().timestamp() * 1000  # Claudia adjustment: convert to milliseconds
+            max_timestamp = datetime.now(timezone.utc)
 
         with self.db() as session:
             messages = (
@@ -657,36 +614,71 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                     ConversationModel.id == conversation_id,
                     ConversationModel.user_id == user_id,
                     ConversationModel.is_active.is_(True),
-                    MessageModel.created_date < max_timestamp,  # Claudia adjustment: change column name to created_date
+                    MessageModel.created_time < max_timestamp,
                     MessageModel.is_active.is_(True),
                 )
-                .order_by(
-                    sqlalchemy.desc(MessageModel.created_date)
-                )  # Claudia adjustment: change column name to created_date
+                .order_by(sqlalchemy.desc(MessageModel.created_time))
             )
 
-            tenant = TenantContextHolder.get_tenant()
-            if tenant:
-                messages = messages.filter(ConversationModel.tenant == tenant)
-
-            if limit is not None:
+            if limit is not None and limit >= 0:
                 messages = messages.limit(limit)
 
             messages = messages.all()
-            sorted_messages: list[Message] = sorted(messages, key=lambda x: x.created_date)
+            sorted_messages: list[Message] = sorted(messages, key=lambda x: x.created_time)
 
-            message_list = [self._decrypt_message(msg) for msg in sorted_messages]  # Claudia adjustment
+            message_list = [Message.model_validate(msg) for msg in sorted_messages]
 
             return message_list
 
-    def delete_messages(self, user_id: str, message_ids: list[str], chatbot_ids: list[str], **kwargs: Any) -> None:  # noqa: ARG002
+    def get_last_message_by_conversation_id_and_role(
+        self,
+        conversation_id: str,
+        role: MessageRole,
+        **kwargs: Any,
+    ) -> Message:
+        """Retrieve the last message by conversation_id and role.
+
+        Args:
+            conversation_id (str): The ID of the conversation.
+            role (MessageRole): The role of the message.
+            kwargs (Any): Additional arguments.
+
+        Returns:
+            Message | None: The last message from the conversation, or None if not found.
+        """
+        with self.db() as session:
+            try:
+                message = (
+                    session.query(MessageModel)
+                    .join(
+                        ConversationModel,
+                        MessageModel.conversation_id == ConversationModel.id,
+                    )
+                    .filter(
+                        ConversationModel.id == conversation_id,
+                        ConversationModel.is_active.is_(True),
+                        MessageModel.role == role,
+                        MessageModel.is_active.is_(True),
+                    )
+                    .order_by(sqlalchemy.desc(MessageModel.created_time))
+                    .first()
+                )
+
+                if message:
+                    message = Message.model_validate(message)
+                    return message
+            except SQLAlchemyError as exc:
+                logger.warning(f"Failed to fetch last message: {exc}")
+                raise exc
+
+    def delete_messages(self, user_id: str, message_ids: list[str], chatbot_ids: list[str], **kwargs: Any) -> None:
         """Delete messages.
 
         Args:
             user_id (str): User ID.
             message_ids (list[str]): List of Message ID.
             chatbot_ids (list[str]): List of Chatbot ID.
-            kwargs (Any): Additional arguments.
+            **kwargs (Any): Additional keyword arguments.
         """
         with self.db() as session:
             try:
@@ -706,11 +698,11 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                         session.commit()
 
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
-    def delete_conversation(self, user_id: str, conversation_id: str, **kwargs: Any) -> None:  # noqa: ARG002
+    def delete_conversation(self, user_id: str, conversation_id: str, **kwargs: Any) -> None:
         """Delete conversation.
 
         Args:
@@ -718,46 +710,57 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             conversation_id (str): Conversation ID.
             **kwargs (Any): Additional keyword arguments.
         """
-        # Claudia adjustment: add tenant
-        tenant = TenantContextHolder.get_tenant()
-        if not tenant:
-            raise ValueError("Tenant ID is required to delete the conversation.")
-
         with self.db() as session:
             try:
+                # Delete the conversation
                 conversation = (
                     session.query(ConversationModel)
                     .filter(
                         ConversationModel.id == conversation_id,
-                        ConversationModel.tenant == tenant,
                         ConversationModel.user_id == user_id,
                     )
                     .first()
                 )
                 if conversation:
                     conversation.is_active = False
-                    session.commit()
+
+                # Delete all shared conversations associated with this conversation
+                # Call the function directly in the same transaction
+                self._delete_shared_conversation_from_conversation_in_session(session, conversation_id)
+
+                # Commit both operations together
+                session.commit()
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
-    def delete_conversations(self, user_id: str, chatbot_id: str, **kwargs: Any) -> None:  # noqa: ARG002
+    def _delete_shared_conversation_from_conversation_in_session(self, session: Session, conversation_id: str) -> None:
+        """Helper method to delete shared conversations within an existing session.
+
+        Args:
+            session (Session): The database session to use.
+            conversation_id (str): The conversation ID.
+        """
+        session.query(SharedConversationModel).filter(
+            SharedConversationModel.conversation_id == conversation_id,
+            SharedConversationModel.is_active.is_(True),
+        ).update({"is_active": False})
+
+    def delete_conversations(self, user_id: str, chatbot_id: str, **kwargs: Any) -> None:
         """Delete all conversations for a user and chatbot.
 
         Args:
             user_id (str): User ID.
             chatbot_id (str): Chatbot ID.
-            kwargs (Any): Additional arguments.
+            **kwargs (Any): Additional keyword arguments.
         """
-        tenant = TenantContextHolder.get_tenant()
         with self.db() as session:
             try:
                 conversations = (
                     session.query(ConversationModel)
                     .filter(
                         ConversationModel.user_id == user_id,
-                        ConversationModel.tenant == tenant,
                         ConversationModel.project_id == chatbot_id,
                         ConversationModel.is_active.is_(True),
                     )
@@ -769,18 +772,18 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
 
                 session.commit()
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
-    def save_feedback(self, user_id: str, message_id: str, feedback: str, **kwargs: Any) -> None:  # noqa: ARG002
+    def save_feedback(self, user_id: str, message_id: str, feedback: str | None, **kwargs: Any) -> None:
         """Save feedback.
 
         Args:
             user_id (str): User ID.
             message_id (str): Message ID.
-            feedback (str): Feedback data.
-            kwargs (Any): Additional arguments.
+            feedback (str | None): Feedback data.
+            **kwargs (Any): Additional keyword arguments.
         """
         with self.db() as session:
             try:
@@ -793,7 +796,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                         message.feedback = feedback
                         session.commit()
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
@@ -802,7 +805,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         conversation_id: str,
         status: str = DocumentStatus.PROCESSING.value,
         file_hash: str = "",
-        **kwargs,  # noqa: ARG002
+        **kwargs: Any,
     ) -> ConversationDocument:
         """Create new conversation document.
 
@@ -810,7 +813,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             conversation_id (str): Conversation ID.
             status (str): Document status.
             file_hash (str): File hash.
-            kwargs (Any): Additional arguments.
+            **kwargs (Any): Additional keyword arguments.
 
         Returns:
             ConversationDocument: Newly created ConversationDocument object.
@@ -828,16 +831,16 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                 new_document = ConversationDocument.model_validate(document)
                 return new_document
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
-    def get_conversation_document(self, document_id: str, **kwargs: Any) -> ConversationDocument:  # noqa: ARG002
+    def get_conversation_document(self, document_id: str, **kwargs: Any) -> ConversationDocument:
         """Get conversation document.
 
         Args:
             document_id (str): Document ID.
-            kwargs (Any): Additional arguments.
+            **kwargs (Any): Additional keyword arguments.
 
         Returns:
             ConversationDocument: ConversationDocument object.
@@ -851,7 +854,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                     document = ConversationDocument.model_validate(document)
                     return document
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
@@ -879,10 +882,10 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             try:
                 return self._execute_message_stats_query(session, start_date, end_date)
             except SQLAlchemyError as exc:
-                logger.error("Failed to fetch message statistics: %s", exc)
+                logger.warning("Failed to fetch message statistics: %s", exc)
                 raise exc
             except Exception as general_exc:
-                logger.error("Unexpected error in get_message_stats: %s", general_exc)
+                logger.warning("Unexpected error in get_message_stats: %s", general_exc)
                 raise general_exc
 
     def _validate_date_parameters(self, start_date: datetime, end_date: datetime) -> None:
@@ -925,7 +928,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                 {"start_date": start_date, "end_date": end_date},
             )
         except sqlalchemy.exc.SQLAlchemyError as sql_err:
-            logger.error("SQL execution error in message stats: %s", sql_err)
+            logger.warning("SQL execution error in message stats: %s", sql_err)
             raise SQLAlchemyError(f"Failed to execute SQL query: {sql_err}") from sql_err
 
         return self._process_stats_results(result_proxy, FEEDBACK_REASON_CATEGORIES)
@@ -958,7 +961,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                 feedback::json->>'reason' IS NOT NULL
             THEN id END) as other_reasons_count
         FROM message
-        WHERE created_date BETWEEN :start_date AND :end_date
+        WHERE created_time BETWEEN :start_date AND :end_date
             AND is_active = true
         """
 
@@ -1056,7 +1059,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         number_of_chunks: int,
         message: str | None,
         object_key: str | None,
-        **kwargs: Any,  # noqa: ARG002
+        **kwargs: Any,
     ) -> ConversationDocument:
         """Update conversation document status.
 
@@ -1066,7 +1069,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             number_of_chunks (int): The number of chunks.
             message (str | None): The message passed from the document processing. Defaults to None.
             object_key (str | None): The object key. Defaults to None.
-            kwargs (Any): Additional arguments.
+            **kwargs (Any): Additional keyword arguments.
 
         Returns:
             ConversationDocument: Updated ConversationDocument object.
@@ -1088,7 +1091,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                     return updated_document
                 raise ValueError(f"Document id {document_id} does not exist.")
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
@@ -1099,7 +1102,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         message_id: str,
         is_anonymized: bool,
         mappings: list[AnonymizerMapping],
-        **kwargs: Any,  # noqa: ARG002
+        **kwargs: Any,
     ) -> Message:
         """Get a deanonymized message for a specific user and message ID.
 
@@ -1109,7 +1112,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             message_id (str): Message ID.
             is_anonymized (bool): Flag to indicate whether the message is anonymized.
             mappings (list[AnonymizerMapping]): List of AnonymizerMapping objects.
-            kwargs (Any): Additional arguments.
+            **kwargs (Any): Additional keyword arguments.
 
         Returns:
             Message: The retrieved Message object.
@@ -1117,7 +1120,6 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         Raises:
             ValueError: If no message is found with the specified message ID.
         """
-        tenant = TenantContextHolder.get_tenant()
         with self.db() as session:
             message = (
                 session.query(MessageModel)
@@ -1127,7 +1129,6 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                 )
                 .filter(
                     ConversationModel.user_id == user_id,
-                    ConversationModel.tenant == tenant,
                     MessageModel.id == message_id,
                     MessageModel.conversation_id == conversation_id,
                 )
@@ -1135,7 +1136,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             )
 
             if message:
-                message_model = self._decrypt_message(message)  # Claudia adjustment
+                message_model = Message.model_validate(message)
                 return self._deanonymize_message(message_model, is_anonymized, mappings)
             else:
                 raise ValueError(f"Message id {message_id} does not exist.")
@@ -1145,7 +1146,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         messages: list[Message],
         is_anonymized: bool,
         mappings: list[AnonymizerMapping] | None = None,
-        **kwargs: Any,  # noqa: ARG002
+        **kwargs: Any,
     ) -> list[Message]:
         """Delegate message deanonymization processing to the repository.
 
@@ -1156,7 +1157,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             messages (list[Message]): List of messages to be anonymized.
             is_anonymized (bool): Flag to indicate whether the messages are anonymized.
             mappings (list[AnonymizerMapping] | None): Anonymizer mappings used to deanonymize message content.
-            kwargs (Any): Additional arguments.
+            **kwargs (Any): Additional keyword arguments.
 
         Returns:
             list[Message]: List of messages with deanonymized content.
@@ -1165,6 +1166,27 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         for msg in messages:
             message_list.append(self._deanonymize_message(msg, is_anonymized, mappings))
         return message_list
+
+    def get_deanonymized_texts(
+        self,
+        texts: list[str],
+        is_anonymized: bool,
+        mappings: list[AnonymizerMapping] | None = None,
+    ) -> list[str]:
+        """Retrieve the deanonymized version of the given text.
+
+        This function uses an anonymizer tool to replace anonymized placeholders
+        in the text with original values based on provided mappings.
+
+        Args:
+            texts (list[str]): The anonymized texts to be processed.
+            is_anonymized (bool): Flag to determine if the text is anonymized.
+            mappings (list[AnonymizerMapping] | None): A list of mappings for deanonymization.
+
+        Returns:
+            list[str]: The deanonymized texts.
+        """
+        return [self._get_deanonymized_text(text, is_anonymized, mappings) for text in texts]
 
     def _deanonymize_message(
         self,
@@ -1184,7 +1206,10 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         """
         deanonymized_text = self._get_deanonymized_text(message.content, is_anonymized, mappings)
         message.deanonymized_content = deanonymized_text
+
         if message.metadata_:
+            self._validate_and_normalize_metadata(message)
+
             if "references" in message.metadata_:
                 for reference in message.metadata_["references"]:
                     if "content" in reference:
@@ -1198,13 +1223,66 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                 ]
         return message
 
+    def _validate_and_normalize_metadata(self, message: Message) -> None:
+        """Ensure the metadata is valid.
+
+        Args:
+            message (Message): Message to ensure metadata validity.
+        """
+        if isinstance(message.metadata_, str):
+            try:
+                message.metadata_ = json.loads(message.metadata_)
+            except json.JSONDecodeError as e:
+                raise json.JSONDecodeError(
+                    f"Failed to parse metadata: {message.metadata_}", message.metadata_, 0
+                ) from e
+
+        message.metadata_ = self._normalize_attachment_metadata(message.id, message.metadata_)
+
+    def _normalize_attachment_metadata(self, message_id: str, metadata: dict[str, Any]) -> dict[str, Any]:
+        """Fix nested attachment structure: {"attachments": {"attachments": [...]}} -> {"attachments": [...]}.
+
+        The nested structure may be caused by the attachment metadata being stored as a dictionary
+        with a key "attachments" that contains a list of attachments (not the correct structure).
+
+        Args:
+            message_id (str): Message ID.
+            metadata (dict[str, Any]): Metadata dictionary.
+
+        Returns:
+            dict[str, Any]: Normalized metadata dictionary.
+        """
+        if not isinstance(metadata, dict) or "attachments" not in metadata:
+            logger.debug("No attachments found in metadata, returning original metadata.")
+            return metadata
+
+        attachments = metadata["attachments"]
+
+        # Check for nested structure
+        if isinstance(attachments, dict) and "attachments" in attachments:
+            logger.warning(
+                "Found nested attachment structure in metadata for message_id=%s: %s", message_id, attachments
+            )
+
+            # Flatten the structure
+            metadata = metadata.copy()
+            metadata["attachments"] = attachments["attachments"]
+
+            logger.info(
+                "Fixed nested attachment structure in metadata for message_id=%s. New structure: %s",
+                message_id,
+                metadata["attachments"],
+            )
+
+        return metadata
+
     def update_message_metadata(self, message_id: str, metadata_: dict[str, Any], **kwargs: Any) -> Message:
         """Update message metadata.
 
         Args:
             message_id (str): Message ID.
             metadata_ (dict[str, Any]): Metadata to be updated.
-            kwargs (Any): Additional keyword arguments.
+            **kwargs (Any): Additional keyword arguments.
 
         Returns:
             Message: Updated Message object.
@@ -1216,11 +1294,11 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                     message.metadata_ = self._serialize_metadata(metadata_)
                     session.commit()
 
-                    updated_message = self._decrypt_message(message)  # Claudia adjustment
+                    updated_message = Message.model_validate(message)
                     return updated_message
                 raise ValueError(f"Message id {message_id} does not exist.")
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to commit the transaction: {exc}")
+                logger.warning(f"Failed to commit the transaction: {exc}")
                 session.rollback()
                 raise exc
 
@@ -1257,102 +1335,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             logger.warning(f"Failed to decrypt PII value, falling back to anonymized value: {e}")
             return text
 
-    def _decrypt_message(self, message: MessageModel) -> Message:
-        """Decrypt a single message from the chat history.
-
-        Args:
-            message (MessageModel): A single message from the chat history.
-
-        Returns:
-            Message: A processed message.
-        """
-        if message.role == MessageRole.AI:
-            content = self.rolling_key_bytes_encryptor.decrypt(message.content).decode("utf-8")
-        else:
-            content = message.content.decode("utf-8")
-        return self._create_message_from_model(message, content, False, [])
-
-    def _decrypt_and_deanonymize_message(
-        self,
-        message: MessageModel,
-        is_anonymized: bool,
-        anonymizer_mappings: list[AnonymizerMapping],
-    ) -> Message:
-        """Decrypt and deanonymized a single message from the chat history.
-
-        Args:
-            message (MessageModel): A single message from the chat history.
-            is_anonymized (bool): Flag to determine if the text is anonymized.
-            anonymizer_mappings (list[AnonymizerMapping]): A list of mappings for deanonymization.
-
-        Returns:
-            Message: A processed message.
-        """
-        if message.role == MessageRole.AI:
-            content = self.rolling_key_bytes_encryptor.decrypt(message.content).decode("utf-8")
-        else:
-            content = message.content.decode("utf-8")
-        return self._create_message_from_model(message, content, is_anonymized, anonymizer_mappings)
-
-    def _encrypt_message(self, message: str, message_role: MessageRole) -> bytes:
-        """Encrypt or encode the message based on its type.
-
-        Args:
-            message (str): The message to be encrypted or encoded.
-            message_role (MessageRole): The role of the message.
-
-        Returns:
-            bytes: The encrypted or encoded message.
-        """
-        if message_role == MessageRole.AI:
-            return self.rolling_key_bytes_encryptor.encrypt(message)
-        else:
-            return message.encode("utf-8")
-
-    def _create_message_from_model(
-        self,
-        message_model: MessageModel,
-        content: str,
-        is_anonymized: bool,
-        anonymizer_mappings: list[AnonymizerMapping],
-    ) -> Message:
-        """Create a Message object from a MessageModel and content string.
-
-        Args:
-            message_model (MessageModel): The MessageModel instance.
-            content (str): The content string.
-            is_anonymized (bool): Flag to determine if the text is anonymized.
-            anonymizer_mappings (list[AnonymizerMapping]): A list of mappings for deanonymization.
-
-        Returns:
-            Message: The created Message object.
-        """
-        deanonymized_content = self._get_deanonymized_text(content, is_anonymized, anonymizer_mappings)
-        tenant = TenantContextHolder.get_tenant()
-        if tenant:
-            content = replace_urls_in_string(content)
-            deanonymized_content = replace_urls_in_string(deanonymized_content)
-        return Message(
-            id=message_model.id,
-            conversation_id=message_model.conversation_id,
-            role=message_model.role,
-            content=content,
-            deanonymized_content=deanonymized_content,
-            created_date=message_model.created_date,
-            is_active=message_model.is_active,
-            parent_id=message_model.parent_id,
-            source=message_model.source,
-            feedback=message_model.feedback,
-            agent_type=message_model.agent_type,
-            metadata_=message_model.metadata_,
-        )
-
-    def _get_conversation(
-        self,
-        session: Session,
-        user_id: str,
-        conversation_id: str,
-    ) -> ConversationModel | None:
+    def _get_conversation(self, session: Session, user_id: str, conversation_id: str) -> ConversationModel | None:
         """Get conversation model by ID.
 
         Args:
@@ -1363,17 +1346,15 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         Returns:
             ConversationModel | None: Conversation object.
         """
-        conversation = session.query(ConversationModel).filter(
-            ConversationModel.user_id == user_id,
-            ConversationModel.id == conversation_id,
-            ConversationModel.is_active.is_(True),
+        conversation = (
+            session.query(ConversationModel)
+            .filter(
+                ConversationModel.user_id == user_id,
+                ConversationModel.id == conversation_id,
+                ConversationModel.is_active.is_(True),
+            )
+            .first()
         )
-
-        tenant = TenantContextHolder.get_tenant()
-        if tenant:
-            conversation = conversation.filter(ConversationModel.tenant == tenant)
-
-        conversation = conversation.first()
         return conversation
 
     def _str_to_status(self, status_str: str) -> DocumentStatus:
@@ -1441,7 +1422,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                     id=id,
                     user_id=user_id,
                     conversation_id=conversation_id,
-                    created_date=now,
+                    created_time=now,
                     expired_time=expired_time,
                     last_updated_time=now,
                     is_active=True,
@@ -1452,48 +1433,136 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
 
                 return SharedConversation.model_validate(shared_conversation)
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to create shared conversation: {exc}")
+                logger.warning(f"Failed to create shared conversation: {exc}")
                 session.rollback()
                 raise exc
 
+    def get_shared_conversations(self, user_id: str, query: str | None) -> list[dict[str, Any]]:
+        """Get list of shared conversations with titles for a user.
+
+        Args:
+            user_id (str): User ID.
+            query (str | None): Search query for conversation title. If None, no filter will be applied.
+
+        Returns:
+            list[dict[str, Any]]: List of shared conversations with titles and matching words.
+                Returns empty list if no conversations are found.
+
+        Raises:
+            ValueError: If database operation fails.
+        """
+        try:
+            with self.db() as session:
+                base_query = (
+                    session.query(SharedConversationModel, ConversationModel.title)
+                    .outerjoin(ConversationModel, SharedConversationModel.conversation_id == ConversationModel.id)
+                    .filter(SharedConversationModel.user_id == user_id)
+                    .filter(SharedConversationModel.is_active.is_(True))
+                )
+
+                base_query = base_query.filter(
+                    or_(
+                        SharedConversationModel.expired_time.is_(None),
+                        SharedConversationModel.expired_time > datetime.now(timezone.utc),
+                    )
+                )
+
+                if query:
+                    base_query = base_query.filter(ConversationModel.title.ilike(f"%{query}%"))
+
+                base_query = base_query.order_by(desc(SharedConversationModel.last_updated_time))
+
+                results = base_query.all()
+                if not results:
+                    return []
+
+                shared_conversations_with_titles: list[dict[str, Any]] = []
+                for shared_conv, title in results:
+                    shared_conv_dict: dict[str, Any] = {
+                        "id": shared_conv.id,
+                        "user_id": shared_conv.user_id,
+                        "conversation_id": shared_conv.conversation_id,
+                        "created_time": shared_conv.created_time,
+                        "last_updated_time": shared_conv.last_updated_time,
+                        "expired_time": shared_conv.expired_time,
+                        "title": title or "",
+                        "first_matching_word": self.find_query_in_title(title, query) if query and title else None,
+                    }
+                    shared_conversations_with_titles.append(shared_conv_dict)
+
+                return shared_conversations_with_titles
+
+        except SQLAlchemyError as e:
+            logger.warning(f"Database error while fetching shared conversations with titles: {e}")
+            raise ValueError("Failed to fetch shared conversations with titles") from e
+
+    def find_query_in_title(self, title: str, query: str) -> str | None:
+        """Find the first word or phrase in the title that contains the query.
+
+        This performs case-insensitive substring matching and returns either:
+        - The first word containing the query
+        - Or a phrase (consecutive characters) that matches across words
+
+        Args:
+            title (str): The conversation title.
+            query (str): The search query.
+
+        Returns:
+            str | None: The first matching word or phrase, or None if no match found.
+        """
+        title = title.strip()
+        query = query.strip()
+        if not title or not query:
+            return None
+
+        title_lower = title.lower()
+        query_lower = query.lower()
+
+        idx = title_lower.find(query_lower)
+        if idx == -1:
+            return None
+
+        # Expand left to start of word
+        start = idx
+        while start > 0 and title[start - 1] != " ":
+            start -= 1
+
+        # Expand right to end of word(s)
+        end = idx + len(query)
+        while end < len(title) and title[end] != " ":
+            end += 1
+
+        return title[start:end].strip().lower()
+
     def get_shared_conversation_by_shared_conversation_id(
-        self, shared_conversation_id: str
+        self, shared_conversation_id: str, **kwargs: Any
     ) -> SharedConversation | None:
         """Get a shared conversation by shared conversation ID.
 
         Args:
             shared_conversation_id (str): The shared conversation access ID.
+            **kwargs (Any): Additional keyword arguments.
 
         Returns:
             SharedConversation | None: The shared conversation details if found based on the access ID.
         """
         with self.db() as session:
-            try:
-                shared_conversation = (
-                    session.query(SharedConversationModel)
-                    .filter(SharedConversationModel.id == shared_conversation_id)
-                    .filter(SharedConversationModel.is_active.is_(True))
-                    .first()
-                )
+            shared_conversation = (
+                session.query(SharedConversationModel)
+                .filter(SharedConversationModel.id == shared_conversation_id)
+                .filter(SharedConversationModel.is_active.is_(True))
+                .first()
+            )
+            return SharedConversation.model_validate(shared_conversation) if shared_conversation else None
 
-                if not shared_conversation:
-                    return None
-
-                if shared_conversation.expired_time is not None and shared_conversation.expired_time < datetime.now(
-                    timezone.utc
-                ):
-                    return None
-
-                return SharedConversation.model_validate(shared_conversation)
-            except SQLAlchemyError as exc:
-                logger.error(f"Failed to get shared conversation: {exc}")
-                raise exc
-
-    def get_shared_conversation_by_conversation_id(self, conversation_id: str) -> SharedConversation | None:
+    def get_shared_conversation_by_conversation_id(
+        self, conversation_id: str, **kwargs: Any
+    ) -> SharedConversation | None:
         """Get all shared conversations for a specific conversation.
 
         Args:
             conversation_id (str): The conversation ID.
+            **kwargs (Any): Additional keyword arguments.
 
         Returns:
             SharedConversation | None: The shared conversation for the conversation. None if not found.
@@ -1504,6 +1573,12 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                     session.query(SharedConversationModel)
                     .filter(SharedConversationModel.conversation_id == conversation_id)
                     .filter(SharedConversationModel.is_active.is_(True))
+                    .filter(
+                        or_(
+                            SharedConversationModel.expired_time.is_(None),
+                            SharedConversationModel.expired_time > datetime.now(timezone.utc),
+                        )
+                    )
                     .first()
                 )
 
@@ -1511,7 +1586,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
                     return SharedConversation.model_validate(shared_conversation)
                 return None
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to get shared conversation by conversation id: {exc}")
+                logger.warning(f"Failed to get shared conversation by conversation id: {exc}")
                 raise exc
 
     def update_shared_conversation(
@@ -1519,6 +1594,7 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
         shared_conversation_id: str,
         last_updated_time: datetime,
         expired_time: datetime | None = None,
+        is_active: bool = True,
     ) -> SharedConversation | None:
         """Update a shared conversation.
 
@@ -1526,27 +1602,95 @@ class ChatHistoryStorage(BaseChatHistoryStorage):
             shared_conversation_id (str): The shared conversation ID.
             last_updated_time (datetime | None): New last updated time.
             expired_time (datetime | None): New expiry time, if provided.
+            is_active (bool): New is_active value.
 
         Returns:
-            SharedConversation: The updated shared conversation.
+            SharedConversation | None: The updated shared conversation, None if not found.
         """
         with self.db() as session:
             try:
                 shared_conversation = (
                     session.query(SharedConversationModel)
                     .filter(SharedConversationModel.id == shared_conversation_id)
+                    .filter(SharedConversationModel.is_active.is_(True))
                     .first()
                 )
                 if shared_conversation:
                     shared_conversation.expired_time = expired_time
                     shared_conversation.last_updated_time = last_updated_time
-                    shared_conversation.is_active = True
+                    shared_conversation.is_active = is_active
                     session.commit()
                     session.refresh(shared_conversation)
-
                     return SharedConversation.model_validate(shared_conversation)
                 return None
             except SQLAlchemyError as exc:
-                logger.error(f"Failed to update shared conversation: {exc}")
+                logger.warning(f"Failed to update shared conversation: {exc}")
+                session.rollback()
+                raise exc
+
+    def delete_shared_conversation(self, shared_conversation_id: str, user_id: str) -> None:
+        """Soft delete a shared conversation.
+
+        Args:
+            shared_conversation_id (str): The shared conversation ID.
+            user_id (str): The user ID.
+        """
+        with self.db() as session:
+            try:
+                shared_conversation = (
+                    session.query(SharedConversationModel)
+                    .filter(SharedConversationModel.id == shared_conversation_id)
+                    .filter(SharedConversationModel.user_id == user_id)
+                    .filter(SharedConversationModel.is_active.is_(True))
+                    .first()
+                )
+                if shared_conversation:
+                    shared_conversation.is_active = False
+                    session.commit()
+            except SQLAlchemyError as exc:
+                logger.warning(f"Failed to delete the shared conversation: {exc}")
+                session.rollback()
+                raise exc
+
+    def clone_conversation_document(
+        self,
+        new_file_id: str,
+        target_conversation_id: str,
+        original_document: ConversationDocument,
+        object_key: str,
+        **kwargs: Any,
+    ) -> ConversationDocument:
+        """Clone a conversation document with new ID and conversation ID.
+
+        Args:
+            new_file_id (str): The new file ID for the cloned document.
+            target_conversation_id (str): The target conversation ID.
+            original_document (ConversationDocument): The original document to clone.
+            object_key (str): The object key for the cloned document.
+            **kwargs (Any): Additional keyword arguments.
+
+        Returns:
+            ConversationDocument: The newly created ConversationDocument object.
+
+        Raises:
+            SQLAlchemyError: If database operation fails.
+        """
+        with self.db() as session:
+            try:
+                new_doc = ConversationDocumentModel(
+                    id=new_file_id,
+                    conversation_id=target_conversation_id,
+                    status=original_document.status,
+                    number_of_chunks=original_document.number_of_chunks,
+                    message=original_document.message,
+                    object_key=object_key,
+                )
+                session.add(new_doc)
+                session.commit()
+                session.refresh(new_doc)
+
+                return ConversationDocument.model_validate(new_doc)
+            except SQLAlchemyError as exc:
+                logger.warning(f"Failed to clone conversation document: {exc}")
                 session.rollback()
                 raise exc

@@ -8,41 +8,22 @@ Authors:
 
 import json
 from datetime import datetime
-from enum import Enum
+from enum import Enum, StrEnum
 from typing import Any
 
 from gllm_inference.schema import PromptRole
 from pydantic import BaseModel, ConfigDict, field_validator
 
-from claudia_gpt.constant.agent_type import AgentType
 
-
-class MessageRole(str, Enum):
+class MessageRole(StrEnum):
     """Enum for Message Type."""
 
-    USER = PromptRole.USER.value
-    AI = PromptRole.ASSISTANT.value
+    user = PromptRole.USER.value
+    assistant = PromptRole.ASSISTANT.value
 
 
 class Message(BaseModel):
-    """Message model.
-
-    Represents a message in a conversation.
-
-    Attributes:
-        id (str | None): The unique identifier of the message.
-        conversation_id (str): The identifier of the conversation this message belongs to.
-        role (MessageRole): The role of the sender of the message (USER or AI).
-        content (str): The text content of the message.
-        deanonymized_content (str | None): The deanonymized content of the message.
-        created_date (datetime): The timestamp when the message was created.
-        is_active (bool): Indicates if the message is active.
-        parent_id (str | None): The identifier of the parent message, if any.
-        source (str | None): The source of the message.
-        feedback (str | None): The feedback of the message.
-        agent_type (AgentType): The type of the agent that generated the message.
-        metadata_ (dict[str, Any] | None): The metadata of the message.
-    """
+    """Message model."""
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -51,12 +32,11 @@ class Message(BaseModel):
     role: MessageRole
     content: str
     deanonymized_content: str | None = None
-    created_date: datetime
+    created_time: datetime
     is_active: bool
     parent_id: str | None = None
     source: str | None = None
     feedback: str | None = None
-    agent_type: AgentType
     metadata_: dict[str, Any] | None = None
 
     @field_validator("metadata_", mode="before")
@@ -70,7 +50,10 @@ class Message(BaseModel):
             dict[str, Any]: Parsed value.
         """
         if isinstance(value, str):
-            return json.loads(value)
+            try:
+                return json.loads(value)
+            except json.JSONDecodeError as e:
+                raise json.JSONDecodeError(f"Failed to parse metadata: {value}", value, 0) from e
         return value
 
 
@@ -81,12 +64,11 @@ class Conversation(BaseModel):
         id (str): The conversation ID.
         user_id (str): The user ID.
         title (str | None): The conversation title.
-        created_date (datetime): The creation date.
-        updated_date (datetime): The last update date.
+        created_time (datetime): The creation time.
+        updated_time (datetime): The last update time.
         is_active (bool): Whether the conversation is active.
-        tenant (str | None): The tenant ID.
-        is_anonymized (bool): Whether the conversation is anonymized.
         chatbot_id (str): The chatbot ID.
+        is_anonymized (bool): Whether the conversation is anonymized.
         deanonymized_mapping (dict[str, str]): Mapping of anonymized to original values.
         first_matching_message_id (str | None): First message ID that matches search query.
         first_matching_message (str | None): First message that matches search query.
@@ -97,10 +79,9 @@ class Conversation(BaseModel):
     id: str
     user_id: str
     title: str | None
-    created_date: datetime
-    updated_date: datetime
+    created_time: datetime
+    updated_time: datetime
     is_active: bool
-    tenant: str | None = None
     is_anonymized: bool
     chatbot_id: str
     deanonymized_mapping: dict[str, str] = {}
@@ -120,6 +101,22 @@ class Conversation(BaseModel):
         data = conversation_model.__dict__
         data["chatbot_id"] = data.pop("project_id")
         return cls.model_validate(data)
+
+    @field_validator("title", mode="before")
+    def _ensure_title_is_str(cls, value: str | None) -> str:
+        """Ensure the title is a string.
+
+        Args:
+            value (str | None): The value to be ensured.
+
+        Returns:
+            str: The ensured value.
+        """
+        return value or ""
+
+    def redact_user_id(self) -> None:
+        """Redact sensitive user_id field."""
+        self.user_id = ""
 
 
 class DocumentStatus(Enum):
@@ -174,7 +171,9 @@ class SharedConversation(BaseModel):
     id: str
     user_id: str
     conversation_id: str
+    title: str | None = None
     created_time: datetime
     last_updated_time: datetime
     expired_time: datetime | None = None  # None means never expires
+    first_matching_word: str | None = None
     is_active: bool = True

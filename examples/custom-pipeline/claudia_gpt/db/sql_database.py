@@ -16,7 +16,7 @@ from typing import Any, Type
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, scoped_session, sessionmaker
 
-from claudia_gpt.config.constant import DB_URL
+from claudia_gpt.config.constant import GLCHAT_DB_URL
 from claudia_gpt.db.database import BaseDatabase, Table
 from claudia_gpt.db.sql_model import (
     Abbreviation,
@@ -53,7 +53,7 @@ class SQLDatabase(BaseDatabase):
             max_overflow (int): The number of connections to allow in excess of the pool_size. Defaults to 50.
         """
         self.engine = create_engine(
-            DB_URL,
+            GLCHAT_DB_URL,
             pool_size=pool_size,
             max_overflow=max_overflow,
             pool_pre_ping=True,
