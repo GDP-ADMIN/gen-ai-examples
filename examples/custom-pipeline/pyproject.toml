@@ -48,6 +48,7 @@ dependencies = [
     "gllm-pipeline-binary>=0.4.0",
     "gllm-rag-binary (>=0.3.2,<0.4.0)",
     "langchain-mcp-adapters>=0.1.0,<0.2.0",
+    "copier (>=9.8.0,<10.0.0)",
 ]
 
 [[tool.poetry.source]]
