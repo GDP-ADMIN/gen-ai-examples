@@ -14,7 +14,7 @@ RUN pip install uv
 WORKDIR /app
 
 # Clone multi-mcp repository
-RUN git clone https://github.com/samuellusandi/multi-mcp.git .
+RUN git clone https://github.com/RavindraGDP/multi-mcp-temp.git .
 
 # Install multi-mcp dependencies
 RUN uv sync
@@ -61,4 +61,4 @@ ENV ARXIV_STORAGE_PATH=/app/storage/papers
 EXPOSE 8006
 
 # Run the multi-mcp proxy directly
-CMD ["uv", "run", "main.py", "--transport", "sse", "--host", "0.0.0.0", "--port", "8006", "--config", "/app/config/mcp.json"]
+CMD ["uv", "run", "main.py", "--transport", "sse", "--host", "0.0.0.0", "--port", "8006", "--config", "/app/config/mcp.json", "--unify", "true"]
