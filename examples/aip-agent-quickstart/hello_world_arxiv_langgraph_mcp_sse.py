@@ -23,6 +23,6 @@ if __name__ == "__main__":
 
     response = arxiv_agent.run(
         query="""Search for research papers about transformer large language models (LLMs) published between
-        January 2025 and May 2025. Focus on papers that discuss Transformer architectures and improvements."""
+        January 2024 and May 2024. Focus on papers that discuss Transformer architectures and improvements."""
     )
     print(f"Response: {response['output']}")

@@ -14,13 +14,22 @@ RUN pip install uv
 WORKDIR /app
 
 # Clone multi-mcp repository
-RUN git clone https://github.com/samuellusandi/multi-mcp.git .
+RUN git clone https://github.com/RavindraGDP/multi-mcp-temp.git .
 
 # Install multi-mcp dependencies
 RUN uv sync
 
-# Install arxiv-mcp-server globally
-RUN uv tool install arxiv-mcp-server
+# Clone arxiv-mcp-server fixed
+RUN git clone https://github.com/RavindraGDP/arxiv-mcp-server.git
+
+# Change directory to arxiv-mcp-server
+WORKDIR /app/arxiv-mcp-server
+
+# Install arxiv-mcp-server dependencies
+RUN uv sync
+
+# Change directory back to root
+WORKDIR /app
 
 # Add uv tools to PATH
 ENV PATH="/root/.local/bin:$PATH"
@@ -34,7 +43,9 @@ RUN echo '{\
     "arxiv": {\
       "command": "uv",\
       "args": [\
-        "tool",\
+        "--directory",\
+        "./arxiv-mcp-server",\
+        "--isolated",\
         "run",\
         "arxiv-mcp-server",\
         "--storage-path", "/app/storage/papers"\
@@ -50,4 +61,4 @@ ENV ARXIV_STORAGE_PATH=/app/storage/papers
 EXPOSE 8006
 
 # Run the multi-mcp proxy directly
-CMD ["uv", "run", "main.py", "--transport", "sse", "--host", "0.0.0.0", "--port", "8006", "--config", "/app/config/mcp.json"]
+CMD ["uv", "run", "main.py", "--transport", "sse", "--host", "0.0.0.0", "--port", "8006", "--config", "/app/config/mcp.json", "--unify", "true"]
