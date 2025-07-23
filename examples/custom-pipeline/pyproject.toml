@@ -7,11 +7,21 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
-gllm-pipeline-binary = "^0.2.17"
-gllm-core-binary = "^0.2.15"
-gllm-generation-binary = "^0.2.11"
-gllm-rag-binary = "^0.0.2"
-gllm-plugin-binary = "^0.0.9"
+poetry = "^2.1.3"
+
+bosa-core-binary = { version = "^0.5.1", extras = ["all"] }
+bosa-connectors-binary = ">=0.1.0,<0.2.0"
+gllm-plugin-binary = ">=0.1.7,<0.2.0"
+gllm-core-binary = "^0.3.0"
+gllm-privacy-binary = "^0.2.0"
+gllm-inference-binary = "^0.4.0"
+gllm-datastore-binary = "^0.4.0"
+gllm-misc-binary = "^0.5.0"
+gllm-docproc-binary = "^0.3.0"
+gllm-retrieval-binary = "^0.5.0"
+gllm-generation-binary = "^0.4.0"
+gllm-pipeline-binary = "^0.4.0"
+gllm-rag-binary = "^0.3.2"
 langchain-mcp-adapters = "^0.1.0"
 
 [project]
@@ -24,14 +34,20 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 dependencies = [
-    "gllm-core-binary>=0.2.15",
-    "gllm-generation-binary>=0.2.11",
-    "gllm-pipeline-binary>=0.2.17",
-    "gllm-rag-binary>=0.0.2",
-    "python-dotenv (>=1.1.0,<2.0.0)",
-    "gllm-inference-binary (>=0.2.47,<0.3.0)",
-    "gllm-plugin-binary (>=0.0.9,<0.0.10)",
-    "langchain-mcp-adapters (>=0.1.0,<0.2.0)",
+    "bosa-core-binary>=0.5.1",
+    "bosa-connectors-binary>=0.1.0,<0.2.0",
+    "gllm-plugin-binary>=0.1.7,<0.2.0",
+    "gllm-core-binary>=0.3.0",
+    "gllm-privacy-binary>=0.2.0",
+    "gllm-inference-binary>=0.4.0",
+    "gllm-datastore-binary>=0.4.0",
+    "gllm-misc-binary>=0.5.0",
+    "gllm-docproc-binary>=0.3.0",
+    "gllm-retrieval-binary>=0.5.0",
+    "gllm-generation-binary>=0.4.0",
+    "gllm-pipeline-binary>=0.4.0",
+    "gllm-rag-binary (>=0.3.2,<0.4.0)",
+    "langchain-mcp-adapters>=0.1.0,<0.2.0",
 ]
 
 [[tool.poetry.source]]
@@ -43,4 +59,3 @@ priority = "supplemental"
 name = "gen-ai-publication"
 url = "https://asia-southeast2-python.pkg.dev/gdp-labs/gen-ai/"
 priority = "explicit"
-
