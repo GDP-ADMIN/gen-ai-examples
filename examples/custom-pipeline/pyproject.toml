@@ -11,7 +11,8 @@ poetry = "^2.1.3"
 
 bosa-core-binary = { version = "^0.5.1", extras = ["all"] }
 bosa-connectors-binary = ">=0.1.0,<0.2.0"
-gllm-plugin-binary = ">=0.1.7,<0.2.0"
+# gllm-plugin-binary = ">=0.1.7,<0.2.0"
+gllm-plugin = {git = "ssh://git@github.com/GDP-ADMIN/gen-ai-external.git", subdirectory = "libs/gllm-plugin", branch = "f/custom-pipeline-generator"}
 gllm-core-binary = "^0.3.0"
 gllm-privacy-binary = "^0.2.0"
 gllm-inference-binary = "^0.4.0"
@@ -36,7 +37,7 @@ requires-python = ">=3.11,<3.13"
 dependencies = [
     "bosa-core-binary>=0.5.1",
     "bosa-connectors-binary>=0.1.0,<0.2.0",
-    "gllm-plugin-binary>=0.1.7,<0.2.0",
+    "gllm-plugin",
     "gllm-core-binary>=0.3.0",
     "gllm-privacy-binary>=0.2.0",
     "gllm-inference-binary>=0.4.0",
@@ -48,7 +49,6 @@ dependencies = [
     "gllm-pipeline-binary>=0.4.0",
     "gllm-rag-binary (>=0.3.2,<0.4.0)",
     "langchain-mcp-adapters>=0.1.0,<0.2.0",
-    "copier (>=9.8.0,<10.0.0)",
 ]
 
 [[tool.poetry.source]]
