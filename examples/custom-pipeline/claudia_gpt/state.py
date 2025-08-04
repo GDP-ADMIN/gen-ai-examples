@@ -28,7 +28,6 @@ class ClaudiaState(TypedDict):
     Attributes:
         history (list[tuple[str, list[Any]]]): The history of the conversation or interaction.
         user_query (str): The original query from the user.
-        transformed_query (str): The transformed query based on the chat history.
         queries (list[str]): A list of queries generated for retrieval.
         retrieval_params (dict[str, Any]): Parameters used for the retrieval process.
         chunks (list[Chunk]): A list of chunks retrieved from the knowledge base.
@@ -45,7 +44,6 @@ class ClaudiaState(TypedDict):
         agent_type (str): The type of agent used for the request.
         event_emitter (EventEmitter): An event emitter instance for logging purposes.
         new_anonymized_mappings (list[AnonymizerMapping]): The new anonymized mappings generated during the process.
-        anonymized_query (str): The anonymized version of the user query.
         query_anonymized_data (dict[str, Any]): The anonymized data for the user query.
         context_anonymized_data (dict[str, Any]): The anonymized data for the context.
         response_anonymized_data (dict[str, Any]): The anonymized data for the response.
@@ -57,11 +55,12 @@ class ClaudiaState(TypedDict):
         generation_query (str): The query used for generation.
         joined_query_with_history (str): The query combined with the conversation history.
         standalone_query (str): The query combined with the conversation history.
+        anonymized_query (str): The anonymized version of the user query.
+        retrieval_query (str): The query used for retrieval.
     """
 
     history: list[tuple[str, list[Any]]]
     user_query: str
-    transformed_query: str
     queries: list[str]
     retrieval_params: dict[str, Any]
     chunks: list[Chunk]
@@ -78,7 +77,6 @@ class ClaudiaState(TypedDict):
     agent_type: str
     event_emitter: EventEmitter
     new_anonymized_mappings: list[AnonymizerMapping]
-    anonymized_query: str
     query_anonymized_data: dict[str, Any]
     context_anonymized_data: dict[str, Any]
     response_anonymized_data: dict[str, Any]
@@ -90,13 +88,14 @@ class ClaudiaState(TypedDict):
     generation_query: str
     joined_query_with_history: str
     standalone_query: str
+    anonymized_query: str
+    retrieval_query: str
 
 
 class ClaudiaStateKeys(StrEnum):
     """List of all possible keys in ClaudiaState."""
 
     USER_QUERY = "user_query"
-    TRANSFORMED_QUERY = "transformed_query"
     RESPONSE = "response"
     HISTORY = "history"
     EVENT_EMITTER = "event_emitter"
@@ -117,6 +116,8 @@ class ClaudiaStateKeys(StrEnum):
     GENERATION_QUERY = "generation_query"
     JOINED_QUERY_WITH_HISTORY = "joined_query_with_history"
     STANDALONE_QUERY = "standalone_query"
+    ANONYMIZED_QUERY = "anonymized_query"
+    RETRIEVAL_QUERY = "retrieval_query"
 
 
 def validate_state_completeness(state: ClaudiaState) -> None:
@@ -180,7 +181,6 @@ def create_initial_state(
     state = ClaudiaState(
         history=[],
         user_query=user_query,
-        transformed_query="",
         queries=[],
         retrieval_params=get_retrieval_params(request_config),
         chunks=[],
@@ -197,7 +197,6 @@ def create_initial_state(
         agent_type="",
         event_emitter=event_emitter,
         new_anonymized_mappings=[],
-        anonymized_query="",
         query_anonymized_data={},
         context_anonymized_data={},
         response_anonymized_data={},
@@ -209,6 +208,8 @@ def create_initial_state(
         generation_query="",
         joined_query_with_history="",
         standalone_query="",
+        anonymized_query="",
+        retrieval_query="",
     )
 
     validate_state_completeness(state)

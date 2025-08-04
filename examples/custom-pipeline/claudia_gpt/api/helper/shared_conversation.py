@@ -15,7 +15,7 @@ from uuid import uuid4
 
 from bosa_core import PluginManager
 from fastapi import HTTPException
-from gllm_plugin.pipeline.pipeline_handler import PipelineHandler
+from glchat_plugin.pipeline.pipeline_handler import PipelineHandler
 
 from claudia_gpt.anonymizer.anonymizer_storage import AnonymizerStorage
 from claudia_gpt.api.model.response import SharedConversationResponse

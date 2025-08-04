@@ -60,3 +60,43 @@ def concat_history_with_query(inputs: dict[str, Any]) -> str:
     entries = reversed_entries[::-1]
 
     return "History:\n" + "".join(entries) + f"\nQuery:\n{query}"
+
+def assign_queries(inputs: dict[str, Any]) -> tuple[str, str]:
+    """Assign the appropriate queries to the retrieval and generation query.
+
+    Args:
+        inputs (dict[str, Any]): Dictionary containing the states of the pipeline. Must contain the `anonymize_em`,
+            `anonymize_lm`, `user_query`, and `anonymized_query` keys.
+
+    Returns:
+        tuple[str, str]: The anonymized query for retrieval and generation.
+    """
+    anonymize_em = inputs["anonymize_em"]
+    anonymize_lm = inputs["anonymize_lm"]
+    user_query = inputs["user_query"]
+    anonymized_query = inputs["anonymized_query"]
+
+    retrieval_query = anonymized_query if anonymize_em else user_query
+    generation_query = anonymized_query if anonymize_lm else user_query
+
+    return retrieval_query, generation_query
+
+
+def flatten_standalone_query(inputs: dict[str, Any]) -> str:
+    """Flatten the standalone query to a string.
+
+    Args:
+        inputs (dict[str, Any]): Dictionary containing the states of the pipeline. Must contain the `standalone_query` key.
+
+    Returns:
+        str: The flattened standalone query.
+    """
+    standalone_query = inputs[StateKeys.STANDALONE_QUERY]
+    if isinstance(standalone_query, list) and len(standalone_query) > 0:
+        return standalone_query[0]
+
+    if isinstance(standalone_query, list) and len(standalone_query) == 0:
+        return inputs[StateKeys.JOINED_QUERY_WITH_HISTORY]
+
+    return standalone_query
+

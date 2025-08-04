@@ -6,8 +6,8 @@ Authors:
     Felicia Limanta (felicia.limanta@gdplabs.id)
 """
 
+from glchat_plugin.storage.base_anonymizer_storage import BaseAnonymizerStorage, MappingDataType
 from gllm_datastore.sql_data_store import SQLAlchemySQLDataStore
-from gllm_plugin.storage.base_anonymizer_storage import BaseAnonymizerStorage, MappingDataType
 from sqlalchemy.exc import SQLAlchemyError
 
 from claudia_gpt.anonymizer.models import AnonymizerMappingModel

@@ -11,18 +11,15 @@ import json
 from typing import Any
 
 from dotenv import load_dotenv
+from glchat_plugin.pipeline.pipeline_plugin import PipelineBuilderPlugin
 from gllm_datastore.vector_data_store import ElasticsearchVectorDataStore
 from gllm_generation.reference_formatter import SimilarityBasedReferenceFormatter
 from gllm_generation.response_synthesizer import StuffResponseSynthesizer
 from gllm_inference.em_invoker import LangChainEMInvoker
-from gllm_inference.multimodal_lm_invoker import OpenAIMultimodalLMInvoker
-from gllm_inference.prompt_builder import OpenAIPromptBuilder
-from gllm_inference.request_processor import LMRequestProcessor
 from gllm_misc.context_manipulator.repacker.repacker import Repacker, RepackerMode
 from gllm_pipeline.pipeline.pipeline import Pipeline
 from gllm_pipeline.steps import bundle, if_else, step, toggle, transform
 from gllm_pipeline.steps.pipeline_step import BasePipelineStep
-from gllm_plugin.pipeline.pipeline_plugin import PipelineBuilderPlugin
 from gllm_retrieval.query_transformer import OneToOneQueryTransformer
 from gllm_retrieval.query_transformer.query_transformer import ErrorHandling
 from gllm_retrieval.reranker.reranker import BaseReranker
@@ -30,21 +27,16 @@ from gllm_retrieval.retriever.vector_retriever.basic_vector_retriever import Bas
 from langchain_openai import OpenAIEmbeddings
 from pydantic import SecretStr
 
-from claudia_gpt.component.catapa_query_transformer import CatapaQueryTransformer
 from claudia_gpt.component.chat_history_manager import ChatHistoryManager
 from claudia_gpt.config.constant import (
-    DEFAULT_MODEL,
     DEFAULT_REFERENCE_FORMATTER_THRESHOLD,
     ELASTICSEARCH_INDEX_NAME,
     ELASTICSEARCH_URL,
-    HELP_CENTER_USE_CASE_SYSTEM_PROMPT,
-    HELP_CENTER_USE_CASE_USER_PROMPT,
     OPENAI_API_KEY,
     OPENAI_EMBEDDING_MODEL,
 )
 from claudia_gpt.config.pipeline.general_pipeline_config import GeneralPipelineConfigKeys
 from claudia_gpt.config.pipeline.pipeline_helper import build_save_history_step, get_lmrp_by_scope, to_bool
-from claudia_gpt.config.supported_models import ModelName
 from claudia_gpt.preset_config import ClaudiaPresetConfig
 from claudia_gpt.runtime_config import ClaudiaRuntimeConfig
 from claudia_gpt.runtime_config import ClaudiaRuntimeConfigKeys as ConfigKeys
@@ -56,7 +48,7 @@ from claudia_gpt.utils.initializer import (
     RerankerType,
     get_reranker,
 )
-from claudia_gpt.utils.prompts import concat_history_with_query
+from claudia_gpt.utils.prompts import assign_queries, concat_history_with_query, flatten_standalone_query
 
 load_dotenv(override=True)
 
@@ -97,33 +89,12 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
             Pipeline: The simple pipeline.
         """
         # Retrieve History
-        # Claudia version
-        # retrieve_history_step = step(
-        #     component=chat_history_manager,
-        #     input_state_map={},
-        #     output_state=StateKeys.HISTORY,
-        #     runtime_config_map={
-        #         ChatHistoryManager.USER_ID_KEY: "user_id",
-        #         ChatHistoryManager.CONVERSATION_ID_KEY: "conversation_id",
-        #         ChatHistoryManager.CHAT_HISTORY_KEY: "chat_history",
-        #     },
-        #     fixed_args={
-        #         ChatHistoryManager.OPERATION_KEY: ChatHistoryManager.OP_READ,
-        #         ChatHistoryManager.IS_MULTIMODAL_KEY: support_multimodal,
-        #         ChatHistoryManager.LIMIT_KEY: pipeline_config.get("chat_history_limit"),
-        #     },
-        # )
-
-        # GLChat version
         multimodality = to_bool(pipeline_config.get("support_multimodal", False))
         chat_history_limit = pipeline_config.get("chat_history_limit", 20)
         retrieve_history_step = self._build_retrieve_history_step(multimodality, chat_history_limit)
 
         # Query Transformer
-        # Claudia version
-        # optional_catapa_query_transformer_step = self._build_optional_catapa_query_transformer_step()
-
-        # GLChat version
+        assign_queries_step = self._build_assign_queries_step()
         prompt_context_char_threshold = int(pipeline_config.get("prompt_context_char_threshold", 32000))
         combine_query_with_history_step = self._build_combine_query_with_history_step(prompt_context_char_threshold)
         build_standalone_query_step = self._build_standalone_query_step(prompt_context_char_threshold)
@@ -191,7 +162,7 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         return Pipeline(
             steps=[
                 retrieve_history_step,
-                # optional_catapa_query_transformer_step,
+                assign_queries_step,
                 combine_query_with_history_step,
                 build_standalone_query_step,
                 catapa_retriever_step,
@@ -216,7 +187,7 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
             component=reranker,
             input_state_map={
                 "chunks": StateKeys.CHUNKS,
-                "query": StateKeys.TRANSFORMED_QUERY,
+                "query": StateKeys.STANDALONE_QUERY,
             },
             output_state=StateKeys.CHUNKS,
         )
@@ -227,7 +198,7 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
             if_branch=rerank_step,
             input_state_map={
                 "chunks": StateKeys.CHUNKS,
-                "query": StateKeys.TRANSFORMED_QUERY,
+                "query": StateKeys.STANDALONE_QUERY,
             },
             runtime_config_map={
                 "rerank_type": ConfigKeys.RERANK_TYPE,
@@ -273,21 +244,21 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
             },
         )
 
-    def _build_optional_catapa_query_transformer_step(self) -> BasePipelineStep:
-        """Build the optional flag embedding chunks step.
+    def _build_assign_queries_step(self) -> BasePipelineStep:
+        """Build the assign queries step.
 
         Returns:
-            BasePipelineStep: The optional flag embedding rerank chunks step.
+            BasePipelineStep: The assign queries step.
         """
-        query_transformer_step = step(
-            component=CatapaQueryTransformer(),
-            input_state_map={
-                CatapaQueryTransformer.QUERY_KEY: StateKeys.USER_QUERY,
-                CatapaQueryTransformer.CHAT_HISTORY_KEY: StateKeys.HISTORY,
+        return transform(
+            operation=assign_queries,
+            input_states=[StateKeys.USER_QUERY, StateKeys.ANONYMIZED_QUERY],
+            output_state=[StateKeys.RETRIEVAL_QUERY, StateKeys.GENERATION_QUERY],
+            runtime_config_map={
+                "anonymize_em": GeneralPipelineConfigKeys.ANONYMIZE_EM,
+                "anonymize_lm": GeneralPipelineConfigKeys.ANONYMIZE_LM,
             },
-            output_state=StateKeys.TRANSFORMED_QUERY,
         )
-        return query_transformer_step
 
     def _build_combine_query_with_history_step(self, prompt_context_char_threshold: int) -> BasePipelineStep:
         """Build the combine query with history step.
@@ -330,16 +301,22 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         Returns:
             BasePipelineStep: The standalone query step.
         """
-        lmrp = get_lmrp_by_scope(self.lmrp_catalogs, "standard_rag_build_standalone_query")
+        lmrp = get_lmrp_by_scope(self.lmrp_catalogs, "standard_rag_build_standalone_query", "openai")
         query_transformer = OneToOneQueryTransformer(
             lm_request_processor=lmrp,
             extract_func=lambda lm_output: lm_output.structured_output.get("transformed_query", ""),
-            on_error=ErrorHandling.KEEP,
+            on_error=ErrorHandling.RAISE,
         )
         standalone_query_step = step(
             name="standalone_query_step",
             component=query_transformer,
             input_state_map={"query": StateKeys.JOINED_QUERY_WITH_HISTORY},
+            output_state=StateKeys.STANDALONE_QUERY,
+        )
+
+        flatten_standalone_query_step = transform(
+            operation=flatten_standalone_query,
+            input_states=[StateKeys.STANDALONE_QUERY],
             output_state=StateKeys.STANDALONE_QUERY,
         )
 
@@ -358,7 +335,7 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
                     prompt_context_char_threshold,
                 )
             ),
-            if_branch=standalone_query_step,
+            if_branch=[standalone_query_step, flatten_standalone_query_step],
             else_branch=copy_query_to_standalone_query_step,
         )
 
@@ -388,20 +365,12 @@ class ClaudiaPipelineBuilderPlugin(PipelineBuilderPlugin[ClaudiaState, ClaudiaPr
         Returns:
             BasePipelineStep: The optional CATAPA response synthesizer step.
         """
-        model_name = ModelName.from_string(DEFAULT_MODEL)
-        final_model_name = model_name.get_full_name()
-        prompt_builder = OpenAIPromptBuilder(HELP_CENTER_USE_CASE_SYSTEM_PROMPT, HELP_CENTER_USE_CASE_USER_PROMPT)
-        lm_invoker = OpenAIMultimodalLMInvoker(
-            model_name=final_model_name,
-            api_key=OPENAI_API_KEY,
-            default_hyperparameters={"temperature": 0.0},
-        )
-        lm_request_processor = LMRequestProcessor(prompt_builder, lm_invoker)
-        response_synthesizer = StuffResponseSynthesizer(lm_request_processor)
+        lmrp = get_lmrp_by_scope(self.lmrp_catalogs, "help_center_response_synthesizer", "openai")
+        response_synthesizer = StuffResponseSynthesizer(lmrp)
         response_synthesizer_step = step(
             component=response_synthesizer,
             input_state_map={
-                "query": StateKeys.TRANSFORMED_QUERY,
+                "query": StateKeys.GENERATION_QUERY,
                 "state_variables": StateKeys.RESPONSE_SYNTHESIS_BUNDLE,
                 "history": StateKeys.HISTORY,
                 "event_emitter": StateKeys.EVENT_EMITTER,
